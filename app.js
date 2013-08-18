@@ -1,32 +1,55 @@
 var http     = require('http');
 var mongoose = require('mongoose');
 var express  = require('express');
+var path     = require('path');
+var app      = express();
 
-var app = express();
-if(){//dev
-app.set('db', 'mongodb://localhost/reflectupon')
-} else {
- app.set('db', process.ENV())
+app.configure( function() {
+
+  app.use( express.bodyParser() );
+  app.use( express.static( __dirname + '/public' ));
+  app.use( express.methodOverride() );
+  app.use( app.router );
+  app.use( express.errorHandler({ dumpExceptions: true, showStack: true }));
+
+});
+
+if (process.env.NODE_ENV == 'development') {
+
+  mongoose.connect('mongodb://localhost:27017/reflectupon');
+
 }
-mongoose.connect(app.get('db'));
 
 var Thought = mongoose.model('Thought', { description: String });  
  
-app.get('/', function(req, res) {
+app.get('/api/', function(req, res) {
   
-  var thought = new Thought({ description: 'Zildjian' });
+});
+
+app.get('/api/thoughtsList', function(req, res) {
+
+  Thought.find({}, function(err, thoughts) {
+    res.send(thoughts);
+  });
+
+});
+
+app.post('/api/thought/', function(req, res) {
+/*
+  var thought = new Thought({ name: req.body.name, description: req.body.description });
   thought.save(function(err) {
-   
+
     if (err)
      console.log(err);
      
-     res.send( thought.description );
+    res.send( req.body );
 
-  });
-  
+  });  
+*/
+  res.send("hello");
+
 });
 
 app.listen(2000);  
 
 console.log('Server running at http://127.0.0.1:2000');
- 
