@@ -3,7 +3,12 @@ var mongoose = require('mongoose');
 var express  = require('express');
 
 var app = express();
-mongoose.connect('mongodb://localhost/reflectupon');
+if(){//dev
+app.set('db', 'mongodb://localhost/reflectupon')
+} else {
+ app.set('db', process.ENV())
+}
+mongoose.connect(app.get('db'));
 
 var Thought = mongoose.model('Thought', { description: String });  
  
