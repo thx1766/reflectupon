@@ -2,6 +2,8 @@ var http     = require('http');
 var mongoose = require('mongoose');
 var express  = require('express');
 var path     = require('path');
+var util     = require('util');
+
 var app      = express();
 
 app.configure( function() {
@@ -20,7 +22,7 @@ if (process.env.NODE_ENV == 'development') {
 
 }
 
-var Thought = mongoose.model('Thought', { description: String });  
+var Thought = mongoose.model('Thought', { title: String, description: String });
  
 app.get('/api/', function(req, res) {
   
@@ -29,6 +31,8 @@ app.get('/api/', function(req, res) {
 app.get('/api/thought', function(req, res) {
 
   Thought.find({}, function(err, thoughts) {
+
+      //console.log("test: " + util.inspect(thoughts, false, null));
     res.send(thoughts);
   });
 
@@ -36,17 +40,20 @@ app.get('/api/thought', function(req, res) {
 
 app.post('/api/thought/', function(req, res) {
 
-  var thought = new Thought({ description: req.body.description });
-  thought.save(function(err) {
+    console.log(req.body.title);
 
-    if (err)
-     console.log(err);
+    var thought = new Thought({
+        title:          req.body.title,
+        description:    req.body.description
+    });
 
+    thought.save(function(err) {
 
-    console.log( req.body.description );     
-    res.send( req.body );
+        if (err) console.log(err);
 
-  });  
+        res.send( req.body );
+
+    });
 
 });
 

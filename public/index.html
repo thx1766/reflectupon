@@ -1,18 +1,59 @@
 <html>
 <head>
-  <script type="text/javascript" src="js/jquery.min.js"></script>
-  <script type="text/javascript" src="js/underscore.min.js"></script>
-  <script type="text/javascript" src="js/backbone.min.js"></script>
-  <script type="text/javascript" src="js/scripts.js"></script>
+    <link type="text/css" href="css/style.css" rel="stylesheet" />
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/underscore.min.js"></script>
+    <script type="text/javascript" src="js/backbone.min.js"></script>
+    <script type="text/javascript" src="js/jquery.colorbox-min.js"></script>
+    <script type="text/javascript" src="js/scripts.js"></script>
 </head>
 <body>
-  <div class="thoughts-list">
-    <input type="text" class="new-thought">
-    <input type="button" class="create-thought">
-    <div id="main">
+    <div id="topbar-wrapper">
+        <div id="topbar">
+            <a id="lifeline" href="#/route/lifeline">reflectupon</a>
+            <a id="stream" href="#/route/stream">Stream</a>
+        </div>
     </div>
-  </div>
+    <div class="wrapper">
+        <div id="sidebar">
 
+        </div>
+        <div id="container">
+            <div class="thoughts-list">
+                <div class="show-postbox">
+                    Create a reflection
+                </div>
+                <div id="main">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/template" id="thought-template">
+        <div class="thought-row">
+            <div class="title"><%= title %></div>
+            <div class="description"><%= description %></div>
+            <div class="post-footer">
+                public
+            </div>
+        </div>
+    </script>
+    <div style="display:none">
+        <div id="postbox">
+            <div class="postbox-two clearfix">
+                <div class="postbox-left">
+                    <input type="text" class="postbox-title">
+                    <textarea class="postbox-description"></textarea>
+                    <button class="postbox-send">Create reflection</button>
+                </div>
+                <div class="postbox-right">
+
+                </div>
+            </div>
+            <div class="postbox-footer">
+
+            </div>
+        </div>
+    </div>
 </body>
 </html>
 

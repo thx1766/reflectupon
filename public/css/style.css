@@ -1,0 +1,37 @@
+* {padding:0; margin:0}
+a img{border:0;}
+.hidden{display:none}
+
+#topbar-wrapper{width:100%;height:40px;border-bottom:1px solid #ccc;}
+#topbar{width:940px;margin:0 auto;}
+#topbar a{padding:10px;display:inline-block;font-weight:bold}
+
+.wrapper{width:940px;margin:0 auto;clear:both;}
+#sidebar{float:left;min-height:300px;}
+#container{float:right;width:680px;padding:10px;border-left:1px solid #ccc;}
+
+.show-postbox{width:450px;text-align:center;border-top:1px solid #999;border-bottom:1px solid #999;padding:10px 0;cursor:pointer;margin-bottom:30px;}
+#postbox{background-color:#fff;}
+.postbox-two{padding:15px;}
+.postbox-left{float:left;width:300px;height:300px;margin-right:15px;}
+.postbox-right{float:right;border:1px solid black;width:200px;height:300px;}
+.postbox-footer{padding:20px;background-color:#ccc;}
+
+.postbox-title{display:block;height:30px;width:100%;margin-bottom:15px;}
+.postbox-description{display:block;width:100%;height:200px;margin-bottom:15px;resize:none;}
+.postbox-send{height:25px;width:100%}
+
+.thought-row{margin-bottom:30px;width:450px;}
+.thought-row .title{font-weight:bold;font-size:20px;padding-bottom:5px;}
+.thought-row .description{line-height:20px;margin-bottom:15px;}
+.thought-row .post-footer{border-top:1px solid rgb(211,133,133);padding:3px 0;color:rgb(211,133,133);font-size:14px;}
+
+.clearfix:after {content: ".";display: block;clear: both;visibility: hidden;line-height: 0;height: 0;}
+.clearfix {display: inline-block;}
+html[xmlns] .clearfix {display: block;}
+* html .clearfix {height: 1%;}
+
+#colorbox{outline:none;}
+#cboxLoadedContent{box-shadow:0 2px 6px #A5A5A5;border-radius:3px;outline:none;}
+#cboxOverlay{position:fixed;background-color:#ccc;height:100%;width:100%;top:0;left:0;}
+#cboxClose{position:absolute;bottom:15px;right:15px;}

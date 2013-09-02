@@ -1,60 +1,130 @@
 $(document).ready(function() {
-  
-  var Thought = Backbone.Model.extend({
-    defaults: {
-      "description": "test"
-    },
-    urlRoot: '/api/thought/'
-  });
 
-  var Thoughts = Backbone.Collection.extend({
-    model: Thought,
-    url: '/api/thought'
-  });
- 
-  var ThoughtView = Backbone.View.extend({
+    var Router = Backbone.Router.extend({
 
-    el: ".thoughts-list",
-    
-    events: {
-      'click .create-thought': 'createThought'
-    },
+        routes: {
+            "route/:id": "getRoute"
+        },
 
-    template: _.template("<li><%= description %></li>"),
+        getRoute: function( id ) {
 
-    initialize: function() {
+            switch (id){
 
-       this.$main = this.$('#main');
+                case "lifeline":
+                    $("div.thoughts-list").removeClass("hidden");
+                    break;
+                case "stream":
+                    $("div.thoughts-list").addClass("hidden");
+                    break;
 
-       this.thoughts = new Thoughts();
-       this.thoughts.fetch({ reset: true });
-       this.thoughts.on('reset', this.render, this );
-    },
-
-    render: function() {
-      this.input = this.$('create-thought');
-      _.each( this.thoughts.models, function(thought){
-          this.$main.append( this.template( thought.toJSON() ) );
-      }, this);
-      return this;
-    },
-
-    createThought: function() {
-
-      var self = this;
-
-      var thought = new Thought();
-      thought.save({ description: this.input.val() }, {
-        success: function( model, rsp ) {
-
-          self.$main.prepend( self.template( model.toJSON() ) );
+            }
 
         }
-      });
-    }
 
-  });
+    });
 
-  var thoughtView = new ThoughtView();
+    Backbone.pubsub = _.extend({}, Backbone.Events);
+  
+    var Thought = Backbone.Model.extend({
+        defaults: {
+            "title":       "Untitled",
+            "description": "test"
+        },
+        urlRoot: '/api/thought/'
+    });
+
+    var Thoughts = Backbone.Collection.extend({
+        model: Thought,
+        url: '/api/thought'
+    });
+
+    var ThoughtView = Backbone.View.extend({
+
+        el: ".thoughts-list",
+
+        events: {
+            'click .show-postbox': 'showPostbox',
+            'click .postbox-send': 'createThought'
+        },
+
+        template: _.template($("#thought-template").html()),
+
+        initialize: function() {
+
+            this.$main = this.$('#main');
+
+
+            this.thoughts = new Thoughts();
+            this.thoughts.fetch({ reset: true });
+            this.thoughts.on('reset', this.render, this );
+            Backbone.pubsub.on('addThought', this.displayItem, this);
+
+        },
+
+        render: function() {
+            _.each( this.thoughts.models, function(thought){
+                this.displayItem(thought);
+            }, this);
+
+            return this;
+        },
+
+        displayItem: function(thought) {
+
+            this.$main.prepend( this.template( thought.toJSON() ) );
+
+        },
+
+        showPostbox: function() {
+
+            $.colorbox({inline:true, href:"#postbox"});
+
+        }
+
+    });
+
+    var PostboxView = Backbone.View.extend({
+        el: "#postbox",
+
+        events: {
+
+            'click .postbox-send': 'createThought'
+
+        },
+
+        initialize: function() {
+
+            this.title          = this.$('.postbox-title');
+            this.description    = this.$('.postbox-description');
+
+        },
+
+        template: _.template($("#thought-template").html()),
+
+        createThought: function() {
+
+            var self = this;
+
+            this.thoughts = new Thoughts();
+
+            this.thoughts.on('add', function() {
+                Backbone.pubsub.trigger('addThought',this.models[0]);
+            });
+
+            this.thoughts.create({
+
+                title:          this.title.val(),
+                description:    this.description.val()
+
+            });
+
+        }
+
+    });
+
+    var postboxView = new PostboxView();
+    var thoughtView = new ThoughtView();
+    var router = new Router();
+    Backbone.history.start();
 
 });
