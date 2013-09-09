@@ -1,5 +1,9 @@
 $(document).ready(function() {
 
+    _.templateSettings = {
+        interpolate : /\{\{(.+?)\}\}/g
+    };
+
     var Router = Backbone.Router.extend({
 
         routes: {

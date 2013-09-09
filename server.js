@@ -6,12 +6,15 @@ var http     = require('http'),
     passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
     bcrypt   = require('bcrypt'),
-    SALT_WORK_FACTOR = 10;
+    SALT_WORK_FACTOR = 10,
+    user_routes = require('./routes/user');
 
 var app      = express();
 
 app.configure( function() {
 
+    app.set('views', __dirname + '/views');
+    app.set('view engine', 'ejs');
     app.use( express.static( __dirname + '/public' ));
     app.use( express.cookieParser());
     app.use( express.bodyParser() );
@@ -93,7 +96,15 @@ passport.use(new LocalStrategy(function(username, password, done) {
 }));
 
 var Thought = mongoose.model('Thought', { title: String, description: String });
- 
+
+app.get( '/',                               user_routes.getlogin);
+app.get( '/home',   ensureAuthenticated,    user_routes.home);
+app.get( '/login',                          user_routes.getlogin);
+app.post('/login',                          user_routes.postlogin);
+app.get( '/logout',                         user_routes.logout);
+app.get( '/register',                       user_routes.getregister);
+app.post('/register',                       user_routes.postregister);
+
 app.get('/api/', function(req, res) {
   
 });
@@ -125,40 +136,6 @@ app.post('/api/thought/', function(req, res) {
 
     });
 
-});
-
-app.post('/register', function(req, res, next) {
-
-    console.log("test: " + util.inspect(req.body, false, null));
-
-    var user = new User({ username: req.body.username, email: req.body.email, password: req.body.password });
-    user.save(function(err) {
-        if(err) {
-            console.log(err);
-        } else {
-            console.log('user: ' + user.username + " saved.");
-        }
-    });
-
-});
-
-app.post('/login', function(req, res, next) {
-    passport.authenticate('local', function(err, user, info) {
-        if (err) { return next(err) }
-        if (!user) {
-            req.session.messages =  ["hello"];
-            return res.redirect('/login')
-        }
-        req.logIn(user, function(err) {
-            if (err) { return next(err); }
-            return res.redirect('/');
-        });
-    })(req, res, next);
-});
-
-app.get('/logout', function(req,res) {
-    req.logout();
-    res.redirect('/login.html');
 });
 
 app.get('/account', ensureAuthenticated, function(req,res) {
