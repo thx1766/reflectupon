@@ -13,5 +13,8 @@
     "url": "https://github.com/andrewjcasal/reflectupon.git"
   },
   "author": "Andrew Casal",
-  "license": "BSD"
+  "license": "BSD",
+  "dependencies": {
+    "mongoose": "3.x.x"
+  }
 }
