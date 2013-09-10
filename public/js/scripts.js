@@ -85,6 +85,8 @@ $(document).ready(function() {
                 formatThought.privacy = "Anonymous";
             }
 
+            formatThought.description = formatThought.description.replace(/\n/g,"<br>");
+
             this.$main.prepend( this.template( formatThought ) );
 
         },
