@@ -19,7 +19,8 @@
     "express": "3.4.0",
     "passport": "0.1.17",
     "passport-local": "0.1.6",
-    "bcrypt": "0.7.7"
+    "bcrypt": "0.7.7",
+    "ejs": "0.8.4"
   },
   "engines": {
     "node": "0.10.17",
