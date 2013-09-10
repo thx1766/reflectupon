@@ -1,5 +1,6 @@
-var passport = require('passport');
-var util = require('util');
+var passport = require('passport'),
+    util = require('util'),
+    mongoose = require('mongoose');
 
 exports.home = function(req, res) {
     res.render('home', { user: req.user });
