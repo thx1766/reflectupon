@@ -8,7 +8,7 @@
     </list>
     <ignored path="reflectupon.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378793923923" ignored="false" />
+    <file path="/Dummy.txt" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378794073851" ignored="false" />
     <file path="/index.html" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378138840266" ignored="false" />
     <file path="/server.js" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378792384808" ignored="false" />
     <file path="/style.css" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378090949876" ignored="false" />
@@ -43,7 +43,7 @@
       <file leaf-file-name="server.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="33" selection-start="236" selection-end="236" vertical-scroll-proportion="-3.4615386">
+            <state line="5" column="35" selection-start="202" selection-end="202" vertical-scroll-proportion="-2.8846154">
               <folding />
             </state>
           </provider>
@@ -61,7 +61,7 @@
       <file leaf-file-name="user.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/user.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="26" selection-start="182" selection-end="182" vertical-scroll-proportion="0.103626944">
+            <state line="4" column="33" selection-start="189" selection-end="189" vertical-scroll-proportion="0.103626944">
               <folding />
             </state>
           </provider>
@@ -454,7 +454,11 @@
       <created>1378793928686</created>
       <updated>1378793928686</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="localstrategy to user.js">
+      <created>1378794079830</created>
+      <updated>1378794079830</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -524,7 +528,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="mongoose to user.js" />
+    <option name="LAST_COMMIT_MESSAGE" value="localstrategy to user.js" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -553,6 +557,7 @@
     <MESSAGE value="comment out util" />
     <MESSAGE value="fix user registration" />
     <MESSAGE value="mongoose to user.js" />
+    <MESSAGE value="localstrategy to user.js" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -656,14 +661,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/server.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="33" selection-start="236" selection-end="236" vertical-scroll-proportion="-3.4615386">
+        <state line="5" column="35" selection-start="202" selection-end="202" vertical-scroll-proportion="-2.8846154">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/user.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="26" selection-start="182" selection-end="182" vertical-scroll-proportion="0.103626944">
+        <state line="4" column="33" selection-start="189" selection-end="189" vertical-scroll-proportion="0.103626944">
           <folding />
         </state>
       </provider>
