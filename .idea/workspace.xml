@@ -7,7 +7,7 @@
     </list>
     <ignored path="reflectupon.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378790672560" ignored="false" />
+    <file path="/Dummy.txt" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378791146190" ignored="false" />
     <file path="/index.html" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378138840266" ignored="false" />
     <file path="/server.js" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378690512429" ignored="false" />
     <file path="/style.css" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378090949876" ignored="false" />
@@ -51,7 +51,7 @@
       <file leaf-file-name="package.json" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="4" selection-start="358" selection-end="358" vertical-scroll-proportion="0.6167883">
+            <state line="18" column="21" selection-start="473" selection-end="473" vertical-scroll-proportion="0.890511">
               <folding />
             </state>
           </provider>
@@ -405,7 +405,11 @@
       <created>1378790682051</created>
       <updated>1378790682051</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="mongoose to package json">
+      <created>1378791149028</created>
+      <updated>1378791149028</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -475,7 +479,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="procfile and package.json, some random config stuff and added &quot;privacy&quot; field" />
+    <option name="LAST_COMMIT_MESSAGE" value="mongoose to package json" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -493,6 +497,7 @@
     <MESSAGE value="integrated passport authentication" />
     <MESSAGE value="changed from html to ejs for authentication purposes" />
     <MESSAGE value="procfile and package.json, some random config stuff and added &quot;privacy&quot; field" />
+    <MESSAGE value="mongoose to package json" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -603,7 +608,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="4" selection-start="358" selection-end="358" vertical-scroll-proportion="0.6167883">
+        <state line="18" column="21" selection-start="473" selection-end="473" vertical-scroll-proportion="0.890511">
           <folding />
         </state>
       </provider>

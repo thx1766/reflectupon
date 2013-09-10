@@ -15,6 +15,7 @@
   "author": "Andrew Casal",
   "license": "BSD",
   "dependencies": {
-    "mongoose": "3.x.x"
+    "mongoose": "3.x.x",
+    "express": "3.4.0"
   }
 }
