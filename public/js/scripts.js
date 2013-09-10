@@ -32,7 +32,8 @@ $(document).ready(function() {
     var Thought = Backbone.Model.extend({
         defaults: {
             "title":       "Untitled",
-            "description": "test"
+            "description": "test",
+            "privacy": "PRIVATE"
         },
         urlRoot: '/api/thought/'
     });
@@ -67,6 +68,7 @@ $(document).ready(function() {
 
         render: function() {
             _.each( this.thoughts.models, function(thought){
+
                 this.displayItem(thought);
             }, this);
 
@@ -75,7 +77,15 @@ $(document).ready(function() {
 
         displayItem: function(thought) {
 
-            this.$main.prepend( this.template( thought.toJSON() ) );
+            var formatThought = thought.toJSON();
+
+            if (formatThought.privacy == "PRIVATE") {
+                formatThought.privacy = "Private";
+            } else if (formatThought.privacy == "ANONYMOUS") {
+                formatThought.privacy = "Anonymous";
+            }
+
+            this.$main.prepend( this.template( formatThought ) );
 
         },
 
@@ -100,6 +110,7 @@ $(document).ready(function() {
 
             this.title          = this.$('.postbox-title');
             this.description    = this.$('.postbox-description');
+            this.privacy        = this.$('.postbox-privacy');
 
         },
 
@@ -107,7 +118,7 @@ $(document).ready(function() {
 
         createThought: function() {
 
-            var self = this;
+            $.colorbox.close();
 
             this.thoughts = new Thoughts();
 
@@ -118,7 +129,8 @@ $(document).ready(function() {
             this.thoughts.create({
 
                 title:          this.title.val(),
-                description:    this.description.val()
+                description:    this.description.val(),
+                privacy:        this.privacy.val()
 
             });
 

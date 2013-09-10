@@ -1,0 +1,17 @@
+{
+  "scripts": {
+    "start": "node server.js"
+  },
+  "gitHead": "58225f6593767a8b3e89d1d806dce2ac0ba4b93f",
+  "readmeFilename": "README.md",
+  "name": "reflectupon",
+  "description": "reflectupon ===========",
+  "version": "0.0.0",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andrewjcasal/reflectupon.git"
+  },
+  "author": "Andrew Casal",
+  "license": "BSD"
+}
