@@ -7,7 +7,7 @@
     </list>
     <ignored path="reflectupon.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378791761199" ignored="false" />
+    <file path="/Dummy.txt" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378791920911" ignored="false" />
     <file path="/index.html" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378138840266" ignored="false" />
     <file path="/server.js" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378690512429" ignored="false" />
     <file path="/style.css" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378090949876" ignored="false" />
@@ -19,7 +19,7 @@
     <file path="/index.ejs" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378685468647" ignored="false" />
     <file path="/user.js" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378689796234" ignored="false" />
     <file path="/home.ejs" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378691024360" ignored="false" />
-    <file path="/package.json" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378791907561" ignored="false" />
+    <file path="/package.json" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378792113396" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,7 +42,7 @@
       <file leaf-file-name="server.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="103" column="64" selection-start="3165" selection-end="3165" vertical-scroll-proportion="0.0">
+            <state line="16" column="33" selection-start="498" selection-end="498" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -51,7 +51,7 @@
       <file leaf-file-name="package.json" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="28" selection-start="530" selection-end="530" vertical-scroll-proportion="0.67153287">
+            <state line="21" column="21" selection-start="554" selection-end="554" vertical-scroll-proportion="0.72627735">
               <folding />
             </state>
           </provider>
@@ -421,7 +421,11 @@
       <created>1378791774117</created>
       <updated>1378791774117</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="passport-local to package.json">
+      <created>1378791922921</created>
+      <updated>1378791922921</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -491,7 +495,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="passport to package.json" />
+    <option name="LAST_COMMIT_MESSAGE" value="passport-local to package.json" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -512,6 +516,7 @@
     <MESSAGE value="mongoose to package json" />
     <MESSAGE value="express to package.json" />
     <MESSAGE value="passport to package.json" />
+    <MESSAGE value="passport-local to package.json" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -615,14 +620,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/server.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="103" column="64" selection-start="3165" selection-end="3165" vertical-scroll-proportion="0.0">
+        <state line="16" column="33" selection-start="498" selection-end="498" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="28" selection-start="530" selection-end="530" vertical-scroll-proportion="0.67153287">
+        <state line="21" column="21" selection-start="554" selection-end="554" vertical-scroll-proportion="0.72627735">
           <folding />
         </state>
       </provider>
