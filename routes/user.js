@@ -2,6 +2,7 @@ var passport = require('passport'),
     util = require('util'),
     mongoose = require('mongoose'),
     LocalStrategy = require('passport-local').Strategy,
+    bcrypt   = require('bcrypt'),
     SALT_WORK_FACTOR = 10;
 
 exports.home = function(req, res) {

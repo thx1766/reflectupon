@@ -4,7 +4,6 @@ var http     = require('http'),
     path     = require('path'),
     util     = require('util'),
     passport = require('passport'),
-    bcrypt   = require('bcrypt'),
     user_routes = require('./routes/user');
 
 var app      = express();
