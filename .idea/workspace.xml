@@ -7,7 +7,7 @@
     </list>
     <ignored path="reflectupon.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378792551993" ignored="false" />
+    <file path="/Dummy.txt" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378792919689" ignored="false" />
     <file path="/index.html" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378138840266" ignored="false" />
     <file path="/server.js" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378792384808" ignored="false" />
     <file path="/style.css" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378090949876" ignored="false" />
@@ -19,7 +19,7 @@
     <file path="/index.ejs" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378685468647" ignored="false" />
     <file path="/user.js" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378689796234" ignored="false" />
     <file path="/home.ejs" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378691024360" ignored="false" />
-    <file path="/package.json" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378792901381" ignored="false" />
+    <file path="/package.json" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378793181836" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +51,7 @@
       <file leaf-file-name="package.json" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="11" selection-start="567" selection-end="567" vertical-scroll-proportion="0.6167883">
+            <state line="23" column="19" selection-start="595" selection-end="595" vertical-scroll-proportion="0.67153287">
               <folding />
             </state>
           </provider>
@@ -433,7 +433,11 @@
       <created>1378792557049</created>
       <updated>1378792557049</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="ejs to package json">
+      <created>1378792922176</created>
+      <updated>1378792922176</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -503,7 +507,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="mongodb config and node js version to package json" />
+    <option name="LAST_COMMIT_MESSAGE" value="ejs to package json" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -527,6 +531,7 @@
     <MESSAGE value="passport-local to package.json" />
     <MESSAGE value="bcrypt to package.json" />
     <MESSAGE value="mongodb config and node js version to package json" />
+    <MESSAGE value="ejs to package json" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -637,7 +642,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="11" selection-start="567" selection-end="567" vertical-scroll-proportion="0.6167883">
+        <state line="23" column="19" selection-start="595" selection-end="595" vertical-scroll-proportion="0.67153287">
           <folding />
         </state>
       </provider>

@@ -20,7 +20,8 @@
     "passport": "0.1.17",
     "passport-local": "0.1.6",
     "bcrypt": "0.7.7",
-    "ejs": "0.8.4"
+    "ejs": "0.8.4",
+    "util": "0.4.9"
   },
   "engines": {
     "node": "0.10.17",
