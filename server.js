@@ -95,7 +95,7 @@ passport.use(new LocalStrategy(function(username, password, done) {
     });
 }));
 
-var Thought = mongoose.model('Thought', { title: String, description: String });
+var Thought = mongoose.model('Thought', { title: String, description: String, privacy: String });
 
 app.get( '/',                               user_routes.getlogin);
 app.get( '/home',   ensureAuthenticated,    user_routes.home);
@@ -125,7 +125,8 @@ app.post('/api/thought/', function(req, res) {
 
     var thought = new Thought({
         title:          req.body.title,
-        description:    req.body.description
+        description:    req.body.description,
+        privacy:        req.body.privacy
     });
 
     thought.save(function(err) {

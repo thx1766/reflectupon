@@ -1,5 +1,3 @@
-derp derp <%= user.username %>
-
 <html>
 <head>
     <link type="text/css" href="/css/style.css" rel="stylesheet" />
@@ -36,7 +34,7 @@ derp derp <%= user.username %>
             <div class="title">{{ title }}</div>
             <div class="description">{{ description }}</div>
             <div class="post-footer">
-                public
+                {{ privacy }}
             </div>
         </div>
     </script>
@@ -46,6 +44,11 @@ derp derp <%= user.username %>
                 <div class="postbox-left">
                     <input type="text" class="postbox-title">
                     <textarea class="postbox-description"></textarea>
+                    <select class="postbox-privacy">
+                        <option value="select">Select</option>
+                        <option value="PRIVATE">Private</option>
+                        <option value="ANONYMOUS">Anonymous</option>
+                    </select>
                     <button class="postbox-send">Create reflection</button>
                 </div>
                 <div class="postbox-right">
