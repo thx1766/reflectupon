@@ -16,6 +16,7 @@
   "license": "BSD",
   "dependencies": {
     "mongoose": "3.x.x",
-    "express": "3.4.0"
+    "express": "3.4.0",
+    "passport": "0.1.17"
   }
 }
