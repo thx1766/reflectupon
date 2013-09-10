@@ -27,12 +27,7 @@ app.configure( function() {
 
 });
 
-if (process.env.NODE_ENV == 'development') {
-
-  mongoose.connect('mongodb://localhost:27017/reflectupon');
-
-}
-
+mongoose.connect(process.env.MONGOHQ_URL || 'mongodb://localhost:27017/reflectupon');
 
 // User Schema
 var userSchema = mongoose.Schema({
@@ -143,7 +138,7 @@ app.get('/account', ensureAuthenticated, function(req,res) {
     res.send( req.user );
 });
 
-app.listen(2000);  
+app.listen(process.env.PORT || 2000);
 
 console.log('Server running at http://127.0.0.1:2000');
 
