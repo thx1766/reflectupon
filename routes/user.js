@@ -1,4 +1,5 @@
 var passport = require('passport');
+var util = require('util');
 
 exports.home = function(req, res) {
     res.render('home', { user: req.user });
@@ -33,7 +34,7 @@ exports.getregister = function(req, res) {
 
 exports.postregister = function(req, res, next) {
 
-    console.log("test: " + util.inspect(req.body, false, null));
+    //console.log("test: " + util.inspect(req.body, false, null));
 
     var user = new User({ username: req.body.username, email: req.body.email, password: req.body.password });
     user.save(function(err) {
