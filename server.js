@@ -26,7 +26,7 @@ app.configure( function() {
 
 mongoose.connect(process.env.MONGOHQ_URL || 'mongodb://localhost:27017/reflectupon');
 
-var Thought = mongoose.model('Thought', { title: String, description: String, privacy: String });
+var Thought = mongoose.model('Thought', { title: String, description: String, privacy: String, user_id: String, date: Date });
 
 app.get( '/',                               user_routes.getlogin);
 app.get( '/home',   ensureAuthenticated,    user_routes.home);
@@ -42,9 +42,9 @@ app.get('/api/', function(req, res) {
 
 app.get('/api/thought', function(req, res) {
 
-  Thought.find({}, function(err, thoughts) {
+  Thought.find({user_id: req.user._id}, function(err, thoughts) {
 
-      //console.log("test: " + util.inspect(thoughts, false, null));
+      console.log("test: " + util.inspect(thoughts, false, null));
     res.send(thoughts);
   });
 
@@ -52,12 +52,12 @@ app.get('/api/thought', function(req, res) {
 
 app.post('/api/thought/', function(req, res) {
 
-    console.log(req.body.title);
-
     var thought = new Thought({
         title:          req.body.title,
         description:    req.body.description,
-        privacy:        req.body.privacy
+        privacy:        req.body.privacy,
+        user_id:        req.user._id,
+        date:           new Date()
     });
 
     thought.save(function(err) {
