@@ -2,12 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ed4bb94b-2f63-454f-9177-be96ad4048a1" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="reflectupon.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378791630793" ignored="false" />
+    <file path="/Dummy.txt" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378791748947" ignored="false" />
     <file path="/index.html" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378138840266" ignored="false" />
     <file path="/server.js" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378690512429" ignored="false" />
     <file path="/style.css" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378090949876" ignored="false" />
@@ -51,7 +50,7 @@
       <file leaf-file-name="package.json" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="23" selection-start="499" selection-end="499" vertical-scroll-proportion="0.83576643">
+            <state line="8" column="21" selection-start="232" selection-end="232" vertical-scroll-proportion="0.23357664">
               <folding />
             </state>
           </provider>
@@ -413,7 +412,11 @@
       <created>1378791632746</created>
       <updated>1378791632746</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="passport to package.json">
+      <created>1378791751034</created>
+      <updated>1378791751034</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -483,7 +486,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="express to package.json" />
+    <option name="LAST_COMMIT_MESSAGE" value="passport to package.json" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -503,6 +506,7 @@
     <MESSAGE value="procfile and package.json, some random config stuff and added &quot;privacy&quot; field" />
     <MESSAGE value="mongoose to package json" />
     <MESSAGE value="express to package.json" />
+    <MESSAGE value="passport to package.json" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -613,7 +617,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="23" selection-start="499" selection-end="499" vertical-scroll-proportion="0.83576643">
+        <state line="8" column="21" selection-start="232" selection-end="232" vertical-scroll-proportion="0.23357664">
           <folding />
         </state>
       </provider>
