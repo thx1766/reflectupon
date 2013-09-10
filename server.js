@@ -4,9 +4,7 @@ var http     = require('http'),
     path     = require('path'),
     util     = require('util'),
     passport = require('passport'),
-    LocalStrategy = require('passport-local').Strategy,
     bcrypt   = require('bcrypt'),
-    SALT_WORK_FACTOR = 10,
     user_routes = require('./routes/user');
 
 var app      = express();
