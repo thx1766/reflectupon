@@ -1,0 +1,40 @@
+
+    </div>
+    <script type="text/template" id="thought-template">
+        <div class="thought-row">
+            <div class="title">{{ title }}</div>
+            <div class="description">{{ description }}</div>
+            <div class="post-footer">{{ privacy }}</div>
+        </div>
+    </script>
+    <script type="text/template" id="stream-template">
+        <div class="thought-row">
+            <div class="title">{{ title }}</div>
+            <div class="description">{{ description }}</div>
+            <div class="post-footer">{{ privacy }}</div>
+        </div>
+    </script>
+    <div style="display:none">
+        <div id="postbox">
+            <div class="postbox-two clearfix">
+                <div class="postbox-left">
+                    <input type="text" class="postbox-title">
+                    <textarea class="postbox-description"></textarea>
+                    <select class="postbox-privacy">
+                        <option value="select">Select</option>
+                        <option value="PRIVATE">Private</option>
+                        <option value="ANONYMOUS">Anonymous</option>
+                    </select>
+                    <button class="postbox-send">Create reflection</button>
+                </div>
+                <div class="postbox-right">
+
+                </div>
+            </div>
+            <div class="postbox-footer">
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>
