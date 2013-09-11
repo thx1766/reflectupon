@@ -30,6 +30,7 @@ var Thought = mongoose.model('Thought', { title: String, description: String, pr
 
 app.get( '/',                               user_routes.getlogin);
 app.get( '/home',   ensureAuthenticated,    user_routes.home);
+app.get( '/stream', ensureAuthenticated,    user_routes.stream);
 app.get( '/login',                          user_routes.getlogin);
 app.post('/login',                          user_routes.postlogin);
 app.get( '/logout',                         user_routes.logout);
@@ -40,17 +41,38 @@ app.get('/api/', function(req, res) {
   
 });
 
-app.get('/api/thought', function(req, res) {
+app.get('/api/thought/:type', function(req, res) {
 
-  Thought.find({user_id: req.user._id}, function(err, thoughts) {
+    var params;
 
-      console.log("test: " + util.inspect(thoughts, false, null));
-    res.send(thoughts);
-  });
+    if (req.params.type == "my-posts") {
+
+        params = {
+
+            user_id: req.user._id
+
+        }
+
+    } else if (req.params.type == "stream") {
+
+        params = {
+
+            privacy: "ANONYMOUS"
+
+        }
+
+    }
+
+    Thought.find( params, function(err, thoughts) {
+
+        console.log("test: " + util.inspect(thoughts, false, null));
+        res.send(thoughts);
+
+    });
 
 });
 
-app.post('/api/thought/', function(req, res) {
+app.post('/api/thought/:type', function(req, res) {
 
     var thought = new Thought({
         title:          req.body.title,

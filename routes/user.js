@@ -6,11 +6,15 @@ var passport = require('passport'),
     SALT_WORK_FACTOR = 10;
 
 exports.home = function(req, res) {
-    res.render('home', { user: req.user });
+    res.render('home', { user: req.user, topBar: true });
+};
+
+exports.stream = function(req, res) {
+    res.render('stream', { user: req.user, topBar: true });
 };
 
 exports.getlogin = function(req, res) {
-    res.render('login', { user: req.user, message: req.session.messages });
+    res.render('login', { user: req.user, message: req.session.messages, topBar: false });
 };
 
 exports.postlogin = function(req, res, next) {
@@ -29,7 +33,7 @@ exports.postlogin = function(req, res, next) {
 
 exports.logout = function(req, res) {
     req.logout();
-    res.render('logout');
+    res.redirect('/');
 };
 
 exports.getregister = function(req, res) {

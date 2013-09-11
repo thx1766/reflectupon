@@ -3,7 +3,7 @@ $(document).ready(function() {
     _.templateSettings = {
         interpolate : /\{\{(.+?)\}\}/g
     };
-
+/*
     var Router = Backbone.Router.extend({
 
         routes: {
@@ -25,22 +25,28 @@ $(document).ready(function() {
 
         }
 
-    });
+    }); */
 
     Backbone.pubsub = _.extend({}, Backbone.Events);
+
+    var viewType;
   
     var Thought = Backbone.Model.extend({
         defaults: {
             "title":       "Untitled",
             "description": "test",
             "privacy": "PRIVATE"
-        },
-        urlRoot: '/api/thought/'
+        }
     });
 
     var Thoughts = Backbone.Collection.extend({
         model: Thought,
-        url: '/api/thought'
+        url: '/api/thought/my-posts/'
+    });
+
+    var StreamThoughts = Backbone.Collection.extend({
+        model: Thought,
+        url: '/api/thought/stream/'
     });
 
     var ThoughtView = Backbone.View.extend({
@@ -57,7 +63,6 @@ $(document).ready(function() {
         initialize: function() {
 
             this.$main = this.$('#main');
-
 
             this.thoughts = new Thoughts();
             this.thoughts.fetch({ reset: true });
@@ -94,6 +99,54 @@ $(document).ready(function() {
         showPostbox: function() {
 
             $.colorbox({inline:true, href:"#postbox"});
+
+        }
+
+    });
+
+    var StreamThoughtView = Backbone.View.extend({
+
+        el: ".stream-list",
+
+        events: {
+            'click .postbox-send': 'createThought'
+        },
+
+        template: _.template($("#thought-template").html()),
+
+        initialize: function() {
+
+            this.$main = this.$('#main');
+
+            this.thoughts = new StreamThoughts();
+            this.thoughts.fetch({ reset: true });
+            this.thoughts.on('reset', this.render, this );
+            Backbone.pubsub.on('addThought', this.displayItem, this);
+
+        },
+
+        render: function() {
+            _.each( this.thoughts.models, function(thought){
+
+                this.displayItem(thought);
+            }, this);
+
+            return this;
+        },
+
+        displayItem: function(thought) {
+
+            var formatThought = thought.toJSON();
+
+            if (formatThought.privacy == "PRIVATE") {
+                formatThought.privacy = "Private";
+            } else if (formatThought.privacy == "ANONYMOUS") {
+                formatThought.privacy = "Anonymous";
+            }
+
+            formatThought.description = formatThought.description.replace(/\n/g,"<br>");
+
+            this.$main.prepend( this.template( formatThought ) );
 
         }
 
@@ -141,6 +194,7 @@ $(document).ready(function() {
     });
 
     var postboxView = new PostboxView();
+    var streamThoughtView = new StreamThoughtView();
     var thoughtView = new ThoughtView();
     var router = new Router();
     Backbone.history.start();

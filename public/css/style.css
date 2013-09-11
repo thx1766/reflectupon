@@ -6,7 +6,7 @@ a img{border:0;}
 #topbar{width:940px;margin:0 auto;}
 #topbar a{padding:10px;display:inline-block;font-weight:bold}
 
-.wrapper{width:940px;margin:0 auto;clear:both;}
+.wrapper{width:940px;margin:0 auto;clear:both;display:block;}
 #sidebar{float:left;min-height:300px;}
 #container{float:right;width:680px;padding:10px;border-left:1px solid #ccc;}
 
