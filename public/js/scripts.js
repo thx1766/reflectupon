@@ -49,6 +49,33 @@ $(document).ready(function() {
         url: '/api/thought/stream/'
     });
 
+    var IndexView = Backbone.View.extend({
+
+        el: ".left-side",
+
+        events: {
+            'click .or-register': 'showRegister',
+            'click .or-login': 'showLogin'
+        },
+
+        showRegister: function() {
+            $("#register-form").fadeIn();
+            $(".or-register").fadeOut();
+            $("#login-form").slideUp(500, function() {
+                $(".or-login").fadeIn();
+            });
+        },
+
+        showLogin: function() {
+            $("#login-form").slideDown();
+            $(".or-login").fadeOut();
+            $("#register-form").fadeOut(500, function() {
+                $(".or-register").fadeIn();
+            });
+        }
+
+    })
+
     var ThoughtView = Backbone.View.extend({
 
         el: ".thoughts-list",
@@ -129,6 +156,7 @@ $(document).ready(function() {
             _.each( this.thoughts.models, function(thought){
 
                 this.displayItem(thought);
+
             }, this);
 
             return this;
@@ -196,7 +224,8 @@ $(document).ready(function() {
     var postboxView = new PostboxView();
     var streamThoughtView = new StreamThoughtView();
     var thoughtView = new ThoughtView();
-    var router = new Router();
+    var indexView = new IndexView();
+    //var router = new Router();
     Backbone.history.start();
 
 });
