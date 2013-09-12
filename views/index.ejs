@@ -1,1 +1,41 @@
-hello woaljsdklfj
+<% include header %>
+<div class="left-side">
+    <div class="logo-name">reflectupon</div>
+    <div class="form-container">
+        <form id="login-form" action="/login" method="post">
+            <div class="clearfix">
+                <label>Username</label>
+                <input type="text" name="username"/><br/>
+            </div>
+            <div class="clearfix">
+                <label>Password</label>
+                <input type="password" name="password"/>
+            </div>
+            <div class="clearfix">
+                <input type="submit" value="Log in"/>
+            </div>
+        </form>
+        <div class="or-register">or <a href="javascript:;">Register</a></div>
+        <form id="register-form" action="/register" method="post">
+            <div class="clearfix">
+                <label>Username</label>
+                <input type="text" name="username"/><br/>
+            </div>
+            <div class="clearfix">
+                <label>Password</label>
+                <input type="password" name="password"/>
+            </div>
+            <div class="clearfix">
+                <label>E-mail</label>
+                <input type="text" name="email"/><br/>
+            </div>
+            <div class="clearfix">
+                <input type="submit" value="Register"/>
+            </div>
+        </form>
+        <div class="or-login">or <a href="javascript:;">Log In</a></div>
+    </div>
+</div>
+<div class="right-side">
+</div>
+<% include footer %>

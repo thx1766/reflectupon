@@ -13,8 +13,8 @@ exports.stream = function(req, res) {
     res.render('stream', { user: req.user, topBar: true });
 };
 
-exports.getlogin = function(req, res) {
-    res.render('login', { user: req.user, message: req.session.messages, topBar: false });
+exports.getIndex = function(req, res) {
+    res.render('index', { user: req.user, message: req.session.messages, topBar: false });
 };
 
 exports.postlogin = function(req, res, next) {
@@ -49,7 +49,17 @@ exports.postregister = function(req, res, next) {
         if(err) {
             console.log(err);
         } else {
-            console.log('user: ' + user.username + " saved.");
+            passport.authenticate('local', function(err, user, info) {
+                if (err) { return next(err) }
+                if (!user) {
+                    req.session.messages =  [info.message];
+                    return res.redirect('/login')
+                }
+                req.logIn(user, function(err) {
+                    if (err) { return next(err); }
+                    return res.redirect('/home');
+                });
+            })(req, res, next);
         }
     });
 

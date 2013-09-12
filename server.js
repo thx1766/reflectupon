@@ -1,6 +1,7 @@
-var http     = require('http'),
-    mongoose = require('mongoose'),
-    express  = require('express'),
+var http     = require('http')
+  , mongoose = require('mongoose')
+  , Schema   = mongoose.Schema
+  , express  = require('express'),
     path     = require('path'),
     util     = require('util'),
     passport = require('passport'),
@@ -26,12 +27,29 @@ app.configure( function() {
 
 mongoose.connect(process.env.MONGOHQ_URL || 'mongodb://localhost:27017/reflectupon');
 
-var Thought = mongoose.model('Thought', { title: String, description: String, privacy: String, user_id: String, date: Date });
+var thoughtSchema = Schema({
+    title:          String,
+    description:    String,
+    privacy:        String,
+    user_id:        String,
+    date:           Date,
+    replies:        [{ type: Schema.Types.ObjectId, ref: 'Reply' }]
+});
 
-app.get( '/',                               user_routes.getlogin);
+var replySchema = Schema({
+    title:          String,
+    description:    String,
+    privacy:        String,
+    user_id:        String,
+    date:           Date
+});
+
+var Thought = mongoose.model('Thought', thoughtSchema);
+var Reply   = mongoose.model('Reply', replySchema);
+
+app.get( '/',                               user_routes.getIndex);
 app.get( '/home',   ensureAuthenticated,    user_routes.home);
 app.get( '/stream', ensureAuthenticated,    user_routes.stream);
-app.get( '/login',                          user_routes.getlogin);
 app.post('/login',                          user_routes.postlogin);
 app.get( '/logout',                         user_routes.logout);
 app.get( '/register',                       user_routes.getregister);
