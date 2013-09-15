@@ -54,7 +54,7 @@ $(document).ready(function() {
     var Replies = Backbone.Collection.extend({
         model: Reply,
         url: function() {
-            return '/api/reply/';
+            return '/api/thought/'+ this.thoughtId +'/reply/';
         }
     });
 
@@ -282,6 +282,13 @@ $(document).ready(function() {
 
             this.input  = this.$("textarea");
             this.submit = this.$("a.submit-reply");
+
+            this.replies = new Replies();
+            this.replies.thoughtId = this.thoughtId;
+            this.replies.fetch();
+            this.replies.on('sync', function() {
+                this.showReplies();
+            },this)
         },
 
         render: function() {
@@ -298,7 +305,20 @@ $(document).ready(function() {
 
             var outputHtml = this.template( formatThought );
             $("#main-thought").html(outputHtml);
+
+
             return this;
+        },
+
+        showReplies: function() {
+            _.each( this.replies.models, this.displayReply, this);
+        },
+
+        displayReply: function(reply) {
+            var formatReply = new ReplyItemView({ model:reply});
+            formatReply.render();
+
+            $(".reply-area").prepend( formatReply.el );
         },
 
         submitReply: function(e) {
@@ -321,7 +341,7 @@ $(document).ready(function() {
 
                 title:          "test",
                 description:    this.input.val(),
-                thought_id:     this.thought_id
+                thought_id:     this.thoughtId
 
             });
 
