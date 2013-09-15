@@ -289,6 +289,18 @@ $(document).ready(function() {
             this.replies.on('sync', function() {
                 this.showReplies();
             },this)
+
+            $("#main-thought").bind('mouseup', function(){
+                var selection;
+
+                if (window.getSelection) {
+                    selection = window.getSelection();
+                } else if (document.selection) {
+                    selection = document.selection.createRange();
+                }
+
+                selection.toString() !== '' && $('#main-thought').highlight(selection.toString());
+            });
         },
 
         render: function() {

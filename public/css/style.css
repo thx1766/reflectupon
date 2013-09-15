@@ -35,3 +35,5 @@ html[xmlns] .clearfix {display: block;}
 #cboxLoadedContent{box-shadow:0 2px 6px #A5A5A5;border-radius:3px;outline:none;}
 #cboxOverlay{position:fixed;background-color:#ccc;height:100%;width:100%;top:0;left:0;}
 #cboxClose{position:absolute;bottom:15px;right:15px;}
+
+.highlight{background-color: #F8FFA1;border-radius: 1px;}
