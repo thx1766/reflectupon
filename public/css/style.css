@@ -8,7 +8,7 @@ a img{border:0;}
 
 .wrapper{width:940px;margin:0 auto;clear:both;display:block;}
 #sidebar{float:left;min-height:300px;}
-#container{float:right;width:680px;padding:10px;border-left:1px solid #ccc;}
+#container{float:right;min-height:600px;width:680px;padding:10px;border-left:1px solid #ccc;}
 
 .show-postbox{width:450px;text-align:center;border-top:1px solid #999;border-bottom:1px solid #999;padding:10px 0;cursor:pointer;margin-bottom:30px;}
 #postbox{background-color:#fff;}

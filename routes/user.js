@@ -36,10 +36,6 @@ exports.logout = function(req, res) {
     res.redirect('/');
 };
 
-exports.getregister = function(req, res) {
-    res.render('register', { user: req.user, message: req.session.messages });
-};
-
 exports.postregister = function(req, res, next) {
 
     //console.log("test: " + util.inspect(req.body, false, null));

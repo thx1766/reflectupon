@@ -5,7 +5,9 @@ var http     = require('http')
     path     = require('path'),
     util     = require('util'),
     passport = require('passport'),
-    user_routes = require('./routes/user');
+
+    user_routes     = require('./routes/user'),
+    thought_routes  = require('./routes/thought');
 
 var app      = express();
 
@@ -50,9 +52,9 @@ var Reply   = mongoose.model('Reply', replySchema);
 app.get( '/',                               user_routes.getIndex);
 app.get( '/home',   ensureAuthenticated,    user_routes.home);
 app.get( '/stream', ensureAuthenticated,    user_routes.stream);
+app.get( '/thought/:id', ensureAuthenticated, thought_routes.single);
 app.post('/login',                          user_routes.postlogin);
 app.get( '/logout',                         user_routes.logout);
-app.get( '/register',                       user_routes.getregister);
 app.post('/register',                       user_routes.postregister);
 
 app.get('/api/', function(req, res) {
@@ -79,12 +81,25 @@ app.get('/api/thought/:type', function(req, res) {
 
         }
 
+    } else {
+
+        params = {
+
+            _id: req.params.type
+
+        }
+
     }
 
     Thought.find( params, function(err, thoughts) {
 
-        console.log("test: " + util.inspect(thoughts, false, null));
-        res.send(thoughts);
+        //console.log("test: " + util.inspect(thoughts, false, null));
+
+        if (thoughts.length == 1) {
+            res.send(thoughts[0])
+        } else {
+            res.send(thoughts);
+        }
 
     });
 
@@ -107,6 +122,31 @@ app.post('/api/thought/:type', function(req, res) {
         res.send( req.body );
 
     });
+
+});
+
+app.get('/api/reply/', function(req, res) {
+
+});
+
+app.post('/api/reply/',function(req, res) {
+
+    var reply = new Reply({
+        title:          req.body.title,
+        description:    req.body.description,
+        thought_id:     req.body.thought_id,
+        date:           new Date()
+    });
+
+    reply.save(function(err) {
+
+        console.log("test: " + util.inspect(reply, false, null));
+
+        if (err) console.log(err);
+
+        res.send( req.body );
+
+    })
 
 });
 
