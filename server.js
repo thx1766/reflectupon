@@ -43,6 +43,7 @@ var replySchema = Schema({
     description:    String,
     privacy:        String,
     user_id:        String,
+    thought_id:     String,
     date:           Date
 });
 
@@ -125,16 +126,24 @@ app.post('/api/thought/:type', function(req, res) {
 
 });
 
-app.get('/api/reply/', function(req, res) {
+app.get('/api/thought/:thought/reply/', function(req, res) {
 
+    Reply.find({ thought_id: req.params.thought }, function(err, replies) {
+
+        console.log("test: " + util.inspect(replies, false, null));
+
+        res.send(replies);
+
+    });
 });
 
-app.post('/api/reply/',function(req, res) {
+app.post('/api/thought/:thought/reply/',function(req, res) {
 
     var reply = new Reply({
         title:          req.body.title,
         description:    req.body.description,
         thought_id:     req.body.thought_id,
+        user_id:        req.user._id,
         date:           new Date()
     });
 
@@ -160,5 +169,5 @@ console.log('Server running at http://127.0.0.1:2000');
 
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) { return next(); }
-    res.redirect('/login')
+    res.redirect('/')
 }
