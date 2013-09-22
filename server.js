@@ -106,7 +106,7 @@ app.get('/api/thought/:type', function(req, res) {
 
 });
 
-app.post('/api/thought/:type', function(req, res) {
+app.post('/api/thought', function(req, res) {
 
     var thought = new Thought({
         title:          req.body.title,
@@ -115,6 +115,8 @@ app.post('/api/thought/:type', function(req, res) {
         user_id:        req.user._id,
         date:           new Date()
     });
+
+    console.log("test: " + util.inspect(thought, false, null));
 
     thought.save(function(err) {
 
