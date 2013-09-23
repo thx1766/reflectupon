@@ -1,3 +1,47 @@
+var Thought = Backbone.Model.extend({
+    defaults: {
+        "title":       "Untitled",
+        "description": "test",
+        "privacy": "PRIVATE"
+    },
+    urlRoot: "/api/thought"
+});
+
+var Reply = Backbone.Model.extend({
+    defaults: {
+        "title":       "Untitled"
+    }
+});
+
+var Annotation = Backbone.Model.extend({
+
+});
+
+var Thoughts = Backbone.Collection.extend({
+    model: Thought,
+    url: function() {
+        return '/api/thought/'+ this.type +'/';
+    }
+});
+
+var Replies = Backbone.Collection.extend({
+    model: Reply,
+    url: function() {
+        return '/api/thought/'+ this.thoughtId +'/reply/';
+    }
+});
+
+var Annotations = Backbone.Collection.extend({
+    model: Annotation,
+    url: function() {
+        return '/api/thought/'+ this.thoughtId +'/reply/'+ this.replyId + '/annotation/';
+    }
+});
+
+var singleThought = new Thoughts(),
+    singleReplies = new Replies(),
+    singleAnnotations = new Annotations();
+
 $(document).ready(function() {
 
     _.templateSettings = {
@@ -28,35 +72,6 @@ $(document).ready(function() {
     });*/
 
     Backbone.pubsub = _.extend({}, Backbone.Events);
-  
-    var Thought = Backbone.Model.extend({
-        defaults: {
-            "title":       "Untitled",
-            "description": "test",
-            "privacy": "PRIVATE"
-        },
-        urlRoot: "/api/thought"
-    });
-
-    var Reply = Backbone.Model.extend({
-        defaults: {
-            "title":       "Untitled"
-        }
-    })
-
-    var Thoughts = Backbone.Collection.extend({
-        model: Thought,
-        url: function() {
-            return '/api/thought/'+ this.type +'/';
-        }
-    });
-
-    var Replies = Backbone.Collection.extend({
-        model: Reply,
-        url: function() {
-            return '/api/thought/'+ this.thoughtId +'/reply/';
-        }
-    });
 
     var IndexView = Backbone.View.extend({
 
@@ -129,8 +144,6 @@ $(document).ready(function() {
         }
 
     });
-
-    var streamThoughts;
 
     var StreamThoughtView = Backbone.View.extend({
 
@@ -257,13 +270,16 @@ $(document).ready(function() {
 
     });
 
+    var highlightSet = [];
+
     var SingleThoughtView = Backbone.View.extend({
 
         el: "#single-thought",
 
         events: {
 
-            'click .submit-reply': 'submitReply'
+            'click .submit-reply': 'submitReply',
+            'mouseup #main-thought': 'createAnnotation'
 
         },
 
@@ -274,48 +290,40 @@ $(document).ready(function() {
 
             _.bindAll(this, "render");
 
-            this.thought = new Thought({ id: this.thoughtId });
-            this.thought.fetch();
-            this.thought.on('sync', function() {
+            //this.thoughts.type = this.thoughtId;
+            //this.thoughts.fetch({reset:true});
+            singleThought.on('reset', function() {
                 this.render();
             }, this);
 
             this.input  = this.$("textarea");
             this.submit = this.$("a.submit-reply");
 
-            this.replies = new Replies();
-            this.replies.thoughtId = this.thoughtId;
-            this.replies.fetch();
-            this.replies.on('sync', function() {
+            singleReplies.on('reset', function() {
                 this.showReplies();
-            },this)
+            },this);
 
-            $("#main-thought").bind('mouseup', function(){
-                var selection;
+            singleAnnotations.on('reset', function() {
+                this.showAnnotations();
+            },this);
 
-                if (window.getSelection) {
-                    selection = window.getSelection();
-                } else if (document.selection) {
-                    selection = document.selection.createRange();
-                }
+            this.annotations = [];
 
-                selection.toString() !== '' && $('#main-thought').highlight(selection.toString());
-            });
         },
 
         render: function() {
 
-            var formatThought = this.thought.toJSON();
+            var formatThought = singleThought.models[0];
 
-            if (formatThought.privacy == "PRIVATE") {
-                formatThought.privacy = "Private";
-            } else if (formatThought.privacy == "ANONYMOUS") {
-                formatThought.privacy = "Anonymous";
+            if (formatThought.get("privacy") == "PRIVATE") {
+                formatThought.set("privacy", "Private");
+            } else if (formatThought.get("privacy") == "ANONYMOUS") {
+                formatThought.set("privacy", "Anonymous");
             }
 
-            formatThought.description = formatThought.description.replace(/\n/g,"<br>");
+            formatThought.set("description", formatThought.get("description").replace(/\n/g,"<br>"));
 
-            var outputHtml = this.template( formatThought );
+            var outputHtml = this.template( formatThought.attributes );
             $("#main-thought").html(outputHtml);
 
 
@@ -323,7 +331,20 @@ $(document).ready(function() {
         },
 
         showReplies: function() {
-            _.each( this.replies.models, this.displayReply, this);
+            _.each( singleReplies.models, this.displayReply, this);
+        },
+
+        showAnnotations: function() {
+            _.each( singleAnnotations.models, this.displayAnnotation, this);
+
+            var description = $("#main-thought").find(".description");
+
+            for (var y=0; y<highlightSet.length; y++) {
+
+                description.highlight( description.text().substring(highlightSet[y].start, highlightSet[y].end));
+
+            }
+
         },
 
         displayReply: function(reply) {
@@ -331,6 +352,49 @@ $(document).ready(function() {
             formatReply.render();
 
             $(".reply-area").prepend( formatReply.el );
+        },
+
+        displayAnnotation: function(annotation) {
+
+            var start = annotation.get("start"),
+                end = annotation.get("end")
+
+            var overlap = false;
+
+            if (start && end) {
+                for (var x=0; x<highlightSet.length; x++) {
+
+                    if (start < highlightSet[x].start && end > highlightSet[x].end) {
+                        highlightSet[x].start = start;
+                        highlightSet[x].end = end;
+                        overlap = true;
+                        break;
+                    }
+
+                    if (start > highlightSet[x].start && end < highlightSet[x].end) {
+                        overlap = true;
+                        break;
+                    }
+
+                    if (end > highlightSet[x].start && start < highlightSet[x].start) {
+                        highlightSet[x].start = start;
+                        overlap = true;
+                        break;
+                    }
+
+                    if (start < highlightSet[x].end && end > highlightSet[x].end) {
+                        highlightSet[x].end = end;
+                        overlap = true;
+                        break;
+                    }
+
+                }
+
+                if (!overlap) {
+                    highlightSet.push({start: start, end: end});
+                }
+            }
+
         },
 
         submitReply: function(e) {
@@ -353,10 +417,35 @@ $(document).ready(function() {
 
                 title:          "test",
                 description:    this.input.val(),
-                thought_id:     this.thoughtId
+                thought_id:     this.thoughtId,
+                annotations:    this.annotations
 
             });
 
+        },
+
+        createAnnotation: function(){
+            var selection;
+
+            if (window.getSelection) {
+                selection = window.getSelection();
+            } else if (document.selection) {
+                selection = document.selection.createRange();
+            }
+
+            var selectionText = selection.toString()
+            selectionText !== '' && $('#main-thought').highlight(selectionText);
+
+            var paragraph = $("#main-thought").find(".description").text();
+            var start = paragraph.indexOf(selectionText);
+            var end = start + selectionText.length;
+
+            this.annotations.push({
+                description: selectionText,
+                start:       start,
+                end:         end
+            });
+            console.log(this.annotations);
         }
 
     });
