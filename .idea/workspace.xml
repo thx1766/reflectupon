@@ -2,16 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ed4bb94b-2f63-454f-9177-be96ad4048a1" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/scripts.js" afterPath="$PROJECT_DIR$/public/js/scripts.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server.js" afterPath="$PROJECT_DIR$/server.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/single.ejs" afterPath="$PROJECT_DIR$/views/single.ejs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/thought.js" afterPath="$PROJECT_DIR$/routes/thought.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="reflectupon.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1379874811730" ignored="false" />
+    <file path="/Dummy.txt" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1379875294221" ignored="false" />
     <file path="/index.html" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378138840266" ignored="false" />
-    <file path="/server.js" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1379874995891" ignored="false" />
+    <file path="/server.js" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1379917504890" ignored="false" />
     <file path="/style.css" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1379262524588" ignored="false" />
-    <file path="/scripts.js" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1379259098385" ignored="false" />
+    <file path="/scripts.js" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1379919476529" ignored="false" />
     <file path="/README.md" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1379037874817" ignored="false" />
     <file path="/login.html" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378137497031" ignored="false" />
     <file path="/register.html" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378138347378" ignored="false" />
@@ -26,8 +29,8 @@
     <file path="/topbar.ejs" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378871776686" ignored="false" />
     <file path="/index.css" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378963128734" ignored="false" />
     <file path="/header.ejs" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1379262292247" ignored="false" />
-    <file path="/thought.js" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1379195413081" ignored="false" />
-    <file path="/single.ejs" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1379217814604" ignored="false" />
+    <file path="/thought.js" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1379917361871" ignored="false" />
+    <file path="/single.ejs" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1379917526557" ignored="false" />
     <file path="/thought.css" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1379209643711" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -51,7 +54,7 @@
       <file leaf-file-name="thought.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/thought.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="2" selection-start="119" selection-end="119" vertical-scroll-proportion="0.0">
+            <state line="14" column="23" selection-start="477" selection-end="477" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -60,7 +63,7 @@
       <file leaf-file-name="single.ejs" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/single.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="20" selection-start="537" selection-end="537" vertical-scroll-proportion="0.0">
+            <state line="28" column="13" selection-start="801" selection-end="801" vertical-scroll-proportion="-7.6363635">
               <folding />
             </state>
           </provider>
@@ -75,10 +78,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="scripts.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="scripts.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/js/scripts.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="301" column="63" selection-start="7302" selection-end="7302" vertical-scroll-proportion="0.0">
+            <state line="345" column="13" selection-start="8373" selection-end="8373" vertical-scroll-proportion="0.4471404">
               <folding />
             </state>
           </provider>
@@ -87,16 +90,16 @@
       <file leaf-file-name="jquery.highlight.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/jquery.highlight.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="38" selection-start="648" selection-end="681" vertical-scroll-proportion="0.0">
+            <state line="14" column="55" selection-start="642" selection-end="642" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="server.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="server.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="125" column="0" selection-start="3128" selection-end="3128" vertical-scroll-proportion="0.6743802">
+            <state line="59" column="0" selection-start="1732" selection-end="1732" vertical-scroll-proportion="-6.3461537">
               <folding />
             </state>
           </provider>
@@ -105,7 +108,7 @@
       <file leaf-file-name="header.ejs" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/header.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="25" selection-start="741" selection-end="741" vertical-scroll-proportion="0.0">
+            <state line="9" column="74" selection-start="585" selection-end="651" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -163,24 +166,25 @@
         <option value="$PROJECT_DIR$/views/login.ejs" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/routes/user.js" />
-        <option value="$PROJECT_DIR$/routes/thought.js" />
         <option value="$PROJECT_DIR$/public/css/thought.css" />
         <option value="$PROJECT_DIR$/views/topbar.ejs" />
         <option value="$PROJECT_DIR$/views/footer.ejs" />
-        <option value="$PROJECT_DIR$/views/single.ejs" />
         <option value="$PROJECT_DIR$/public/js/jquery.highlight.js" />
-        <option value="$PROJECT_DIR$/public/js/scripts.js" />
         <option value="$PROJECT_DIR$/views/header.ejs" />
         <option value="$PROJECT_DIR$/public/css/style.css" />
+        <option value="$PROJECT_DIR$/routes/thought.js" />
         <option value="$PROJECT_DIR$/server.js" />
+        <option value="$PROJECT_DIR$/views/single.ejs" />
+        <option value="$PROJECT_DIR$/public/js/scripts.js" />
       </list>
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
+    <option name="x" value="-17" />
     <option name="y" value="22" />
     <option name="width" value="1280" />
-    <option name="height" value="774" />
+    <option name="height" value="746" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -507,13 +511,18 @@
       <created>1379264151480</created>
       <updated>1379264151481</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="api post problem">
+      <created>1379875307320</created>
+      <updated>1379875307320</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1280" height="774" extended-state="0" />
+    <frame x="-17" y="22" width="1280" height="746" extended-state="0" />
     <editor active="true" />
     <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4679878" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -529,7 +538,6 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292683" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -577,7 +585,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="single page progress - basic highlight function on &quot;main-thought&quot; class" />
+    <option name="LAST_COMMIT_MESSAGE" value="api post problem" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -591,7 +599,6 @@
     <option name="UPDATE_FILTER_BY_SCOPE" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="integrated passport authentication" />
     <MESSAGE value="changed from html to ejs for authentication purposes" />
     <MESSAGE value="procfile and package.json, some random config stuff and added &quot;privacy&quot; field" />
     <MESSAGE value="mongoose to package json" />
@@ -616,6 +623,7 @@
     <MESSAGE value="single page progress - page renders, working on replies" />
     <MESSAGE value="single page progress - can post and fetch replies" />
     <MESSAGE value="single page progress - basic highlight function on &quot;main-thought&quot; class" />
+    <MESSAGE value="api post problem" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -642,50 +650,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/home.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="20" selection-start="20" selection-end="284" vertical-scroll-proportion="0.0" />
+        <state line="0" column="20" selection-start="20" selection-end="284" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/css/index.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="51" selection-start="668" selection-end="668" vertical-scroll-proportion="0.0" />
+        <state line="8" column="51" selection-start="668" selection-end="668" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/index.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="77" selection-start="688" selection-end="688" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/thought.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="2" selection-start="119" selection-end="119" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/single.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="20" selection-start="537" selection-end="537" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/css/thought.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="0" selection-start="400" selection-end="400" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/scripts.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="301" column="63" selection-start="7302" selection-end="7302" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/jquery.highlight.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="38" selection-start="648" selection-end="681" vertical-scroll-proportion="0.0">
+        <state line="17" column="77" selection-start="688" selection-end="688" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -697,9 +676,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/footer.ejs">
+    <entry file="file://$PROJECT_DIR$/public/css/thought.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="59" selection-start="453" selection-end="453" vertical-scroll-proportion="0.0">
+        <state line="4" column="0" selection-start="400" selection-end="400" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -711,16 +690,51 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/jquery.highlight.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="55" selection-start="642" selection-end="642" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/footer.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="59" selection-start="453" selection-end="453" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/views/header.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="25" selection-start="741" selection-end="741" vertical-scroll-proportion="0.0">
+        <state line="9" column="74" selection-start="585" selection-end="651" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/server.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="125" column="0" selection-start="3128" selection-end="3128" vertical-scroll-proportion="0.6743802">
+        <state line="59" column="0" selection-start="1732" selection-end="1732" vertical-scroll-proportion="-6.3461537">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/thought.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="23" selection-start="477" selection-end="477" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/single.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="13" selection-start="801" selection-end="801" vertical-scroll-proportion="-7.6363635">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/scripts.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="345" column="13" selection-start="8373" selection-end="8373" vertical-scroll-proportion="0.4471404">
           <folding />
         </state>
       </provider>

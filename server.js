@@ -35,7 +35,7 @@ var thoughtSchema = Schema({
     privacy:        String,
     user_id:        String,
     date:           Date,
-    replies:        [{ type: Schema.Types.ObjectId, ref: 'Reply' }]
+    replies:        [{ type: Schema.Types.ObjectId, ref: 'Reply' }],
 });
 
 var replySchema = Schema({
@@ -44,11 +44,23 @@ var replySchema = Schema({
     privacy:        String,
     user_id:        String,
     thought_id:     String,
+    annotations:    [{ type: Schema.Types.ObjectId, ref: 'Annotation'}],
     date:           Date
 });
 
-var Thought = mongoose.model('Thought', thoughtSchema);
-var Reply   = mongoose.model('Reply', replySchema);
+var annotationSchema = Schema({
+    _reply_id:      { type: String, ref: 'Reply' },
+    description:    String,
+    start:          Number,
+    end:            Number,
+    thought_id:     String,
+    user_id:        String,
+    date:           Date
+});
+
+var Thought    = thought_routes.Thought = mongoose.model('Thought', thoughtSchema),
+    Reply      = thought_routes.Reply   = mongoose.model('Reply', replySchema),
+    Annotation = thought_routes.Annotations = mongoose.model('Annotation', annotationSchema);
 
 app.get( '/',                               user_routes.getIndex);
 app.get( '/home',   ensureAuthenticated,    user_routes.home);
@@ -132,8 +144,6 @@ app.get('/api/thought/:thought/reply/', function(req, res) {
 
     Reply.find({ thought_id: req.params.thought }, function(err, replies) {
 
-        console.log("test: " + util.inspect(replies, false, null));
-
         res.send(replies);
 
     });
@@ -149,15 +159,65 @@ app.post('/api/thought/:thought/reply/',function(req, res) {
         date:           new Date()
     });
 
+
     reply.save(function(err) {
 
-        console.log("test: " + util.inspect(reply, false, null));
+        if (err) console.log(err);
+
+        for (var i = 0; i < req.body.annotations.length; i++) {
+
+            console.log("test: " + util.inspect(req.body.annotations[i], false, null));
+
+            var annotation = new Annotation({
+                _reply_id:      reply._id,
+                description:    req.body.annotations[i].description,
+                start:          req.body.annotations[i].start,
+                end:            req.body.annotations[i].end,
+                thought_id:     req.body.thought_id,
+                user_id:        req.user._id,
+                date:           new Date()
+            });
+
+            annotation.save(function(err) {
+
+                if (err) console.log(err);
+
+                reply.annotations.push(annotation);
+                reply.save(function(err){
+
+                    if (err) console.log(err);
+
+                });
+
+            });
+
+        }
+
+        res.send( req.body );
+
+    })
+
+});
+
+app.post('/api/thought/:thought/reply/:reply/annotation/', function(req, res) {
+
+    var annotation = new Annotation({
+        description:    req.body.description,
+        thought_id:     req.body.thought_id,
+        reply_id:       req.body.reply_id,
+        user_id:        req.user._id,
+        date:           new Date()
+    });
+
+    annotation.save(function(err) {
+
+        //console.log("annotation: " + util.inspect(annotation, false, null));
 
         if (err) console.log(err);
 
         res.send( req.body );
 
-    })
+    });
 
 });
 
