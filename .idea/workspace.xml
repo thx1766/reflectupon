@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ed4bb94b-2f63-454f-9177-be96ad4048a1" name="Default" comment="">
+    <list default="true" id="ed4bb94b-2f63-454f-9177-be96ad4048a1" name="Default" comment="sendgrid api for emails - email text">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/user.js" afterPath="$PROJECT_DIR$/routes/user.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="reflectupon.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1379998763368" ignored="false" />
+    <file path="/Dummy.txt" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1379999608236" ignored="false" />
     <file path="/index.html" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378138840266" ignored="false" />
     <file path="/server.js" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1379917504890" ignored="false" />
     <file path="/style.css" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1379262524588" ignored="false" />
@@ -17,7 +17,7 @@
     <file path="/register.html" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378138347378" ignored="false" />
     <file path="/logout.html" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378138903978" ignored="false" />
     <file path="/index.ejs" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378685468647" ignored="false" />
-    <file path="/user.js" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1379998991430" ignored="false" />
+    <file path="/user.js" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1379999583541" ignored="false" />
     <file path="/home.ejs" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378830255181" ignored="false" />
     <file path="/package.json" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1379997874325" ignored="false" />
     <file path="/login.ejs" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1378963062704" ignored="false" />
@@ -96,7 +96,7 @@
       <file leaf-file-name="user.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/user.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="35" selection-start="663" selection-end="663" vertical-scroll-proportion="0.57192373">
+            <state line="45" column="0" selection-start="1313" selection-end="1313" vertical-scroll-proportion="0.4113475">
               <folding />
             </state>
           </provider>
@@ -178,8 +178,8 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="-67" />
-    <option name="y" value="22" />
+    <option name="x" value="5" />
+    <option name="y" value="52" />
     <option name="width" value="1280" />
     <option name="height" value="746" />
   </component>
@@ -524,11 +524,15 @@
       <created>1379998771930</created>
       <updated>1379998771930</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="sendgrid api for emails - email debug">
+      <created>1379999006717</created>
+      <updated>1379999006717</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-67" y="22" width="1280" height="746" extended-state="0" />
+    <frame x="5" y="52" width="1280" height="746" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -745,7 +749,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/user.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="35" selection-start="663" selection-end="663" vertical-scroll-proportion="0.57192373">
+        <state line="45" column="0" selection-start="1313" selection-end="1313" vertical-scroll-proportion="0.4113475">
           <folding />
         </state>
       </provider>

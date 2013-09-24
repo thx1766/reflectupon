@@ -9,9 +9,6 @@ var passport = require('passport'),
     ),
     SALT_WORK_FACTOR = 10;
 
-console.log(process.env.SENDGRID_USERNAME);
-console.log(process.env.SENDGRID_PASSWORD);
-
 exports.home = function(req, res) {
     res.render('home', { user: req.user, topBar: true });
 };
@@ -54,10 +51,10 @@ exports.postregister = function(req, res, next) {
         } else {
 
             sendgrid.send({
-                to: 'andrewjcasal@gmail.com',
+                to: req.body.email,
                 from: 'sender@example.com',
-                subject: 'Hello World',
-                text: 'Sending email with NodeJS through SendGrid!'
+                subject: 'Welcome to reflectupon!',
+                html: 'Thanks for your interest!<br /><br />Here are your credentials.<br /><br/>Username: ' + req.body.username + '<br />Password: ' + req.body.password + '<br /><br/>Thanks! -reflectupon team'
             }, function(err, json) {
                 if (err) { return console.error(err); }
                 console.log(json);
