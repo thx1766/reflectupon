@@ -3,6 +3,10 @@ var passport = require('passport'),
     mongoose = require('mongoose'),
     LocalStrategy = require('passport-local').Strategy,
     bcrypt   = require('bcrypt'),
+    sendgrid  = require('sendgrid')(
+        process.env.SENDGRID_USERNAME,
+        process.env.SENDGRID_PASSWORD
+    ),
     SALT_WORK_FACTOR = 10;
 
 exports.home = function(req, res) {
@@ -45,6 +49,17 @@ exports.postregister = function(req, res, next) {
         if(err) {
             console.log(err);
         } else {
+
+            sendgrid.send({
+                to: 'example@example.com',
+                from: 'sender@example.com',
+                subject: 'Hello World',
+                text: 'Sending email with NodeJS through SendGrid!'
+            }, function(err, json) {
+                if (err) { return console.error(err); }
+                console.log(json);
+            });
+
             passport.authenticate('local', function(err, user, info) {
                 if (err) { return next(err) }
                 if (!user) {

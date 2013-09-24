@@ -5,7 +5,10 @@ var http     = require('http')
     path     = require('path'),
     util     = require('util'),
     passport = require('passport'),
-
+    sendgrid  = require('sendgrid')(
+        process.env.SENDGRID_USERNAME,
+        process.env.SENDGRID_PASSWORD
+    ),
     user_routes     = require('./routes/user'),
     thought_routes  = require('./routes/thought');
 
