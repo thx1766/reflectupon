@@ -9,6 +9,9 @@ var passport = require('passport'),
     ),
     SALT_WORK_FACTOR = 10;
 
+console.log(process.env.SENDGRID_USERNAME);
+console.log(process.env.SENDGRID_PASSWORD);
+
 exports.home = function(req, res) {
     res.render('home', { user: req.user, topBar: true });
 };
