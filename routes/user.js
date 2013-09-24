@@ -51,7 +51,7 @@ exports.postregister = function(req, res, next) {
         } else {
 
             sendgrid.send({
-                to: 'example@example.com',
+                to: 'andrewjcasal@gmail.com',
                 from: 'sender@example.com',
                 subject: 'Hello World',
                 text: 'Sending email with NodeJS through SendGrid!'
