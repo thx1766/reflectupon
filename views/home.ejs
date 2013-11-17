@@ -18,7 +18,7 @@
         <ul class="new-reflections">
 
         <% if (thoughts) { %>
-            <% for(var i=0; i<5; i++) { %>
+            <% for(var i=0; i < thoughts.length; i++) { %>
 
                 <% if (thoughts[i]) { %>
                     <li data-id="<%= thoughts[i]._id %>">
