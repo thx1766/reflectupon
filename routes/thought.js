@@ -90,5 +90,9 @@ exports.today = function(req, res) {
 
 exports.getTwiml = function(req, res) {
 
-    res.render('twiml', {} );
+    exports.Thought.random(null,function(err, thought) {
+
+        res.render('twiml', {reflection: thought.description} );
+
+    })
 };
