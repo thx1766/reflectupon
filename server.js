@@ -14,6 +14,25 @@ var http     = require('http')
 
 var app      = express();
 
+var accountSid = 'ACdff89a1df2ba2a2d90fa0cd39ffe1f81';
+var authToken = "04916a518707f9e480e6593006c3d236";
+var client = require('twilio')(accountSid, authToken);
+/*
+client.sms.messages.create({
+    body: "Jenny please?! I love you <3",
+    to: "+17327407815",
+    from: "+17324104303"
+}, function(err, message) {
+
+    console.log("message: " + util.inspect(message.body, false, null));
+});*/
+
+client.messages.list(function(err, data) {
+    data.messages.forEach(function(sms) {
+        console.log("new sms: " + util.inspect(sms.body, false, null));
+    });
+});
+
 app.configure( function() {
 
     app.set('views', __dirname + '/views');
@@ -30,7 +49,7 @@ app.configure( function() {
 
 });
 
-mongoose.connect(process.env.MONGOHQ_URL || 'mongodb://localhost:27017/reflectupon');
+mongoose.connect(process.env.MONGOHQ_URL || 'mongodb://127.0.0.1:27017/reflectupon');
 
 var thoughtSchema = Schema({
     title:          String,
@@ -40,6 +59,16 @@ var thoughtSchema = Schema({
     date:           Date,
     replies:        [{ type: Schema.Types.ObjectId, ref: 'Reply' }],
 });
+
+thoughtSchema.statics.random = function(user,cb) {
+    this.count(function(err, count) {
+        if (err) return cb(err);
+        var rand = Math.floor(Math.random() * 10);
+        this.findOne().sort("-date").skip(rand)
+            .where('description').ne("")
+            .exec(cb);
+    }.bind(this));
+};
 
 var replySchema = Schema({
     title:          String,
@@ -61,17 +90,20 @@ var annotationSchema = Schema({
     date:           Date
 });
 
-var Thought    = thought_routes.Thought = mongoose.model('Thought', thoughtSchema),
-    Reply      = thought_routes.Reply   = mongoose.model('Reply', replySchema),
+var Thought    = user_routes.Thought   = thought_routes.Thought = mongoose.model('Thought', thoughtSchema),
+    Reply      = user_routes.Reply     = thought_routes.Reply   = mongoose.model('Reply', replySchema),
     Annotation = thought_routes.Annotations = mongoose.model('Annotation', annotationSchema);
 
 app.get( '/',                               user_routes.getIndex);
 app.get( '/home',   ensureAuthenticated,    user_routes.home);
+app.get( '/new-ux', ensureAuthenticated,    user_routes.newUser);
 app.get( '/stream', ensureAuthenticated,    user_routes.stream);
 app.get( '/thought/:id', ensureAuthenticated, thought_routes.single);
+app.get( '/today', ensureAuthenticated,     thought_routes.today);
 app.post('/login',                          user_routes.postlogin);
 app.get( '/logout',                         user_routes.logout);
 app.post('/register',                       user_routes.postregister);
+app.get( '/twiml',                          thought_routes.getTwiml)
 
 app.get('/api/', function(req, res) {
   
@@ -81,7 +113,7 @@ app.get('/api/thought/:type', function(req, res) {
 
     var params;
 
-    if (req.params.type == "my-posts") {
+    if (req.params.type == "my-posts" && req.user) {
 
         params = {
 
@@ -109,12 +141,12 @@ app.get('/api/thought/:type', function(req, res) {
 
     Thought.find( params, function(err, thoughts) {
 
-        //console.log("test: " + util.inspect(thoughts, false, null));
-
-        if (thoughts.length == 1) {
-            res.send(thoughts[0])
-        } else {
-            res.send(thoughts);
+        if (thoughts) {
+            if (thoughts.length == 1) {
+                res.send(thoughts[0])
+            } else {
+                res.send(thoughts);
+            }
         }
 
     });
@@ -131,8 +163,6 @@ app.post('/api/thought', function(req, res) {
         date:           new Date()
     });
 
-    console.log("test: " + util.inspect(thought, false, null));
-
     thought.save(function(err) {
 
         if (err) console.log(err);
@@ -145,6 +175,7 @@ app.post('/api/thought', function(req, res) {
 
 app.get('/api/thought/:thought/reply/', function(req, res) {
 
+    console.log("annotation: " + util.inspect(req.params.thought, false, null));
     Reply.find({ thought_id: req.params.thought }, function(err, replies) {
 
         res.send(replies);
@@ -168,8 +199,6 @@ app.post('/api/thought/:thought/reply/',function(req, res) {
         if (err) console.log(err);
 
         for (var i = 0; i < req.body.annotations.length; i++) {
-
-            console.log("test: " + util.inspect(req.body.annotations[i], false, null));
 
             var annotation = new Annotation({
                 _reply_id:      reply._id,
@@ -196,9 +225,23 @@ app.post('/api/thought/:thought/reply/',function(req, res) {
 
         }
 
+        Thought.find({ _id: req.body.thought_id }, function(err, thought) {
+
+            var oneThought = thought[0];
+            //console.log("repliesss: " + util.inspect(oneThought.replies, false, null));
+
+            oneThought.replies.push(reply);
+
+            oneThought.save(function(err){
+
+                if (err) console.log(err);
+
+            });
+        });
+
         res.send( req.body );
 
-    })
+    });
 
 });
 
