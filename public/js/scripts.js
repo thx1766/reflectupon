@@ -104,13 +104,11 @@ $(document).ready(function() {
 
         el: ".thoughts-list",
 
-        events: {
-            'click .show-postbox': 'showPostbox'
-        },
-
         template: _.template($("#thought-template").html()),
 
         initialize: function() {
+
+            _.bindAll(this, 'detectScroll');
 
             this.$main = this.$('#main');
 
@@ -119,6 +117,9 @@ $(document).ready(function() {
             this.thoughts.fetch({ reset: true });
             this.thoughts.on('reset', this.render, this );
             Backbone.pubsub.on('addThought', this.displayItem, this);
+
+            $(window).scroll(this.detectScroll);
+            $('.glyphicon-info-sign').tooltip()
 
         },
 
@@ -135,6 +136,58 @@ $(document).ready(function() {
 
             this.$main.prepend( formatThought.el );
 
+            var position = formatThought.$el.position();
+            //console.log(position);
+            //console.log('min: ' + position.top + ' / max: ' + parseInt(position.top + $(this).height()));
+            formatThought.$el.scrollspy({
+                min: position.top -30,
+                max: position.top + formatThought.$el.height() -30,
+                onEnter: function(element, position) {
+                    if(console) console.log('entering ' +  element.id);
+                    var replies = new Replies();
+                    replies.thoughtId = formatThought.model.get("_id");
+                    replies.fetch({ reset: true });
+
+                    replies.on("reset", function() {
+
+                        var test = "";
+
+                        _.each( replies.models, function(reply) {
+                            test += reply.get("description") + "<br />";
+                        },this);
+
+                        $(".annotations-list").html(test);
+
+                    });
+
+                    formatThought = null;
+                },
+                onLeave: function(element, position) {
+                    if(console) console.log('leaving ' +  element.id);
+                }
+            });
+
+
+        },
+
+        detectScroll: function() {
+
+            //$(window).scrollTop();
+            //var rect = document.getElementById("main").getBoundingClientRect();
+            //console.log(rect.top, rect.right, rect.bottom, rect.left);
+
+
+
+        }
+
+    });
+
+    var SidebarView = Backbone.View.extend({
+
+        el: "#sidebar",
+
+        events: {
+            'click .show-postbox': 'showPostbox'
         },
 
         showPostbox: function() {
@@ -174,7 +227,8 @@ $(document).ready(function() {
             var formatThought = new ThoughtItemView({ model: thought, view: 'stream' });
             formatThought.render();
 
-            this.$main.prepend( formatThought.el );
+            this.$main.append( formatThought.el );
+            return this;
 
         }
 
@@ -204,7 +258,6 @@ $(document).ready(function() {
             var template = _.template($("#"+ this.options.view +"-template").html());
             var outputHtml = template(formatThought);
             this.$el.html(outputHtml);
-            return this;
         },
 
         modelChanged: function(model, changes) {
@@ -234,7 +287,10 @@ $(document).ready(function() {
 
         events: {
 
-            'click .postbox-send': 'createThought'
+            'click .postbox-send': 'goStep2',
+            'click .postbox-write': 'poemPrompt',
+            'click .postbox-sing': 'songPrompt',
+            'click .postbox-submit': 'submitReflection'
 
         },
 
@@ -248,8 +304,28 @@ $(document).ready(function() {
 
         template: _.template($("#thought-template").html()),
 
-        createThought: function() {
+        goStep2: function() {
 
+            $(".postbox-two").fadeOut(function(){
+                $(".postbox-options").fadeIn();
+            })
+
+        },
+
+        poemPrompt: function() {
+            $(".postbox-options").fadeOut(function() {
+                $(".postbox-poem").fadeIn();
+            });
+
+        },
+
+        songPrompt: function() {
+            $(".postbox-options").fadeOut(function() {
+                $(".postbox-song").fadeIn();
+            });
+        },
+
+        submitReflection: function() {
             $.colorbox.close();
 
             this.thoughts = new Thoughts();
@@ -265,9 +341,7 @@ $(document).ready(function() {
                 privacy:        this.privacy.val()
 
             });
-
         }
-
     });
 
     var highlightSet = [];
@@ -451,6 +525,7 @@ $(document).ready(function() {
     });
 
     var postboxView = new PostboxView();
+    new SidebarView();
     var streamThoughtView = new StreamThoughtView();
     var thoughtView = new ThoughtView();
     var singleThoughtView = new SingleThoughtView();

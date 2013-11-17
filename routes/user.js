@@ -1,22 +1,45 @@
-var passport = require('passport'),
-    util = require('util'),
-    mongoose = require('mongoose'),
+var passport      = require('passport'),
+    util          = require('util'),
+    mongoose      = require('mongoose'),
     LocalStrategy = require('passport-local').Strategy,
-    bcrypt   = require('bcrypt'),
-    sendgrid  = require('sendgrid')(
+    bcrypt        = require('bcrypt'),
+    sendgrid      = require('sendgrid')(
         process.env.SENDGRID_USERNAME,
         process.env.SENDGRID_PASSWORD
     ),
     SALT_WORK_FACTOR = 10;
 
 exports.home = function(req, res) {
-    res.render('home', { user: req.user, topBar: true });
+
+    exports.Thought
+        .where('user_id').ne(req.user._id)
+        .where('description').ne("")
+        .sort('-date')
+        .limit(5)
+        .exec(function(err, thoughts) {
+
+            if (thoughts) {
+
+                for (var x = 0; x < thoughts.length; x++) {
+                    if (thoughts[x] && thoughts[x].description) {
+                        thoughts[x].description = thoughts[x].description.substr(0,40) + "...";
+                    }
+                }
+
+                res.render('home', { user: req.user, topBar: true, thoughts: thoughts });
+            }
+
+    })
+
 };
 
 exports.stream = function(req, res) {
     res.render('stream', { user: req.user, topBar: true });
 };
 
+exports.newUser = function(req, res) {
+    res.render('new-user', {topBar: false, body: true });
+};
 exports.getIndex = function(req, res) {
     res.render('index', { user: req.user, message: req.session.messages, topBar: false });
 };
@@ -24,12 +47,15 @@ exports.getIndex = function(req, res) {
 exports.postlogin = function(req, res, next) {
     passport.authenticate('local', function(err, user, info) {
         if (err) { return next(err) }
+
         if (!user) {
             req.session.messages =  [info.message];
             return res.redirect('/login')
         }
         req.logIn(user, function(err) {
+
             if (err) { return next(err); }
+            console.log("redirect already: " + err);
             return res.redirect('/home');
         });
     })(req, res, next);
@@ -41,8 +67,6 @@ exports.logout = function(req, res) {
 };
 
 exports.postregister = function(req, res, next) {
-
-    //console.log("test: " + util.inspect(req.body, false, null));
 
     var user = new User({ username: req.body.username, email: req.body.email, password: req.body.password });
     user.save(function(err) {
@@ -68,7 +92,7 @@ exports.postregister = function(req, res, next) {
                 }
                 req.logIn(user, function(err) {
                     if (err) { return next(err); }
-                    return res.redirect('/home');
+                    return res.redirect('/new-ux');
                 });
             })(req, res, next);
         }

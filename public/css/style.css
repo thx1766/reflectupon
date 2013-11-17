@@ -1,39 +1,66 @@
 * {padding:0; margin:0}
+body{color:#444;}
+body.new-ux{background-color:rgb(190,111,111)}
+body.new-ux .wrapper{width:600px;padding:20px;background-color:#fff;margin-top:30px;border-radius:2px;box-shadow:0 2px 6px #5e5e5e}
+body.new-ux textarea{margin-bottom:15px;}
 a img{border:0;}
 .hidden{display:none}
 
-#topbar-wrapper{width:100%;height:40px;border-bottom:1px solid #ccc;}
+#topbar-wrapper{width:100%;height:45px;border-bottom:1px solid #ccc;background-color:rgb(190,111,111);}
 #topbar{width:940px;margin:0 auto;}
-#topbar a{padding:10px;display:inline-block;font-weight:bold}
+#topbar a{padding:8px;display:inline-block;font-weight:bold;font-size:20px;color:#fff;}
 
-.wrapper{width:940px;margin:0 auto;clear:both;display:block;}
-#sidebar{float:left;min-height:300px;}
-#container{float:right;min-height:600px;width:680px;padding:10px;border-left:1px solid #ccc;}
+.wrapper{width:940px;margin:0 auto;clear:both;display:block;border-left:1px solid #ccc;border-right:1px solid #ccc;}
+#sidebar{float:left;min-height:300px;width:220px;}
+#sidebar a{display:block}
 
-.show-postbox{width:450px;text-align:center;border-top:1px solid #999;border-bottom:1px solid #999;padding:10px 0;cursor:pointer;margin-bottom:30px;}
-#postbox{background-color:#fff;}
-.postbox-two{padding:15px;}
+#sidebar li{border-bottom:1px solid #ccc;}
+#sidebar li:first-child{border-top:1px solid #ccc}
+#sidebar .main-options li,#sidebar .new-reflections li{list-style:none;}
+#sidebar .main-options li:hover,#sidebar .new-reflections li:hover{background-color:#eee}
+#sidebar .main-options a,#sidebar .new-reflections a{text-decoration:none;padding:14px 30px;}
+#sidebar .new-reflections a{padding:8px 30px;}
+#sidebar .new-reflections a span{display:block;color:#9e9e9e;font-size:12px;}
+#sidebar p{padding:0 10px;}
+#sidebar .glyphicon{margin-left:3px;}
+
+#container{float:right;min-height:600px;width:718px;padding:10px;border-left:1px solid #ccc;}
+#container.today{padding:0}
+.today .heading{padding:10px 20px;background-color:#f3f3f3;border-bottom:1px solid #ccc;}
+.today .heading h1{margin-top:10px;}
+.today #single-thought{margin-bottom:30px;width:560px;padding:20px;}
+
+
+.thoughts-list{}
+.annotations-list{background-color:#ccc;width:230px;height:500px;position:fixed;right:148px;}
+
+#postbox{background-color:#fff;width:550px;height:400px;padding:15px;}
+.postbox-options,.postbox-poem,.postbox-song{display:none;}
+.postbox-poem textarea, .postbox-song textarea{width:100%;height:150px;margin-bottom:15px;}
+.postbox-options button{margin-bottom:15px;}
 .postbox-left{float:left;width:300px;height:300px;margin-right:15px;}
 .postbox-right{float:right;border:1px solid black;width:200px;height:300px;}
 .postbox-footer{padding:20px;background-color:#ccc;}
 
 .postbox-title{display:block;height:30px;width:100%;margin-bottom:15px;}
-.postbox-description{display:block;width:100%;height:200px;margin-bottom:15px;resize:none;}
-.postbox-send{height:25px;width:100%}
+.postbox-description{display:block;width:100%;height:290px;margin-bottom:15px;resize:none;}
+.postbox-send{width:100%}
 
-.thought-row{margin-bottom:30px;width:450px;}
-.thought-row .title{font-weight:bold;font-size:20px;padding-bottom:5px;}
-.thought-row .description{line-height:20px;margin-bottom:15px;}
-.thought-row .post-footer{border-top:1px solid rgb(211,133,133);padding:3px 0;color:rgb(211,133,133);font-size:14px;}
+.thought-row{margin-bottom:30px;}
+.thought-row .title{font-weight:bold;font-size:22px;padding-bottom:5px;color:#111;}
+.thought-row .description{line-height:24px;margin-bottom:15px;font-size:16px;}
+.thought-row .post-footer{border-top:1px solid rgb(211,133,133);padding:3px 0;color:rgb(211,133,133);font-size:16px;}
 
 .clearfix:after {content: ".";display: block;clear: both;visibility: hidden;line-height: 0;height: 0;}
-.clearfix {display: inline-block;}
 html[xmlns] .clearfix {display: block;}
 * html .clearfix {height: 1%;}
 
 #colorbox{outline:none;}
 #cboxLoadedContent{box-shadow:0 2px 6px #A5A5A5;border-radius:3px;outline:none;}
 #cboxOverlay{position:fixed;background-color:#ccc;height:100%;width:100%;top:0;left:0;}
-#cboxClose{position:absolute;bottom:15px;right:15px;}
+#cboxClose{position:absolute;bottom:15px;right:15px;display:none;}
 
 .highlight{background-color: #F8FFA1;border-radius: 1px;}
+
+#single-thought #main-thought{min-height:100px;}
+#single-thought .write-reply{border-bottom:1px solid #ccc;}
