@@ -17,12 +17,18 @@
         <p>New Reflections<span class="glyphicon glyphicon-info-sign" data-text="Help out new friends!"></span></p>
         <ul class="new-reflections">
 
-        <% for(var i=0; i<5; i++) { %>
-            <li data-id="<%= thoughts[i]._id %>">
-                <a href="/thought/<%= thoughts[i]._id %>"><%= thoughts[i].description %>
-                    <span>written yesterday</span>
-                </a>
-            </li>
+        <% if (thoughts) { %>
+            <% for(var i=0; i<5; i++) { %>
+
+                <% if (thoughts[i]) { %>
+                    <li data-id="<%= thoughts[i]._id %>">
+                        <a href="/thought/<%= thoughts[i]._id %>"><%= thoughts[i].description %>
+                            <span>written yesterday</span>
+                        </a>
+                    </li>
+                <% } %>
+
+            <% } %>
         <% } %>
         </ul>
     </div>
