@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ed4bb94b-2f63-454f-9177-be96ad4048a1" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/thought.js" afterPath="$PROJECT_DIR$/routes/thought.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/twiml.ejs" afterPath="$PROJECT_DIR$/views/twiml.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/today.ejs" afterPath="$PROJECT_DIR$/views/today.ejs" />
     </list>
     <ignored path="reflectupon.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -40,7 +39,7 @@
     <file path="$PROJECT_DIR$/../todo/public/js/underscore.js" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1380597880124" ignored="false" />
     <file path="$PROJECT_DIR$/../todo/public/js/scripts.js" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1380698744124" ignored="false" />
     <file path="/new-user.ejs" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1384662157455" ignored="false" />
-    <file path="/today.ejs" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1384705982267" ignored="false" />
+    <file path="/today.ejs" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1384729254688" ignored="false" />
     <file path="/twiml.ejs" changelist="ed4bb94b-2f63-454f-9177-be96ad4048a1" time="1384721422113" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -64,7 +63,7 @@
       <file leaf-file-name="thought.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/thought.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="94" column="60" selection-start="2980" selection-end="2980" vertical-scroll-proportion="0.76480836">
+            <state line="83" column="14" selection-start="2794" selection-end="2794" vertical-scroll-proportion="0.44599304">
               <folding />
             </state>
           </provider>
@@ -73,7 +72,7 @@
       <file leaf-file-name="user.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/user.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="20" selection-start="275" selection-end="275" vertical-scroll-proportion="-3.4615386">
+            <state line="19" column="0" selection-start="585" selection-end="585" vertical-scroll-proportion="-8.653846">
               <folding />
             </state>
           </provider>
@@ -118,7 +117,7 @@
       <file leaf-file-name="today.ejs" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/today.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="20" selection-start="986" selection-end="986" vertical-scroll-proportion="0.0">
+            <state line="57" column="59" selection-start="3161" selection-end="3161" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -181,17 +180,17 @@
         <option value="$PROJECT_DIR$/public/js/scripts.js" />
         <option value="$PROJECT_DIR$/public/css/style.css" />
         <option value="$PROJECT_DIR$/views/home.ejs" />
-        <option value="$PROJECT_DIR$/views/today.ejs" />
         <option value="$PROJECT_DIR$/views/single.ejs" />
         <option value="$PROJECT_DIR$/views/twiml.ejs" />
         <option value="$PROJECT_DIR$/server.js" />
         <option value="$PROJECT_DIR$/routes/thought.js" />
+        <option value="$PROJECT_DIR$/views/today.ejs" />
       </list>
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="190" />
+    <option name="x" value="119" />
     <option name="y" value="22" />
     <option name="width" value="1280" />
     <option name="height" value="746" />
@@ -449,7 +448,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="190" y="22" width="1280" height="746" extended-state="0" />
+    <frame x="119" y="22" width="1280" height="746" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4679878" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -615,13 +614,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/scripts.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="106" column="52" selection-start="2373" selection-end="2373" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/home.ejs">
       <provider selected="true" editor-type-id="text-editor">
         <state line="20" column="48" selection-start="812" selection-end="833" vertical-scroll-proportion="0.0">
@@ -629,23 +621,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/today.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="20" selection-start="986" selection-end="986" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/single.ejs">
       <provider selected="true" editor-type-id="text-editor">
         <state line="28" column="24" selection-start="1070" selection-end="1070" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/user.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="20" selection-start="275" selection-end="275" vertical-scroll-proportion="-3.4615386">
           <folding />
         </state>
       </provider>
@@ -664,9 +642,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/routes/user.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="0" selection-start="585" selection-end="585" vertical-scroll-proportion="-8.653846">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/today.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="57" column="59" selection-start="3161" selection-end="3161" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/scripts.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="106" column="52" selection-start="2373" selection-end="2373" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/routes/thought.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="94" column="60" selection-start="2980" selection-end="2980" vertical-scroll-proportion="0.76480836">
+        <state line="83" column="14" selection-start="2794" selection-end="2794" vertical-scroll-proportion="0.44599304">
           <folding />
         </state>
       </provider>
