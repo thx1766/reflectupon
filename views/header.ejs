@@ -28,15 +28,16 @@
     </script>
     <script type="text/x-handlebars-template" id="thought-item-template">
         <div class="description">
-            <textarea>{{ description }}</textarea>
-            {{#if annotation }}
-                <div class="annotation">
-                    <div class="subheading">Your Annotation</div>
-                    <div class="annotation-desc">{{ annotation }}</div>
-                </div>
-            {{/if}}
+            {{ description }}
+            {{#if read_more }}
+            <a href="javascript:;">Read more</a>
+            {{/if }}
         </div>
-        <a href="javascript:;">See individual view</a>
+        {{#if annotation }}
+            <div class="annotation">
+                <div class="annotation-desc">Annotation: {{ annotation }}</div>
+            </div>
+        {{/if}}
         <div class="tooltip_description" style="display:none;" title="No worries"></div>
     </script>
     <script type="text/x-handlebars-template" id="new-thought-item-template">
