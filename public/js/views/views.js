@@ -203,7 +203,7 @@ window.rupon.views = window.rupon.views || {};
 
         events: {
             'click a': 'showSingle',
-            'select textarea': 'takeAnnotation'
+            'selectstart .description': 'takeAnnotation'
         },
 
         initialize: function() {
@@ -217,8 +217,11 @@ window.rupon.views = window.rupon.views || {};
         render: function() {
 
             var formatThought = this.model.toJSON();
-            formatThought.description = formatThought.description.replace(/\n/g,"<br>");
 
+            if (formatThought.description.length >350) {
+                formatThought.description = formatThought.description.trim().substring(0,350).split(" ").slice(0, -1).join(" ").replace(/\n/g,"<br>") + "...";
+                formatThought.read_more = true;
+            }
             var outputHtml = this.template(formatThought);
             this.$el.html(outputHtml);
         },
@@ -232,11 +235,17 @@ window.rupon.views = window.rupon.views || {};
         },
 
         takeAnnotation: function() {
-            $(".thoughts-list").addClass("select-text");
-            this.$el.siblings().removeClass("selected")
-            this.$el.addClass("selected");
 
-            this.trigger("start-tooltip", this.$el);
+            var self = this;
+            $(document).one('mouseup', function() {
+                if (this.getSelection() != "") {
+                    $(".thoughts-list").addClass("select-text");
+                    self.$el.siblings().removeClass("selected")
+                    self.$el.addClass("selected");
+
+                    self.trigger("start-tooltip", self.$el);
+                }
+            });
         }
 
     });
