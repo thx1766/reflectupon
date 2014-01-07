@@ -2,51 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ed4bb94b-2f63-454f-9177-be96ad4048a1" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/js/controller.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/dashboard.ejs" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/js/third-party/handlebars.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/css/jquery.tooltip.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/js/third-party/jquery.tooltip.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/me.ejs" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/js/models.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/js/views/sidebar.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/js/views/single.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/public/js/backbone.min.js" afterPath="$PROJECT_DIR$/public/js/third-party/backbone.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/public/js/jquery.colorbox-min.js" afterPath="$PROJECT_DIR$/public/js/third-party/jquery.colorbox-min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/public/js/jquery.highlight.js" afterPath="$PROJECT_DIR$/public/js/third-party/jquery.highlight.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/public/js/jquery.min.js" afterPath="$PROJECT_DIR$/public/js/third-party/jquery.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/public/js/jquery.scrollspy.js" afterPath="$PROJECT_DIR$/public/js/third-party/jquery.scrollspy.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/public/js/scripts.js" afterPath="$PROJECT_DIR$/public/js/views/views.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/public/js/underscore.min.js" afterPath="$PROJECT_DIR$/public/js/third-party/underscore.min.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Procfile" afterPath="$PROJECT_DIR$/Procfile" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/footer.ejs" afterPath="$PROJECT_DIR$/views/footer.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/header.ejs" afterPath="$PROJECT_DIR$/views/header.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/home.ejs" afterPath="$PROJECT_DIR$/views/home.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/index.css" afterPath="$PROJECT_DIR$/public/css/index.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/index.ejs" afterPath="$PROJECT_DIR$/views/index.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/logout.ejs" afterPath="$PROJECT_DIR$/views/logout.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/new-user.ejs" afterPath="$PROJECT_DIR$/views/new-user.ejs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/reflectupon.iml" afterPath="$PROJECT_DIR$/.idea/reflectupon.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/scopes/scope_settings.xml" afterPath="$PROJECT_DIR$/.idea/scopes/scope_settings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server.js" afterPath="$PROJECT_DIR$/server.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/single.ejs" afterPath="$PROJECT_DIR$/views/single.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/stream.ejs" afterPath="$PROJECT_DIR$/views/stream.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/style.css" afterPath="$PROJECT_DIR$/public/css/style.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/thought.css" afterPath="$PROJECT_DIR$/public/css/thought.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/thought.js" afterPath="$PROJECT_DIR$/routes/thought.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/today.ejs" afterPath="$PROJECT_DIR$/views/today.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/topbar.ejs" afterPath="$PROJECT_DIR$/views/topbar.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/twiml.ejs" afterPath="$PROJECT_DIR$/views/twiml.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/user.js" afterPath="$PROJECT_DIR$/routes/user.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="reflectupon.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -72,7 +28,7 @@
       <file leaf-file-name="server.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="193" column="44" selection-start="5988" selection-end="5988" vertical-scroll-proportion="0.0" vertical-offset="2796" max-vertical-offset="5085">
+            <state line="32" column="33" selection-start="988" selection-end="988" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5085">
               <folding />
             </state>
           </provider>
@@ -90,7 +46,7 @@
       <file leaf-file-name="views.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/views/views.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="245" column="34" selection-start="6800" selection-end="6800" vertical-scroll-proportion="-27.692308" vertical-offset="2955" max-vertical-offset="5220">
+            <state line="245" column="34" selection-start="6800" selection-end="6800" vertical-scroll-proportion="0.0" vertical-offset="2955" max-vertical-offset="5220">
               <folding />
             </state>
           </provider>
@@ -99,23 +55,9 @@
       <file leaf-file-name="jquery.tooltip.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/third-party/jquery.tooltip.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="170" column="15" selection-start="7665" selection-end="7665" vertical-scroll-proportion="-4.576923" vertical-offset="2431" max-vertical-offset="3510">
+            <state line="170" column="15" selection-start="7665" selection-end="7665" vertical-scroll-proportion="0.0" vertical-offset="2431" max-vertical-offset="3510">
               <folding>
-                <element signature="n#!!doc" expanded="true" />
                 <marker date="1388971459000" expanded="false" signature="2429:2439" placeholder="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="jquery.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/node_modules/mongoose/node_modules/ms/test/support/jquery.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="8331" column="6" selection-start="222575" selection-end="222575" vertical-scroll-proportion="0.0" vertical-offset="124757" max-vertical-offset="138870">
-              <folding>
-                <marker date="1324496282000" expanded="false" signature="34551:34582" placeholder="..." />
-                <marker date="1324496282000" expanded="false" signature="41553:41584" placeholder="..." />
-                <marker date="1324496282000" expanded="false" signature="42631:42641" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -124,7 +66,7 @@
       <file leaf-file-name="single.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/views/single.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="144" column="10" selection-start="4240" selection-end="4240" vertical-scroll-proportion="-1.6153846" vertical-offset="2118" max-vertical-offset="3060">
+            <state line="144" column="10" selection-start="4240" selection-end="4240" vertical-scroll-proportion="0.0" vertical-offset="2118" max-vertical-offset="3060">
               <folding />
             </state>
           </provider>
@@ -133,16 +75,25 @@
       <file leaf-file-name="header.ejs" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/header.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="85" selection-start="733" selection-end="733" vertical-scroll-proportion="-5.769231" vertical-offset="0" max-vertical-offset="1845">
+            <state line="10" column="85" selection-start="733" selection-end="733" vertical-scroll-proportion="0.0" vertical-offset="150" max-vertical-offset="1845">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="style.css" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="style.css" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/css/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="54" selection-start="1156" selection-end="1156" vertical-scroll-proportion="0.46583852" vertical-offset="0" max-vertical-offset="1665">
+            <state line="20" column="54" selection-start="1156" selection-end="1156" vertical-scroll-proportion="0.0" vertical-offset="300" max-vertical-offset="1665">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="package.json" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/package.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="21" column="23" selection-start="556" selection-end="556" vertical-scroll-proportion="0.47799698" vertical-offset="0" max-vertical-offset="659">
               <folding />
             </state>
           </provider>
@@ -160,7 +111,7 @@
       <file leaf-file-name="thought.css" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/css/thought.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="53" selection-start="783" selection-end="783" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="390">
+            <state line="10" column="53" selection-start="783" selection-end="783" vertical-scroll-proportion="0.0" vertical-offset="150" max-vertical-offset="390">
               <folding />
             </state>
           </provider>
@@ -185,7 +136,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/public/js/third-party/handlebars.js" />
         <option value="$PROJECT_DIR$/views/single.ejs" />
         <option value="$PROJECT_DIR$/public/js/views.js" />
         <option value="$PROJECT_DIR$/views/footer.ejs" />
@@ -201,13 +151,13 @@
         <option value="$PROJECT_DIR$/server.js" />
         <option value="$PROJECT_DIR$/public/css/thought.css" />
         <option value="$PROJECT_DIR$/public/css/style.css" />
+        <option value="$PROJECT_DIR$/package.json" />
       </list>
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="11" />
-    <option name="y" value="43" />
+    <option name="y" value="23" />
     <option name="width" value="1440" />
     <option name="height" value="829" />
   </component>
@@ -253,6 +203,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -381,7 +332,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -390,9 +340,9 @@
     <property name="WebServerToolWindowFactoryState" value="true" />
     <property name="options.lastSelected" value="editor" />
     <property name="FullScreen" value="false" />
-    <property name="GoToClass.includeJavaFiles" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="GoToClass.includeJavaFiles" value="false" />
   </component>
   <component name="PublishConfig" serverName="reflectupon - node" serverId="ad4d306c-63a9-4eff-af76-e7332f46d88f">
     <servers>
@@ -588,7 +538,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="11" y="43" width="1440" height="829" extended-state="0" />
+    <frame x="0" y="23" width="1440" height="829" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4679878" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -653,18 +603,9 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/routes/user.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="43" selection-start="882" selection-end="882" vertical-scroll-proportion="0.0" vertical-offset="45" max-vertical-offset="2160">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/home.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="52" selection-start="1045" selection-end="1045" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="555">
-          <folding />
-        </state>
+        <state line="25" column="52" selection-start="1045" selection-end="1045" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="555" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/js/views/sidebar.js">
@@ -676,9 +617,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/css/jquery.tooltip.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="21" selection-start="335" selection-end="335" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="885">
-          <folding />
-        </state>
+        <state line="15" column="21" selection-start="335" selection-end="335" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="885" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/single.ejs">
@@ -699,9 +638,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="8331" column="6" selection-start="222575" selection-end="222575" vertical-scroll-proportion="0.0" vertical-offset="124757" max-vertical-offset="138870">
           <folding>
-            <marker date="1324496282000" expanded="false" signature="34551:34582" placeholder="..." />
-            <marker date="1324496282000" expanded="false" signature="41553:41584" placeholder="..." />
-            <marker date="1324496282000" expanded="false" signature="42631:42641" placeholder="..." />
+            <marker date="1324496282000" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1324496282000" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1324496282000" expanded="false" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -715,9 +654,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/js/third-party/jquery.tooltip.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="170" column="15" selection-start="7665" selection-end="7665" vertical-scroll-proportion="-4.576923" vertical-offset="2431" max-vertical-offset="3510">
+        <state line="170" column="15" selection-start="7665" selection-end="7665" vertical-scroll-proportion="0.0" vertical-offset="2431" max-vertical-offset="3510">
           <folding>
-            <element signature="n#!!doc" expanded="true" />
             <marker date="1388971459000" expanded="false" signature="2429:2439" placeholder="..." />
           </folding>
         </state>
@@ -725,14 +663,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/js/views/single.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="144" column="10" selection-start="4240" selection-end="4240" vertical-scroll-proportion="-1.6153846" vertical-offset="2118" max-vertical-offset="3060">
+        <state line="144" column="10" selection-start="4240" selection-end="4240" vertical-scroll-proportion="0.0" vertical-offset="2118" max-vertical-offset="3060">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/js/views/views.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="245" column="34" selection-start="6800" selection-end="6800" vertical-scroll-proportion="-27.692308" vertical-offset="2955" max-vertical-offset="5220">
+        <state line="245" column="34" selection-start="6800" selection-end="6800" vertical-scroll-proportion="0.0" vertical-offset="2955" max-vertical-offset="5220">
           <folding />
         </state>
       </provider>
@@ -744,16 +682,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="193" column="44" selection-start="5988" selection-end="5988" vertical-scroll-proportion="0.0" vertical-offset="2796" max-vertical-offset="5085">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/header.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="85" selection-start="733" selection-end="733" vertical-scroll-proportion="-5.769231" vertical-offset="0" max-vertical-offset="1845">
+        <state line="10" column="85" selection-start="733" selection-end="733" vertical-scroll-proportion="0.0" vertical-offset="150" max-vertical-offset="1845">
           <folding />
         </state>
       </provider>
@@ -767,7 +698,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/css/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="54" selection-start="1156" selection-end="1156" vertical-scroll-proportion="0.46583852" vertical-offset="0" max-vertical-offset="1665">
+        <state line="20" column="54" selection-start="1156" selection-end="1156" vertical-scroll-proportion="0.0" vertical-offset="300" max-vertical-offset="1665">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="33" selection-start="988" selection-end="988" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5085">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="23" selection-start="556" selection-end="556" vertical-scroll-proportion="0.47799698" vertical-offset="0" max-vertical-offset="659">
           <folding />
         </state>
       </provider>
