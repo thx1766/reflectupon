@@ -1,4 +1,4 @@
-#single-thought{margin-bottom:30px;width:520px;}
+#single-thought{margin-bottom:30px;width:520px;padding:10px;}
 #single-thought #main-thought .title{font-weight:bold;font-size:24px;padding-bottom:5px;}
 #single-thought #main-thought .description{line-height:26px;margin-bottom:15px;font-size:20px;color:#444;}
 #single-thought #main-thought .post-footer{border-top:1px solid rgb(211,133,133);padding:3px 0;color:rgb(211,133,133);font-size:14px;letter-spacing:1px;}
@@ -8,6 +8,14 @@
 #single-thought .write-reply .write-footer{width:100%;margin-bottom:6px;}
 #single-thought .write-reply a{display: block;float: right;}
 
+#single-thought .full-thought{border:1px solid #ccc;border-radius:2px;margin-bottom:20px;box-shadow: 0px 1px 3px rgb(218, 218, 218);}
+#single-thought .show-thought{text-align:center;padding:4px;}
+#single-thought .hide-thought{text-align:center;padding:4px;border-bottom:1px solid #ccc;}
+#single-thought .full-thought span{padding:4px;display:block;}
+
+#single-thought .reply-area{border: 1px solid #ccc;border-radius: 2px;padding: 6px;background-color:rgb(248, 217, 217)}
+
 #single-thought .reply-row {border-bottom:1px solid #ccc;margin-bottom:8px;}
+#single-thought .reply-row:last-child{border-bottom:0}
 #single-thought .reply-row .title{font-weight:bold;font-size:18px;padding-bottom:5px;color:#444;}
 #single-thought .reply-row .description{line-height:20px;margin-bottom:14px;font-size:16px;color:#444;}
