@@ -5,6 +5,7 @@ var http     = require('http')
     path     = require('path'),
     util     = require('util'),
     passport = require('passport'),
+    bcrypt   = require('bcryptjs'),
     sendgrid  = require('sendgrid')(
         process.env.SENDGRID_USERNAME,
         process.env.SENDGRID_PASSWORD
@@ -27,11 +28,12 @@ client.sms.messages.create({
     console.log("message: " + util.inspect(message.body, false, null));
 });*/
 
+/*
 client.messages.list(function(err, data) {
     data.messages.forEach(function(sms) {
         console.log("new sms: " + util.inspect(sms.body, false, null));
     });
-});
+}); */
 
 app.configure( function() {
 
@@ -54,10 +56,14 @@ mongoose.connect(process.env.MONGOHQ_URL || 'mongodb://127.0.0.1:27017/reflectup
 var thoughtSchema = Schema({
     title:          String,
     description:    String,
+    expression:     String,
     privacy:        String,
     user_id:        String,
+    annotation:     String,
     date:           Date,
-    replies:        [{ type: Schema.Types.ObjectId, ref: 'Reply' }],
+    replies:        [{
+        type: Schema.Types.ObjectId,
+        ref: 'Reply' }]
 });
 
 thoughtSchema.statics.random = function(user,cb) {
@@ -89,10 +95,42 @@ var annotationSchema = Schema({
     user_id:        String,
     date:           Date
 });
+// User Schema
+var userSchema = mongoose.Schema({
+    username: { type: String, required: true, unique: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true}
+});
+
+// Bcrypt middleware
+userSchema.pre('save', function(next) {
+    var user = this;
+
+    if(!user.isModified('password')) return next();
+
+    bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
+        if(err) return next(err);
+
+        bcrypt.hash(user.password, salt, function(err, hash) {
+            if(err) return next(err);
+            user.password = hash;
+            next();
+        });
+    });
+});
+
+// Password verification
+userSchema.methods.comparePassword = function(candidatePassword, cb) {
+    bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+        if(err) return cb(err);
+        cb(null, isMatch);
+    });
+};
 
 var Thought    = user_routes.Thought   = thought_routes.Thought = mongoose.model('Thought', thoughtSchema),
     Reply      = user_routes.Reply     = thought_routes.Reply   = mongoose.model('Reply', replySchema),
-    Annotation = thought_routes.Annotations = mongoose.model('Annotation', annotationSchema);
+    Annotation = thought_routes.Annotations = mongoose.model('Annotation', annotationSchema),
+    User       = user_routes.User      = mongoose.model('User', userSchema);
 
 app.get( '/',                               user_routes.getIndex);
 app.get( '/home',   ensureAuthenticated,    user_routes.home);
@@ -100,10 +138,12 @@ app.get( '/new-ux', ensureAuthenticated,    user_routes.newUser);
 app.get( '/stream', ensureAuthenticated,    user_routes.stream);
 app.get( '/thought/:id', ensureAuthenticated, thought_routes.single);
 app.get( '/today', ensureAuthenticated,     thought_routes.today);
+app.get( '/me', ensureAuthenticated,        user_routes.me);
 app.post('/login',                          user_routes.postlogin);
 app.get( '/logout',                         user_routes.logout);
 app.post('/register',                       user_routes.postregister);
-app.get( '/twiml',                          thought_routes.getTwiml)
+app.get( '/twiml',                          thought_routes.getTwiml);
+app.get('/dashboard', ensureAuthenticated,  user_routes.getDashboard)
 
 app.get('/api/', function(req, res) {
   
@@ -111,45 +151,37 @@ app.get('/api/', function(req, res) {
 
 app.get('/api/thought/:type', function(req, res) {
 
-    var params;
+    var params = {};
 
-    if (req.params.type == "my-posts" && req.user) {
+    if (req.user) {
 
-        params = {
+        if (req.params.type == "my-posts") {
+            params.user_id = req.user._id;
+        } else if (req.params.type == "other-posts") {
+            params.user_id = { $ne: req.user._id };
+        } else if (req.params.type == "stream") {
 
-            user_id: req.user._id
+            params.privacy = "ANONYMOUS"
 
-        }
+        } else {
 
-    } else if (req.params.type == "stream") {
-
-        params = {
-
-            privacy: "ANONYMOUS"
-
-        }
-
-    } else {
-
-        params = {
-
-            _id: req.params.type
+            params._id = req.params.type;
 
         }
-
     }
 
-    Thought.find( params, function(err, thoughts) {
+    Thought.find( params )
+        .populate('replies')
+        .exec(function(err, thoughts) {
 
-        if (thoughts) {
-            if (thoughts.length == 1) {
-                res.send(thoughts[0])
-            } else {
-                res.send(thoughts);
+            if (thoughts) {
+                if (thoughts.length == 1) {
+                    res.send(thoughts[0])
+                } else {
+                    res.send(thoughts);
+                }
             }
-        }
-
-    });
+        });
 
 });
 
@@ -158,6 +190,8 @@ app.post('/api/thought', function(req, res) {
     var thought = new Thought({
         title:          req.body.title,
         description:    req.body.description,
+        expression:     req.body.expression,
+        annotation:     req.body.annotation,
         privacy:        req.body.privacy,
         user_id:        req.user._id,
         date:           new Date()
@@ -171,6 +205,23 @@ app.post('/api/thought', function(req, res) {
 
     });
 
+});
+
+app.get('/api/users', function(req,res) {
+    User.find({}, function(err, users) {
+
+        var users2 = [];
+
+        for (var i=0; i< users.length;i++) {
+            console.log("annotation: " + util.inspect(users[i], false, null));
+            delete users[i].password;
+            console.log("annotation2: " + util.inspect(users[i].password, false, null));
+            users2.push(users[i]);
+        }
+
+        res.send(users2);
+
+    });
 });
 
 app.get('/api/thought/:thought/reply/', function(req, res) {
@@ -198,31 +249,33 @@ app.post('/api/thought/:thought/reply/',function(req, res) {
 
         if (err) console.log(err);
 
-        for (var i = 0; i < req.body.annotations.length; i++) {
+        if (req.body.annotations){
+            for (var i = 0; i < req.body.annotations.length; i++) {
 
-            var annotation = new Annotation({
-                _reply_id:      reply._id,
-                description:    req.body.annotations[i].description,
-                start:          req.body.annotations[i].start,
-                end:            req.body.annotations[i].end,
-                thought_id:     req.body.thought_id,
-                user_id:        req.user._id,
-                date:           new Date()
-            });
+                var annotation = new Annotation({
+                    _reply_id:      reply._id,
+                    description:    req.body.annotations[i].description,
+                    start:          req.body.annotations[i].start,
+                    end:            req.body.annotations[i].end,
+                    thought_id:     req.body.thought_id,
+                    user_id:        req.user._id,
+                    date:           new Date()
+                });
 
-            annotation.save(function(err) {
-
-                if (err) console.log(err);
-
-                reply.annotations.push(annotation);
-                reply.save(function(err){
+                annotation.save(function(err) {
 
                     if (err) console.log(err);
 
+                    reply.annotations.push(annotation);
+                    reply.save(function(err){
+
+                        if (err) console.log(err);
+
+                    });
+
                 });
 
-            });
-
+            }
         }
 
         Thought.find({ _id: req.body.thought_id }, function(err, thought) {

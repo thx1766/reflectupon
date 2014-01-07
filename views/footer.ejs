@@ -1,20 +1,5 @@
 
     </div>
-    <script type="text/template" id="thought-template">
-        <div class="description">{{ description }}</div>
-    </script>
-    <script type="text/template" id="stream-template">
-        <div class="title">{{ title }}</div>
-        <div class="description">{{ description }}</div>
-        <div class="post-footer"><span>{{ privacy }}</span> | <a href="/thought/{{_id}}">View Page</a></div>
-    </script>
-    <script type="text/template" id="single-template">
-        <div class="description">{{ description }}</div>
-    </script>
-    <script type="text/template" id="reply-template">
-        <div class="title">{{ title }}</div>
-        <div class="description">{{ description }}</div>
-    </script>
     <div style="display:none">
         <div id="postbox">
             <div class="postbox-two clearfix">
@@ -23,24 +8,10 @@
                 <button type="button" class="btn btn-primary postbox-send">Go on</button>
             </div>
             <div class="postbox-options">
-                <button type="button" class="btn btn-default postbox-write">Write a poem</button>
                 <p>Using the freewrite you just wrote, write a poem. It's important to recognize the feelings that you felt.</p>
-                <button type="button" class="btn btn-default postbox-sing">Choose a song</button>
-                <p>Choose a song that most associates to your current mood. Write how this song applies to what you had written.</p>
-            </div>
-            <div class="postbox-poem">
-                <p>Write a poem. Any kind qualifies! Why not try writing a haiku? Please use <a href="http://poetrytherapy.org/">http://poetrytherapy.org/</a> as an example</p>
+                <p>Any kind qualifies! Why not try writing a haiku? Please use <a href="http://poetrytherapy.org/">http://poetrytherapy.org/</a> as an example</p>
 
-                <textarea class="form-control" rows="3"></textarea>
-                <button type="button" class="btn btn-primary postbox-submit">Create reflection</button>
-            </div>
-            <div class="postbox-song">
-                <p>Choose a song that most represents your mood. Feel free to use Spotify or Youtube.</p>
-                <div class="form-group">
-                    <input type="email" class="form-control" id="song-link" placeholder="Enter song">
-                </div>
-                <p>Why did you choose this song? (Up to 300 characters)</p>
-                <textarea class="form-control" rows="3"></textarea>
+                <textarea class="form-control" rows="3" id="expression-field"></textarea>
                 <button type="button" class="btn btn-primary postbox-submit">Create reflection</button>
             </div>
         </div>

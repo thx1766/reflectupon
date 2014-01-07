@@ -1,17 +1,115 @@
 <html>
 <head>
+    <link type="text/css" href="/css/jquery.tooltip.css" rel="stylesheet" />
     <link type="text/css" href="/css/style.css" rel="stylesheet" />
     <link type="text/css" href="/css/index.css" rel="stylesheet" />
     <link type="text/css" href="/css/thought.css" rel="stylesheet" />
-    <script type="text/javascript" src="/js/jquery.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/js/underscore.min.js"></script>
-    <script type="text/javascript" src="/js/backbone.min.js"></script>
-    <script type="text/javascript" src="/js/jquery.colorbox-min.js"></script>
-    <scripttype="text/javascript" src="/js/jquery.scrollspy.js"></script>
-    <script type="text/javascript" src="/js/jquery.highlight.js"></script>
-    <script type="text/javascript" src="/js/scripts.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/third-party/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/third-party/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/third-party/underscore.min.js"></script>
+    <script type="text/javascript" src="/js/third-party/backbone.min.js"></script>
+    <script type="text/javascript" src="/js/third-party/jquery.colorbox-min.js"></script>
+    <script type="text/javascript" src="/js/third-party/jquery.scrollspy.js"></script>
+    <script type="text/javascript" src="/js/third-party/jquery.highlight.js"></script>
+    <script type="text/javascript" src="/js/third-party/jquery.tooltip.js"></script>
+    <script type="text/javascript" src="/js/third-party/handlebars.js"></script>
+
+    <script type="text/x-handlebars-template" id="frequency-template">
+        <li class="{{#if num_post}}filled{{/if}}"></li>
+    </script>
+    <script type="text/x-handlebars-template" id="tooltip-template">
+        <div class="heading">You just highlighted:</div>
+        <div class="description">
+            {{ annotation }}
+        </div>
+        <div class="heading">Create your reflection based off of your highlight:</div>
+        <textarea class="reflection"></textarea>
+        <a href="javascript:;" class="submit">Write reflection</a>
+    </script>
+    <script type="text/x-handlebars-template" id="thought-item-template">
+        <div class="description">
+            <textarea>{{ description }}</textarea>
+            {{#if annotation }}
+                <div class="annotation">
+                    <div class="subheading">Your Annotation</div>
+                    <div class="annotation-desc">{{ annotation }}</div>
+                </div>
+            {{/if}}
+        </div>
+        <a href="javascript:;">See individual view</a>
+        <div class="tooltip_description" style="display:none;" title="No worries"></div>
+    </script>
+    <script type="text/x-handlebars-template" id="new-thought-item-template">
+        <a href="javascript:;">
+            <span class="checkbox {{#if replied}}active{{/if}}">
+                <span class="glyphicon glyphicon-ok"></span>
+            </span>
+            <div class="description">{{ description }}</div>
+            <span class="date">written {{ date }}</span>
+        </a>
+    </script>
+    <script type="text/x-handlebars-template" id="dashboard-template">
+        <div class="my-dashboard">
+            <div class="section-title">Post Frequency</div>
+            <div class="post-frequency"></div>
+            <div class="section-title">Recent Actions</div>
+            <div class="message-feed"></div>
+        </div>
+    </script>
+    <script type="text/x-handlebars-template" id="message-template">
+        <div class="message">
+            <div class="heading">
+                You wrote this!
+            </div>
+            <div class="description">
+                {{ description }}
+            </div>
+            <div class="action-text">
+                <a href="javascript:;">Do something!</a>
+            </div>
+        </div>
+    </script>
+    <script type="text/template" id="stream-template">
+        <div class="title">{{ title }}</div>
+        <div class="description">{{ description }}</div>
+        <div class="post-footer"><span>{{ privacy }}</span> | <a href="/thought/{{_id}}">View Page</a></div>
+    </script>
+    <script type="text/template" id="single-template">
+        <div class="description">{{ description }}</div>
+    </script>
+    <script type="text/template" id="reply-template">
+        <div class="title">{{ title }}</div>
+        <div class="description">{{ description }}</div>
+    </script>
+    <script type="text/template" id="single-thought-template">
+        <div id="single-thought">
+            <div id="main-thought">
+                {{ description }}
+            </div>
+            {{#if description2 }}
+                <div class="full-thought">
+                    <div class="show-thought"><a href="javascript:;">Show full reflection</a></div>
+                    <div class="hide-thought hidden"><a href="javascript:;">Hide full reflection</a></div>
+                    <span class="hidden">{{ description2 }}</span>
+                </div>
+            {{/if}}
+            <div class="write-reply">
+                <textarea></textarea>
+                <div class="write-footer clearfix">
+                    <a href="#" class="submit-reply">Submit reply</a>
+                </div>
+            </div>
+            <div class="reply-area hidden">
+            </div>
+        </div>
+    </script>
+    <script type="text/javascript" src="/js/models.js"></script>
+    <script type="text/javascript" src="/js/views/views.js"></script>
+    <script type="text/javascript" src="/js/views/sidebar.js"></script>
+    <script type="text/javascript" src="/js/views/single.js"></script>
+    <script type="text/javascript" src="/js/controller.js"></script>
+
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/third-party/bootstrap.min.js"></script>
 </head>
 <body >
 <% if (topBar) { %>

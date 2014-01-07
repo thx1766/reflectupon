@@ -6,25 +6,30 @@ body.new-ux textarea{margin-bottom:15px;}
 a img{border:0;}
 .hidden{display:none}
 
-#topbar-wrapper{width:100%;height:45px;border-bottom:1px solid #ccc;background-color:rgb(190,111,111);}
+#topbar-wrapper{width:100%;height:45px;border-bottom:1px solid #ccc;background-color:rgb(189, 63, 63);}
 #topbar{width:940px;margin:0 auto;}
 #topbar a{padding:8px;display:inline-block;font-weight:bold;font-size:20px;color:#fff;}
 
-.wrapper{width:940px;margin:0 auto;clear:both;display:block;border-left:1px solid #ccc;border-right:1px solid #ccc;}
+.wrapper{width:940px;margin:0 auto;clear:both;display:block;border-right:1px solid #ccc;}
 #sidebar{float:left;min-height:300px;width:220px;}
 #sidebar a{display:block}
 
-#sidebar li{border-bottom:1px solid #ccc;}
-#sidebar li:first-child{border-top:1px solid #ccc}
 #sidebar .main-options li,#sidebar .new-reflections li{list-style:none;}
+#sidebar .new-reflections li {border: 1px solid rgb(231,231,231);margin: 0 10px 12px;border-radius: 3px;box-shadow: 0 2px 2px rgb(226,226,226);}
 #sidebar .main-options li:hover,#sidebar .new-reflections li:hover{background-color:#eee}
-#sidebar .main-options a,#sidebar .new-reflections a{text-decoration:none;padding:14px 30px;}
-#sidebar .new-reflections a{padding:8px 30px;}
-#sidebar .new-reflections a span{display:block;color:#9e9e9e;font-size:12px;}
-#sidebar p{padding:0 10px;}
+#sidebar .main-options a,#sidebar .new-reflections a{text-decoration:none;padding:14px 20px;}
+#sidebar .new-reflections a{padding:8px 30px 8px 20px}
+#sidebar .new-reflections a .checkbox{position:relative;display: block;border: 1px solid #ccc;height: 24px;width: 24px;float: left;margin-right: 8px;border-radius: 3px;margin-top: 2px;}
+#sidebar .new-reflections a .checkbox.active {background-color: rgb(88, 156, 88);border: 1px solid rgb(88, 156, 88);}
+#sidebar .new-reflections a .checkbox span{position:absolute;left:2px;top:4px;color:transparent;}
+#sidebar .new-reflections a .checkbox.active span{color:#fff}
+#sidebar .new-reflections a .description{padding-left:32px;display:block;color:rgb(163, 50, 50)}
+#sidebar .new-reflections a .date{padding-left:32px;display:block;color:#9e9e9e;font-size:12px;}
+#sidebar .glyphicon-refresh{float: right;display: block;margin-top: 1px;}
+#sidebar p{padding: 10px;background-color: #333;color: #fff;margin-bottom:12px;font-size: 20px;}
 #sidebar .glyphicon{margin-left:3px;}
 
-#container{float:right;min-height:600px;width:718px;padding:10px;border-left:1px solid #ccc;}
+#container{float:right;min-height:600px;width:718px;}
 #container.today{padding:0}
 .today .heading{padding:10px 20px;background-color:#f3f3f3;border-bottom:1px solid #ccc;}
 .today .heading h1{margin-top:10px;}
@@ -37,6 +42,7 @@ a img{border:0;}
 #postbox{background-color:#fff;width:550px;height:400px;padding:15px;}
 .postbox-options,.postbox-poem,.postbox-song{display:none;}
 .postbox-poem textarea, .postbox-song textarea{width:100%;height:150px;margin-bottom:15px;}
+.postbox-options textarea{margin-bottom:20px;}
 .postbox-options button{margin-bottom:15px;}
 .postbox-left{float:left;width:300px;height:300px;margin-right:15px;}
 .postbox-right{float:right;border:1px solid black;width:200px;height:300px;}
@@ -46,10 +52,34 @@ a img{border:0;}
 .postbox-description{display:block;width:100%;height:290px;margin-bottom:15px;resize:none;}
 .postbox-send{width:100%}
 
-.thought-row{margin-bottom:30px;}
+.thoughts-list{background-color:#ccc;padding:10px;position:relative;}
+.thoughts-list.select-text .thought-row{opacity:0.4}
+.thoughts-list.select-text .thought-row.selected{opacity:1}
+.thought-row{margin-bottom:20px;border:1px solid #ccc;border-radius:3px;background-color:#fff;overflow:hidden}
 .thought-row .title{font-weight:bold;font-size:22px;padding-bottom:5px;color:#111;}
-.thought-row .description{line-height:24px;margin-bottom:15px;font-size:16px;}
-.thought-row .post-footer{border-top:1px solid rgb(211,133,133);padding:3px 0;color:rgb(211,133,133);font-size:16px;}
+.thought-row .description{font-size:16px;padding:10px;border-bottom:1px solid #ccc;}
+.thought-row .description textarea{border: 0;outline: none;font-size:14px;width:100%;resize:none}
+.thought-row a{padding: 4px 10px; display:block;text-decoration:none;font-size:14px;}
+.thought-row .annotation{color:rgb(121, 121, 121)}
+.thought-row .annotation .subheading{font-size: 12px;padding: 4px 0 1px;border-top: 1px solid #ccc;}
+
+.tooltip-view textarea{width:300px;border:1px solid #ccc;border-radius:3px;}
+
+.section-title{font-size:36px;margin-bottom:5px;}
+
+/* Message Feed */
+.message-feed .message{border:1px solid #ccc;margin-bottom:20px;}
+.message-feed .heading{border-bottom:1px solid #ccc;padding:5px;}
+.message-feed .description{border-bottom:1px solid #ccc;padding:5px;}
+.message-feed .action-text{padding:5px;}
+
+/* Dashboard */
+.my-dashboard{padding:20px;}
+.my-dashboard li{list-style:none;}
+.post-frequency ul{margin-bottom:20px;}
+.post-frequency li{border:1px solid #ccc;height:20px;width:3.33%;float:left;box-sizing:border-box;border-left:0}
+.post-frequency li:first-child{border-left:1px solid #ccc;}
+.post-frequency li.filled{background-color:rgb(126, 176, 231);}
 
 .clearfix:after {content: ".";display: block;clear: both;visibility: hidden;line-height: 0;height: 0;}
 html[xmlns] .clearfix {display: block;}
@@ -62,5 +92,15 @@ html[xmlns] .clearfix {display: block;}
 
 .highlight{background-color: #F8FFA1;border-radius: 1px;}
 
-#single-thought #main-thought{min-height:100px;}
+#single-thought #main-thought{min-height:100px;font-size:20px;}
 #single-thought .write-reply{border-bottom:1px solid #ccc;}
+
+/* Tooltip view */
+div.jquery-gdakram-tooltip{color:#000;}
+div.jquery-gdakram-tooltip div.content{background-color:#fff;border:1px solid #ccc;box-shadow: 0 2px 3px rgb(192, 192, 192);}
+div.jquery-gdakram-tooltip h1{display:none}
+.tooltip-view{font-family: "Helvetica Neue";color: #444;width:350px;}
+.tooltip-view .heading{margin-bottom: 4px;font-size: 12px;}
+.tooltip-view .description{border: 1px solid #ccc;padding: 5px;border-radius: 2px;font-size: 18px;margin-bottom: 15px;background-color: rgb(246, 255, 179);}
+.tooltip-view .reflection{padding:4px;font-size:16px;line-height:22px;resize: none;width: 100%;height: 80px;margin-bottom:15px;}
+.tooltip-view a{display: block;border: 1px solid #ccc;padding: 10px;margin: 0 auto;width: 100px;text-align: center;text-decoration: none;color: #fff;background-color: rgb(156, 62, 62);border-radius: 4px;}
