@@ -11,16 +11,16 @@ a img{border:0;}
 #topbar a{padding:8px;display:inline-block;font-weight:bold;font-size:20px;color:#fff;}
 
 .wrapper{width:940px;margin:0 auto;clear:both;display:block;}
-#sidebar{float:left;min-height:300px;width:220px;}
+#sidebar{float:left;min-height:300px;width:210px;}
 #sidebar a{display:block}
 
 #sidebar .main-options{padding:10px 0}
 #sidebar .main-options li,#sidebar .new-reflections li{list-style:none;}
 #sidebar .new-reflections li {margin: 0 10px;}
 #sidebar .main-options a,#sidebar .new-reflections a{text-decoration:none;padding:10px 20px;}
-#sidebar .main-options a{font-size:18px;color:rgb(55, 107, 173);background-color:#fff;margin-bottom:8px;border-left:4px solid #ccc;box-shadow:0 2px 2px rgb(230,230,230)}
+#sidebar .main-options a{font-size:18px;color:rgb(55, 107, 173);background-color:#fff;margin-bottom:8px;border-left:4px solid rgb(226,226,226);box-shadow:0 2px 2px rgb(230,230,230)}
 #sidebar .main-options a:hover{border-left:4px solid rgb(201,128,128)}
-#sidebar .new-reflections{background-color:#fff;border-left:4px solid #ccc;box-shadow:0 2px 2px rgb(230,230,230);padding:10px 0}
+#sidebar .new-reflections{background-color:#fff;border-left:4px solid rgb(226,226,226);box-shadow:0 2px 2px rgb(230,230,230);padding:10px 0}
 #sidebar .new-reflections a{padding:8px 6px 8px 10px}
 #sidebar .new-reflections a .checkbox{position:relative;display: block;border: 1px solid #ccc;height: 16px;width: 16px;float: left;margin-right: 8px;border-radius: 4px;margin-top: 2px;}
 #sidebar .new-reflections a .checkbox.active {background-color: rgb(127, 196, 127);border: 1px solid rgb(122, 153, 122);}
@@ -59,12 +59,12 @@ a img{border:0;}
 .thoughts-list{padding:10px;position:relative;}
 .thoughts-list.select-text .thought-row{opacity:0.4}
 .thoughts-list.select-text .thought-row.selected{opacity:1}
-.thought-row{margin-bottom:18px;border-radius:3px;background-color:#fff;overflow:hidden;box-shadow:0 1px 4px rgb(175,175,175)}
+.thought-row{margin-bottom:20px;background-color:#fff;overflow:hidden;box-shadow:0 2px 8px rgb(148,139,139)}
 .thought-row .title{font-weight:bold;font-size:22px;padding-bottom:5px;color:#111;}
-.thought-row .description{font-size:18px;padding:10px;color:rgb(107, 107, 107);}
+.thought-row .description{font-size:20px;padding:16px 12px;color:rgb(107, 107, 107);line-height:24px;}
 .thought-row .description textarea{border: 0;outline: none;font-size:14px;width:100%;resize:none}
-.thought-row a{text-decoration:none;font-size:14px;color:rgb(79,94,199)}
-.thought-row .annotation{color:#fff;font-size: 11px;padding: 6px 10px;font-family:arial;background-color:rgb(185,124,124)}
+.thought-row a{text-decoration:none;font-size:16px;color:rgb(79,94,199)}
+.thought-row .annotation{color:#fff;font-size: 11px;padding: 6px 10px;font-family:arial;background-color:rgb(160,56,56)}
 
 .tooltip-view textarea{width:300px;border:1px solid #ccc;border-radius:3px;}
 
