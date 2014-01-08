@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ed4bb94b-2f63-454f-9177-be96ad4048a1" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/style.css" afterPath="$PROJECT_DIR$/public/css/style.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/topbar.ejs" afterPath="$PROJECT_DIR$/views/topbar.ejs" />
     </list>
     <ignored path="reflectupon.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -30,15 +29,6 @@
         <entry file="file://$PROJECT_DIR$/server.js">
           <provider selected="true" editor-type-id="text-editor">
             <state line="171" column="0" selection-start="5436" selection-end="5436" vertical-scroll-proportion="0.0" vertical-offset="2250" max-vertical-offset="5145">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="thought.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/routes/thought.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="892" max-vertical-offset="1575">
               <folding />
             </state>
           </provider>
@@ -92,16 +82,25 @@
       <file leaf-file-name="header.ejs" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/header.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="48" column="53" selection-start="2548" selection-end="2548" vertical-scroll-proportion="-5.5384617" vertical-offset="576" max-vertical-offset="1860">
+            <state line="101" column="18" selection-start="4737" selection-end="4737" vertical-scroll-proportion="-12.038462" vertical-offset="1202" max-vertical-offset="1860">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="style.css" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="topbar.ejs" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/views/topbar.ejs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="3" column="70" selection-start="313" selection-end="313" vertical-scroll-proportion="0.067064084" vertical-offset="0" max-vertical-offset="671">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="style.css" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/css/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="65" column="48" selection-start="4338" selection-end="4338" vertical-scroll-proportion="0.4883721" vertical-offset="660" max-vertical-offset="1710">
+            <state line="50" column="45" selection-start="3081" selection-end="3081" vertical-scroll-proportion="-3.4615386" vertical-offset="660" max-vertical-offset="1710">
               <folding />
             </state>
           </provider>
@@ -135,7 +134,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/views/single.ejs" />
         <option value="$PROJECT_DIR$/public/js/views.js" />
         <option value="$PROJECT_DIR$/views/footer.ejs" />
         <option value="$PROJECT_DIR$/public/js/views/single.js" />
@@ -151,13 +149,14 @@
         <option value="$PROJECT_DIR$/views/header.ejs" />
         <option value="$PROJECT_DIR$/server.js" />
         <option value="$PROJECT_DIR$/public/css/style.css" />
+        <option value="$PROJECT_DIR$/views/topbar.ejs" />
       </list>
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="-83" />
-    <option name="y" value="350" />
+    <option name="x" value="2" />
+    <option name="y" value="118" />
     <option name="width" value="1440" />
     <option name="height" value="830" />
   </component>
@@ -542,7 +541,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-83" y="350" width="1440" height="830" extended-state="0" />
+    <frame x="2" y="118" width="1440" height="830" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4679878" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -607,11 +606,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/views/single.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="17" selection-start="586" selection-end="586" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="930" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/mongoose/node_modules/ms/test/support/jquery.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="8331" column="6" selection-start="222575" selection-end="222575" vertical-scroll-proportion="0.0" vertical-offset="124757" max-vertical-offset="138870" />
@@ -679,13 +673,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/header.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="53" selection-start="2548" selection-end="2548" vertical-scroll-proportion="-5.5384617" vertical-offset="576" max-vertical-offset="1860">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/js/views/sidebar.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="40" column="48" selection-start="1229" selection-end="1229" vertical-scroll-proportion="0.0" vertical-offset="525" max-vertical-offset="1605">
@@ -702,7 +689,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/css/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="65" column="48" selection-start="4338" selection-end="4338" vertical-scroll-proportion="0.4883721" vertical-offset="660" max-vertical-offset="1710">
+        <state line="50" column="45" selection-start="3081" selection-end="3081" vertical-scroll-proportion="-3.4615386" vertical-offset="660" max-vertical-offset="1710">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/header.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="101" column="18" selection-start="4737" selection-end="4737" vertical-scroll-proportion="-12.038462" vertical-offset="1202" max-vertical-offset="1860">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/topbar.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="70" selection-start="313" selection-end="313" vertical-scroll-proportion="0.067064084" vertical-offset="0" max-vertical-offset="671">
           <folding />
         </state>
       </provider>
