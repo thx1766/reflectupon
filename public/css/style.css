@@ -1,5 +1,5 @@
 * {padding:0; margin:0}
-body{color:#444;}
+body{color:#444;background-color:#f5f5f5}
 body.new-ux{background-color:rgb(190,111,111)}
 body.new-ux .wrapper{width:600px;padding:20px;background-color:#fff;margin-top:30px;border-radius:2px;box-shadow:0 2px 6px #5e5e5e}
 body.new-ux textarea{margin-bottom:15px;}
@@ -10,23 +10,26 @@ a img{border:0;}
 #topbar{width:940px;margin:0 auto;}
 #topbar a{padding:8px;display:inline-block;font-weight:bold;font-size:20px;color:#fff;}
 
-.wrapper{width:940px;margin:0 auto;clear:both;display:block;border-right:1px solid #ccc;}
+.wrapper{width:940px;margin:0 auto;clear:both;display:block;}
 #sidebar{float:left;min-height:300px;width:220px;}
 #sidebar a{display:block}
 
+#sidebar .main-options{padding:10px 0}
 #sidebar .main-options li,#sidebar .new-reflections li{list-style:none;}
-#sidebar .new-reflections li {border: 1px solid rgb(231,231,231);margin: 0 10px 12px;border-radius: 3px;box-shadow:0 2px 2px rgb(252, 252, 252)}
-#sidebar .main-options li:hover,#sidebar .new-reflections li:hover{background-color:#eee}
-#sidebar .main-options a,#sidebar .new-reflections a{text-decoration:none;padding:14px 20px;}
-#sidebar .new-reflections a{padding:8px 30px 8px 20px}
-#sidebar .new-reflections a .checkbox{position:relative;display: block;border: 1px solid #ccc;height: 24px;width: 24px;float: left;margin-right: 8px;border-radius: 3px;margin-top: 2px;}
-#sidebar .new-reflections a .checkbox.active {background-color: rgb(88, 156, 88);border: 1px solid rgb(88, 156, 88);}
+#sidebar .new-reflections li {margin: 0 10px;}
+#sidebar .main-options a,#sidebar .new-reflections a{text-decoration:none;padding:10px 20px;}
+#sidebar .main-options a{font-size:18px;color:rgb(55, 107, 173);background-color:#fff;margin-bottom:8px;border-left:4px solid #ccc;box-shadow:0 2px 2px rgb(230,230,230)}
+#sidebar .main-options a:hover{border-left:4px solid rgb(201,128,128)}
+#sidebar .new-reflections{background-color:#fff;border-left:4px solid #ccc;box-shadow:0 2px 2px rgb(230,230,230);padding:10px 0}
+#sidebar .new-reflections a{padding:8px 6px 8px 10px}
+#sidebar .new-reflections a .checkbox{position:relative;display: block;border: 1px solid #ccc;height: 16px;width: 16px;float: left;margin-right: 8px;border-radius: 4px;margin-top: 2px;}
+#sidebar .new-reflections a .checkbox.active {background-color: rgb(127, 196, 127);border: 1px solid rgb(122, 153, 122);}
 #sidebar .new-reflections a .checkbox span{position:absolute;left:2px;top:4px;color:transparent;}
 #sidebar .new-reflections a .checkbox.active span{color:#fff}
-#sidebar .new-reflections a .description{padding-left:32px;display:block;color:rgb(163, 50, 50)}
-#sidebar .new-reflections a .date{padding-left:32px;display:block;color:#9e9e9e;font-size:12px;}
+#sidebar .new-reflections a .description{padding-left:24px;display:block;color:rgb(180, 112, 112)}
+#sidebar .new-reflections a .date{padding-left:24px;display:block;color:#9e9e9e;font-size:12px;}
 #sidebar .glyphicon-refresh{float: right;display: block;margin-top: 1px;}
-#sidebar p{padding: 10px;background-color: #333;color: #fff;margin-bottom:12px;font-size: 20px;}
+#sidebar p{padding: 6px;color: rgb(100,100,100);margin-bottom:12px;font-size: 22px;}
 #sidebar .glyphicon{margin-left:3px;}
 
 #container{float:right;min-height:600px;width:718px;}
@@ -48,11 +51,12 @@ a img{border:0;}
 .postbox-right{float:right;border:1px solid black;width:200px;height:300px;}
 .postbox-footer{padding:20px;background-color:#ccc;}
 
+.postbox-two p{margin-bottom:10px;font-size:18px;}
 .postbox-title{display:block;height:30px;width:100%;margin-bottom:15px;}
-.postbox-description{display:block;width:100%;height:290px;margin-bottom:15px;resize:none;}
-.postbox-send{width:100%}
+.postbox-description{display:block;width:100%;height:200px;margin-bottom:25px;resize:none;padding:10px;border:1px solid rgb(187,187,187);border-radius:6px;font-size:16px;box-shadow:inset 0 1px 6px rgb(241,241,241)}
+.postbox-send {height: 36px;border-radius: 6px;background-color: rgb(180, 67, 67);color: #fff;font-size: 16px;border: 1px solid #ccc;padding: 0 40px;box-shadow: inset 0 1px 1px rgb(255, 166, 166);margin: 0 auto;display: block;}
 
-.thoughts-list{background-color:#ccc;padding:10px;position:relative;}
+.thoughts-list{padding:10px;position:relative;}
 .thoughts-list.select-text .thought-row{opacity:0.4}
 .thoughts-list.select-text .thought-row.selected{opacity:1}
 .thought-row{margin-bottom:18px;border-radius:3px;background-color:#fff;overflow:hidden;box-shadow:0 1px 4px rgb(175,175,175)}
