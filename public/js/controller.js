@@ -5,7 +5,7 @@ window.rupon.utils = window.rupon.utils || {};
 (function() {
 
     var rc = window.rupon.controllers,
-        allThoughts, dashboardView, singleView, tooltipView, elem,
+        allThoughts, dashboardView, singleView, tooltipView, postboxView, elem,
         my_thoughts_collection, other_thoughts_collection;
 
     rc.startPage = function(options) {
@@ -30,7 +30,11 @@ window.rupon.utils = window.rupon.utils || {};
 
         sidebarView
             .on("create-reflection", function() {
-                var postboxView = new rupon.views.PostboxView({collection: my_thoughts_collection}) })
+                rc.resetViews({tooltip_view: true});
+                postboxView = new rupon.views.PostboxView({collection: my_thoughts_collection})
+                $("#postbox-container").html(postboxView.$el);
+                $.colorbox({inline:true, href:".postbox"});
+            })
             .on("view-dashboard", function() {
                 rc.resetViews();
                 rc.setDashboard(); })
@@ -45,10 +49,24 @@ window.rupon.utils = window.rupon.utils || {};
 
     };
 
-    rc.resetViews = function() {
-        if (singleView)    singleView.remove();
-        if (dashboardView) dashboardView.remove();
-        if (allThoughts)   allThoughts.remove();
+    /* reset all views unless otherwise stated in params */
+    rc.resetViews = function(options) {
+
+        options = options || {all_views: true};
+
+        if (options.all_views || options.tooltip_view) {
+            $(".thoughts-list").removeClass("select-text");
+            $(".thought-row").removeClass("selected").trigger("tooltip-end");
+            if (tooltipView) tooltipView.remove();
+            if (postboxView) postboxView.remove();
+        }
+
+        if (options.all_views) {
+            $("body").scrollTop(0);
+            if (singleView)    singleView.remove();
+            if (dashboardView) dashboardView.remove();
+            if (allThoughts)   allThoughts.remove();
+        }
     };
 
     rc.setDashboard = function() {
@@ -80,17 +98,29 @@ window.rupon.utils = window.rupon.utils || {};
             event_in: "tooltip-start",
             event_out: "tooltip-end",
             opacity: 1,
-            on_complete: setTooltipView
+            on_complete: setTooltipView,
+            arrow_left_offset: 280
         });
 
         allThoughts.on("start-tooltip", function(ele) {
             if (elem != ele) {
                 elem = ele;
 
-                if (tooltipView) tooltipView.remove();
+                $("body").animate({scrollTop:(ele.offset().top - 20)}, '20000', 'swing');
+
                 $(".thought-row").trigger("tooltip-end");
+                if (tooltipView) tooltipView.remove();
 
                 elem.trigger("tooltip-start");
+
+                $(document).click(function(event) {
+                    if($(event.target).parents().index($('.jquery-gdakram-tooltip')) == -1) {
+                        if($('.jquery-gdakram-tooltip').is(":visible")) {
+                            elem.trigger("tooltip-end");
+                            rc.resetViews({tooltip_view:true});
+                        }
+                    }
+                })
             }
         });
     }
