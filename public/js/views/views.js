@@ -173,8 +173,8 @@ window.rupon.views = window.rupon.views || {};
             options = options || {};
             options.showMore = options.showMore || false;
 
-            if (!options.showMore && formatThought.description.length >350) {
-                formatThought.description = formatThought.description.trim().substring(0,330).split(" ").slice(0, -1).join(" ").replace(/\n/g,"<br>") + "...";
+            if (!options.showMore && formatThought.description.length >300) {
+                formatThought.description = formatThought.description.trim().substring(0,300).split(" ").slice(0, -1).join(" ").replace(/\n/g,"<br>") + "...";
                 formatThought.read_more = true;
             }
 
