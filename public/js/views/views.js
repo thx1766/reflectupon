@@ -174,7 +174,7 @@ window.rupon.views = window.rupon.views || {};
             options.showMore = options.showMore || false;
 
             if (!options.showMore && formatThought.description.length >350) {
-                formatThought.description = formatThought.description.trim().substring(0,350).split(" ").slice(0, -1).join(" ").replace(/\n/g,"<br>") + "...";
+                formatThought.description = formatThought.description.trim().substring(0,330).split(" ").slice(0, -1).join(" ").replace(/\n/g,"<br>") + "...";
                 formatThought.read_more = true;
             }
 
