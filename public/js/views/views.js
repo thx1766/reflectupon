@@ -78,7 +78,7 @@ window.rupon.views = window.rupon.views || {};
 
         render: function() {
             var self = this;
-            _.each(this.collection.models, function(model) {
+            _.each(_.first(this.collection.models,3), function(model) {
                 var message = new rv.MessageView({model: model});
                 self.$el.append(message.$el);
             })
@@ -198,7 +198,7 @@ window.rupon.views = window.rupon.views || {};
     rv.ThoughtItemView = Backbone.View.extend({
 
         tagName:   "div",
-        className: "thought-row tooltipbottom",
+        className: "thought-row tooltipbottom section",
         template: Handlebars.compile($("#thought-item-template").html()),
 
         events: {
@@ -279,7 +279,9 @@ window.rupon.views = window.rupon.views || {};
     });
 
     rv.PostboxView = Backbone.View.extend({
-        el: "#postbox",
+        tagName: "div",
+        className: "postbox",
+        template: Handlebars.compile($("#postbox-template").html()),
 
         events: {
 
@@ -295,6 +297,7 @@ window.rupon.views = window.rupon.views || {};
             this.title          = this.$('.postbox-title');
             this.description    = this.$('.postbox-description');
             this.privacy        = this.$('.postbox-privacy');
+            this.$el.html(this.template());
 
         },
 

@@ -3,7 +3,7 @@
     <link type="text/css" href="/css/jquery.tooltip.css" rel="stylesheet" />
     <link type="text/css" href="/css/style.css" rel="stylesheet" />
     <link type="text/css" href="/css/index.css" rel="stylesheet" />
-    <link type="text/css" href="/css/thought.css" rel="stylesheet" />
+    <link type="text/css" href="/css/single.css" rel="stylesheet" />
     <script type="text/javascript" src="/js/third-party/jquery.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/third-party/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/third-party/underscore.min.js"></script>
@@ -14,6 +14,20 @@
     <script type="text/javascript" src="/js/third-party/jquery.tooltip.js"></script>
     <script type="text/javascript" src="/js/third-party/handlebars.js"></script>
 
+    <script type="text/x-handlebars-template" id="postbox-template">
+        <div class="postbox-two clearfix">
+            <p>How did you feel today? Don't hesitate to write freely.</p>
+            <textarea class="form-control postbox-description" rows="10"></textarea>
+            <button type="button" class="btn btn-primary postbox-send">Go on</button>
+        </div>
+        <div class="postbox-options">
+            <p>Using the freewrite you just wrote, write a poem. It's important to recognize the feelings that you felt.</p>
+            <p>Any kind qualifies! Why not try writing a haiku? Please use <a href="http://poetrytherapy.org/">http://poetrytherapy.org/</a> as an example</p>
+
+            <textarea class="form-control" rows="3" id="expression-field"></textarea>
+            <button type="button" class="btn btn-primary postbox-submit">Create reflection</button>
+        </div>
+    </script>
     <script type="text/x-handlebars-template" id="frequency-template">
         <li class="{{#if num_post}}filled{{/if}}"></li>
     </script>
@@ -24,7 +38,7 @@
         </div>
         <div class="heading">Create your reflection based off of your highlight:</div>
         <textarea class="reflection"></textarea>
-        <a href="javascript:;" class="submit">Write reflection</a>
+        <button class="btn submit">Write reflection</button>
     </script>
     <script type="text/x-handlebars-template" id="thought-item-template">
         <div class="description">
@@ -52,9 +66,13 @@
     <script type="text/x-handlebars-template" id="dashboard-template">
         <div class="my-dashboard">
             <div class="section-title">Post Frequency</div>
-            <div class="post-frequency"></div>
+            <div class="section container">
+                <div class="post-frequency"></div>
+            </div>
             <div class="section-title">Recent Actions</div>
-            <div class="message-feed"></div>
+            <div class="section">
+                <div class="message-feed"></div>
+            </div>
         </div>
     </script>
     <script type="text/x-handlebars-template" id="message-template">
@@ -84,7 +102,7 @@
     </script>
     <script type="text/template" id="single-thought-template">
         <div id="single-thought">
-            <div id="main-thought">
+            <div class="section container" id="main-thought">
                 {{ description }}
             </div>
             {{#if description2 }}
@@ -94,12 +112,13 @@
                     <span class="hidden">{{ description2 }}</span>
                 </div>
             {{/if}}
-            <div class="write-reply">
+            <div class="section container write-reply">
                 <textarea></textarea>
                 <div class="write-footer clearfix">
-                    <a href="#" class="submit-reply">Submit reply</a>
+                    <button class="btn submit-reply">Submit reply</button>
                 </div>
             </div>
+            <hr />
             <div class="reply-area hidden">
             </div>
         </div>

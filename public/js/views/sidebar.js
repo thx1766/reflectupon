@@ -86,7 +86,6 @@ window.rupon.views = window.rupon.views || {};
 
         showPostbox: function() {
             this.trigger("create-reflection");
-            $.colorbox({inline:true, href:"#postbox"});
         },
 
         showDashboard: function() {

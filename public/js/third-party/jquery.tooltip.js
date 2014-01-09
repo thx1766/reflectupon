@@ -71,7 +71,7 @@
             dialog_elm = $(["<div class='jquery-gdakram-tooltip'>",
                 "<div class='up_arrow arrow'></div>",
                 "<div class='left_arrow arrow'></div>",
-                "<div class='content'>" + header + $(content_elm).html() + "</div>",
+                "<div class='content arrow_box'>" + header + $(content_elm).html() + "</div>",
                 "<div style='clear:both'></div>",
                 "<div class='down_arrow arrow'></div>",
                 "</div>"
