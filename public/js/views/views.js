@@ -119,8 +119,6 @@ window.rupon.views = window.rupon.views || {};
 
         initialize: function(options) {
 
-            //_.bindAll(this, 'detectScroll');
-
             this.collection.on('reset', this.render, this );
             this.collection.on('add', this.displayItem, this);
 
@@ -145,53 +143,7 @@ window.rupon.views = window.rupon.views || {};
                 self.trigger.apply(this, arguments);
             });
 
-            /*
-
-            var position = formatThought.$el.position();
-            //console.log(position);
-            //console.log('min: ' + position.top + ' / max: ' + parseInt(position.top + $(this).height()));
-            formatThought.$el.scrollspy({
-                min: position.top -30,
-                max: position.top + formatThought.$el.height() -30,
-                onEnter: function(element, position) {
-                    if(console) console.log('entering ' +  element.id);
-                    var replies = new Replies();
-                    replies.thoughtId = formatThought.model.get("_id");
-                    replies.fetch({ reset: true });
-
-                    replies.on("reset", function() {
-
-                        var test = "";
-
-                        _.each( replies.models, function(reply) {
-                            test += reply.get("description") + "<br />";
-                        },this);
-
-                        $(".annotations-list").html(test);
-
-                    });
-
-                    formatThought = null;
-                },
-                onLeave: function(element, position) {
-                    if(console) console.log('leaving ' +  element.id);
-                }
-            });
-
-            */
-
-
         },
-
-        detectScroll: function() {
-
-            //$(window).scrollTop();
-            //var rect = document.getElementById("main").getBoundingClientRect();
-            //console.log(rect.top, rect.right, rect.bottom, rect.left);
-
-
-
-        }
 
     });
 
@@ -214,14 +166,18 @@ window.rupon.views = window.rupon.views || {};
             this.render();
         },
 
-        render: function() {
+        render: function(options) {
 
             var formatThought = this.model.toJSON();
 
-            if (formatThought.description.length >350) {
+            options = options || {};
+            options.showMore = options.showMore || false;
+
+            if (!options.showMore && formatThought.description.length >350) {
                 formatThought.description = formatThought.description.trim().substring(0,350).split(" ").slice(0, -1).join(" ").replace(/\n/g,"<br>") + "...";
                 formatThought.read_more = true;
             }
+
             var outputHtml = this.template(formatThought);
             this.$el.html(outputHtml);
         },
@@ -231,7 +187,10 @@ window.rupon.views = window.rupon.views || {};
         },
 
         showSingle: function() {
-            this.trigger("single-view", this.model);
+            var attrs = {
+                showMore: true
+            }
+            this.render(attrs);
         },
 
         takeAnnotation: function() {
