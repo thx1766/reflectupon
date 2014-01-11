@@ -197,8 +197,10 @@
                 }
                 else {
                     //dialog_elm.unbind();
-                    dialog_elm.stop().remove();
-                    delete tooltip_map[dom_id];
+                    dialog_elm.fadeOut(function() {
+                        dialog_elm.stop().remove();
+                        delete tooltip_map[dom_id];
+                    });
                 }
             }
         }

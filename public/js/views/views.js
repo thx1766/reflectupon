@@ -143,7 +143,7 @@ window.rupon.views = window.rupon.views || {};
                 self.trigger.apply(this, arguments);
             });
 
-        },
+        }
 
     });
 
@@ -210,12 +210,12 @@ window.rupon.views = window.rupon.views || {};
     });
 
     rv.TooltipView = Backbone.View.extend({
-        tagName: "div",
+        tagName:   "div",
         className: "tooltip-view",
-        template: Handlebars.compile($("#tooltip-template").html()),
+        template:  Handlebars.compile($("#tooltip-template").html()),
 
         events: {
-            'click a': 'createReflection'
+            'click button': 'createReflection'
         },
 
         initialize: function(options) {
@@ -228,8 +228,7 @@ window.rupon.views = window.rupon.views || {};
         },
 
         createReflection: function(){
-
-            this.collection.create({
+            this.trigger("create-reflection", {
                 description:    this.$el.find("textarea").val(),
                 annotation:     this.annotation
             });
@@ -238,24 +237,21 @@ window.rupon.views = window.rupon.views || {};
     });
 
     rv.PostboxView = Backbone.View.extend({
-        tagName: "div",
+        tagName:   "div",
         className: "postbox",
-        template: Handlebars.compile($("#postbox-template").html()),
+        template:  Handlebars.compile($("#postbox-template").html()),
 
         events: {
 
-            'click .postbox-send': 'goStep2',
-            'click .postbox-write': 'poemPrompt',
-            'click .postbox-sing': 'songPrompt',
+            'click .postbox-send':   'goStep2',
+            'click .postbox-write':  'poemPrompt',
+            'click .postbox-sing':   'songPrompt',
             'click .postbox-submit': 'submitReflection'
 
         },
 
         initialize: function() {
 
-            this.title          = this.$('.postbox-title');
-            this.description    = this.$('.postbox-description');
-            this.privacy        = this.$('.postbox-privacy');
             this.$el.html(this.template());
 
         },
@@ -286,10 +282,9 @@ window.rupon.views = window.rupon.views || {};
 
             this.collection.create({
 
-                title:          this.title.val(),
-                description:    this.description.val(),
-                expression:     this.$el.find("#expression-field").val(),
-                privacy:        this.privacy.val()
+                title:          this.$el.find(".postbox-title").val(),
+                description:    this.$el.find(".postbox-description").val(),
+                expression:     this.$el.find("#expression-field").val()
 
             });
         }
