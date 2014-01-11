@@ -31,9 +31,14 @@ window.rupon.utils = window.rupon.utils || {};
         sidebarView
             .on("create-reflection", function() {
                 rc.resetViews({tooltip_view: true});
+
                 postboxView = new rupon.views.PostboxView({collection: my_thoughts_collection})
                 $("#postbox-container").html(postboxView.$el);
-                $.colorbox({inline:true, href:".postbox"});
+
+                $.colorbox({
+                    inline:true,
+                    href:".postbox"
+                });
             })
             .on("view-dashboard", function() {
                 rc.resetViews();
@@ -92,13 +97,18 @@ window.rupon.utils = window.rupon.utils || {};
             tooltipView = new rupon.views.TooltipView({collection: my_thoughts_collection, annotation: text});
             $(".jquery-gdakram-tooltip").find(".content").html(tooltipView.$el);
 
+            tooltipView.on("create-reflection", function(attrs) {
+                my_thoughts_collection.create(attrs);
+                rc.resetViews({tooltip_view:true});
+            });
+
         }
 
         $(".thought-row").tooltip({
-            event_in: "tooltip-start",
-            event_out: "tooltip-end",
-            opacity: 1,
-            on_complete: setTooltipView,
+            event_in:          "tooltip-start",
+            event_out:         "tooltip-end",
+            opacity:           1,
+            on_complete:       setTooltipView,
             arrow_left_offset: 280
         });
 
