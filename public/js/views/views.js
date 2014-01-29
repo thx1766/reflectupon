@@ -186,7 +186,8 @@ window.rupon.views = window.rupon.views || {};
 
             var template_options = _.clone(this.model.attributes);
 
-            template_options.showMore = template_options.showMore || false;
+            options = options || {};
+            template_options.showMore = options.showMore || false;
 
             if (!template_options.showMore && template_options.description.length >300) {
                 template_options.description = template_options.description.trim().substring(0,300).split(" ").slice(0, -1).join(" ").replace(/\n/g,"<br>") + "...";
