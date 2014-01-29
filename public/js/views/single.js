@@ -12,8 +12,7 @@ window.rupon.views = window.rupon.views || {};
         events: {
             'click .submit-reply': 'submitReply',
             //'mouseup #main-thought': 'createAnnotation',
-            'click .show-thought': 'showThought',
-            'click .hide-thought': 'hideThought'
+            'click .show-thought': 'showThought'
         },
 
         template: Handlebars.compile($("#single-thought-template").html()),
@@ -58,15 +57,7 @@ window.rupon.views = window.rupon.views || {};
         },
 
         showThought: function() {
-            this.$el.find(".full-thought").find("span").removeClass("hidden");
-            this.$el.find(".show-thought").addClass("hidden");
-            this.$el.find(".hide-thought").removeClass("hidden");
-        },
-
-        hideThought: function() {
-            this.$el.find(".full-thought").find("span").addClass("hidden");
-            this.$el.find(".show-thought").removeClass("hidden");
-            this.$el.find(".hide-thought").addClass("hidden");
+            this.$el.find(".full-thought").addClass("expanded");
         },
 
         submitReply: function(e) {
@@ -81,99 +72,6 @@ window.rupon.views = window.rupon.views || {};
             });
 
         }
-
-        /*
-         showAnnotations: function() {
-         _.each( singleAnnotations.models, this.displayAnnotation, this);
-
-         var description = $("#main-thought").find(".description");
-
-         for (var y=0; y<highlightSet.length; y++) {
-
-         description.highlight( description.text().substring(highlightSet[y].start, highlightSet[y].end));
-
-         }
-
-         },
-
-         displayReply: function(reply) {
-         var formatReply = new ReplyItemView({ model:reply});
-         formatReply.render();
-
-         $(".reply-area").prepend( formatReply.el );
-         },
-
-         displayAnnotation: function(annotation) {
-
-         var start = annotation.get("start"),
-         end = annotation.get("end")
-
-         var overlap = false;
-
-         if (start && end) {
-         for (var x=0; x<highlightSet.length; x++) {
-
-         if (start < highlightSet[x].start && end > highlightSet[x].end) {
-         highlightSet[x].start = start;
-         highlightSet[x].end = end;
-         overlap = true;
-         break;
-         }
-
-         if (start > highlightSet[x].start && end < highlightSet[x].end) {
-         overlap = true;
-         break;
-         }
-
-         if (end > highlightSet[x].start && start < highlightSet[x].start) {
-         highlightSet[x].start = start;
-         overlap = true;
-         break;
-         }
-
-         if (start < highlightSet[x].end && end > highlightSet[x].end) {
-         highlightSet[x].end = end;
-         overlap = true;
-         break;
-         }
-
-         }
-
-         if (!overlap) {
-         highlightSet.push({start: start, end: end});
-         }
-         }
-
-         },
-
-         createAnnotation: function(){
-         var selection;
-
-         if (window.getSelection) {
-         selection = window.getSelection();
-         } else if (document.selection) {
-         selection = document.selection.createRange();
-         }
-
-         var selectionText = selection.toString()
-         selectionText !== '' && $('#main-thought').highlight(selectionText);
-
-         var paragraph = $("#main-thought").find(".description").text();
-         var start = paragraph.indexOf(selectionText);
-         var end = start + selectionText.length;
-
-         this.annotations.push({
-         description: selectionText,
-         start:       start,
-         end:         end
-         });
-         console.log(this.annotations);
-         }
-         */
-    });
-
-    rv.Single.AllReplyView = Backbone.View.extend({
-
     });
 
     rv.Single.ReplyView = Backbone.View.extend({

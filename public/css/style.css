@@ -8,33 +8,63 @@ textarea{border:1px solid #ccc;border-radius:3px;padding:4px;font-size:16px;line
 button.btn{display: block;border: 1px solid #ccc;padding: 10px;text-decoration: none;color: #fff;background-color: rgb(156, 62, 62);border-radius: 4px;font-size:16px;font-family:arial}
 .hidden{display:none}
 
-#topbar-wrapper{width:100%;height:45px;border-bottom:1px solid #ccc;background-color:rgb(189, 63, 63);}
-#topbar{width:940px;margin:0 auto;}
-#topbar a{padding:8px;display:inline-block;font-weight:bold;font-size:20px;color:#fff;}
+#topbar-wrapper{width:100%;height:45px;background-color:rgb(189, 63, 63);box-shadow:0 2px 3px rgb(133, 27, 27)}
+#topbar{width:940px;margin:0 auto;font-family:arial;}
+#topbar a{padding:9px 0;display:inline-block;font-size:24px;color:#fff;text-decoration:none;letter-spacing:1px;}
+#topbar a.icon{float:right;margin-left:30px;margin-top:2px;}
 
 .wrapper{width:940px;margin:0 auto;clear:both;display:block;}
-#sidebar{float:left;min-height:300px;width:210px;position:fixed;}
+#sidebar{float:left;min-height:300px;width:50px;position:fixed;}
 #sidebar a{display:block}
 
 #sidebar .main-options{padding:10px 0}
 #sidebar .main-options li,#sidebar .new-reflections li{list-style:none;}
-#sidebar .new-reflections li {margin: 0 10px;}
 #sidebar .main-options a,#sidebar .new-reflections a{text-decoration:none;padding:10px 20px;}
 #sidebar .main-options a{font-size:18px;color:rgb(55, 107, 173);background-color:#fff;margin-bottom:8px;border-left:4px solid rgb(226,226,226);box-shadow:0 2px 2px rgb(230,230,230)}
 #sidebar .main-options a:hover{border-left:4px solid rgb(201,128,128)}
-#sidebar .new-reflections{background-color:#fff;border-left:4px solid rgb(226,226,226);box-shadow:0 2px 2px rgb(230,230,230);padding:10px 0}
-#sidebar .new-reflections a{padding:8px 6px 8px 10px}
-#sidebar .new-reflections a .checkbox{position:relative;display: block;border: 1px solid #ccc;height: 16px;width: 16px;float: left;margin-right: 8px;border-radius: 4px;margin-top: 2px;}
-#sidebar .new-reflections a .checkbox.active {background-color: rgb(127, 196, 127);border: 1px solid rgb(122, 153, 122);}
-#sidebar .new-reflections a .checkbox span{position:absolute;left:2px;top:4px;color:transparent;}
-#sidebar .new-reflections a .checkbox.active span{color:#fff}
-#sidebar .new-reflections a .description{padding-left:24px;display:block;color:rgb(180, 112, 112)}
-#sidebar .new-reflections a .date{padding-left:24px;display:block;color:#9e9e9e;font-size:12px;}
+
 #sidebar .glyphicon-refresh{float: right;display: block;margin-top: 1px;}
 #sidebar p{padding: 6px;color: rgb(100,100,100);margin-bottom:12px;font-size: 22px;}
 #sidebar .glyphicon{margin-left:3px;}
 
-#container{float:right;min-height:600px;width:718px;}
+.new-reflections li{list-style:none}
+.new-reflections li {margin: 0 10px;}
+.new-reflections{background-color:#fff;border-left:4px solid rgb(226,226,226);box-shadow:0 2px 2px rgb(230,230,230);padding:10px 0}
+.new-reflections a{padding:8px 6px 8px 10px}
+.new-reflections a .checkbox{position:relative;display: block;border: 1px solid #ccc;height: 16px;width: 16px;float: left;margin-right: 8px;border-radius: 4px;margin-top: 2px;}
+.new-reflections a .checkbox.active {background-color: rgb(127, 196, 127);border: 1px solid rgb(122, 153, 122);}
+.new-reflections a .checkbox span{position:absolute;left:2px;top:4px;color:transparent;}
+.new-reflections a .checkbox.active span{color:#fff}
+.new-reflections a .description{padding-left:24px;display:block;color:rgb(180, 112, 112)}
+.new-reflections a .date{padding-left:24px;display:block;color:#9e9e9e;font-size:12px;}
+
+.fa.fa-user {
+    padding-left: 3px;
+}
+.menu div {
+    width: 30px;
+    height: 30px;
+    margin-bottom: 10px;
+    padding: 10px;
+    padding-right: 20px;
+    padding-left: 0;
+}
+
+.other-thoughts{
+    display:none;
+}
+
+.menu div:hover {
+    border-right: 4px solid #ccc;
+}
+.menu:hover {
+    color: rgb(97,97,97);
+}
+.menu {
+    color: rgb(241, 226, 226)
+}
+
+#container{margin:0 auto;min-height:600px;width:718px;}
 #container.today{padding:0}
 .today .heading{padding:10px 20px;background-color:#f3f3f3;border-bottom:1px solid #ccc;}
 .today .heading h1{margin-top:10px;}
@@ -62,23 +92,26 @@ button.btn{display: block;border: 1px solid #ccc;padding: 10px;text-decoration: 
 .thoughts-list.select-text .thought-row{opacity:0.1}
 .thoughts-list.select-text .thought-row.selected{opacity:1}
 .thought-row .title{font-weight:bold;font-size:22px;padding-bottom:5px;color:#111;}
-.thought-row .description{font-size:20px;padding:16px 12px;color:rgb(107, 107, 107);line-height:24px;}
-.thought-row .description textarea{border: 0;outline: none;font-size:14px;resize:none}
+.thought-row .message{font-size:20px;padding:16px 12px 4px;color:rgb(107, 107, 107);line-height:24px;position:relative;}
+.thought-row .description{margin-bottom:6px;}
+.thought-row .privacy-status{display:none;font-size:16px;color: rgb(241, 226, 226);position:absolute;top:20px;left:-30px;overflow:hidden;width:17px;height:17px;}
+.thought-row .privacy-status:hover{color: rgb(97,97,97);}
+.thought-row .privacy-status span{display:none}
+.thought-row .privacy-status:hover span{display:inline-block;color:#ccc;}
 .thought-row a{text-decoration:none;font-size:16px;color:rgb(79,94,199)}
 .thought-row .annotation{color:#fff;font-size: 11px;padding: 8px 10px;font-family:arial;background-color:rgb(168, 98, 98)}
 
-.section{margin-bottom:12px;background-color:#fff;box-shadow:0 2px 8px rgb(214,214,214);border-radius:1px;overflow:hidden;}
-.section-title{font-size:36px;margin-bottom:5px;}
+.section{margin-bottom:12px;background-color:#fff;box-shadow:0 2px 8px rgb(214,214,214);border-radius:1px;}
+.section-title{font-size:24px;margin:20px 0;font-family:arial;}
 .container{padding:20px;}
 
 /* Message Feed */
-.message-feed .message{border:1px solid #ccc;margin-bottom:20px;}
-.message-feed .heading{border-bottom:1px solid #ccc;padding:5px;}
-.message-feed .description{border-bottom:1px solid #ccc;padding:5px;}
-.message-feed .action-text{padding:5px;}
+.message-feed .message{border-bottom:1px solid #ccc;padding:10px 0}
+.message-feed .heading{padding:5px;}
+.message-feed .description{padding:5px;}
+.message-feed .action-text{padding:5px;display:none;}
 
 /* Dashboard */
-.my-dashboard{padding:20px;}
 .my-dashboard li{list-style:none;}
 .post-frequency li{border:1px solid #ccc;height:20px;width:3.33%;float:left;box-sizing:border-box;border-left:0}
 .post-frequency li:first-child{border-left:1px solid #ccc;}
@@ -96,23 +129,26 @@ html[xmlns] .clearfix {display: block;}
 .highlight{background-color: #F8FFA1;border-radius: 1px;}
 
 #single-thought #main-thought{min-height:100px;font-size:20px;}
+#single-thought .title{border-bottom:1px solid rgb(241,241,241);margin-bottom:8px;font-size:28px;line-height:38px;}
 #single-thought .write-reply{border-bottom:1px solid #ccc;}
 
 /* Tooltip view */
 div.jquery-gdakram-tooltip{color:#000;}
-div.jquery-gdakram-tooltip div.content{background-color:#fff;border:1px solid #ccc;box-shadow: 0 3px 8px rgb(160, 159, 159);width:540px;border-radius:1px;}
+div.jquery-gdakram-tooltip.thought-tooltip div.content{background-color:#fff;border:1px solid #ccc;box-shadow: 0 3px 8px rgb(160, 159, 159);width:540px;border-radius:1px;}
+div.jquery-gdakram-tooltip.general-tooltip {color: #fff;font-size: 14px;font-family: arial;border-radius: 2px;}
+div.jquery-gdakram-tooltip.general-tooltip div.content{border-radius: 4px;padding: 8px 18px;background-color: rgb(97, 97, 97);}
 div.jquery-gdakram-tooltip h1{display:none}
 .tooltip-view{font-family: "Helvetica Neue";color: #444;}
 .tooltip-view .heading{margin-bottom: 4px;font-size: 12px;}
 .tooltip-view .description{font-size: 20px;margin-bottom: 20px;color:rgb(55, 107, 173);font-family:"times new roman"}
 .tooltip-view .submit{margin:0 auto;}
 
-.arrow_box {
+.thought-tooltip .arrow_box {
     position: relative;
     background: #fff;
     border: 1px solid #ccc;
 }
-.arrow_box:after, .arrow_box:before {
+.thought-tooltip .arrow_box:after, .thought-tooltip .arrow_box:before {
     bottom: 100%;
     left: 50%;
     border: solid transparent;
@@ -123,15 +159,24 @@ div.jquery-gdakram-tooltip h1{display:none}
     pointer-events: none;
 }
 
-.arrow_box:after {
+.thought-tooltip .arrow_box:after {
     border-color: rgba(255, 255, 255, 0);
     border-bottom-color: #fff;
     border-width: 15px;
     margin-left: -15px;
 }
-.arrow_box:before {
+.thought-tooltip .arrow_box:before {
     border-color: rgba(204, 204, 204, 0);
     border-bottom-color: #ccc;
     border-width: 16px;
     margin-left: -16px;
+}
+
+.jquery-gdakram-tooltip.other-tooltip .content {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    width: 250px;
+    height: 300px;
+    border-radius: 2px;
+    font-size: 16px;
 }

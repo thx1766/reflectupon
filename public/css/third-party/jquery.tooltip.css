@@ -1,5 +1,4 @@
 div.jquery-gdakram-tooltip {
-    width: 340px;
     color: white;
     font-size: 12px;
     position: absolute;
@@ -13,8 +12,6 @@ div.jquery-gdakram-tooltip div.content {
     -moz-border-radius: 1em;
     -webkit-border-radius: 1em;
     background-color: #671329;
-    /*width: 280px;*/
-    min-height: 200px;
     float: left;
     padding: 10px;
 }

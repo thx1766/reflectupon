@@ -3,6 +3,12 @@ window.rupon.views = window.rupon.views || {};
 
 (function() {
 
+    var toTitleCase = function(str){
+        return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+    }
+
+    var privacy = ["PRIVATE", "ANONYMOUS"];
+
     var rv = window.rupon.views;
 
     _.templateSettings = {
@@ -87,11 +93,20 @@ window.rupon.views = window.rupon.views || {};
 
     rv.IndexView = Backbone.View.extend({
 
-        el: ".left-side",
+        tagName: "div",
+        template: Handlebars.compile($("#index-template").html()),
 
         events: {
             'click .or-register': 'showRegister',
             'click .or-login': 'showLogin'
+        },
+
+        initialize: function(){
+            this.render();
+        },
+
+        render: function() {
+            this.$el.html(this.template())
         },
 
         showRegister: function() {
@@ -155,7 +170,8 @@ window.rupon.views = window.rupon.views || {};
 
         events: {
             'click a': 'showSingle',
-            'selectstart .description': 'takeAnnotation'
+            'selectstart .message': 'takeAnnotation',
+            'click .privacy-status': 'changePrivacy'
         },
 
         initialize: function() {
@@ -168,17 +184,28 @@ window.rupon.views = window.rupon.views || {};
 
         render: function(options) {
 
-            var formatThought = this.model.toJSON();
+            var template_options = _.clone(this.model.attributes);
 
-            options = options || {};
-            options.showMore = options.showMore || false;
+            template_options.showMore = template_options.showMore || false;
 
-            if (!options.showMore && formatThought.description.length >300) {
-                formatThought.description = formatThought.description.trim().substring(0,300).split(" ").slice(0, -1).join(" ").replace(/\n/g,"<br>") + "...";
-                formatThought.read_more = true;
+            if (!template_options.showMore && template_options.description.length >300) {
+                template_options.description = template_options.description.trim().substring(0,300).split(" ").slice(0, -1).join(" ").replace(/\n/g,"<br>") + "...";
+                template_options.read_more = true;
             }
 
-            var outputHtml = this.template(formatThought);
+            if (template_options.privacy) {
+
+                if (template_options.privacy == privacy[0]) {
+                    template_options.privacy_inverse = privacy[1];
+                } else if (template_options.privacy == privacy[1]){
+                    template_options.privacy_inverse = privacy[0];
+                }
+
+                template_options.privacy = toTitleCase(template_options.privacy.toLowerCase());
+                template_options.privacy_inverse = toTitleCase(template_options.privacy_inverse.toLowerCase());
+            }
+
+            var outputHtml = this.template(template_options);
             this.$el.html(outputHtml);
         },
 
@@ -205,6 +232,19 @@ window.rupon.views = window.rupon.views || {};
                     self.trigger("start-tooltip", self.$el);
                 }
             });
+        },
+
+        changePrivacy: function() {
+
+            var model_privacy = this.model.get("privacy");
+
+            if (privacy[0] == model_privacy) {
+                model_privacy = privacy[1];
+            } else if(privacy[1] == model_privacy) {
+                model_privacy = privacy[0];
+            }
+
+            this.trigger("change-privacy", model_privacy, this.model);
         }
 
     });
@@ -243,7 +283,7 @@ window.rupon.views = window.rupon.views || {};
 
         events: {
 
-            'click .postbox-send':   'goStep2',
+            'click .postbox-send':   'submitReflection',
             'click .postbox-write':  'poemPrompt',
             'click .postbox-sing':   'songPrompt',
             'click .postbox-submit': 'submitReflection'

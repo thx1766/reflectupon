@@ -81,7 +81,8 @@ window.rupon.views = window.rupon.views || {};
         events: {
             'click .show-postbox': 'showPostbox',
             'click .to-dashboard': 'showDashboard',
-            'click .show-thoughts': 'showAllThoughts'
+            'click .show-thoughts': 'showAllThoughts',
+            'hover .other-thoughts': 'showOtherThoughts'
         },
 
         showPostbox: function() {
@@ -94,6 +95,10 @@ window.rupon.views = window.rupon.views || {};
 
         showAllThoughts: function() {
             this.trigger("view-all");
+        },
+
+        showOtherThoughts: function() {
+            this.trigger("show-other-thoughts");
         }
 
     });

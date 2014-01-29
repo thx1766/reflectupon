@@ -81,7 +81,7 @@ exports.logout = function(req, res) {
 
 exports.postregister = function(req, res, next) {
 
-    var user = new User({ username: req.body.username, email: req.body.email, password: req.body.password });
+    var user = new exports.User({ username: req.body.username, email: req.body.email, password: req.body.password });
     user.save(function(err) {
         if(err) {
             console.log(err);
@@ -105,7 +105,7 @@ exports.postregister = function(req, res, next) {
                 }
                 req.logIn(user, function(err) {
                     if (err) { return next(err); }
-                    return res.redirect('/new-ux');
+                    return res.redirect('/home');
                 });
             })(req, res, next);
         }
