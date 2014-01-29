@@ -108,7 +108,7 @@ userSchema.pre('save', function(next) {
 
     if(!user.isModified('password')) return next();
 
-    bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
+    bcrypt.genSalt(10, function(err, salt) {
         if(err) return next(err);
 
         bcrypt.hash(user.password, salt, function(err, hash) {
@@ -211,13 +211,22 @@ app.post('/api/thought', function(req, res) {
 
 });
 
+app.put('/api/thought/:id', function(req,res) {
+    Thought.findById(req.params.id, function(err,thought) {
+        thought.privacy = req.body.privacy;
+        thought.save(function(err) {
+            if (err) console.log(err);
+            res.send(thought);
+        })
+    });
+});
+
 app.get('/api/users', function(req,res) {
     User.find({}, function(err, users) {
 
         var users2 = [];
 
         for (var i=0; i< users.length;i++) {
-            console.log("annotation: " + util.inspect(users[i], false, null));
             delete users[i].password;
             console.log("annotation2: " + util.inspect(users[i].password, false, null));
             users2.push(users[i]);

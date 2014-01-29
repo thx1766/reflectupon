@@ -4,6 +4,18 @@ window.rupon.utils = window.rupon.utils || {};
 
 (function() {
 
+    Backbone.Model.prototype.idAttribute = "_id";
+
+    Handlebars.registerHelper('equal', function(lvalue, rvalue, options) {
+        if (arguments.length < 3)
+            throw new Error("Handlebars Helper equal needs 2 parameters");
+        if( lvalue!=rvalue ) {
+            return options.inverse(this);
+        } else {
+            return options.fn(this);
+        }
+    });
+
     var rc = window.rupon.controllers,
         allThoughts, dashboardView, singleView, tooltipView, postboxView, elem,
         my_thoughts_collection, other_thoughts_collection;
@@ -24,8 +36,7 @@ window.rupon.utils = window.rupon.utils || {};
         newThoughtsView
             .on("view-thought", function(model) {
                 rc.resetViews();
-                singleView = new rupon.views.Single.ThoughtView({model: model});
-                $("#container").html(singleView.$el);
+                rc.setSingle(model);
             });
 
         sidebarView
@@ -45,7 +56,14 @@ window.rupon.utils = window.rupon.utils || {};
                 rc.setDashboard(); })
             .on("view-all", function() {
                 rc.resetViews();
-                rc.setAllThoughts(); });
+                rc.setAllThoughts(); })
+            .on("show-other-thoughts", function() {
+
+            });
+
+        $(".other-thoughts").tooltip({
+            tooltip_class:     "other-tooltip"
+        });
 
         rc.setDashboard();
 
@@ -109,30 +127,45 @@ window.rupon.utils = window.rupon.utils || {};
             event_out:         "tooltip-end",
             opacity:           1,
             on_complete:       setTooltipView,
-            arrow_left_offset: 280
+            arrow_left_offset: 280,
+            tooltip_class:     "thought-tooltip"
         });
 
-        allThoughts.on("start-tooltip", function(ele) {
-            if (elem != ele) {
-                elem = ele;
+        $(".privacy-status").tooltip({
+            tooltip_class:     "general-tooltip",
+            event_out:         "mouseleave tooltip-end"
+        });
 
-                $("body").animate({scrollTop:(ele.offset().top - 20)}, '20000', 'swing');
+        allThoughts
+            .on("start-tooltip", function(ele) {
+                if (elem != ele) {
+                    elem = ele;
 
-                $(".thought-row").trigger("tooltip-end");
-                if (tooltipView) tooltipView.remove();
+                    $("body").animate({scrollTop:(ele.offset().top - 20)}, '20000', 'swing');
 
-                elem.trigger("tooltip-start");
+                    $(".thought-row").trigger("tooltip-end");
+                    if (tooltipView) tooltipView.remove();
 
-                $(document).click(function(event) {
-                    if($(event.target).parents().index($('.jquery-gdakram-tooltip')) == -1) {
-                        if($('.jquery-gdakram-tooltip').is(":visible")) {
-                            elem.trigger("tooltip-end");
-                            rc.resetViews({tooltip_view:true});
+                    elem.trigger("tooltip-start");
+
+                    $(document).click(function(event) {
+                        if($(event.target).parents().index($('.jquery-gdakram-tooltip')) == -1) {
+                            if($('.jquery-gdakram-tooltip').is(":visible")) {
+                                elem.trigger("tooltip-end");
+                                rc.resetViews({tooltip_view:true});
+                            }
                         }
-                    }
-                })
-            }
-        });
+                    })
+                } })
+            .on("change-privacy", function(privacy, model) {
+                $(".privacy-status").trigger("tooltip-end");
+                model.save({privacy: privacy},{wait:true})
+            });
+    };
+
+    rc.setSingle = function(model) {
+        singleView = new rupon.views.Single.ThoughtView({model: model});
+        $("#container").html(singleView.$el);
     }
 
     rupon.utils.getSelectionText = function() {
@@ -144,4 +177,10 @@ window.rupon.utils = window.rupon.utils || {};
         }
         return text;
     }
+
+    rc.startIndexPage = function() {
+        var indexView = new rupon.views.IndexView();
+        $(".left-side").html(indexView.$el);
+    }
+
 })();

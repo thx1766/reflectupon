@@ -1,6 +1,7 @@
 <html>
 <head>
-    <link type="text/css" href="/css/jquery.tooltip.css" rel="stylesheet" />
+    <link type="text/css" href="/css/third-party/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link type="text/css" href="/css/third-party/jquery.tooltip.css" rel="stylesheet" />
     <link type="text/css" href="/css/style.css" rel="stylesheet" />
     <link type="text/css" href="/css/index.css" rel="stylesheet" />
     <link type="text/css" href="/css/single.css" rel="stylesheet" />
@@ -14,11 +15,48 @@
     <script type="text/javascript" src="/js/third-party/jquery.tooltip.js"></script>
     <script type="text/javascript" src="/js/third-party/handlebars.js"></script>
 
+    <script type="text/x-handlebars-template" id="index-template">
+        <div class="logo-name">reflectupon</div>
+        <div class="form-container">
+            <form id="login-form" action="/login" method="post">
+                <div class="clearfix">
+                    <label>Username</label>
+                    <input type="text" name="username"/><br/>
+                </div>
+                <div class="clearfix">
+                    <label>Password</label>
+                    <input type="password" name="password"/>
+                </div>
+                <div class="clearfix">
+                    <input type="submit" value="Log in"/>
+                </div>
+            </form>
+            <div class="or-register">or <a href="javascript:;">Register</a></div>
+            <form id="register-form" action="/register" method="post">
+                <div class="clearfix">
+                    <label>Username</label>
+                    <input type="text" name="username"/><br/>
+                </div>
+                <div class="clearfix">
+                    <label>Password</label>
+                    <input type="password" name="password"/>
+                </div>
+                <div class="clearfix">
+                    <label>E-mail</label>
+                    <input type="text" name="email"/><br/>
+                </div>
+                <div class="clearfix">
+                    <input type="submit" value="Register"/>
+                </div>
+            </form>
+            <div class="or-login">or <a href="javascript:;">Log In</a></div>
+        </div>
+    </script>
     <script type="text/x-handlebars-template" id="postbox-template">
         <div class="postbox-two clearfix">
             <p>How did you feel today? Don't hesitate to write freely.</p>
             <textarea class="form-control postbox-description" rows="10"></textarea>
-            <button type="button" class="btn btn-primary postbox-send">Go on</button>
+            <button type="button" class="btn btn-primary postbox-send">Create reflection</button>
         </div>
         <div class="postbox-options">
             <p>Using the freewrite you just wrote, write a poem. It's important to recognize the feelings that you felt.</p>
@@ -33,19 +71,18 @@
     </script>
     <script type="text/x-handlebars-template" id="tooltip-template">
         <div class="heading">You just highlighted:</div>
-        <div class="description">
-            {{ annotation }}
-        </div>
+        <div class="description">{{ annotation }}</div>
         <div class="heading">Create your reflection based off of your highlight:</div>
         <textarea class="reflection"></textarea>
         <button class="btn submit">Write reflection</button>
     </script>
     <script type="text/x-handlebars-template" id="thought-item-template">
-        <div class="description">
-            {{ description }}
-            {{#if read_more }}
-            <a href="javascript:;">Read more</a>
-            {{/if }}
+        <div class="message">
+            <div class="description">{{ description }}{{#if read_more}} <a href="javascript:;">Read more</a>{{/if}}</div>
+            <a href="javascript:;" class="privacy-status">
+                <i class="fa {{#equal privacy "Private"}}fa-user{{else}}fa-users{{/equal}}"></i> {{privacy}}
+                <span class="tooltip_description">{{privacy}}: Click to set as {{privacy_inverse}}</span>
+            </a>
         </div>
         {{#if annotation }}
             <div class="annotation">
@@ -102,16 +139,18 @@
     </script>
     <script type="text/template" id="single-thought-template">
         <div id="single-thought">
-            <div class="section container" id="main-thought">
-                {{ description }}
-            </div>
-            {{#if description2 }}
-                <div class="full-thought">
-                    <div class="show-thought"><a href="javascript:;">Show full reflection</a></div>
-                    <div class="hide-thought hidden"><a href="javascript:;">Hide full reflection</a></div>
-                    <span class="hidden">{{ description2 }}</span>
+            <div class="section" id="main-thought">
+                <div class="container">
+                    {{#if title}}<div class="title">{{title}}</div>{{/if}}
+                    <div>{{ description }}</div>
                 </div>
-            {{/if}}
+                {{#if description2 }}
+                    <div class="full-thought">
+                        <span>{{ description2 }}</span>
+                        <div class="show-thought"><a href="javascript:;">Show full reflection</a></div>
+                    </div>
+                {{/if}}
+            </div>
             <div class="section container write-reply">
                 <textarea></textarea>
                 <div class="write-footer clearfix">

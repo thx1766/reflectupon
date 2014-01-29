@@ -26,7 +26,7 @@
 
         // Configuration setup
         config = {
-            'dialog_content_selector' : 'div.tooltip_description',
+            'dialog_content_selector' : '.tooltip_description',
             'animation_distance' : 50,
             'opacity' : 0.85,
             'arrow_left_offset' : 70,
@@ -38,7 +38,8 @@
             'event_out':'mouseleave',
             'hover_in_delay' : 0,
             'hover_out_delay' : 0,
-            'on_complete': null
+            'on_complete': null,
+            'tooltip_class': ''
         };
 
         if (settings) {
@@ -68,7 +69,7 @@
                 return  tooltip_map[dom_id];
             }
 
-            dialog_elm = $(["<div class='jquery-gdakram-tooltip'>",
+            dialog_elm = $(["<div class='jquery-gdakram-tooltip "+ config.tooltip_class+"'>",
                 "<div class='up_arrow arrow'></div>",
                 "<div class='left_arrow arrow'></div>",
                 "<div class='content arrow_box'>" + header + $(content_elm).html() + "</div>",
