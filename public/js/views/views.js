@@ -169,16 +169,14 @@ window.rupon.views = window.rupon.views || {};
         template: Handlebars.compile($("#thought-item-template").html()),
 
         events: {
-            'click a': 'showSingle',
-            'selectstart .message': 'takeAnnotation',
+            'click a':               'showSingle',
+            'selectstart .message':  'takeAnnotation',
             'click .privacy-status': 'changePrivacy'
         },
 
         initialize: function() {
             this.model.on("change", this.modelChanged, this);
-            this.$el.tooltip({
-                event_in: "start-tooltip"
-            });
+            this.activateTooltip();
             this.render();
         },
 
@@ -246,6 +244,21 @@ window.rupon.views = window.rupon.views || {};
             }
 
             this.trigger("change-privacy", model_privacy, this.model);
+        },
+
+        activateTooltip: function() {
+            var self = this;
+
+            this.$el.tooltip({
+                event_in:          "tooltip-start",
+                event_out:         "tooltip-end",
+                opacity:           1,
+                on_complete:       function() {
+                    self.trigger("tooltip-initialized");
+                },
+                arrow_left_offset: 280,
+                tooltip_class:     "thought-tooltip"
+            });
         }
 
     });

@@ -68,6 +68,18 @@ exports.postlogin = function(req, res, next) {
             return res.redirect('/home');
         });
     })(req, res, next);
+/*
+    console.log("need to send send_grid email");
+    sendgrid.send({
+        to: "tenorfella@gmail.com",
+        from: 'sender@example.com',
+        subject: 'Welcome to reflectupon!',
+        html: 'Thanks for your interest!<br /><br />Here are your credentials.<br /><br/>Username: ' + req.body.username + '<br />Password: ' + req.body.password + '<br /><br/>Thanks! -reflectupon team'
+    }, function(err, json) {
+        if (err) { return console.error(err); }
+        console.log(json);
+        console.log("sent email");
+    });*/
 };
 
 exports.me = function(req,res,next) {

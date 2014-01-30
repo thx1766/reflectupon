@@ -79,6 +79,7 @@
     <script type="text/x-handlebars-template" id="thought-item-template">
         <div class="message">
             <div class="description">{{ description }}{{#if read_more}} <a href="javascript:;">Read more</a>{{/if}}</div>
+            <div class="tooltip_description" style="display:none;" title="No worries"></div>
             <a href="javascript:;" class="privacy-status">
                 <i class="fa {{#equal privacy "Private"}}fa-user{{else}}fa-users{{/equal}}"></i> {{privacy}}
                 <span class="tooltip_description">{{privacy}}: Click to set as {{privacy_inverse}}</span>
@@ -89,7 +90,6 @@
                 <div class="annotation-desc">Annotation: {{ annotation }}</div>
             </div>
         {{/if}}
-        <div class="tooltip_description" style="display:none;" title="No worries"></div>
     </script>
     <script type="text/x-handlebars-template" id="new-thought-item-template">
         <a href="javascript:;">

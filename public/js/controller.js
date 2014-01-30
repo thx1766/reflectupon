@@ -105,7 +105,35 @@ window.rupon.utils = window.rupon.utils || {};
     };
 
     rc.setAllThoughts = function() {
-        allThoughts = new rupon.views.ThoughtView({collection: my_thoughts_collection})
+        allThoughts = new rupon.views.ThoughtView({collection: my_thoughts_collection});
+        allThoughts
+            .on("tooltip-initialized", function() {
+                setTooltipView() })
+            .on("start-tooltip", function(ele) {
+                //if (elem != ele) {
+                    //elem = ele;
+
+                    $("body").animate({scrollTop:(ele.offset().top - 20)}, '20000', 'swing');
+
+                    $(".thought-row").trigger("tooltip-end");
+                    if (tooltipView) tooltipView.remove();
+
+                    ele.trigger("tooltip-start");
+
+                    $(document).click(function(event) {
+                        if($(event.target).parents().index($('.jquery-gdakram-tooltip')) == -1) {
+                            if($('.jquery-gdakram-tooltip').is(":visible")) {
+                                ele.trigger("tooltip-end");
+                                rc.resetViews({tooltip_view:true});
+                            }
+                        }
+                    })
+                })
+            .on("change-privacy", function(privacy, model) {
+                $(".privacy-status").trigger("tooltip-end");
+                model.save({privacy: privacy},{wait:true})
+            });
+
         $("#container").append(allThoughts.$el);
 
         var setTooltipView = function() {
@@ -122,45 +150,10 @@ window.rupon.utils = window.rupon.utils || {};
 
         }
 
-        $(".thought-row").tooltip({
-            event_in:          "tooltip-start",
-            event_out:         "tooltip-end",
-            opacity:           1,
-            on_complete:       setTooltipView,
-            arrow_left_offset: 280,
-            tooltip_class:     "thought-tooltip"
-        });
-
         $(".privacy-status").tooltip({
             tooltip_class:     "general-tooltip",
             event_out:         "mouseleave tooltip-end"
         });
-
-        allThoughts
-            .on("start-tooltip", function(ele) {
-                if (elem != ele) {
-                    elem = ele;
-
-                    $("body").animate({scrollTop:(ele.offset().top - 20)}, '20000', 'swing');
-
-                    $(".thought-row").trigger("tooltip-end");
-                    if (tooltipView) tooltipView.remove();
-
-                    elem.trigger("tooltip-start");
-
-                    $(document).click(function(event) {
-                        if($(event.target).parents().index($('.jquery-gdakram-tooltip')) == -1) {
-                            if($('.jquery-gdakram-tooltip').is(":visible")) {
-                                elem.trigger("tooltip-end");
-                                rc.resetViews({tooltip_view:true});
-                            }
-                        }
-                    })
-                } })
-            .on("change-privacy", function(privacy, model) {
-                $(".privacy-status").trigger("tooltip-end");
-                model.save({privacy: privacy},{wait:true})
-            });
     };
 
     rc.setSingle = function(model) {
