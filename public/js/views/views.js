@@ -178,10 +178,16 @@ window.rupon.views = window.rupon.views || {};
             this.model.on("change", this.modelChanged, this);
             this.activateTooltip();
             this.render();
+
+            this.$el.find(".privacy-status").tooltip({
+                tooltip_class:     "general-tooltip",
+                event_out:         "mouseleave tooltip-end"
+            });
         },
 
         render: function(options) {
 
+            this.$el.find(".privacy-status").trigger("tooltip-end");
             var template_options = _.clone(this.model.attributes);
 
             options = options || {};

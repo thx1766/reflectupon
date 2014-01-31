@@ -152,7 +152,8 @@ app.get('/api/', function(req, res) {
 app.get('/api/thought/:type', function(req, res) {
 
     var params = {},
-        limit = null;
+        limit  = null,
+        date_sort = null;
 
     if (req.user) {
 
@@ -162,10 +163,8 @@ app.get('/api/thought/:type', function(req, res) {
         } else if (req.params.type == "other-posts") {
             params.user_id = { $ne: req.user._id };
             limit = 5;
-        } else if (req.params.type == "stream") {
-
+            date_sort = {date: -1};
             params.privacy = "ANONYMOUS"
-
         } else {
 
             params._id = req.params.type;
@@ -176,6 +175,7 @@ app.get('/api/thought/:type', function(req, res) {
     Thought.find( params )
         .populate('replies')
         .limit(limit)
+        .sort(date_sort)
         .exec(function(err, thoughts) {
 
             if (thoughts) {

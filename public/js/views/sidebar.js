@@ -47,6 +47,7 @@ window.rupon.views = window.rupon.views || {};
         },
 
         showSingle: function() {
+            $(".other-thoughts").trigger("tooltip-end");
             this.trigger("view-thought", this.model);
         }
 
@@ -82,7 +83,7 @@ window.rupon.views = window.rupon.views || {};
             'click .show-postbox': 'showPostbox',
             'click .to-dashboard': 'showDashboard',
             'click .show-thoughts': 'showAllThoughts',
-            'hover .other-thoughts': 'showOtherThoughts'
+            'click .other-thoughts': 'showOtherThoughts'
         },
 
         showPostbox: function() {
@@ -99,6 +100,27 @@ window.rupon.views = window.rupon.views || {};
 
         showOtherThoughts: function() {
             this.trigger("show-other-thoughts");
+        },
+
+        activateTooltip: function(onComplete) {
+            this.$el.find(".other-thoughts").tooltip({
+                tooltip_class:     "other-tooltip",
+                event_in:          "tooltip-start",
+                event_out:         "tooltip-end",
+                opacity:           1,
+                on_complete:       onComplete
+            });
+        },
+
+        startTooltip: function() {
+            this.$el.find(".other-thoughts").trigger("tooltip-start");
+
+            var self = this;
+            $(document).mouseup(function(event) {
+                if (!$(event.target).closest(".other-tooltip").length) {
+                    self.$el.find(".other-thoughts").trigger("tooltip-end");
+                }
+            });
         }
 
     });
