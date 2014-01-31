@@ -92,13 +92,11 @@
         {{/if}}
     </script>
     <script type="text/x-handlebars-template" id="new-thought-item-template">
-        <a href="javascript:;">
-            <span class="checkbox {{#if replied}}active{{/if}}">
-                <span class="glyphicon glyphicon-ok"></span>
-            </span>
-            <div class="description">{{ description }}</div>
-            <div class="date">written {{ date }}</div>
-        </a>
+        <span class="checkbox {{#if replied}}active{{/if}}">
+            <span class="glyphicon glyphicon-ok"></span>
+        </span>
+        <a href="javascript:;" class="description">{{ description }}</a>
+        <div class="date">written {{ date }}</div>
     </script>
     <script type="text/x-handlebars-template" id="dashboard-template">
         <div class="my-dashboard">
@@ -134,7 +132,6 @@
         <div class="description">{{ description }}</div>
     </script>
     <script type="text/template" id="reply-template">
-        <div class="title">{{ title }}</div>
         <div class="description">{{ description }}</div>
     </script>
     <script type="text/template" id="single-thought-template">

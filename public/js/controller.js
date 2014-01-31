@@ -29,15 +29,6 @@ window.rupon.utils = window.rupon.utils || {};
         other_thoughts_collection = new rupon.models.thoughtCollection([],{type: "other-posts"});
 
         var sidebarView     = new rupon.views.Sidebar.MainView();
-        var newThoughtsView = new rupon.views.Sidebar.ThoughtsView({collection: other_thoughts_collection});
-
-        $(".new-reflections").html(newThoughtsView.$el);
-
-        newThoughtsView
-            .on("view-thought", function(model) {
-                rc.resetViews();
-                rc.setSingle(model);
-            });
 
         sidebarView
             .on("create-reflection", function() {
@@ -58,12 +49,20 @@ window.rupon.utils = window.rupon.utils || {};
                 rc.resetViews();
                 rc.setAllThoughts(); })
             .on("show-other-thoughts", function() {
+                var newThoughtsView = new rupon.views.Sidebar.ThoughtsView({collection: other_thoughts_collection});
 
+                newThoughtsView
+                    .on("view-thought", function(model) {
+                        rc.resetViews();
+                        rc.setSingle(model);
+                    });
+
+                sidebarView.activateTooltip(function() {
+                    $(".new-reflections").html(newThoughtsView.$el);
+                });
+
+                sidebarView.startTooltip();
             });
-
-        $(".other-thoughts").tooltip({
-            tooltip_class:     "other-tooltip"
-        });
 
         rc.setDashboard();
 
@@ -110,8 +109,6 @@ window.rupon.utils = window.rupon.utils || {};
             .on("tooltip-initialized", function() {
                 setTooltipView() })
             .on("start-tooltip", function(ele) {
-                //if (elem != ele) {
-                    //elem = ele;
 
                     $("body").animate({scrollTop:(ele.offset().top - 20)}, '20000', 'swing');
 
@@ -130,7 +127,6 @@ window.rupon.utils = window.rupon.utils || {};
                     })
                 })
             .on("change-privacy", function(privacy, model) {
-                $(".privacy-status").trigger("tooltip-end");
                 model.save({privacy: privacy},{wait:true})
             });
 
@@ -149,11 +145,6 @@ window.rupon.utils = window.rupon.utils || {};
             });
 
         }
-
-        $(".privacy-status").tooltip({
-            tooltip_class:     "general-tooltip",
-            event_out:         "mouseleave tooltip-end"
-        });
     };
 
     rc.setSingle = function(model) {
