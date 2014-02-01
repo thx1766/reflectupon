@@ -43,12 +43,12 @@ button.btn{display: block;border: 1px solid #ccc;padding: 10px;text-decoration: 
     height: 30px;
     margin-bottom: 10px;
     padding: 10px;
-    padding-right: 20px;
-    padding-left: 0;
+    border:2px solid transparent;
+    border-radius:6px;
 }
 
 .menu div:hover {
-    border-right: 4px solid #ccc;
+    border: 2px solid rgb(97,97,97);
 }
 .menu:hover {
     color: rgb(97,97,97);
@@ -165,6 +165,9 @@ div.jquery-gdakram-tooltip h1{display:none}
     margin-left: -16px;
 }
 
+.jquery-gdakram-tooltip.other-tooltip{
+    position:fixed;
+}
 .jquery-gdakram-tooltip.other-tooltip .content {
     background-color: #fff;
     border: 1px solid #ccc;
@@ -183,7 +186,7 @@ div.jquery-gdakram-tooltip h1{display:none}
  }
 .other-tooltip .arrow_box:after, .other-tooltip .arrow_box:before {
     right: 100%;
-    top: 13%;
+    top: 35px;
     border: solid transparent;
     content: " ";
     height: 0;
