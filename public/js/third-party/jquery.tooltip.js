@@ -37,9 +37,10 @@
             'event_in':'mouseenter',
             'event_out':'mouseleave',
             'hover_in_delay' : 0,
-            'hover_out_delay' : 0,
+            'hover_out_delay' : 10,
             'on_complete': null,
-            'tooltip_class': ''
+            'tooltip_class': '',
+            'parent_position': 'absolute'
         };
 
         if (settings) {
@@ -105,6 +106,11 @@
                 has_position = is_top_right || is_bottom_right || is_top || is_bottom,
                 position,
                 target_elm_position = $(target_elm).offset();
+
+            if (config.parent_position == "fixed") {
+                target_elm_position.left = target_elm_position.left - $(window).scrollLeft();
+                target_elm_position.top = target_elm_position.top - $(window).scrollTop();
+            }
 
             // coming from the top right
             if (is_top_right || (!has_position && (target_elm_position.top < $(dialog_box).outerHeight() && target_elm_position.top >= config.arrow_top_offset))) {
@@ -214,10 +220,11 @@
             var hoverTimer,
                 ele = this;
 
-            $(this).bind(config.event_in, function(){
-                clearTimeout(hoverTimer);
-                hoverTimer = setTimeout(function() { _show(ele); }, config.hover_in_delay );
-            })
+            $(this)
+                .bind(config.event_in, function(){
+                    clearTimeout(hoverTimer);
+                    hoverTimer = setTimeout(function() { _show(ele); }, config.hover_in_delay );
+                })
                 .bind(config.event_out, function(){
                     clearTimeout(hoverTimer);
                     hoverTimer = setTimeout(function() {

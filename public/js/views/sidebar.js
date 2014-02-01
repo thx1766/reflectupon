@@ -63,16 +63,19 @@ window.rupon.views = window.rupon.views || {};
 
         render: function() {
             var self = this;
-            _.each(this.collection.models, function(model) {
-                var sidebarThought = new rv.Sidebar.ThoughtView({model: model });
-                self.$el.append(sidebarThought.$el);
+            if (this.collection.models.length) {
+                _.each(this.collection.models, function(model) {
+                    var sidebarThought = new rv.Sidebar.ThoughtView({model: model });
+                    self.$el.append(sidebarThought.$el);
 
-                self.listenTo(sidebarThought, 'all', function() {
-                    self.trigger.apply(this, arguments);
-                });
-            })
+                    self.listenTo(sidebarThought, 'all', function() {
+                        self.trigger.apply(this, arguments);
+                    });
+                })
+            } else {
+                this.$el.html("No new reflections");
+            }
         }
-
     });
 
     rv.Sidebar.MainView = Backbone.View.extend({
@@ -108,19 +111,24 @@ window.rupon.views = window.rupon.views || {};
                 event_in:          "tooltip-start",
                 event_out:         "tooltip-end",
                 opacity:           1,
-                on_complete:       onComplete
+                on_complete:       onComplete,
+                parent_position:   "fixed"
+            });
+
+            var self =this;
+            $(document).mouseup(function(event) {
+                if ($(event.target).hasClass(".other-tooltip") || !$(event.target).closest(".other-tooltip").length) {
+                    self.$el.find(".other-thoughts").trigger("tooltip-end");
+                }
             });
         },
 
         startTooltip: function() {
-            this.$el.find(".other-thoughts").trigger("tooltip-start");
-
-            var self = this;
-            $(document).mouseup(function(event) {
-                if (!$(event.target).closest(".other-tooltip").length) {
-                    self.$el.find(".other-thoughts").trigger("tooltip-end");
-                }
-            });
+            if ($(".other-tooltip").length) {
+                this.$el.find(".other-thoughts").trigger("tooltip-end");
+            } else {
+                this.$el.find(".other-thoughts").trigger("tooltip-start");
+            }
         }
 
     });

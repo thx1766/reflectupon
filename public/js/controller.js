@@ -49,20 +49,20 @@ window.rupon.utils = window.rupon.utils || {};
                 rc.resetViews();
                 rc.setAllThoughts(); })
             .on("show-other-thoughts", function() {
-                var newThoughtsView = new rupon.views.Sidebar.ThoughtsView({collection: other_thoughts_collection});
-
-                newThoughtsView
-                    .on("view-thought", function(model) {
-                        rc.resetViews();
-                        rc.setSingle(model);
-                    });
-
-                sidebarView.activateTooltip(function() {
-                    $(".new-reflections").html(newThoughtsView.$el);
-                });
-
                 sidebarView.startTooltip();
             });
+
+        sidebarView.activateTooltip(function() {
+            var newThoughtsView = new rupon.views.Sidebar.ThoughtsView({collection: other_thoughts_collection});
+
+            newThoughtsView
+                .on("view-thought", function(model) {
+                    rc.resetViews();
+                    rc.setSingle(model);
+                });
+
+            $(".new-reflections").html(newThoughtsView.$el);
+        });
 
         rc.setDashboard();
 
