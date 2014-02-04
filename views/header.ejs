@@ -90,6 +90,7 @@
                 <div class="annotation-desc">Annotation: {{ annotation }}</div>
             </div>
         {{/if}}
+        <div class="reply-collection-container"></div>
     </script>
     <script type="text/x-handlebars-template" id="new-thought-item-template">
         <span class="checkbox {{#if replied}}active{{/if}}">
@@ -132,6 +133,7 @@
         <div class="description">{{ description }}</div>
     </script>
     <script type="text/template" id="reply-template">
+        <div class="heading">You have already replied:</div>
         <div class="description">{{ description }}</div>
     </script>
     <script type="text/template" id="single-thought-template">
@@ -148,16 +150,57 @@
                     </div>
                 {{/if}}
             </div>
-            <div class="section container write-reply">
-                <textarea></textarea>
-                <div class="write-footer clearfix">
-                    <button class="btn submit-reply">Submit reply</button>
+            <div class="clearfix">
+                <div class="section container write-reply">
+                    <textarea></textarea>
+                    <div class="write-footer clearfix">
+                        <button class="btn submit-reply">Submit reply</button>
+                    </div>
+                </div>
+                <div class="actions">
+                    <p>For more like this...</p>
+                    <a href="javascript:;" class="btn">Follow this user</a>
+                    <a href="javascript:;" class="report">or Report as Inappropriate</a>
                 </div>
             </div>
-            <hr />
-            <div class="reply-area hidden">
-            </div>
         </div>
+    </script>
+    <script type="text/template" id="sidebar-template">
+        <div class="menu" style="
+            float: left;
+            margin-top: 40px;
+        ">
+        <div class="show-postbox">
+        <i class="fa fa-plus-square-o fa-2x" style="
+            padding-left: 2px;
+        "></i>
+        </div>
+        <div class="to-dashboard">
+        <i class="fa fa-dashboard fa-2x" style="
+            margin-left:-1px;
+        "></i>
+        </div>
+        <div class="show-thoughts">
+        <i class="fa fa-bars fa-2x" style="
+            padding-left: 1px;
+        "></i>
+        </div>
+        <div class="other-thoughts">
+        <i class="fa fa-leaf fa-2x" style="margin-left:-1px"></i>
+        <div class="tooltip_description" style="display:none">
+            <div class="new-reflections"></div>
+        </div>
+        </div>
+        {{#if showSuperUser }}
+            <div class="show-super-user">
+                <i class="fa fa-globe fa-2x" style="margin-left:1px"></i>
+            </div>
+        {{/if}}
+        </div>
+    </script>
+    <script type="text/x-handlebars-template" id="user-template">
+        {{ email }}<br />
+        {{ date }}
     </script>
     <script type="text/javascript" src="/js/models.js"></script>
     <script type="text/javascript" src="/js/views/views.js"></script>
