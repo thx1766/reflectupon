@@ -1,52 +1,10 @@
 <% include header %>
-    <div id="sidebar">
-        <div class="menu" style="
-            float: left;
-            margin-top: 40px;
-        ">
-        <div class="show-postbox">
-        <i class="fa fa-plus-square-o fa-2x" style="
-            padding-left: 2px;
-        "></i>
-        </div>
-        <div class="to-dashboard">
-        <i class="fa fa-dashboard fa-2x" style="
-            margin-left:-1px;
-        "></i>
-        </div>
-        <div class="show-thoughts">
-        <i class="fa fa-bars fa-2x" style="
-            padding-left: 1px;
-        "></i>
-        </div>
-        <div class="other-thoughts">
-        <i class="fa fa-leaf fa-2x" style="margin-left:-1px"></i>
-        <div class="tooltip_description" style="display:none">
-            <div class="new-reflections"></div>
-        </div>
-        </div>
-        </div><!--
-        <ul class="main-options">
-            <li>
-                <a href="javascript:;" class="show-postbox">Create a reflection</a>
-            </li>
-            <li>
-                <a href="javascript:;" class="to-dashboard">My dashboard</a>
-            </li>
-            <li>
-                <a href="javascript:;" class="show-thoughts">All your reflections</a>
-            </li>
-        </ul>
-        <p>New Reflections<span class="glyphicon glyphicon-info-sign" data-text="Help out new friends!"></span>
-                <span class="glyphicon glyphicon-refresh"></span></p>
-        <ul class="new-reflections"></ul>-->
-    </div>
-    <div id="container">
-    </div>
+    <div id="sidebar"></div>
+    <div id="container"></div>
 
     <script type="text/javascript">
     $(document).ready(function(){
-        rupon.controllers.startPage({ user_id: "<%= user._id %>" });
+        rupon.controllers.startPage({ user_id: "<%= user._id %>", email: "<%= user.email %>" });
     })
     </script>
 

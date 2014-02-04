@@ -1,14 +1,19 @@
-#single-thought{margin-bottom:30px;padding:10px;}
+#single-thought{margin-bottom:30px;}
+#single-thought #main-thought{min-height:100px;font-size:20px;}
 #single-thought #main-thought .title{font-weight:bold;font-size:24px;padding-bottom:5px;}
 #single-thought #main-thought .description{line-height:26px;margin-bottom:15px;font-size:20px;color:#444;}
 #single-thought #main-thought .post-footer{border-top:1px solid rgb(211,133,133);padding:3px 0;color:rgb(211,133,133);font-size:14px;letter-spacing:1px;}
 
+#single-thought .title{border-bottom:1px solid rgb(241,241,241);margin-bottom:8px;font-size:28px;line-height:38px;}
+#single-thought .write-reply{border-bottom:1px solid #ccc;/*width:480px;float:left;*/height:197px;box-sizing:border-box}
 #single-thought .write-reply textarea{width: 100%;height: 100px;margin-bottom: 10px;}
 #single-thought .write-reply .write-footer{width:100%;margin-bottom:6px;}
 #single-thought .write-reply a{display: block;float: right;}
 #single-thought .submit-reply{float:right;}
-
-#single-thought hr{margin-top:20px;margin-bottom:30px;border:1px solid #ccc;}
+#single-thought .actions{display:none;float: right;width: 235px;height: 197px;background-color: rgb(236, 236, 236);border: 1px solid #ccc;border-radius: 3px;padding: 20px;box-sizing: border-box;}
+#single-thought .actions p{margin-bottom: 15px;font-size: 16px;text-align: center;padding-top:16px;}
+#single-thought .actions a.btn{display: block;height: 36px;width: 100%;background-color: rgb(119, 121, 175);border: 2px solid rgb(45, 35, 155);box-sizing: border-box;border-radius: 2px;color: #fff;text-align: center;padding-top: 7px;font-family: arial;text-decoration: none;}
+#single-thought .actions a.report{display: block;padding: 20px 10px;text-align: center;text-decoration: none;}
 
 #single-thought .full-thought{border-top:1px solid #ccc;border-radius:2px;font-size:16px;padding:10px 20px;}
 #single-thought .full-thought span{display:none;color:rgb(165,104,104)}
@@ -18,9 +23,6 @@
 #single-thought .full-thought.expanded .show-thought{display:none;}
 #single-thought .show-thought a{text-decoration:none;color:rgb(74,97,155)}
 
-#single-thought .reply-area{border: 1px solid #ccc;border-radius: 2px;padding: 6px;background-color:rgb(248, 217, 217)}
-
-#single-thought .reply-row {border-bottom:1px solid #ccc;margin-bottom:8px;}
-#single-thought .reply-row:last-child{border-bottom:0}
 #single-thought .reply-row .title{font-weight:bold;font-size:18px;padding-bottom:5px;color:#444;}
-#single-thought .reply-row .description{line-height:20px;margin-bottom:14px;font-size:16px;color:#444;}
+#single-thought .reply-row .description{line-height:22px;margin-bottom:14px;font-size:16px;color:#444;padding:0 20px;}
+#single-thought .reply-row .heading{font-style: oblique;font-size: 18px;margin-bottom: 15px;border-bottom: 1px solid #ccc;padding-bottom: 4px;}

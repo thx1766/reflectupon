@@ -97,14 +97,24 @@ var annotationSchema = Schema({
 });
 // User Schema
 var userSchema = mongoose.Schema({
-    username: { type: String, required: true, unique: true },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true}
+    username:   { type: String, required: true, unique: true }
+  , email:      { type: String, required: true, unique: true }
+  , password:   { type: String, required: true}
+  , created_at: { type: Date }
+  , updated_at: { type: Date }
 });
 
 // Bcrypt middleware
 userSchema.pre('save', function(next) {
+    var date = new Date;
+    this.updated_at = date;
+    if (!this.created_at) {
+        this.created_at = date;
+    }
+
     var user = this;
+
+    console.log("save user: " + util.inspect(user, false, null));
 
     if(!user.isModified('password')) return next();
 
@@ -228,7 +238,6 @@ app.get('/api/users', function(req,res) {
 
         for (var i=0; i< users.length;i++) {
             delete users[i].password;
-            console.log("annotation2: " + util.inspect(users[i].password, false, null));
             users2.push(users[i]);
         }
 

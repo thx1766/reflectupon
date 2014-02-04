@@ -11,7 +11,6 @@ window.rupon.views = window.rupon.views || {};
 
         events: {
             'click .submit-reply': 'submitReply',
-            //'mouseup #main-thought': 'createAnnotation',
             'click .show-thought': 'showThought'
         },
 
@@ -24,8 +23,7 @@ window.rupon.views = window.rupon.views || {};
             this.model.get('replies').on('add', function(reply) {
 
                 var formatReply = new rv.Single.ReplyView({ model: reply });
-                $(".reply-area").removeClass("hidden");
-                $(".reply-area").prepend( formatReply.el );
+                $(".write-reply").html( formatReply.el );
 
             });
 
@@ -35,23 +33,25 @@ window.rupon.views = window.rupon.views || {};
 
         render: function() {
 
-            var attr = _.clone(this.model.attributes);
+            if (this.model) {
+                var attr = _.clone(this.model.attributes);
 
-            var output = {
-                description: attr.expression || attr.description.replace(/\n/g,"<br>"),
-                description2: attr.expression ? attr.description.replace(/\n/g,"<br>") : null
-            };
+                var output = {
+                    description: attr.expression || attr.description.replace(/\n/g,"<br>"),
+                    description2: attr.expression ? attr.description.replace(/\n/g,"<br>") : null
+                };
 
-            this.$el.html(this.template( output ));
+                this.$el.html(this.template( output ));
 
-            var self = this;
-            _.each(this.model.get('replies').models, function(reply) {
+                var self = this;
+                _.each(this.model.get('replies').models, function(reply) {
 
-                self.$el.find(".reply-area").removeClass("hidden");
+                    self.$el.find(".reply-area").removeClass("hidden");
 
-                var formatReply = new rv.Single.ReplyView({ model: reply });
-                self.$el.find(".reply-area").prepend( formatReply.el );
-            });
+                    var formatReply = new rv.Single.ReplyView({ model: reply });
+                    self.$el.find(".write-reply").html( formatReply.el );
+                });
+            }
 
             return this;
         },

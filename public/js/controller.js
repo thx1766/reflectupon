@@ -24,6 +24,7 @@ window.rupon.utils = window.rupon.utils || {};
 
         rupon.account_info = rupon.account_info || {};
         rupon.account_info.user_id = options.user_id;
+        rupon.account_info.email = options.email;
 
         my_thoughts_collection = new rupon.models.thoughtCollection([],{type: "my-posts"});
         other_thoughts_collection = new rupon.models.thoughtCollection([],{type: "other-posts"});
@@ -49,7 +50,10 @@ window.rupon.utils = window.rupon.utils || {};
                 rc.resetViews();
                 rc.setAllThoughts(); })
             .on("show-other-thoughts", function() {
-                sidebarView.startTooltip();
+                sidebarView.startTooltip(); })
+            .on("show-super-user", function() {
+                rc.resetViews();
+                rc.setSuperUser();
             });
 
         sidebarView.activateTooltip(function() {
@@ -64,6 +68,7 @@ window.rupon.utils = window.rupon.utils || {};
             $(".new-reflections").html(newThoughtsView.$el);
         });
 
+        $("#sidebar").html(sidebarView.$el);
         rc.setDashboard();
 
         my_thoughts_collection.fetch({reset: true});
@@ -165,6 +170,13 @@ window.rupon.utils = window.rupon.utils || {};
     rc.startIndexPage = function() {
         var indexView = new rupon.views.IndexView();
         $(".left-side").html(indexView.$el);
+    }
+
+    rc.setSuperUser = function() {
+        var user_collection = new rupon.models.userCollection();
+        var superUserView = new rupon.views.UsersView({collection: user_collection});
+        $("#container").html(superUserView.$el);
+        user_collection.fetch();
     }
 
 })();
