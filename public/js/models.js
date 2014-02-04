@@ -5,6 +5,15 @@ window.rupon.models = window.rupon.models || {};
 
     var rm = window.rupon.models;
 
+    rm.user = Backbone.Model.extend({
+        urlRoot: '/api/users'
+    });
+
+    rm.userCollection = Backbone.Collection.extend({
+        model: rm.user,
+        url: '/api/users/'
+    });
+
     rm.thought = Backbone.Model.extend({
         defaults: {
             "title":        "Untitled",

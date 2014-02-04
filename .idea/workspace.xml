@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ed4bb94b-2f63-454f-9177-be96ad4048a1" name="Default" comment="" />
+    <list default="true" id="ed4bb94b-2f63-454f-9177-be96ad4048a1" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/controller.js" afterPath="$PROJECT_DIR$/public/js/controller.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/header.ejs" afterPath="$PROJECT_DIR$/views/header.ejs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/home.ejs" afterPath="$PROJECT_DIR$/views/home.ejs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/models.js" afterPath="$PROJECT_DIR$/public/js/models.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server.js" afterPath="$PROJECT_DIR$/server.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/views/sidebar.js" afterPath="$PROJECT_DIR$/public/js/views/sidebar.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/single.css" afterPath="$PROJECT_DIR$/public/css/single.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/views/single.js" afterPath="$PROJECT_DIR$/public/js/views/single.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/style.css" afterPath="$PROJECT_DIR$/public/css/style.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/views/views.js" afterPath="$PROJECT_DIR$/public/js/views/views.js" />
+    </list>
     <ignored path="reflectupon.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -26,7 +37,7 @@
       <file leaf-file-name="views.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/views/views.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="342" column="28" selection-start="9716" selection-end="9716" vertical-scroll-proportion="0.0" vertical-offset="5130" max-vertical-offset="5610">
+            <state line="342" column="28" selection-start="9874" selection-end="9874" vertical-scroll-proportion="0.0" vertical-offset="5130" max-vertical-offset="6600">
               <folding />
             </state>
           </provider>
@@ -35,7 +46,7 @@
       <file leaf-file-name="server.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="128" column="0" selection-start="3698" selection-end="3698" vertical-scroll-proportion="0.0" vertical-offset="1813" max-vertical-offset="5280">
+            <state line="128" column="0" selection-start="3697" selection-end="3697" vertical-scroll-proportion="0.0" vertical-offset="1920" max-vertical-offset="5415">
               <folding />
             </state>
           </provider>
@@ -44,7 +55,7 @@
       <file leaf-file-name="home.ejs" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/home.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="30" selection-start="262" selection-end="262" vertical-scroll-proportion="0.32967034" vertical-offset="0" max-vertical-offset="900">
+            <state line="8" column="13" selection-start="269" selection-end="269" vertical-scroll-proportion="0.32967034" vertical-offset="0" max-vertical-offset="364">
               <folding />
             </state>
           </provider>
@@ -62,7 +73,7 @@
       <file leaf-file-name="topbar.ejs" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/topbar.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="6" selection-start="295" selection-end="295" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="180">
+            <state line="6" column="6" selection-start="295" selection-end="295" vertical-scroll-proportion="0.0" vertical-offset="90" max-vertical-offset="180">
               <folding />
             </state>
           </provider>
@@ -71,7 +82,7 @@
       <file leaf-file-name="controller.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/controller.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="82" column="50" selection-start="2897" selection-end="2897" vertical-scroll-proportion="0.0" vertical-offset="1230" max-vertical-offset="2625">
+            <state line="82" column="0" selection-start="2814" selection-end="2814" vertical-scroll-proportion="0.0" vertical-offset="1230" max-vertical-offset="2805">
               <folding />
             </state>
           </provider>
@@ -80,7 +91,7 @@
       <file leaf-file-name="single.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/views/single.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="65" column="0" selection-start="1889" selection-end="1889" vertical-scroll-proportion="0.0" vertical-offset="643" max-vertical-offset="1530">
+            <state line="65" column="0" selection-start="1862" selection-end="1862" vertical-scroll-proportion="0.0" vertical-offset="643" max-vertical-offset="1530">
               <folding />
             </state>
           </provider>
@@ -89,7 +100,7 @@
       <file leaf-file-name="style.css" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/css/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="96" column="43" selection-start="5321" selection-end="5321" vertical-scroll-proportion="0.0" vertical-offset="1440" max-vertical-offset="3210">
+            <state line="96" column="36" selection-start="5287" selection-end="5287" vertical-scroll-proportion="0.0" vertical-offset="1440" max-vertical-offset="3105">
               <folding />
             </state>
           </provider>
@@ -107,7 +118,7 @@
       <file leaf-file-name="header.ejs" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/header.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="103" column="30" selection-start="5555" selection-end="5562" vertical-scroll-proportion="0.0" vertical-offset="1545" max-vertical-offset="2685">
+            <state line="103" column="30" selection-start="5555" selection-end="5562" vertical-scroll-proportion="0.0" vertical-offset="1545" max-vertical-offset="3330">
               <folding />
             </state>
           </provider>
@@ -419,9 +430,9 @@
     <property name="WebServerToolWindowFactoryState" value="true" />
     <property name="options.lastSelected" value="editor" />
     <property name="FullScreen" value="false" />
-    <property name="GoToClass.includeJavaFiles" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="GoToClass.includeJavaFiles" value="false" />
   </component>
   <component name="PublishConfig" serverName="reflectupon - node" serverId="ad4d306c-63a9-4eff-af76-e7332f46d88f">
     <servers>
@@ -630,9 +641,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="4" y="22" width="1440" height="830" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.46666667" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.46666667" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -728,21 +739,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/css/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="96" column="43" selection-start="5321" selection-end="5321" vertical-scroll-proportion="0.0" vertical-offset="1440" max-vertical-offset="3210">
+        <state line="96" column="36" selection-start="5287" selection-end="5287" vertical-scroll-proportion="0.0" vertical-offset="1440" max-vertical-offset="3105">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/server.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="128" column="0" selection-start="3698" selection-end="3698" vertical-scroll-proportion="0.0" vertical-offset="1813" max-vertical-offset="5280">
+        <state line="128" column="0" selection-start="3697" selection-end="3697" vertical-scroll-proportion="0.0" vertical-offset="1920" max-vertical-offset="5415">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/js/views/single.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="65" column="0" selection-start="1889" selection-end="1889" vertical-scroll-proportion="0.0" vertical-offset="643" max-vertical-offset="1530">
+        <state line="65" column="0" selection-start="1862" selection-end="1862" vertical-scroll-proportion="0.0" vertical-offset="643" max-vertical-offset="1530">
           <folding />
         </state>
       </provider>
@@ -756,14 +767,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/js/views/views.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="342" column="28" selection-start="9716" selection-end="9716" vertical-scroll-proportion="0.0" vertical-offset="5130" max-vertical-offset="5610">
+        <state line="342" column="28" selection-start="9874" selection-end="9874" vertical-scroll-proportion="0.0" vertical-offset="5130" max-vertical-offset="6600">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/js/controller.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="82" column="50" selection-start="2897" selection-end="2897" vertical-scroll-proportion="0.0" vertical-offset="1230" max-vertical-offset="2625">
+        <state line="82" column="0" selection-start="2814" selection-end="2814" vertical-scroll-proportion="0.0" vertical-offset="1230" max-vertical-offset="2805">
           <folding />
         </state>
       </provider>
@@ -791,7 +802,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/home.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="30" selection-start="262" selection-end="262" vertical-scroll-proportion="0.32967034" vertical-offset="0" max-vertical-offset="900">
+        <state line="8" column="13" selection-start="269" selection-end="269" vertical-scroll-proportion="0.32967034" vertical-offset="0" max-vertical-offset="364">
           <folding />
         </state>
       </provider>
