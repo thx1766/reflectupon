@@ -2,16 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ed4bb94b-2f63-454f-9177-be96ad4048a1" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/controller.js" afterPath="$PROJECT_DIR$/public/js/controller.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/header.ejs" afterPath="$PROJECT_DIR$/views/header.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/home.ejs" afterPath="$PROJECT_DIR$/views/home.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/models.js" afterPath="$PROJECT_DIR$/public/js/models.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server.js" afterPath="$PROJECT_DIR$/server.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/views/sidebar.js" afterPath="$PROJECT_DIR$/public/js/views/sidebar.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/single.css" afterPath="$PROJECT_DIR$/public/css/single.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/views/single.js" afterPath="$PROJECT_DIR$/public/js/views/single.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/style.css" afterPath="$PROJECT_DIR$/public/css/style.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/views/views.js" afterPath="$PROJECT_DIR$/public/js/views/views.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="reflectupon.iws" />
@@ -38,16 +28,7 @@
       <file leaf-file-name="views.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/views/views.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="404" column="30" selection-start="11409" selection-end="11413" vertical-scroll-proportion="-64.26923" vertical-offset="4389" max-vertical-offset="6600">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="models.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/js/models.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="7" selection-start="323" selection-end="323" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1290">
+            <state line="342" column="28" selection-start="9874" selection-end="9874" vertical-scroll-proportion="0.0" vertical-offset="5130" max-vertical-offset="6600">
               <folding />
             </state>
           </provider>
@@ -56,16 +37,7 @@
       <file leaf-file-name="server.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="122" column="0" selection-start="3529" selection-end="3529" vertical-scroll-proportion="-19.038462" vertical-offset="1335" max-vertical-offset="5415">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sidebar.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/js/views/sidebar.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="100" column="67" selection-start="3085" selection-end="3085" vertical-scroll-proportion="0.0" vertical-offset="1198" max-vertical-offset="2400">
+            <state line="128" column="0" selection-start="3697" selection-end="3697" vertical-scroll-proportion="0.0" vertical-offset="1920" max-vertical-offset="5415">
               <folding />
             </state>
           </provider>
@@ -74,7 +46,25 @@
       <file leaf-file-name="home.ejs" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/home.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="0" selection-start="81" selection-end="81" vertical-scroll-proportion="0.12295082" vertical-offset="0" max-vertical-offset="366">
+            <state line="8" column="13" selection-start="269" selection-end="269" vertical-scroll-proportion="0.32967034" vertical-offset="0" max-vertical-offset="364">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="user.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/routes/user.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="112" column="0" selection-start="3565" selection-end="3565" vertical-scroll-proportion="0.0" vertical-offset="1680" max-vertical-offset="2340">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="topbar.ejs" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/topbar.ejs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="6" column="6" selection-start="295" selection-end="295" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="180">
               <folding />
             </state>
           </provider>
@@ -83,7 +73,7 @@
       <file leaf-file-name="controller.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/controller.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="27" column="0" selection-start="916" selection-end="916" vertical-scroll-proportion="-7.0" vertical-offset="223" max-vertical-offset="2805">
+            <state line="82" column="0" selection-start="2814" selection-end="2814" vertical-scroll-proportion="0.0" vertical-offset="1230" max-vertical-offset="2805">
               <folding />
             </state>
           </provider>
@@ -92,7 +82,7 @@
       <file leaf-file-name="single.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/views/single.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="56" column="10" selection-start="1681" selection-end="1681" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1530">
+            <state line="65" column="0" selection-start="1862" selection-end="1862" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1530">
               <folding />
             </state>
           </provider>
@@ -101,16 +91,16 @@
       <file leaf-file-name="style.css" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/css/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="0" selection-start="1003" selection-end="1003" vertical-scroll-proportion="-7.3846154" vertical-offset="18" max-vertical-offset="3105">
+            <state line="96" column="36" selection-start="5287" selection-end="5287" vertical-scroll-proportion="0.0" vertical-offset="1440" max-vertical-offset="3105">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dashboard.ejs" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/dashboard.ejs">
+      <file leaf-file-name="jquery.tooltip.css" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/css/third-party/jquery.tooltip.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="5" selection-start="87" selection-end="87" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="150">
+            <state line="27" column="17" selection-start="606" selection-end="606" vertical-scroll-proportion="0.0" vertical-offset="133" max-vertical-offset="840">
               <folding />
             </state>
           </provider>
@@ -119,7 +109,7 @@
       <file leaf-file-name="header.ejs" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/header.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="198" column="14" selection-start="9275" selection-end="9275" vertical-scroll-proportion="0.0" vertical-offset="2964" max-vertical-offset="3330">
+            <state line="103" column="30" selection-start="5555" selection-end="5562" vertical-scroll-proportion="0.0" vertical-offset="1545" max-vertical-offset="3330">
               <folding />
             </state>
           </provider>
@@ -134,11 +124,6 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="master" />
-      </map>
-    </option>
   </component>
   <component name="GitLogSettings">
     <option name="myStructureFilterPaths" />
@@ -149,28 +134,28 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
+        <option value="$PROJECT_DIR$/public/css/font-awesome.min.css" />
         <option value="$PROJECT_DIR$/public/css/index.css" />
         <option value="$PROJECT_DIR$/views/index.ejs" />
-        <option value="$PROJECT_DIR$/public/css/third-party/jquery.tooltip.css" />
-        <option value="$PROJECT_DIR$/views/topbar.ejs" />
-        <option value="$PROJECT_DIR$/routes/user.js" />
-        <option value="$PROJECT_DIR$/public/js/third-party/jquery.tooltip.js" />
         <option value="$PROJECT_DIR$/public/js/views/single.js" />
         <option value="$PROJECT_DIR$/public/css/single.css" />
-        <option value="$PROJECT_DIR$/public/js/models.js" />
         <option value="$PROJECT_DIR$/server.js" />
-        <option value="$PROJECT_DIR$/public/js/views/views.js" />
-        <option value="$PROJECT_DIR$/public/css/style.css" />
-        <option value="$PROJECT_DIR$/views/header.ejs" />
-        <option value="$PROJECT_DIR$/public/js/controller.js" />
+        <option value="$PROJECT_DIR$/public/css/third-party/jquery.tooltip.css" />
+        <option value="$PROJECT_DIR$/public/js/third-party/jquery.tooltip.js" />
         <option value="$PROJECT_DIR$/public/js/views/sidebar.js" />
+        <option value="$PROJECT_DIR$/public/js/controller.js" />
         <option value="$PROJECT_DIR$/views/home.ejs" />
+        <option value="$PROJECT_DIR$/public/css/style.css" />
+        <option value="$PROJECT_DIR$/routes/user.js" />
+        <option value="$PROJECT_DIR$/views/header.ejs" />
+        <option value="$PROJECT_DIR$/public/js/views/views.js" />
+        <option value="$PROJECT_DIR$/views/topbar.ejs" />
       </list>
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="143" />
+    <option name="x" value="4" />
     <option name="y" value="22" />
     <option name="width" value="1440" />
     <option name="height" value="830" />
@@ -205,7 +190,7 @@
     <option name="STATE" value="0" />
   </component>
   <component name="ProjectView">
-    <navigator proportions="" version="1" splitterProportion="0.5">
+    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -216,7 +201,219 @@
       <autoscrollFromSource />
       <sortByType />
     </navigator>
-    <panes />
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="reflectupon" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="reflectupon" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="reflectupon" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="reflectupon" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="reflectupon" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="reflectupon" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="reflectupon" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="routes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="reflectupon" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="reflectupon" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="reflectupon" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="reflectupon" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="reflectupon" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="reflectupon" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="third-party" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="reflectupon" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="reflectupon" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="css" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="reflectupon" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="reflectupon" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="css" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="third-party" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="reflectupon" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="reflectupon" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="css" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="third-party" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="font-awesome" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fonts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="reflectupon" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="reflectupon" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="css" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="third-party" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="font-awesome" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="css" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="GoToFile.includeJavaFiles" value="false" />
@@ -430,34 +627,14 @@
       <created>1389418399260</created>
       <updated>1389418399260</updated>
     </task>
-    <task id="LOCAL-00036" summary="some css changes, polishing for minimalistic version">
-      <created>1390982435321</created>
-      <updated>1390982435321</updated>
-    </task>
-    <task id="LOCAL-00037" summary="fix the read more link">
-      <created>1390982959944</created>
-      <updated>1390982959944</updated>
-    </task>
-    <task id="LOCAL-00038" summary="show annotation tooltip for new reflections">
-      <created>1391100620481</created>
-      <updated>1391100620481</updated>
-    </task>
-    <task id="LOCAL-00039" summary="other reflections and making sure they're anonymous">
-      <created>1391158994217</created>
-      <updated>1391158994217</updated>
-    </task>
-    <task id="LOCAL-00040" summary="&quot;other-tooltip&quot; position and display bugs, minor css fixes">
-      <created>1391239708813</created>
-      <updated>1391239708813</updated>
-    </task>
-    <option name="localTasksCounter" value="41" />
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="143" y="22" width="1440" height="830" extended-state="0" />
+    <frame x="4" y="22" width="1440" height="830" extended-state="0" />
     <editor active="false" />
     <layout>
-      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.46394557" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.46666667" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -486,6 +663,11 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
+    <MESSAGE value="bcrypt to package.json" />
+    <MESSAGE value="mongodb config and node js version to package json" />
+    <MESSAGE value="ejs to package json" />
+    <MESSAGE value="util to package json" />
+    <MESSAGE value="comment out util" />
     <MESSAGE value="fix user registration" />
     <MESSAGE value="mongoose to user.js" />
     <MESSAGE value="localstrategy to user.js" />
@@ -506,12 +688,7 @@
     <MESSAGE value="sendgrid api for emails - email text" />
     <MESSAGE value="css for sidebar" />
     <MESSAGE value="fixed sending of reflections (geez), some animations for tooltip" />
-    <MESSAGE value="some css changes, polishing for minimalistic version" />
-    <MESSAGE value="fix the read more link" />
-    <MESSAGE value="show annotation tooltip for new reflections" />
-    <MESSAGE value="other reflections and making sure they're anonymous" />
-    <MESSAGE value="&quot;other-tooltip&quot; position and display bugs, minor css fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="&quot;other-tooltip&quot; position and display bugs, minor css fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed sending of reflections (geez), some animations for tooltip" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -519,104 +696,104 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/public/css/index.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="67" selection-start="610" selection-end="610" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="300" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/single.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="115" selection-start="1121" selection-end="1121" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="465" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/thought.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1575" />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/views/index.ejs">
       <provider selected="true" editor-type-id="text-editor">
         <state line="12" column="20" selection-start="266" selection-end="266" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="270" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/topbar.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="6" selection-start="295" selection-end="295" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="180" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/user.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="35" selection-start="2149" selection-end="2149" vertical-scroll-proportion="0.0" vertical-offset="840" max-vertical-offset="2340" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/js/third-party/jquery.tooltip.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="209" column="23" selection-start="9241" selection-end="9241" vertical-scroll-proportion="0.0" vertical-offset="2831" max-vertical-offset="3660" />
+        <state line="28" column="41" selection-start="780" selection-end="780" vertical-scroll-proportion="0.0" vertical-offset="243" max-vertical-offset="3555" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/css/third-party/jquery.tooltip.css">
+    <entry file="file://$PROJECT_DIR$/public/js/views/sidebar.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="18" selection-start="331" selection-end="331" vertical-scroll-proportion="0.0" vertical-offset="125" max-vertical-offset="840" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/css/single.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="73" selection-start="849" selection-end="849" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="495">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/dashboard.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="5" selection-start="87" selection-end="87" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="150">
+        <state line="55" column="20" selection-start="1612" selection-end="1612" vertical-scroll-proportion="0.0" vertical-offset="463" max-vertical-offset="1665">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/css/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="0" selection-start="1003" selection-end="1003" vertical-scroll-proportion="-7.3846154" vertical-offset="18" max-vertical-offset="3105">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/models.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="7" selection-start="323" selection-end="323" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1290">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/controller.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="0" selection-start="916" selection-end="916" vertical-scroll-proportion="-7.0" vertical-offset="223" max-vertical-offset="2805">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/views/single.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="10" selection-start="1681" selection-end="1681" vertical-scroll-proportion="0.0" vertical-offset="750" max-vertical-offset="1530">
+        <state line="96" column="36" selection-start="5287" selection-end="5287" vertical-scroll-proportion="0.0" vertical-offset="1440" max-vertical-offset="3105">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/server.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="122" column="0" selection-start="3529" selection-end="3529" vertical-scroll-proportion="-19.038462" vertical-offset="1335" max-vertical-offset="5415">
+        <state line="128" column="0" selection-start="3697" selection-end="3697" vertical-scroll-proportion="0.0" vertical-offset="1920" max-vertical-offset="5415">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/third-party/jquery.tooltip.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="17" selection-start="606" selection-end="606" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="840">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/js/views/views.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="404" column="30" selection-start="11409" selection-end="11413" vertical-scroll-proportion="-64.26923" vertical-offset="4389" max-vertical-offset="6600">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/views/sidebar.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="100" column="67" selection-start="3085" selection-end="3085" vertical-scroll-proportion="0.0" vertical-offset="1198" max-vertical-offset="2400">
+        <state line="342" column="28" selection-start="9874" selection-end="9874" vertical-scroll-proportion="0.0" vertical-offset="5130" max-vertical-offset="6600">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/header.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="198" column="14" selection-start="9275" selection-end="9275" vertical-scroll-proportion="0.0" vertical-offset="2623" max-vertical-offset="3330">
+        <state line="103" column="30" selection-start="5555" selection-end="5562" vertical-scroll-proportion="0.0" vertical-offset="1545" max-vertical-offset="2685">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/views/single.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="65" column="0" selection-start="1862" selection-end="1862" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1530">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="82" column="0" selection-start="2814" selection-end="2814" vertical-scroll-proportion="0.0" vertical-offset="1230" max-vertical-offset="2805">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/topbar.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="6" selection-start="295" selection-end="295" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="180">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/user.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="112" column="0" selection-start="3565" selection-end="3565" vertical-scroll-proportion="0.0" vertical-offset="1680" max-vertical-offset="2340">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/home.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="0" selection-start="81" selection-end="81" vertical-scroll-proportion="0.12295082" vertical-offset="0" max-vertical-offset="366">
+        <state line="8" column="13" selection-start="269" selection-end="269" vertical-scroll-proportion="0.32967034" vertical-offset="0" max-vertical-offset="364">
           <folding />
         </state>
       </provider>
