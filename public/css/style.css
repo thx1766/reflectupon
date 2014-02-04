@@ -14,18 +14,8 @@ button.btn{display: block;border: 1px solid #ccc;padding: 10px;text-decoration: 
 #topbar a.icon{float:right;margin-left:30px;margin-top:2px;}
 
 .wrapper{width:940px;margin:0 auto;clear:both;display:block;padding-top:20px;}
-#sidebar{float:left;min-height:300px;width:50px;position:fixed;}
-#sidebar a{display:block}
-
-#sidebar .main-options{padding:10px 0}
-#sidebar .main-options li,#sidebar .new-reflections li{list-style:none;}
-#sidebar .main-options a,#sidebar .new-reflections a{text-decoration:none;padding:10px 20px;}
-#sidebar .main-options a{font-size:18px;color:rgb(55, 107, 173);background-color:#fff;margin-bottom:8px;border-left:4px solid rgb(226,226,226);box-shadow:0 2px 2px rgb(230,230,230)}
-#sidebar .main-options a:hover{border-left:4px solid rgb(201,128,128)}
-
-#sidebar .glyphicon-refresh{float: right;display: block;margin-top: 1px;}
-#sidebar p{padding: 6px;color: rgb(100,100,100);margin-bottom:12px;font-size: 22px;}
-#sidebar .glyphicon{margin-left:3px;}
+.sidebar{float:left;min-height:300px;width:50px;position:fixed;}
+.sidebar a{display:block}
 
 .new-reflections li{list-style:none;margin:0 10px;padding:8px 6px 8px 10px;text-decoration:none;display:block;}
 .new-reflections .checkbox{position:relative;display: block;border: 1px solid #ccc;height: 16px;width: 16px;float: left;margin-right: 8px;border-radius: 4px;margin-top: 2px;}
@@ -57,7 +47,7 @@ button.btn{display: block;border: 1px solid #ccc;padding: 10px;text-decoration: 
     color: rgb(241, 226, 226)
 }
 
-#container{margin:0 auto;min-height:600px;width:718px;}
+#container{margin:0 auto;min-height:600px;width:730px;}
 #container.today{padding:0}
 .today .heading{padding:10px 20px;background-color:#f3f3f3;border-bottom:1px solid #ccc;}
 .today .heading h1{margin-top:10px;}
@@ -92,7 +82,11 @@ button.btn{display: block;border: 1px solid #ccc;padding: 10px;text-decoration: 
 .thought-row .privacy-status span{display:none}
 .thought-row .privacy-status:hover span{display:inline-block;color:#ccc;}
 .thought-row a{text-decoration:none;font-size:16px;color:rgb(79,94,199)}
-.thought-row .annotation{color:#fff;font-size: 11px;padding: 8px 10px;font-family:arial;background-color:rgb(168, 98, 98)}
+.thought-row .annotation{color:#fff;font-size: 13px;padding: 10px 36px;font-family:arial;background-color:rgb(196,98,98)}
+.thought-row .reply-collection{background-color: rgb(241, 241, 241);padding: 1px 36px;color: #555;font-family: arial;font-size: 14px;}
+.thought-row .reply-collection{list-style:none;}
+.thought-row .reply-collection li {border-bottom: 1px solid rgb(218,201,201);padding:4px 0}
+.thought-row .reply-collection li:last-child {border-bottom: 0;}
 
 .section{margin-bottom:12px;background-color:#fff;box-shadow:0 2px 8px rgb(214,214,214);border-radius:1px;}
 .section-title{font-size:24px;margin-bottom:20px;font-family:arial;}
@@ -110,6 +104,9 @@ button.btn{display: block;border: 1px solid #ccc;padding: 10px;text-decoration: 
 .post-frequency li:first-child{border-left:1px solid #ccc;}
 .post-frequency li.filled{background-color:rgb(126, 176, 231);}
 
+/* Super user */
+ul.super-user {list-style:none}
+ul.super-user li{padding:6px 20px;border-bottom:1px solid #ccc;}
 .clearfix:after {content: ".";display: block;clear: both;visibility: hidden;line-height: 0;height: 0;}
 html[xmlns] .clearfix {display: block;}
 * html .clearfix {height: 1%;}
@@ -120,10 +117,6 @@ html[xmlns] .clearfix {display: block;}
 #cboxClose{position:absolute;bottom:15px;right:15px;display:none;}
 
 .highlight{background-color: #F8FFA1;border-radius: 1px;}
-
-#single-thought #main-thought{min-height:100px;font-size:20px;}
-#single-thought .title{border-bottom:1px solid rgb(241,241,241);margin-bottom:8px;font-size:28px;line-height:38px;}
-#single-thought .write-reply{border-bottom:1px solid #ccc;}
 
 /* Tooltip view */
 div.jquery-gdakram-tooltip{color:#000;}

@@ -179,6 +179,13 @@ window.rupon.views = window.rupon.views || {};
             this.activateTooltip();
             this.render();
 
+            var replies = this.model.get("replies");
+
+            if (replies.length) {
+                var replyCollectionContainer = new rv.RepliesView({collection: replies});
+                this.$el.find(".reply-collection-container").html(replyCollectionContainer.$el);
+            }
+
             this.$el.find(".privacy-status").tooltip({
                 tooltip_class:     "general-tooltip",
                 event_out:         "mouseleave tooltip-end"
@@ -269,6 +276,36 @@ window.rupon.views = window.rupon.views || {};
 
     });
 
+    rv.RepliesView = Backbone.View.extend({
+        tagName: "ul",
+        className: "reply-collection",
+
+        initialize: function() {
+            this.render();
+        },
+
+        render: function() {
+            var self = this;
+            _.each(this.collection.models, function(model) {
+                var replyView = new rv.ReplyView({model: model});
+                self.$el.append(replyView.$el);
+            });
+        }
+    });
+
+    rv.ReplyView = Backbone.View.extend({
+        tagName: "li",
+
+        initialize: function() {
+            this.render();
+        },
+
+        render: function() {
+            var options = _.clone(this.model.attributes);
+            this.$el.html(options.description);
+        }
+    });
+
     rv.TooltipView = Backbone.View.extend({
         tagName:   "div",
         className: "tooltip-view",
@@ -350,8 +387,6 @@ window.rupon.views = window.rupon.views || {};
         }
     });
 
-    var highlightSet = [];
-
     rv.DashboardView = Backbone.View.extend({
         tagName: 'div',
         template: Handlebars.compile($("#dashboard-template").html()),
@@ -363,6 +398,37 @@ window.rupon.views = window.rupon.views || {};
         render: function() {
             this.$el.html(this.template());
         }
-    })
+    });
 
+    rv.UsersView = Backbone.View.extend({
+        tagName: 'ul',
+        className: 'super-user',
+
+        initialize: function() {
+            this.listenTo(this.collection, "add", this.render);
+        },
+
+        render: function(model) {
+            var userView = new rv.UserView({model: model});
+            this.$el.append(userView.$el);
+        }
+
+    });
+
+    rv.UserView = Backbone.View.extend({
+        tagName: 'li',
+        template: Handlebars.compile($("#user-template").html()),
+
+        initialize: function() {
+            this.render();
+        },
+
+        render: function() {
+            var template_options = _.clone(this.model.attributes);
+            var date = new Date(template_options.created_at);
+
+            if (template_options.created_at) template_options.date = (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear();
+            this.$el.html(this.template(template_options));
+        }
+    })
 })();
