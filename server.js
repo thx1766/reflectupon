@@ -145,15 +145,10 @@ var Thought    = user_routes.Thought   = thought_routes.Thought = mongoose.model
 app.get( '/',                               user_routes.getIndex);
 app.get( '/home',   ensureAuthenticated,    user_routes.home);
 app.get( '/new-ux', ensureAuthenticated,    user_routes.newUser);
-app.get( '/stream', ensureAuthenticated,    user_routes.stream);
-app.get( '/thought/:id', ensureAuthenticated, thought_routes.single);
-app.get( '/today', ensureAuthenticated,     thought_routes.today);
-app.get( '/me', ensureAuthenticated,        user_routes.me);
 app.post('/login',                          user_routes.postlogin);
 app.get( '/logout',                         user_routes.logout);
 app.post('/register',                       user_routes.postregister);
 app.get( '/twiml',                          thought_routes.getTwiml);
-app.get('/dashboard', ensureAuthenticated,  user_routes.getDashboard)
 
 app.get('/api/', function(req, res) {
   
