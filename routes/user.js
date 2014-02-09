@@ -32,27 +32,14 @@ exports.home = function(req, res) {
 
 };
 
-exports.stream = function(req, res) {
-    res.render('stream', { user: req.user, topBar: true });
-};
-
 exports.newUser = function(req, res) {
     res.render('new-user', {topBar: false, body: true });
 };
+
 exports.getIndex = function(req, res) {
     res.render('index', { user: req.user, message: req.session.messages, topBar: false });
 };
 
-exports.getDashboard = function(req, res) {
-
-    exports.User.find({}, function(err, users) {
-
-        console.log("users: " + util.inspect(users, false, null));
-
-        res.render('dashboard', { users: users});
-
-    });
-}
 exports.postlogin = function(req, res, next) {
     passport.authenticate('local', function(err, user, info) {
         if (err) { return next(err) }
@@ -81,10 +68,6 @@ exports.postlogin = function(req, res, next) {
         console.log("sent email");
     });*/
 };
-
-exports.me = function(req,res,next) {
-    res.render('me', {topBar: false});
-}
 
 exports.logout = function(req, res) {
     req.logout();
