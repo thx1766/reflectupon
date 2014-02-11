@@ -136,7 +136,7 @@
         <div class="heading">You have already replied:</div>
         <div class="description">{{ description }}</div>
     </script>
-    <script type="text/template" id="single-thought-template">
+    <script type="text/x-handlebars-template" id="single-thought-template">
         <div id="single-thought">
             <div class="section" id="main-thought">
                 <div class="container">
@@ -150,20 +150,19 @@
                     </div>
                 {{/if}}
             </div>
-            <div class="clearfix">
-                <div class="section container write-reply">
-                    <textarea></textarea>
-                    <div class="write-footer clearfix">
-                        <button class="btn submit-reply">Submit reply</button>
-                    </div>
-                </div>
-                <div class="actions">
-                    <p>For more like this...</p>
-                    <a href="javascript:;" class="btn">Follow this user</a>
-                    <a href="javascript:;" class="report">or Report as Inappropriate</a>
+            <div class="section container write-reply">
+                <textarea></textarea>
+                <div class="write-footer clearfix">
+                    <button class="btn submit-reply">Submit reply</button>
                 </div>
             </div>
+            <div class="actions-container"></div>
         </div>
+    </script>
+    <script type="text/x-handlebars-template" id="follow-user-template">
+        <a href="javascript:;" class="btn follow">Follow</a>
+        <a href="javascript:;" class="btn following hidden">Following</a>
+        <p>for more reflections from this user</p>
     </script>
     <script type="text/template" id="sidebar-template">
         <div class="menu" style="

@@ -35,7 +35,12 @@ window.rupon.utils = window.rupon.utils || {};
             .on("create-reflection", function() {
                 rc.resetViews({tooltip_view: true});
 
-                postboxView = new rupon.views.PostboxView({collection: my_thoughts_collection})
+                postboxView = new rupon.views.PostboxView({collection: my_thoughts_collection});
+
+                postboxView.on("create-reflection", function() {
+                    //my_thoughts_collection
+                });
+
                 $("#postbox-container").html(postboxView.$el);
 
                 $.colorbox({
@@ -153,7 +158,19 @@ window.rupon.utils = window.rupon.utils || {};
     };
 
     rc.setSingle = function(model) {
-        singleView = new rupon.views.Single.ThoughtView({model: model});
+
+        var follow_user_collection = new rupon.models.followUserCollection();
+        var followUserView = new rupon.views.Single.FollowUserView();
+
+        followUserView.on("follow-user", function() {
+            alert('hello');
+        });
+
+        singleView = new rupon.views.Single.ThoughtView({
+            model:          model,
+            followUserCollection: follow_user_collection,
+            followUserView: followUserView
+        });
         $("#container").html(singleView.$el);
     }
 

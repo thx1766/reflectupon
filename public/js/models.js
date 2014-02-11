@@ -76,6 +76,15 @@ window.rupon.models = window.rupon.models || {};
         url: function() {
             return '/api/thought/'+ this.thoughtId +'/reply/'+ this.replyId + '/annotation/';
         }
+    });
+
+    rm.followUser = Backbone.Model.extend({
+        urlRoot: "/follow_user"
+    });
+
+    rm.followUserCollection = Backbone.Collection.extend({
+        model: rm.followUser,
+        url: "/follow_user"
     })
 
 })();

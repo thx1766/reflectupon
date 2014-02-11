@@ -377,6 +377,8 @@ window.rupon.views = window.rupon.views || {};
         submitReflection: function() {
             $.colorbox.close();
 
+            var model = "haha";
+            this.trigger("create-reflection", {model: model});
             this.collection.create({
 
                 title:          this.$el.find(".postbox-title").val(),

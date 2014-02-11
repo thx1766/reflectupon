@@ -10,9 +10,11 @@
 #single-thought .write-reply .write-footer{width:100%;margin-bottom:6px;}
 #single-thought .write-reply a{display: block;float: right;}
 #single-thought .submit-reply{float:right;}
-#single-thought .actions{display:none;float: right;width: 235px;height: 197px;background-color: rgb(236, 236, 236);border: 1px solid #ccc;border-radius: 3px;padding: 20px;box-sizing: border-box;}
-#single-thought .actions p{margin-bottom: 15px;font-size: 16px;text-align: center;padding-top:16px;}
-#single-thought .actions a.btn{display: block;height: 36px;width: 100%;background-color: rgb(119, 121, 175);border: 2px solid rgb(45, 35, 155);box-sizing: border-box;border-radius: 2px;color: #fff;text-align: center;padding-top: 7px;font-family: arial;text-decoration: none;}
+#single-thought .actions{float: right;width: 100%;background-color: rgb(236, 236, 236);border: 1px solid #ccc;border-radius: 3px;padding: 10px 20px;box-sizing: border-box;}
+#single-thought .actions p{margin-bottom: 5px;font-size: 16px;text-align: center;padding-top:8px;float:left;}
+#single-thought .actions a.btn{float:left;height:36px;width:145px;box-sizing: border-box;border-radius: 2px;color: #fff;text-align: center;font-family: arial;text-decoration: none;margin-right:10px;padding-top: 7px;}
+#single-thought .actions a.btn.follow{background-color: rgb(119, 121, 175);border: 2px solid rgb(45, 35, 155);}
+#single-thought .actions a.btn.following{background-color: rgb(182, 122, 122);border: 2px solid rgb(151, 77, 77);}
 #single-thought .actions a.report{display: block;padding: 20px 10px;text-align: center;text-decoration: none;}
 
 #single-thought .full-thought{border-top:1px solid #ccc;border-radius:2px;font-size:16px;padding:10px 20px;}

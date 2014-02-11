@@ -16,9 +16,9 @@ window.rupon.views = window.rupon.views || {};
 
         template: Handlebars.compile($("#single-thought-template").html()),
 
-        initialize: function() {
+        initialize: function(options) {
 
-            //this.collection.replies = new rupon.models.replyCollection({thought_id: this.model.attributes._id});
+            this.followUserView = options.followUserView;
 
             this.model.get('replies').on('add', function(reply) {
 
@@ -52,6 +52,8 @@ window.rupon.views = window.rupon.views || {};
                     self.$el.find(".write-reply").html( formatReply.el );
                 });
             }
+
+            this.$el.find(".actions-container").html(this.followUserView.$el);
 
             return this;
         },
@@ -93,5 +95,30 @@ window.rupon.views = window.rupon.views || {};
         }
 
     });
+
+    rv.Single.FollowUserView = Backbone.View.extend({
+        tagName: "div",
+        className: "actions",
+        template: _.template($("#follow-user-template").html()),
+
+        events: {
+            "click .follow": "followUser"
+        },
+
+        initialize: function() {
+            this.render();
+        },
+
+        render: function() {
+            this.$el.html( this.template());
+        },
+
+        followUser: function() {
+            this.$el.find(".following").removeClass("hidden");
+            this.$el.find(".follow").addClass("hidden");
+            this.trigger("follow-user");
+        }
+
+    })
 
 })();
