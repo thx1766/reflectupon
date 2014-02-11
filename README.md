@@ -22,4 +22,3 @@ require
 - mongodb
 - passport (express middleware for authentication)
 sdfsdf
-TEST
