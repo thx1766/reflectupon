@@ -109,67 +109,67 @@ window.rupon.utils = window.rupon.utils || {};
     };
 
     rc.setAllThoughts = function() {
-        allThoughts = new rupon.views.ThoughtView({collection: my_thoughts_collection});
-        allThoughts
-            .on("tooltip-initialized", function() {
-                setTooltipView() })
-            .on("start-tooltip", function(ele) {
+		allThoughts = new rupon.views.ThoughtView({collection: my_thoughts_collection});
+		allThoughts
+		    .on("tooltip-initialized", function() {
+			setTooltipView() })
+		    .on("start-tooltip", function(ele) {
 
-                    $("body").animate({scrollTop:(ele.offset().top - 20)}, '20000', 'swing');
+			    $("body").animate({scrollTop:(ele.offset().top - 20)}, '20000', 'swing');
 
-                    $(".thought-row").trigger("tooltip-end");
-                    if (tooltipView) tooltipView.remove();
+			    $(".thought-row").trigger("tooltip-end");
+			    if (tooltipView) tooltipView.remove();
 
-                    ele.trigger("tooltip-start");
+			    ele.trigger("tooltip-start");
 
-                    $(document).click(function(event) {
-                        if($(event.target).parents().index($('.jquery-gdakram-tooltip')) == -1) {
-                            if($('.jquery-gdakram-tooltip').is(":visible")) {
-                                ele.trigger("tooltip-end");
-                                rc.resetViews({tooltip_view:true});
-                            }
-                        }
-                    })
-                })
-            .on("change-privacy", function(privacy, model) {
-                model.save({privacy: privacy},{wait:true})
-            });
+			    $(document).click(function(event) {
+				if($(event.target).parents().index($('.jquery-gdakram-tooltip')) == -1) {
+				    if($('.jquery-gdakram-tooltip').is(":visible")) {
+					ele.trigger("tooltip-end");
+					rc.resetViews({tooltip_view:true});
+				    }
+				}
+			    })
+			})
+		    .on("change-privacy", function(privacy, model) {
+			model.save({privacy: privacy},{wait:true})
+		    });
 
-        $("#container").append(allThoughts.$el);
+		$("#container").append(allThoughts.$el);
 
-        var setTooltipView = function() {
+		var setTooltipView = function() {
 
-            var text = rupon.utils.getSelectionText();
+		    var text = rupon.utils.getSelectionText();
 
-            tooltipView = new rupon.views.TooltipView({collection: my_thoughts_collection, annotation: text});
-            $(".jquery-gdakram-tooltip").find(".content").html(tooltipView.$el);
+		    tooltipView = new rupon.views.TooltipView({collection: my_thoughts_collection, annotation: text});
+		    $(".jquery-gdakram-tooltip").find(".content").html(tooltipView.$el);
 
-            tooltipView.on("create-reflection", function(attrs) {
-                my_thoughts_collection.create(attrs);
-                rc.resetViews({tooltip_view:true});
-            });
+		    tooltipView.on("create-reflection", function(attrs) {
+			my_thoughts_collection.create(attrs);
+			rc.resetViews({tooltip_view:true});
+		    });
 
-        }
-    };
+		}
+	    };
 
-    rc.setSingle = function(model) {
-        singleView = new rupon.views.Single.ThoughtView({model: model});
-        $("#container").html(singleView.$el);
-    }
+	    rc.setSingle = function(model) {
+		singleView = new rupon.views.Single.ThoughtView({model: model});
+		$("#container").html(singleView.$el);
+	    }
 
-    rupon.utils.getSelectionText = function() {
-        var text = "";
-        if (window.getSelection) {
-            text = window.getSelection().toString();
-        } else if (document.selection && document.selection.type != "Control") {
-            text = document.selection.createRange().text;
-        }
-        return text;
-    }
+	    rupon.utils.getSelectionText = function() {
+		var text = "";
+		if (window.getSelection) {
+		    text = window.getSelection().toString();
+		} else if (document.selection && document.selection.type != "Control") {
+		    text = document.selection.createRange().text;
+		}
+		return text;
+	    }
 
-    rc.startIndexPage = function(message) {
-        var indexView = new rupon.views.IndexView({message: message});
-        $(".index-container").html(indexView.$el);
+	    rc.startIndexPage = function(message) {
+		var indexView = new rupon.views.IndexView({message: message});
+		$(".index-container").html(indexView.$el);
     }
 
     rc.setSuperUser = function() {
