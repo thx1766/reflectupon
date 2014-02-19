@@ -36,6 +36,12 @@ window.rupon.utils = window.rupon.utils || {};
                 rc.resetViews({tooltip_view: true});
 
                 postboxView = new rupon.views.PostboxView({collection: my_thoughts_collection})
+
+                postboxView
+                    .on("create-reflection", function(attrs) {
+                        my_thoughts_collection.create(attrs);
+                    });
+
                 $("#postbox-container").html(postboxView.$el);
 
                 $.colorbox({

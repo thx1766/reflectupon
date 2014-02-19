@@ -289,10 +289,15 @@ window.rupon.views = window.rupon.views || {};
         },
 
         createReflection: function(){
-            this.trigger("create-reflection", {
-                description:    this.$el.find("textarea").val(),
-                annotation:     this.annotation
-            });
+
+            if (!this.clickedOnce) {
+                this.clickedOnce = true;
+                this.trigger("create-reflection", {
+                    description:    this.$el.find("textarea").val(),
+                    annotation:     this.annotation,
+                    date:           new Date()
+                });
+            }
         }
 
     });
@@ -341,13 +346,15 @@ window.rupon.views = window.rupon.views || {};
         submitReflection: function() {
             $.colorbox.close();
 
-            this.collection.create({
-
-                title:          this.$el.find(".postbox-title").val(),
-                description:    this.$el.find(".postbox-description").val(),
-                expression:     this.$el.find("#expression-field").val()
-
-            });
+            if (!this.clickedOnce) {
+                this.clickedOnce = true;
+                this.trigger("create-reflection", {
+                    title:          this.$el.find(".postbox-title").val(),
+                    description:    this.$el.find(".postbox-description").val(),
+                    expression:     this.$el.find("#expression-field").val(),
+                    date:           new Date()
+                })
+            }
         }
     });
 
