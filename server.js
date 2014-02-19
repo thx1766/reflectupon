@@ -1,10 +1,17 @@
 var accountSid = 'ACdff89a1df2ba2a2d90fa0cd39ffe1f81';
 var authToken  = "04916a518707f9e480e6593006c3d236";
 
+var config;
+
+if (process.ENV.port) {
+    config   = require('./config')
+} else {
+    config   = require('./config_settings')
+}
+
 var http     = require('http')
   , mongoose = require('mongoose')
   , Schema   = mongoose.Schema
-  , config   = require('./config')
   , fs       = require('fs')
   , forgot   = require('./forgot')
   , express  = require('express')
