@@ -1,10 +1,13 @@
-var passport      = require('passport'),
-    util          = require('util'),
-    mongoose      = require('mongoose'),
-    LocalStrategy = require('passport-local').Strategy,
-    sendgrid      = require('sendgrid')(
-        process.env.SENDGRID_USERNAME,
-        process.env.SENDGRID_PASSWORD
+var config          = require('../config'),
+    passport        = require('passport'),
+    util            = require('util'),
+    mongoose        = require('mongoose'),
+    LocalStrategy   = require('passport-local').Strategy,
+    forgot          = require('../forgot'),
+    fs              = require('fs'),
+    sendgrid        = require('sendgrid')(
+        config.sg_username,
+        config.sg_password
     ),
     SALT_WORK_FACTOR = 10;
 
@@ -37,7 +40,8 @@ exports.newUser = function(req, res) {
 };
 
 exports.getIndex = function(req, res) {
-    res.render('index', { user: req.user, message: req.session.messages, topBar: false });
+    var message = "";
+    res.render('index', { user: req.user, message: message, topBar: false });
 };
 
 exports.postlogin = function(req, res, next) {
@@ -51,7 +55,6 @@ exports.postlogin = function(req, res, next) {
         req.logIn(user, function(err) {
 
             if (err) { return next(err); }
-            console.log("redirect already: " + err);
             return res.redirect('/home');
         });
     })(req, res, next);
@@ -84,9 +87,9 @@ exports.postregister = function(req, res, next) {
 
             sendgrid.send({
                 to: req.body.email,
-                from: 'sender@example.com',
+                from: 'andrewjcasal@gmail.com',
                 subject: 'Welcome to reflectupon!',
-                html: 'Thanks for your interest!<br /><br />Here are your credentials.<br /><br/>Username: ' + req.body.username + '<br />Password: ' + req.body.password + '<br /><br/>Thanks! -reflectupon team'
+                html: 'Thanks for your interest! Stay tuned for further updates.<br /><br/>Thanks!<br />reflectupon team'
             }, function(err, json) {
                 if (err) { return console.error(err); }
                 console.log(json);
@@ -107,6 +110,59 @@ exports.postregister = function(req, res, next) {
     });
 
 };
+
+exports.postForgot = function(req, res, next) {
+
+    var email = req.body.email;
+
+    var user = exports.User.findOne({ email: email }, function(err, user) {
+        if (user) {
+
+            var email_options = {
+                sender:   "andrewjcasal@gmail.com",
+                receiver: email,
+                subject:  "Forgot your password?",
+                text:     'Hey,<br /><br />It seems like you might have forgotten your password. Click <a href="{{ verification_link }}">here</a> to retrieve it.<br /><br/>Thanks!<br />reflectupon team'
+            };
+
+            var reset = forgot.forgot( email_options, function(err) {
+
+                if (err) res.end('Error sending message.')
+
+            });
+
+            reset.on('request', function(req_, res_) {
+                req_.session.reset = { email : email, id : reset.id };
+
+                fs.createReadStream(__dirname + '/../views/forgot.ejs').pipe(res_);
+            })
+
+        } else {
+            console.log("does not contain the email address");
+        }
+    });
+
+    return res.redirect('/');
+};
+
+exports.postReset = function(req, res, next) {
+    var password = req.body.password;
+    var confirm = req.body.confirm;
+
+    var email = req.session.reset.email;
+    forgot.forgot.expire(req.session.reset.id)
+
+    if (password == confirm && email) {
+        var user = exports.User.findOne({ email: email}, function(err, user) {
+            if (user) {
+                user.password = password;
+                user.save();
+                res.render('index', { message: "Password successfully reset.", topBar: false})
+            }
+        })
+    }
+
+}
 
 passport.serializeUser(function(user, done) {
     done(null, user.id);

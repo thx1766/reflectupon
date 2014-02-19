@@ -167,9 +167,9 @@ window.rupon.utils = window.rupon.utils || {};
         return text;
     }
 
-    rc.startIndexPage = function() {
-        var indexView = new rupon.views.IndexView();
-        $(".left-side").html(indexView.$el);
+    rc.startIndexPage = function(message) {
+        var indexView = new rupon.views.IndexView({message: message});
+        $(".index-container").html(indexView.$el);
     }
 
     rc.setSuperUser = function() {

@@ -17,39 +17,58 @@
 
     <script type="text/x-handlebars-template" id="index-template">
         <div class="logo-name">reflectupon</div>
-        <div class="form-container">
+        {{#if message}}
+            <div class="special-msg">{{ message }}</div>
+        {{/if}}
+        <div class="form-container login-form">
             <form id="login-form" action="/login" method="post">
-                <div class="clearfix">
+                <div class="row-container clearfix">
                     <label>Username</label>
-                    <input type="text" name="username"/><br/>
+                    <input class="input" type="text" name="username"/><br/>
                 </div>
-                <div class="clearfix">
+                <div class="row-container clearfix">
                     <label>Password</label>
-                    <input type="password" name="password"/>
+                    <input class="input" type="password" name="password"/>
                 </div>
-                <div class="clearfix">
+                <div class="row-container clearfix">
                     <input type="submit" value="Log in"/>
+                </div>
+                <div class="forgot-password-container">
+                    <a href="javascript:;" class="forgot-password">Forgot your password?</a>
                 </div>
             </form>
             <div class="or-register">or <a href="javascript:;">Register</a></div>
             <form id="register-form" action="/register" method="post">
-                <div class="clearfix">
+                <div class="row-container clearfix">
                     <label>Username</label>
-                    <input type="text" name="username"/><br/>
+                    <input class="input" type="text" name="username"/><br/>
                 </div>
-                <div class="clearfix">
+                <div class="row-container clearfix">
                     <label>Password</label>
-                    <input type="password" name="password"/>
+                    <input class="input" type="password" name="password"/>
                 </div>
-                <div class="clearfix">
+                <div class="row-container clearfix">
                     <label>E-mail</label>
-                    <input type="text" name="email"/><br/>
+                    <input class="input" type="text" name="email"/><br/>
                 </div>
                 <div class="clearfix">
                     <input type="submit" value="Register"/>
                 </div>
             </form>
             <div class="or-login">or <a href="javascript:;">Log In</a></div>
+            <form id="forgot-password" class="hidden" action="/forgot" method="post">
+                <div class="row-container clearfix">
+                    Forgot your password?
+                </div>
+                <hr>
+                <div class="row-container clearfix">
+                    <label>Email</label>
+                    <input class="input" type="text" name="email" />
+                </div>
+                <div class="row-container clearfix">
+                    <input type="submit" value="Retrieve"/>
+                </div>
+            </form>
         </div>
     </script>
     <script type="text/x-handlebars-template" id="postbox-template">
@@ -206,6 +225,7 @@
     <script type="text/javascript" src="/js/views/views.js"></script>
     <script type="text/javascript" src="/js/views/sidebar.js"></script>
     <script type="text/javascript" src="/js/views/single.js"></script>
+    <script type="text/javascript" src="/js/views/index.js"></script>
     <script type="text/javascript" src="/js/controller.js"></script>
 
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/third-party/bootstrap.min.js"></script>
