@@ -3,7 +3,7 @@ var authToken  = "04916a518707f9e480e6593006c3d236";
 
 var config;
 
-if (process.ENV.port) {
+if (process.env.PORT) {
     config   = require('./config')
 } else {
     config   = require('./config_settings')
