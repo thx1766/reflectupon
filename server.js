@@ -4,9 +4,9 @@ var authToken  = "04916a518707f9e480e6593006c3d236";
 var config;
 
 if (process.env.PORT) {
-    config   = require('./config')
+    config   = require('./config');
 } else {
-    config   = require('./config_settings')
+    config   = require('./config_settings');
 }
 
 var http     = require('http')
