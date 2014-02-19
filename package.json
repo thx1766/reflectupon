@@ -15,15 +15,17 @@
   "author": "Andrew Casal",
   "license": "BSD",
   "dependencies": {
-    "mongoose": "3.x.x",
-    "express": "3.4.0",
-    "passport": "0.1.17",
+    "mongoose":       "3.x.x",
+    "express":        "3.4.0",
+    "passport":       "0.1.17",
     "passport-local": "0.1.6",
-    "bcryptjs": "0.7.10",
-    "ejs": "0.8.4",
-    "util": "0.4.9",
-    "sendgrid": "0.3.0-rc.1.7",
-    "twilio": "1.4.0"
+    "bcryptjs":       "0.7.10",
+    "ejs":            "0.8.4",
+    "util":           "0.4.9",
+    "sendgrid":       "0.3.0-rc.1.7",
+    "twilio":         "1.4.0",
+    "ent":            "0.1.0",
+    "nodemailer":     "0.6.0"
   },
   "engines": {
     "node": "0.10.17",
