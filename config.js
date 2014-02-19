@@ -1,6 +1,6 @@
 var config = {
-  sg_username: process.ENV.SENDGRID_USERNAME,
-  sg_password: process.ENV.SENDGRID_PASSWORD
+  sg_username: process.env.SENDGRID_USERNAME,
+  sg_password: process.env.SENDGRID_PASSWORD
 }
 
 module.exports = config;
