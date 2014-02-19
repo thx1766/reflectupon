@@ -1,12 +1,11 @@
 <% include header %>
-<div class="left-side">
-</div>
-<div class="right-side">
+<div class="index-container">
 </div>
 
-    <script type="text/javascript">
-    $(document).ready(function(){
-        rupon.controllers.startIndexPage();
-    })
-    </script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    var message = "<%= message %>";
+    rupon.controllers.startIndexPage(message);
+  })
+</script>
 <% include footer %>

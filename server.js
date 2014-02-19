@@ -1,22 +1,27 @@
+var accountSid = 'ACdff89a1df2ba2a2d90fa0cd39ffe1f81';
+var authToken  = "04916a518707f9e480e6593006c3d236";
+
 var http     = require('http')
   , mongoose = require('mongoose')
   , Schema   = mongoose.Schema
-  , express  = require('express'),
-    path     = require('path'),
-    util     = require('util'),
-    passport = require('passport'),
-    bcrypt   = require('bcryptjs'),
-    sendgrid  = require('sendgrid')(
-        process.env.SENDGRID_USERNAME,
-        process.env.SENDGRID_PASSWORD
+  , config   = require('./config')
+  , fs       = require('fs')
+  , forgot   = require('./forgot')
+  , express  = require('express')
+  , path     = require('path')
+  , util     = require('util')
+  , passport = require('passport')
+  , bcrypt   = require('bcryptjs')
+  , sendgrid = require('sendgrid')(
+        config.sg_username,
+        config.sg_password
     ),
     user_routes     = require('./routes/user'),
     thought_routes  = require('./routes/thought');
 
-var app      = express();
+var app = express();
+exports.app = app;
 
-var accountSid = 'ACdff89a1df2ba2a2d90fa0cd39ffe1f81';
-var authToken = "04916a518707f9e480e6593006c3d236";
 var client = require('twilio')(accountSid, authToken);
 /*
 client.sms.messages.create({
@@ -48,7 +53,7 @@ app.configure( function() {
     app.use( express.methodOverride() );
     app.use( app.router );
     app.use( express.errorHandler({ dumpExceptions: true, showStack: true }));
-
+    app.use( forgot.forgot.middleware);
 });
 
 mongoose.connect(process.env.MONGOHQ_URL || 'mongodb://127.0.0.1:27017/reflectupon');
@@ -114,8 +119,6 @@ userSchema.pre('save', function(next) {
 
     var user = this;
 
-    console.log("save user: " + util.inspect(user, false, null));
-
     if(!user.isModified('password')) return next();
 
     bcrypt.genSalt(10, function(err, salt) {
@@ -148,11 +151,9 @@ app.get( '/new-ux', ensureAuthenticated,    user_routes.newUser);
 app.post('/login',                          user_routes.postlogin);
 app.get( '/logout',                         user_routes.logout);
 app.post('/register',                       user_routes.postregister);
+app.post('/forgot',                         user_routes.postForgot);
+app.post('/reset',                          user_routes.postReset);
 app.get( '/twiml',                          thought_routes.getTwiml);
-
-app.get('/api/', function(req, res) {
-  
-});
 
 app.get('/api/thought/:type', function(req, res) {
 
@@ -243,7 +244,6 @@ app.get('/api/users', function(req,res) {
 
 app.get('/api/thought/:thought/reply/', function(req, res) {
 
-    console.log("annotation: " + util.inspect(req.params.thought, false, null));
     Reply.find({ thought_id: req.params.thought }, function(err, replies) {
 
         res.send(replies);

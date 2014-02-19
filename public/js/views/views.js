@@ -91,42 +91,6 @@ window.rupon.views = window.rupon.views || {};
         }
     })
 
-    rv.IndexView = Backbone.View.extend({
-
-        tagName: "div",
-        template: Handlebars.compile($("#index-template").html()),
-
-        events: {
-            'click .or-register': 'showRegister',
-            'click .or-login': 'showLogin'
-        },
-
-        initialize: function(){
-            this.render();
-        },
-
-        render: function() {
-            this.$el.html(this.template())
-        },
-
-        showRegister: function() {
-            $("#register-form").fadeIn();
-            $(".or-register").fadeOut();
-            $("#login-form").slideUp(500, function() {
-                $(".or-login").fadeIn();
-            });
-        },
-
-        showLogin: function() {
-            $("#login-form").slideDown();
-            $(".or-login").fadeOut();
-            $("#register-form").fadeOut(500, function() {
-                $(".or-register").fadeIn();
-            });
-        }
-
-    })
-
     rv.ThoughtView = Backbone.View.extend({
 
         tagName: "div",
