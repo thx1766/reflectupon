@@ -1,7 +1,8 @@
 var config = require('./config');
 
+var url = (process.env.PORT) ? "http://reflectupon.herokuapp.com" : "http://localhost:2000";
 exports.forgot = require('./reset-password')({
-    uri : 'http://localhost:2000/password_reset',
+    uri : url + '/password_reset',
     host : 'http://smtp.sendgrid.net', port : 25,
     username: config.sg_username,
     password: config.sg_password
