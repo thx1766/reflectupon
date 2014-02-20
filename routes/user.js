@@ -84,7 +84,6 @@ exports.postregister = function(req, res, next) {
         if(err) {
             console.log(err);
         } else {
-
             sendgrid.send({
                 to: req.body.email,
                 from: 'andrewjcasal@gmail.com',
@@ -117,7 +116,6 @@ exports.postForgot = function(req, res, next) {
 
     var user = exports.User.findOne({ email: email }, function(err, user) {
         if (user) {
-
             var email_options = {
                 sender:   "andrewjcasal@gmail.com",
                 receiver: email,
