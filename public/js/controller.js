@@ -121,7 +121,7 @@ window.rupon.utils = window.rupon.utils || {};
 			setTooltipView() })
 		    .on("start-tooltip", function(ele) {
 
-			    $("body").animate({scrollTop:(ele.offset().top - 20)}, '20000', 'swing');
+			    $("body").animate({scrollTop:(ele.offset().top - 60)}, '20000', 'swing');
 
 			    $(".thought-row").trigger("tooltip-end");
 			    if (tooltipView) tooltipView.remove();
@@ -138,10 +138,21 @@ window.rupon.utils = window.rupon.utils || {};
 			    })
 			})
 		    .on("change-privacy", function(privacy, model) {
-			model.save({privacy: privacy},{wait:true})
-		    });
+			    model.save({privacy: privacy},{wait:true})
+		    })
+            .on("edit-thought", function(new_text, model) {
+                model.save({description: new_text});
+            })
+            .on("delete-thought", function(model) {
+                model.destroy();
+            })
+            .on("archive-thought", function(model) {
+                model.save({archived: true});
+            });
 
 		$("#container").append(allThoughts.$el);
+
+        $('textarea').autosize();
 
 		var setTooltipView = function() {
 

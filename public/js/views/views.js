@@ -102,6 +102,9 @@ window.rupon.views = window.rupon.views || {};
             this.collection.on('add', this.displayItem, this);
 
             this.render();
+
+            this.archived_count = 0;
+            this.last_archived = false;
         },
 
         render: function() {
@@ -115,12 +118,22 @@ window.rupon.views = window.rupon.views || {};
 
             var formatThought = new rv.ThoughtItemView({ model: thought });
 
-            this.$el.prepend(formatThought.$el);
+            if (thought.get("archived")) {
+                this.archived_count = this.last_archived ? (this.archived_count+1) : 1;
+                this.last_archived = true;
+            } else {
+                this.archived_count = 0;
+                this.last_archived = false;
+            }
 
-            var self = this;
-            this.listenTo(formatThought, 'all', function() {
-                self.trigger.apply(this, arguments);
-            });
+            if (!this.archived_count || (this.archived_count && this.archived_count == 1)) {
+                this.$el.prepend(formatThought.$el);
+
+                var self = this;
+                this.listenTo(formatThought, 'all', function() {
+                    self.trigger.apply(this, arguments);
+                });
+            }
 
         }
 
@@ -133,13 +146,18 @@ window.rupon.views = window.rupon.views || {};
         template: Handlebars.compile($("#thought-item-template").html()),
 
         events: {
-            'click a':               'showSingle',
-            'selectstart .message':  'takeAnnotation',
-            'click .privacy-status': 'changePrivacy'
+            'click a':                  'showSingle',
+            'selectstart .description': 'takeAnnotation',
+            'click .privacy-status':    'changePrivacy',
+            'click .edit':              'editThought',
+            'click .delete':            'deleteThought',
+            'click .archive':           'archiveThought',
+            'keypress textarea':        'submitEdit'
         },
 
         initialize: function() {
             this.model.on("change", this.modelChanged, this);
+            this.model.on("destroy", this.remove, this);
             this.activateTooltip();
             this.render();
 
@@ -149,17 +167,19 @@ window.rupon.views = window.rupon.views || {};
                 var replyCollectionContainer = new rv.RepliesView({collection: replies});
                 this.$el.find(".reply-collection-container").html(replyCollectionContainer.$el);
             }
-
-            this.$el.find(".privacy-status").tooltip({
-                tooltip_class:     "general-tooltip",
-                event_out:         "mouseleave tooltip-end"
-            });
         },
 
         render: function(options) {
 
             this.$el.find(".privacy-status").trigger("tooltip-end");
             var template_options = _.clone(this.model.attributes);
+
+            var created_at = new Date(template_options.date).getTime();
+            var today = new Date().getTime();
+
+            var difference_ms = today - created_at;
+
+            template_options.can_edit = (difference_ms/(1000*60*60*24)) <= 1;
 
             options = options || {};
             template_options.showMore = options.showMore || false;
@@ -236,6 +256,27 @@ window.rupon.views = window.rupon.views || {};
                 arrow_left_offset: 280,
                 tooltip_class:     "thought-tooltip"
             });
+        },
+
+        editThought: function() {
+            this.$el.addClass("editing");
+        },
+
+        submitEdit: function(e) {
+            if (e.which == 13){
+                var value = this.$el.find("textarea").val();
+                this.$el.removeClass("editing");
+                this.trigger("edit-thought", value, this.model);
+
+            }
+        },
+
+        deleteThought: function() {
+            this.trigger("delete-thought", this.model);
+        },
+
+        archiveThought: function() {
+            this.trigger("archive-thought", this.model);
         }
 
     });

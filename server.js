@@ -73,6 +73,7 @@ var thoughtSchema = Schema({
     user_id:        String,
     annotation:     String,
     date:           Date,
+    archived:       Boolean,
     replies:        [{
         type: Schema.Types.ObjectId,
         ref: 'Reply' }]
@@ -226,8 +227,20 @@ app.post('/api/thought', function(req, res) {
 
 app.put('/api/thought/:id', function(req,res) {
     Thought.findById(req.params.id, function(err,thought) {
-        thought.privacy = req.body.privacy;
+        if (req.body.privacy)     thought.privacy     = req.body.privacy;
+        if (req.body.description) thought.description = req.body.description;
+        if (req.body.archived)    thought.archived    = req.body.archived;
+
         thought.save(function(err) {
+            if (err) console.log(err);
+            res.send(thought);
+        })
+    });
+});
+
+app.delete('/api/thought/:id', function(req,res) {
+    Thought.findById(req.params.id, function(err,thought) {
+        thought.remove(function(err) {
             if (err) console.log(err);
             res.send(thought);
         })

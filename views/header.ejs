@@ -6,12 +6,13 @@
     <link type="text/css" href="/css/index.css" rel="stylesheet" />
     <link type="text/css" href="/css/single.css" rel="stylesheet" />
     <script type="text/javascript" src="/js/third-party/jquery.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/third-party/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/third-party/bootstrap.js"></script>
     <script type="text/javascript" src="/js/third-party/underscore.min.js"></script>
     <script type="text/javascript" src="/js/third-party/backbone.min.js"></script>
     <script type="text/javascript" src="/js/third-party/jquery.colorbox-min.js"></script>
     <script type="text/javascript" src="/js/third-party/jquery.scrollspy.js"></script>
     <script type="text/javascript" src="/js/third-party/jquery.highlight.js"></script>
+    <script type="text/javascript" src="/js/third-party/jquery.autosize.min.js"></script>
     <script type="text/javascript" src="/js/third-party/jquery.tooltip.js"></script>
     <script type="text/javascript" src="/js/third-party/handlebars.js"></script>
 
@@ -96,20 +97,49 @@
         <button class="btn submit">Write reflection</button>
     </script>
     <script type="text/x-handlebars-template" id="thought-item-template">
-        <div class="message">
-            <div class="description">{{ description }}{{#if read_more}} <a href="javascript:;">Read more</a>{{/if}}</div>
-            <div class="tooltip_description" style="display:none;" title="No worries"></div>
-            <a href="javascript:;" class="privacy-status">
-                <i class="fa {{#equal privacy "Private"}}fa-user{{else}}fa-users{{/equal}}"></i> {{privacy}}
-                <span class="tooltip_description">{{privacy}}: Click to set as {{privacy_inverse}}</span>
-            </a>
-        </div>
-        {{#if annotation }}
-            <div class="annotation">
-                <div class="annotation-desc">Annotation: {{ annotation }}</div>
+        {{#if archived}}
+            <div class="archived-container"><div class="archived">Archived Thought</div></div>
+        {{else}}
+            <div class="message clearfix{{#equal privacy "Private"}} private{{/equal}}">
+                <div class="description-container">
+                    <div class="description">{{ description }}{{#if read_more}} <a href="javascript:;">Read more</a>{{/if}}</div>
+                    <textarea>{{ description }}</textarea>
+                </div>
+                <div class="right-actions dropdown-container arrow-right">
+                    <a href="javascript:;" class="options">
+                        <i class="fa fa-angle-down fa-lg"></i>
+                    </a>
+                    <div class="dropdown-arrow clearfix">
+                        <div class="arrow">
+                        </div>
+                        <div class="dropdown">
+                            <ul>
+                                <li><a href="javascript:;" class="privacy-status">Set as {{privacy_inverse}}</a></li>
+                                {{#if can_edit }}<li><a href="javascript:;" class="edit">Edit</a></li>{{/if}}
+                                <li><a href="javascript:;" class="delete">Delete</a></li>
+                                <li><a href="javascript:;" class="archive">Archive</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="left-actions dropdown-container arrow-left">
+                    <div class="lock-container">
+                        <i class="fa fa-lock"></i><div>Private</div>
+                    </div>
+                    <div class="dropdown-arrow">
+                        <div class="arrow"></div>
+                        <div class="dropdown"><button class="privacy-status">Set as anonymous</button></div>
+                    </div>
+                </div>
+                <div class="tooltip_description" style="display:none;" title="No worries"></div>
             </div>
+            {{#if annotation }}
+                <div class="annotation">
+                    <div class="annotation-desc">Annotation: {{ annotation }}</div>
+                </div>
+            {{/if}}
+            <div class="reply-collection-container"></div>
         {{/if}}
-        <div class="reply-collection-container"></div>
     </script>
     <script type="text/x-handlebars-template" id="new-thought-item-template">
         <span class="checkbox {{#if replied}}active{{/if}}">
@@ -227,8 +257,11 @@
     <script type="text/javascript" src="/js/views/single.js"></script>
     <script type="text/javascript" src="/js/views/index.js"></script>
     <script type="text/javascript" src="/js/controller.js"></script>
-
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/third-party/bootstrap.min.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function(){
+        $('.dropdown-toggle').dropdown();
+    });
+    </script>
 </head>
 <body >
 <% if (topBar) { %>
