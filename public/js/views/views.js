@@ -71,6 +71,11 @@ window.rupon.views = window.rupon.views || {};
 
         render: function() {
             this.$el.html(this.template(this.model.attributes));
+        },
+
+        close: function() {
+            this.remove();
+            this.unbind();
         }
     });
 
@@ -79,15 +84,32 @@ window.rupon.views = window.rupon.views || {};
 
         initialize: function() {
             this.collection.on("reset", this.render, this);
+            this.collection.on("add", this.resetViews, this);
+            
+            //keep memory of views especially when refreshing new set
+            this.childViews = [];
+            
             this.render();
         },
 
         render: function() {
             var self = this;
-            _.each(_.first(this.collection.models,3), function(model) {
+
+            _.each(_.last(this.collection.models,3), function(model) {
                 var message = new rv.MessageView({model: model});
+                self.childViews.push(message);
                 self.$el.append(message.$el);
             })
+        },
+
+        resetViews: function() {
+            _.each(this.childViews, function(childView) {
+                if (childView.close) {
+                    childView.close();
+                }
+            })
+
+            this.render();
         }
     })
 

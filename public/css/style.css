@@ -173,7 +173,7 @@ button.btn{display: block;border: 1px solid #ccc;padding: 10px;text-decoration: 
 
 /* Dashboard */
 .my-dashboard li{list-style:none;}
-.post-frequency li{border:1px solid #ccc;height:20px;width:3.33%;float:left;box-sizing:border-box;border-left:0}
+.post-frequency li{border:1px solid #ccc;height:20px;width:3.33%;float:left;box-sizing:border-box;-moz-box-sizing:border-box;border-left:0}
 .post-frequency li:first-child{border-left:1px solid #ccc;}
 .post-frequency li.filled{background-color:rgb(126, 176, 231);}
 

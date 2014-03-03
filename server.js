@@ -219,7 +219,7 @@ app.post('/api/thought', function(req, res) {
 
         if (err) console.log(err);
 
-        res.send( req.body );
+        res.send( thought );
 
     });
 

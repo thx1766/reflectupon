@@ -39,7 +39,7 @@ window.rupon.utils = window.rupon.utils || {};
 
                 postboxView
                     .on("create-reflection", function(attrs) {
-                        my_thoughts_collection.create(attrs);
+                        my_thoughts_collection.create(attrs,{wait:true});
                     });
 
                 $("#postbox-container").html(postboxView.$el);
@@ -162,7 +162,7 @@ window.rupon.utils = window.rupon.utils || {};
 		    $(".jquery-gdakram-tooltip").find(".content").html(tooltipView.$el);
 
 		    tooltipView.on("create-reflection", function(attrs) {
-			my_thoughts_collection.create(attrs);
+			my_thoughts_collection.create(attrs,{wait:true});
 			rc.resetViews({tooltip_view:true});
 		    });
 
