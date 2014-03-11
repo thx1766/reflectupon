@@ -64,6 +64,7 @@ window.rupon.views = window.rupon.views || {};
         render: function() {
             var self = this;
             if (this.collection.models.length) {
+                this.$el.html("");
                 _.each(this.collection.models, function(model) {
                     var sidebarThought = new rv.Sidebar.ThoughtView({model: model });
                     self.$el.append(sidebarThought.$el);
@@ -123,32 +124,6 @@ window.rupon.views = window.rupon.views || {};
         showSuperUser: function() {
             this.trigger("show-super-user");
         },
-
-        activateTooltip: function(onComplete) {
-            this.$el.find(".other-thoughts").tooltip({
-                tooltip_class:     "other-tooltip",
-                event_in:          "tooltip-start",
-                event_out:         "tooltip-end",
-                opacity:           1,
-                on_complete:       onComplete,
-                parent_position:   "fixed"
-            });
-
-            var self =this;
-            $(document).mouseup(function(event) {
-                if ($(event.target).hasClass(".other-tooltip") || !$(event.target).closest(".other-tooltip").length) {
-                    self.$el.find(".other-thoughts").trigger("tooltip-end");
-                }
-            });
-        },
-
-        startTooltip: function() {
-            if ($(".other-tooltip").length) {
-                this.$el.find(".other-thoughts").trigger("tooltip-end");
-            } else {
-                this.$el.find(".other-thoughts").trigger("tooltip-start");
-            }
-        }
 
     });
 

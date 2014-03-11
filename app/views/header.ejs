@@ -9,6 +9,8 @@
     <script type="text/javascript" src="/js/third-party/bootstrap.js"></script>
     <script type="text/javascript" src="/js/third-party/underscore.min.js"></script>
     <script type="text/javascript" src="/js/third-party/backbone.min.js"></script>
+    <script type="text/javascript" src="/bower_components/backbone-pageable/lib/backbone-pageable.min.js"></script>
+    <script type="text/javascript" src="/bower_components/momentjs/moment.js"></script>
     <script type="text/javascript" src="/js/third-party/jquery.colorbox-min.js"></script>
     <script type="text/javascript" src="/js/third-party/jquery.scrollspy.js"></script>
     <script type="text/javascript" src="/js/third-party/jquery.highlight.js"></script>
@@ -72,6 +74,27 @@
             </form>
         </div>
     </script>
+    <script type="text/x-handlebars-template" id="home-template">
+        <div class="message-container"></div>
+        <div class="recommended-container"></div>
+        <div class="thought-container"></div>
+        <div class="pagination-container"></div>
+    </script>
+    <script type="text/x-handlebars-template" id="nag-template">
+        <div class="header clearfix">
+            <a href="javascript:;" class="close">
+                <i class="fa fa-times" style="margin-left:-1px"></i>
+            </a>
+        </div>
+        <div class="message">{{copy}}</div>
+    </script>
+    <script type="text/x-handlebars-template" id="recommended-item-template">
+        <div class="date">Written {{ duration }}</div>
+        <div class="rec-thought-container"></div>
+    </script>
+    <script type="text/x-handlebars-template" id="pagination-template">
+        <a href="javascript:;" class="section container">View More Thoughts</a>
+    </script>
     <script type="text/x-handlebars-template" id="postbox-template">
         <div class="postbox-two clearfix">
             <p>How do you feel now? Don't hesitate to write freely.</p>
@@ -96,50 +119,52 @@
         <textarea class="reflection"></textarea>
         <button class="btn submit">Write reflection</button>
     </script>
+    <script type="text/x-handlebars-template" id="archived-item-template">
+        <div class="archived-container"><div class="archived">Archived Thought</div></div>
+    </script>
     <script type="text/x-handlebars-template" id="thought-item-template">
-        {{#if archived}}
-            <div class="archived-container"><div class="archived">Archived Thought</div></div>
-        {{else}}
-            <div class="message clearfix{{#equal privacy "Private"}} private{{/equal}}">
-                <div class="description-container">
-                    <div class="description">{{ description }}{{#if read_more}} <a href="javascript:;">Read more</a>{{/if}}</div>
-                    <textarea>{{ description }}</textarea>
-                </div>
-                <div class="right-actions dropdown-container arrow-right">
-                    <a href="javascript:;" class="options">
-                        <i class="fa fa-angle-down fa-lg"></i>
-                    </a>
-                    <div class="dropdown-arrow clearfix">
-                        <div class="arrow">
-                        </div>
-                        <div class="dropdown">
-                            <ul>
-                                <li><a href="javascript:;" class="privacy-status">Set as {{privacy_inverse}}</a></li>
-                                {{#if can_edit }}<li><a href="javascript:;" class="edit">Edit</a></li>{{/if}}
-                                <li><a href="javascript:;" class="delete">Delete</a></li>
-                                <li><a href="javascript:;" class="archive">Archive</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="left-actions dropdown-container arrow-left">
-                    <div class="lock-container">
-                        <i class="fa fa-lock"></i><div>Private</div>
-                    </div>
-                    <div class="dropdown-arrow">
-                        <div class="arrow"></div>
-                        <div class="dropdown"><button class="privacy-status">Set as anonymous</button></div>
-                    </div>
-                </div>
-                <div class="tooltip_description" style="display:none;" title="No worries"></div>
+        <div class="message clearfix{{#equal privacy "Private"}} private{{/equal}}">
+            <div class="description-container">
+                <div class="description">{{ description }}{{#if read_more}} <a href="javascript:;">Read more</a>{{/if}}</div>
+                {{#if can_edit }}<textarea>{{ description }}</textarea>{{/if}}
             </div>
-            {{#if annotation }}
-                <div class="annotation">
-                    <div class="annotation-desc">Annotation: {{ annotation }}</div>
+            <div class="right-actions dropdown-container arrow-right">
+                <a href="javascript:;" class="options">
+                    <i class="fa fa-angle-down fa-lg"></i>
+                </a>
+                <div class="dropdown-arrow clearfix">
+                    <div class="arrow">
+                    </div>
+                    <div class="dropdown">
+                        <ul>
+                            <li><a href="javascript:;" class="privacy-status">Set as {{privacy_inverse}}</a></li>
+                            {{#if can_edit }}<li><a href="javascript:;" class="edit">Edit</a></li>{{/if}}
+                            <li><a href="javascript:;" class="delete">Delete</a></li>
+                            <li><a href="javascript:;" class="archive">Archive</a></li>
+                        </ul>
+                    </div>
                 </div>
-            {{/if}}
-            <div class="reply-collection-container"></div>
+            </div>
+            <div class="left-actions dropdown-container arrow-left">
+                <div class="lock-container">
+                    <i class="fa fa-lock"></i><div>Private</div>
+                </div>
+                <div class="dropdown-arrow">
+                    <div class="arrow"></div>
+                    <div class="dropdown"><button class="privacy-status">Set as anonymous</button></div>
+                </div>
+            </div>
+            <div class="tooltip_description" style="display:none;" title="No worries"></div>
+        </div>
+        {{#if annotation }}
+            <div class="annotation">
+                <div class="annotation-desc"><div class="label">Annotation:</div><div>{{ annotation }}</div></div>
+            </div>
         {{/if}}
+        <div class="reply-collection-container"></div>
+    </script>
+    <script type="text/x-handlebars-template" id="reply-template">
+        <div class="label">Reply:</div><div>{{ description }}</div></div>
     </script>
     <script type="text/x-handlebars-template" id="new-thought-item-template">
         <span class="checkbox {{#if replied}}active{{/if}}">
@@ -235,10 +260,12 @@
         "></i>
         </div>
         <div class="other-thoughts">
-        <i class="fa fa-leaf fa-2x" style="margin-left:-1px"></i>
-        <div class="tooltip_description" style="display:none">
-            <div class="new-reflections"></div>
-        </div>
+            <i class="fa fa-leaf fa-2x" style="margin-left:-1px"></i>
+            <div class="other-tooltip" id="show-other-thoughts">
+                <div class="content arrow_box">
+                    <div class="new-reflections"></div>
+                </div>
+            </div>
         </div>
         {{#if showSuperUser }}
             <div class="show-super-user">
@@ -253,6 +280,7 @@
     </script>
     <script type="text/javascript" src="/js/models.js"></script>
     <script type="text/javascript" src="/js/views/views.js"></script>
+    <script type="text/javascript" src="/js/views/home.js"></script>
     <script type="text/javascript" src="/js/views/sidebar.js"></script>
     <script type="text/javascript" src="/js/views/single.js"></script>
     <script type="text/javascript" src="/js/views/index.js"></script>

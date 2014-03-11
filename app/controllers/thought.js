@@ -1,8 +1,10 @@
-var util     = require('util');
+var mongoose = require('mongoose')
+  , util     = require('util')
+  , Thought  = mongoose.model('Thought');
 
 exports.getTwiml = function(req, res) {
 
-    exports.Thought.random(null,function(err, thought) {
+    Thought.random(null,function(err, thought) {
 
         thought.description = thought.description.substr(0,120) + "...";
 

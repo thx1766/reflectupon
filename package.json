@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "postinstall": "./node_modules/bower/bin/bower install"
   },
   "gitHead": "58225f6593767a8b3e89d1d806dce2ac0ba4b93f",
   "readmeFilename": "README.md",
@@ -25,7 +26,8 @@
     "sendgrid":       "0.3.0-rc.1.7",
     "twilio":         "1.4.0",
     "ent":            "0.1.0",
-    "nodemailer":     "0.6.0"
+    "nodemailer":     "0.6.0",
+    "bower":          "0.6.x"
   },
   "engines": {
     "node": "0.10.17",

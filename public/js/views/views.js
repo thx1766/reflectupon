@@ -3,12 +3,6 @@ window.rupon.views = window.rupon.views || {};
 
 (function() {
 
-    var toTitleCase = function(str){
-        return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-    }
-
-    var privacy = ["PRIVATE", "ANONYMOUS"];
-
     var rv = window.rupon.views;
 
     _.templateSettings = {
@@ -61,248 +55,6 @@ window.rupon.views = window.rupon.views || {};
 
     })
 
-    rv.MessageView = Backbone.View.extend({
-        tagName: "li",
-        template: Handlebars.compile($("#message-template").html()),
-
-        initialize: function() {
-            this.render();
-        },
-
-        render: function() {
-            this.$el.html(this.template(this.model.attributes));
-        },
-
-        close: function() {
-            this.remove();
-            this.unbind();
-        }
-    });
-
-    rv.MessageFeedView = Backbone.View.extend({
-        tagName: "ul",
-
-        initialize: function() {
-            this.collection.on("reset", this.render, this);
-            this.collection.on("add", this.resetViews, this);
-            
-            //keep memory of views especially when refreshing new set
-            this.childViews = [];
-            
-            this.render();
-        },
-
-        render: function() {
-            var self = this;
-
-            _.each(_.last(this.collection.models,3), function(model) {
-                var message = new rv.MessageView({model: model});
-                self.childViews.push(message);
-                self.$el.append(message.$el);
-            })
-        },
-
-        resetViews: function() {
-            _.each(this.childViews, function(childView) {
-                if (childView.close) {
-                    childView.close();
-                }
-            })
-
-            this.render();
-        }
-    })
-
-    rv.ThoughtView = Backbone.View.extend({
-
-        tagName: "div",
-        className: "thoughts-list",
-
-        initialize: function(options) {
-
-            this.collection.on('reset', this.render, this );
-            this.collection.on('add', this.displayItem, this);
-
-            this.render();
-
-            this.archived_count = 0;
-            this.last_archived = false;
-        },
-
-        render: function() {
-
-            _.each( this.collection.models, this.displayItem, this);
-
-            return this;
-        },
-
-        displayItem: function(thought) {
-
-            var formatThought = new rv.ThoughtItemView({ model: thought });
-
-            if (thought.get("archived")) {
-                this.archived_count = this.last_archived ? (this.archived_count+1) : 1;
-                this.last_archived = true;
-            } else {
-                this.archived_count = 0;
-                this.last_archived = false;
-            }
-
-            if (!this.archived_count || (this.archived_count && this.archived_count == 1)) {
-                this.$el.prepend(formatThought.$el);
-
-                var self = this;
-                this.listenTo(formatThought, 'all', function() {
-                    self.trigger.apply(this, arguments);
-                });
-            }
-
-        }
-
-    });
-
-    rv.ThoughtItemView = Backbone.View.extend({
-
-        tagName:   "div",
-        className: "thought-row tooltipbottom section",
-        template: Handlebars.compile($("#thought-item-template").html()),
-
-        events: {
-            'click a':                  'showSingle',
-            'selectstart .description': 'takeAnnotation',
-            'click .privacy-status':    'changePrivacy',
-            'click .edit':              'editThought',
-            'click .delete':            'deleteThought',
-            'click .archive':           'archiveThought',
-            'keypress textarea':        'submitEdit'
-        },
-
-        initialize: function() {
-            this.model.on("change", this.modelChanged, this);
-            this.model.on("destroy", this.remove, this);
-            this.activateTooltip();
-            this.render();
-
-            var replies = this.model.get("replies");
-
-            if (replies.length) {
-                var replyCollectionContainer = new rv.RepliesView({collection: replies});
-                this.$el.find(".reply-collection-container").html(replyCollectionContainer.$el);
-            }
-        },
-
-        render: function(options) {
-
-            this.$el.find(".privacy-status").trigger("tooltip-end");
-            var template_options = _.clone(this.model.attributes);
-
-            var created_at = new Date(template_options.date).getTime();
-            var today = new Date().getTime();
-
-            var difference_ms = today - created_at;
-
-            template_options.can_edit = (difference_ms/(1000*60*60*24)) <= 1;
-
-            options = options || {};
-            template_options.showMore = options.showMore || false;
-
-            if (!template_options.showMore && template_options.description.length >300) {
-                template_options.description = template_options.description.trim().substring(0,300).split(" ").slice(0, -1).join(" ").replace(/\n/g,"<br>") + "...";
-                template_options.read_more = true;
-            }
-
-            if (template_options.privacy) {
-
-                if (template_options.privacy == privacy[0]) {
-                    template_options.privacy_inverse = privacy[1];
-                } else if (template_options.privacy == privacy[1]){
-                    template_options.privacy_inverse = privacy[0];
-                }
-
-                template_options.privacy = toTitleCase(template_options.privacy.toLowerCase());
-                template_options.privacy_inverse = toTitleCase(template_options.privacy_inverse.toLowerCase());
-            }
-
-            var outputHtml = this.template(template_options);
-            this.$el.html(outputHtml);
-        },
-
-        modelChanged: function(model, changes) {
-            this.render();
-        },
-
-        showSingle: function() {
-            var attrs = {
-                showMore: true
-            }
-            this.render(attrs);
-        },
-
-        takeAnnotation: function() {
-
-            var self = this;
-            $(document).one('mouseup', function() {
-                if (this.getSelection() != "") {
-                    $(".thoughts-list").addClass("select-text");
-                    self.$el.siblings().removeClass("selected")
-                    self.$el.addClass("selected");
-
-                    self.trigger("start-tooltip", self.$el);
-                }
-            });
-        },
-
-        changePrivacy: function() {
-
-            var model_privacy = this.model.get("privacy");
-
-            if (privacy[0] == model_privacy) {
-                model_privacy = privacy[1];
-            } else if(privacy[1] == model_privacy) {
-                model_privacy = privacy[0];
-            }
-
-            this.trigger("change-privacy", model_privacy, this.model);
-        },
-
-        activateTooltip: function() {
-            var self = this;
-
-            this.$el.tooltip({
-                event_in:          "tooltip-start",
-                event_out:         "tooltip-end",
-                opacity:           1,
-                on_complete:       function() {
-                    self.trigger("tooltip-initialized");
-                },
-                arrow_left_offset: 280,
-                tooltip_class:     "thought-tooltip"
-            });
-        },
-
-        editThought: function() {
-            this.$el.addClass("editing");
-        },
-
-        submitEdit: function(e) {
-            if (e.which == 13){
-                var value = this.$el.find("textarea").val();
-                this.$el.removeClass("editing");
-                this.trigger("edit-thought", value, this.model);
-
-            }
-        },
-
-        deleteThought: function() {
-            this.trigger("delete-thought", this.model);
-        },
-
-        archiveThought: function() {
-            this.trigger("archive-thought", this.model);
-        }
-
-    });
-
     rv.RepliesView = Backbone.View.extend({
         tagName: "ul",
         className: "reply-collection",
@@ -322,14 +74,15 @@ window.rupon.views = window.rupon.views || {};
 
     rv.ReplyView = Backbone.View.extend({
         tagName: "li",
+        template: Handlebars.compile($("#reply-template").html()),
 
         initialize: function() {
             this.render();
         },
 
         render: function() {
-            var options = _.clone(this.model.attributes);
-            this.$el.html(options.description);
+            var template_options = _.clone(this.model.attributes);
+            this.$el.html(this.template(template_options));
         }
     });
 

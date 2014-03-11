@@ -1,19 +1,22 @@
-var config          = require('../config'),
+var config          = require('../../config'),
     passport        = require('passport'),
     util            = require('util'),
     mongoose        = require('mongoose'),
     LocalStrategy   = require('passport-local').Strategy,
-    forgot          = require('../forgot'),
+    forgot          = require('../../forgot'),
     fs              = require('fs'),
     sendgrid        = require('sendgrid')(
         config.sg_username,
         config.sg_password
     ),
+    User    = mongoose.model('User'),
+    Thought = mongoose.model('Thought'),
+    UserMessage = mongoose.model('UserMessage');
     SALT_WORK_FACTOR = 10;
 
 exports.home = function(req, res) {
 
-    exports.Thought
+    Thought
         .where('user_id').ne(req.user._id)
         .where('description').ne("")
         .sort('-date')
@@ -58,18 +61,6 @@ exports.postlogin = function(req, res, next) {
             return res.redirect('/home');
         });
     })(req, res, next);
-/*
-    console.log("need to send send_grid email");
-    sendgrid.send({
-        to: "tenorfella@gmail.com",
-        from: 'sender@example.com',
-        subject: 'Welcome to reflectupon!',
-        html: 'Thanks for your interest!<br /><br />Here are your credentials.<br /><br/>Username: ' + req.body.username + '<br />Password: ' + req.body.password + '<br /><br/>Thanks! -reflectupon team'
-    }, function(err, json) {
-        if (err) { return console.error(err); }
-        console.log(json);
-        console.log("sent email");
-    });*/
 };
 
 exports.logout = function(req, res) {
@@ -79,8 +70,8 @@ exports.logout = function(req, res) {
 
 exports.postregister = function(req, res, next) {
 
-    var user = new exports.User({ username: req.body.username, email: req.body.email, password: req.body.password });
-    user.save(function(err) {
+    var user = new User({ username: req.body.username, email: req.body.email, password: req.body.password });
+    user.save(function(err, user_saved) {
         if(err) {
             console.log(err);
         } else {
@@ -93,6 +84,17 @@ exports.postregister = function(req, res, next) {
                 if (err) { return console.error(err); }
                 console.log(json);
             });
+
+            var user_message_data = {
+                message_id: "1",
+                user_id: user_saved._id,
+                date: new Date()
+            };
+
+            var user_message = new UserMessage(user_message_data);
+            user_message.save();
+            console.log("user_saved");
+            console.log(user_saved._id);
 
             passport.authenticate('local', function(err, user, info) {
                 if (err) { return next(err) }
@@ -114,7 +116,7 @@ exports.postForgot = function(req, res, next) {
 
     var email = req.body.email;
 
-    var user = exports.User.findOne({ email: email }, function(err, user) {
+    var user = User.findOne({ email: email }, function(err, user) {
         if (user) {
             var email_options = {
                 sender:   "andrewjcasal@gmail.com",
@@ -151,7 +153,7 @@ exports.postReset = function(req, res, next) {
     forgot.forgot.expire(req.session.reset.id)
 
     if (password == confirm && email) {
-        var user = exports.User.findOne({ email: email}, function(err, user) {
+        var user = User.findOne({ email: email}, function(err, user) {
             if (user) {
                 user.password = password;
                 user.save();
@@ -167,13 +169,13 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-    exports.User.findById(id, function (err, user) {
+    User.findById(id, function (err, user) {
         done(err, user);
     });
 });
 
 passport.use(new LocalStrategy(function(username, password, done) {
-    exports.User.findOne({ username: username }, function(err, user) {
+    User.findOne({ username: username }, function(err, user) {
         if (err) { return done(err); }
         if (!user) { return done(null, false, { message: 'Unknown user ' + username }); }
         user.comparePassword(password, function(err, isMatch) {

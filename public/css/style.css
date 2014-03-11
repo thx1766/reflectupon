@@ -28,7 +28,7 @@ button.btn{display: block;border: 1px solid #ccc;padding: 10px;text-decoration: 
 .fa.fa-user {
     padding-left: 3px;
 }
-.menu div {
+.menu>div {
     width: 30px;
     height: 30px;
     margin-bottom: 10px;
@@ -37,7 +37,7 @@ button.btn{display: block;border: 1px solid #ccc;padding: 10px;text-decoration: 
     border-radius:6px;
 }
 
-.menu div:hover {
+.menu>div:hover {
     border: 2px solid rgb(97,97,97);
 }
 .menu:hover {
@@ -47,14 +47,18 @@ button.btn{display: block;border: 1px solid #ccc;padding: 10px;text-decoration: 
     color: rgb(241, 226, 226)
 }
 
-#container{margin:0 auto;min-height:600px;width:730px;}
+.other-thoughts{position:relative;}
+.other-thoughts .other-tooltip{display:none;}
+.other-thoughts:hover .other-tooltip{display:block;position:absolute;top:-10px;left:50px;}
+.other-thoughts:hover .other-tooltip .content{padding:15px;}
+
+#sidebar{position:relative;z-index:10;}
+#container{margin:0 auto;min-height:600px;width:730px;position:relative;z-index:1;}
 #container.today{padding:0}
 .today .heading{padding:10px 20px;background-color:#f3f3f3;border-bottom:1px solid #ccc;}
 .today .heading h1{margin-top:10px;}
 .today #single-thought{margin-bottom:30px;width:560px;padding:20px;}
 
-
-.thoughts-list{}
 .annotations-list{background-color:#ccc;width:230px;height:500px;position:fixed;right:148px;}
 
 .postbox{background-color:#fff;width:550px;height:300px;padding:15px;}
@@ -75,15 +79,43 @@ button.btn{display: block;border: 1px solid #ccc;padding: 10px;text-decoration: 
 .thoughts-list.select-text .thought-row{opacity:0.1}
 .thoughts-list.select-text .thought-row.selected{opacity:1}
 .thought-row .title{font-weight:bold;font-size:22px;padding-bottom:5px;color:#111;}
-.thought-row .message {font-size: 20px;padding: 16px 12px 20px;color: rgb(107, 107, 107);line-height: 24px;position: relative;border: 1px solid transparent;border-left: 5px solid transparent;background-color: #fff;box-shadow: 0 2px 8px rgb(214,214,214);}
+.thought-row .message {font-size: 20px;padding: 16px 12px 20px;color: rgb(107, 107, 107);line-height: 24px;position: relative;border-left: 5px solid #acacac;background-color: #fff;}
 .thought-row .message .lock-container{display:none;}
-.thought-row .message.private{border-color: #949494;border-left-color: #CF8787;background-color: #FDF7F7;}
+.thought-row .message.private{border-left-color: #CF8787;}
 .thought-row .message.private .lock-container{display:block;height:23px;cursor:pointer}
-.lock-container .fa-lock{margin-right:5px;opacity:0.15;float:left;}
+.lock-container .fa-lock{margin-right:5px;opacity:0.4;float:left;}
 .left-actions:hover .lock-container div{display:block}
 .left-actions:hover .lock-container .fa-lock{opacity:0.8}
 .lock-container div{display:none;font-size:16px;float:left;margin-top:-1px;}
 
+.message-container .header{background-color: #8F8F8F;padding:2px 6px;}
+.message-container .header .close{float:right;color:#ffffff;}
+.message-container .message {
+    margin-bottom: 15px;
+    border: 2px solid #8F8f8f;
+    border-top:0;
+    padding: 15px 10px;
+    font-size: 18px;
+    background-color: #FDFFCD;
+    border-radius: 1px;
+    /* color: #5C5C5C; */
+}
+
+.recommended-container .thoughts-list>div{
+    border: 3px solid #ccc;
+    border-radius: 3px;
+    background-color: #d4eaf7;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.recommended-container .thoughts-list>div .date{
+    background-color: #D4EAF7;
+    font-size: 18px;
+    padding-bottom: 10px
+}
+
+.pagination-container a{background-color:#E9E9E9;box-shadow: 0 1px 6px #ccc;text-align: center;font-size: 20px;display: block;text-decoration: none;color: #4B78D8;}
 .dropdown-container{position:relative;}
 .dropdown-container .dropdown-arrow{position:absolute;z-index:10;display:none;padding-top:12px;}
 .dropdown-container:hover .dropdown-arrow{display:block}
@@ -119,7 +151,7 @@ button.btn{display: block;border: 1px solid #ccc;padding: 10px;text-decoration: 
 .dropdown-container.arrow-left .arrow:after,.dropdown-container.arrow-left .arrow:before {left:40%;}
 .dropdown-container.arrow-left .dropdown-arrow{left:-30px}
 
-.thought-row .description-container{width:675px;float:left;}
+.thought-row .description-container{width:94%;float:left;}
 .thought-row .description{margin-bottom:6px;width:100%;}
 .thought-row.editing .description{display:none;}
 .thought-row textarea{display:none;resize: none;border: 1px solid #ccc;background-color:#ffffff;font-size: 20px;font-family: "Times New Roman";color: rgb(107, 107, 107);outline: none;width: 571px;border-radius:3px;padding:0 4px;margin-left:-5px;margin-bottom:8px;}
@@ -131,16 +163,20 @@ button.btn{display: block;border: 1px solid #ccc;padding: 10px;text-decoration: 
 .thought-row .dropdown li:last-child{border-bottom:0}
 .thought-row .dropdown li a{display:block}
 
-.thought-row .left-actions{position:absolute;bottom:2px;left:12px;}
+.thought-row .left-actions{position:absolute;bottom:2px;left:12px;color:#CF8787;}
 .thought-row .left-actions:hover .dropdown{display:block;}
 .thought-row .left-actions button{cursor:pointer;padding: 10px;background: #575DD8;border-radius: 4px;border: 1px solid #5C5C5C;font-size: 14px;color: #ffffff;box-shadow: 0 1px 4px #cccccc,0 1px 1px inset;outline:none;}
 
 .thought-row a{text-decoration:none;font-size:16px;color:rgb(79,94,199)}
-.thought-row .annotation{color:#fff;font-size: 13px;padding: 8px 40px;font-family:arial;background-color:#aaaaaa}
-.thought-row .reply-collection{background-color: rgb(241, 241, 241);padding: 1px 36px;color: #555;font-family: arial;font-size: 14px;}
+.thought-row .annotation{color:#fff;font-size: 14px;padding: 4px 32px;font-family:arial;background-color:#8F8F8F}
+.thought-row .reply-collection{background-color: #8F8F8F;color: #ffffff;font-family: arial;font-size: 14px;}
 .thought-row .reply-collection{list-style:none;}
-.thought-row .reply-collection li {border-bottom: 1px solid rgb(218,201,201);padding:4px 0}
+.thought-row .reply-collection li {padding:4px 32px;}
 .thought-row .reply-collection li:last-child {border-bottom: 0;}
+
+.reply-collection .label, .annotation .label{float:left;width:80px;margin-right:8px;text-align:right;}
+.reply-collection .label{color:#FFF8A9;}
+.annotation .label{color:#FFD5D5;}
 
 .popover-content{
     border-radius: 2px;
@@ -160,7 +196,7 @@ button.btn{display: block;border: 1px solid #ccc;padding: 10px;text-decoration: 
 
 .archived-container{border-top: 2px solid #8B8B8B;margin: 18px 10px 8px;}
 .archived{width: 160px;margin: -13px auto 0;text-align: center;background-color: #f5f5f5;font-size: 18px;}
-.section{margin-bottom:12px;border-radius:1px;}
+.section{margin-bottom:15px;border-radius:1px;box-shadow:0 2px 8px rgb(214,214,214);}
 .section-title{font-size:24px;margin-bottom:20px;font-family:arial;}
 .my-dashboard .section{background-color: #fff;box-shadow: 0 2px 8px rgb(214,214,214);}
 .container{padding:20px;}
@@ -184,9 +220,9 @@ ul.super-user li{padding:6px 20px;border-bottom:1px solid #ccc;}
 html[xmlns] .clearfix {display: block;}
 * html .clearfix {height: 1%;}
 
-#colorbox{outline:none;}
+#colorbox{outline:none;z-index:10}
 #cboxLoadedContent{box-shadow:0 2px 6px #A5A5A5;border-radius:3px;outline:none;}
-#cboxOverlay{position:fixed;background-color:#ccc;height:100%;width:100%;top:0;left:0;}
+#cboxOverlay{z-index:9;position:fixed;background-color:#ccc;height:100%;width:100%;top:0;left:0;}
 #cboxClose{position:absolute;bottom:15px;right:15px;display:none;}
 
 .highlight{background-color: #F8FFA1;border-radius: 1px;}
@@ -234,13 +270,13 @@ div.jquery-gdakram-tooltip h1{display:none}
 .jquery-gdakram-tooltip.other-tooltip{
     position:fixed;
 }
-.jquery-gdakram-tooltip.other-tooltip .content {
+.jquery-gdakram-tooltip.other-tooltip .content,.other-tooltip .content {
     background-color: #fff;
     border: 1px solid #ccc;
     width: 250px;
     border-radius: 3px;
     font-size: 18px;
-    box-shadow:0 3px 8px rgb(207,207,207);
+    box-shadow:0 3px 5px #B9B9B9;
     font-family:garmond;
     min-height:50px;
 }
@@ -249,6 +285,7 @@ div.jquery-gdakram-tooltip h1{display:none}
      position: relative;
      background: #fff;
      border: 1px solid #ccc;
+     margin-left:10px;
  }
 .other-tooltip .arrow_box:after, .other-tooltip .arrow_box:before {
     right: 100%;
