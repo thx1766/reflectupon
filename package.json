@@ -1,7 +1,6 @@
 {
   "scripts": {
-    "start": "node server.js",
-    "postinstall": "./node_modules/bower/bin/bower install"
+    "start": "node server.js"
   },
   "gitHead": "58225f6593767a8b3e89d1d806dce2ac0ba4b93f",
   "readmeFilename": "README.md",
