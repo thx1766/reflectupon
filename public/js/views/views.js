@@ -9,52 +9,6 @@ window.rupon.views = window.rupon.views || {};
         interpolate : /\{\{(.+?)\}\}/g
     };
 
-    rv.FrequencyView = Backbone.View.extend({
-
-        tagName: "ul",
-        className: "clearfix",
-        template: Handlebars.compile($("#frequency-template").html()),
-
-        initialize: function(options) {
-            this.collection.on("reset", this.render, this);
-            this.render(options);
-        },
-
-        render: function(options) {
-
-            var models = this.collection.models;
-
-            if (models.length) {
-                var today,
-                    model_pos = models.length - 1,
-                    num_post = 0;
-
-                for (var i=0;i<30;i++) {
-
-                    today = new Date(new Date().setDate(new Date().getDate()-i));
-                    var a = new Date(today.getFullYear(),today.getMonth(), today.getDate());
-
-                    while(model_pos >= 0) {
-                        var cool = new Date(models[model_pos].get("date"));
-                        var b = new Date(cool.getFullYear(),cool.getMonth(), cool.getDate())
-
-                        if (a.getTime() === b.getTime()) {
-                            num_post = 1;
-                        } else {
-                            break;
-                        }
-
-                        model_pos--;
-                    }
-
-                    this.$el.append(this.template({num_post: num_post}));
-                    num_post = 0;
-                }
-            }
-        }
-
-    })
-
     rv.RepliesView = Backbone.View.extend({
         tagName: "ul",
         className: "reply-collection",
@@ -171,19 +125,6 @@ window.rupon.views = window.rupon.views || {};
                     date:           new Date()
                 })
             }
-        }
-    });
-
-    rv.DashboardView = Backbone.View.extend({
-        tagName: 'div',
-        template: Handlebars.compile($("#dashboard-template").html()),
-
-        initialize: function() {
-            this.render();
-        },
-
-        render: function() {
-            this.$el.html(this.template());
         }
     });
 

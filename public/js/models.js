@@ -46,7 +46,6 @@ window.rupon.models = window.rupon.models || {};
         url: '/api/thought/',
 
         state: {
-            totalRecords:50,
             pageSize:15,
             sortKey: "updated",
             order:1
@@ -104,5 +103,28 @@ window.rupon.models = window.rupon.models || {};
             return '/api/user_messages';
         }
     });
+
+    rm.frequency = Backbone.Model.extend({
+
+    });
+
+    rm.frequencyCollection = Backbone.Collection.extend({
+        model: rm.frequency,
+        url: '/api/frequency',
+
+        initialize: function(options) {
+            this.listen_collection = options.listen_collection;
+            this.listen_collection.on("add", this.addToLastModel, this);
+        },
+
+        addToLastModel: function(model) {
+            
+            var freq_model = this.models[0],
+                thoughts   = _.clone(freq_model.get("thoughts"));
+
+            thoughts.push(model);
+            freq_model.set("thoughts",thoughts);
+        }
+    })
 
 })();

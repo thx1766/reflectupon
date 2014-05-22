@@ -16,7 +16,7 @@ window.rupon.utils = window.rupon.utils || {};
 
     var rc = window.rupon.controllers,
         rv = window.rupon.views,
-        thoughtsView, dashboardView, singleView, tooltipView, postboxView, elem,
+        thoughtsView, singleView, tooltipView, postboxView, elem,
         my_thoughts_collection, other_thoughts_collection;
 
     rc.startPage = function(options) {
@@ -48,9 +48,6 @@ window.rupon.utils = window.rupon.utils || {};
                     href:".postbox"
                 });
             })
-            .on("view-dashboard", function() {
-                rc.resetViews();
-                rc.setDashboard(); })
             .on("view-all", function() {
                 rc.resetViews();
                 rc.setAllThoughts(); })
@@ -94,29 +91,19 @@ window.rupon.utils = window.rupon.utils || {};
         if (options.all_views) {
             $("body").scrollTop(0);
             if (singleView)    singleView.remove();
-            if (dashboardView) dashboardView.remove();
             if (thoughtsView)   thoughtsView.remove();
         }
-    };
-
-    rc.setDashboard = function() {
-        dashboardView = new rupon.views.DashboardView();
-        $("#container").html(dashboardView.$el);
-
-        var frequencyView   = new rupon.views.FrequencyView({collection: my_thoughts_collection});
-        var messageFeedView = new rupon.views.MessageFeedView({collection: my_thoughts_collection});
-
-        $(".my-dashboard")
-            .find(".post-frequency").html(frequencyView.$el).end()
-            .find(".message-feed").html(messageFeedView.$el);
     };
 
     rc.setAllThoughts = function() {
 
         var recommended_collection  = new rupon.models.thoughtCollection(),
-            user_message_collection = new rupon.models.userMessageCollection();
+            user_message_collection = new rupon.models.userMessageCollection(),
+            my_thoughts_collection = new rupon.models.thoughtCollection([],{type: "my-posts"}),
+            frequency_collection    = new rupon.models.frequencyCollection({listen_collection: my_thoughts_collection});
 
         var mainView        = new rv.MainView(),
+            frequencyView   = new rv.FrequencyView({collection: frequency_collection});
             recThoughtsView = new rv.RecommendedView({collection: recommended_collection}),
             thoughtsView    = new rv.ThoughtView({collection: my_thoughts_collection, modelView: rv.ThoughtItemView});
 
@@ -128,6 +115,7 @@ window.rupon.utils = window.rupon.utils || {};
         $("#container").html(mainView.$el);
 
 		mainView.$el
+            .find(".post-frequency").append(frequencyView.$el).end()
             .find(".recommended-container").append(recThoughtsView.$el).end()
             .find(".thought-container").append(thoughtsView.$el).end()
             .find(".pagination-container").append(paginationView.$el);
@@ -137,7 +125,9 @@ window.rupon.utils = window.rupon.utils || {};
                 var nagView = new rv.nagView({model: user_message_collection.at(0)});
 
                 nagView.on("dismiss-message", function() {
-                    user_message_collection.at(0).save({dismissed: true});
+                    var first_message = user_message_collection.at(0);
+                    var num_dismissed = parseInt(first_message.get('dismissed')) || 0;
+                    first_message.save({dismissed: num_dismissed + 1 });
                 });
 
                 mainView.$el
@@ -145,8 +135,11 @@ window.rupon.utils = window.rupon.utils || {};
             }
         })
 
+        //my_thoughts_collection.on
+        frequency_collection.fetch({reset:true});
         recommended_collection.fetch({reset:true, data: {stream_type: "recommended"}});
         user_message_collection.fetch({reset:true, data: {user_id:rupon.account_info.user_id}});
+        my_thoughts_collection.fetch({remove:false, reset: true, data: {"stream_type": "my-thoughts"}});
         $('textarea').autosize();
 	};
 

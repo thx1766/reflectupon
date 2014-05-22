@@ -24,8 +24,9 @@ module.exports = function(app) {
     app.get('/api/thought', function(req, res) {
 
         var params = {},
-            limit  = null,
+            limit  = 0,
             date_sort = null;
+            more_limit = 0;
 
         var stream_type = req.query.stream_type || null,
             thought_id  = req.query.thought_id  || null,
@@ -37,12 +38,13 @@ module.exports = function(app) {
             switch (stream_type) {
                 case "my-thoughts":
                     params.user_id = req.user._id;
-                    limit = per_page;
+                    limit = Number(per_page);
                     date_sort = {date: -1};
                     break;
                 case "other-thoughts":
                     params.user_id = { $ne: req.user._id };
                     limit = 5;
+
                     date_sort = {date: -1};
                     params.privacy = "ANONYMOUS"
                     break;
@@ -63,30 +65,86 @@ module.exports = function(app) {
             .sort(date_sort)
             .exec(function(err, thoughts) {
 
-                // Array that will be sent back that picks from data taken from database
-                var send_thoughts = [];
+                if (err) console.log(err);
 
-                // Send reflections from different intervals of time, so user may reflect back on them
-                if (stream_type == "recommended") {
-                    send_thoughts.push(thoughts[0]);
-                    send_thoughts.push(thoughts[5]);
-                    send_thoughts.push(thoughts[10]);
-                } else {
-                    send_thoughts = thoughts;
-                }
+                Thought.find( params).count().exec(function(err, count) {
 
-                res.links({
-                    next: '/api/thought/?stream_type='+stream_type+'&page='+(page+1)+'&per_page=15&sort=updated&direction=desc'
-                });
+                    if (err) console.log(err);
 
-                if (thoughts) {
-                    if (thoughts.length == 1) {
-                        res.send(send_thoughts[0])
+                    // Array that will be sent back that picks from data taken from database
+                    var send_thoughts = [];
+
+                    // Send reflections from different intervals of time, so user may reflect back on them
+                    if (stream_type == "recommended") {
+                        if (thoughts[0])  send_thoughts.push(thoughts[0]);
+                        if (thoughts[5])  send_thoughts.push(thoughts[5]);
+                        if (thoughts[10]) send_thoughts.push(thoughts[10]);
                     } else {
-                        res.send(send_thoughts);
+                        send_thoughts = thoughts;
                     }
-                }
+
+                    if ((per_page * page) < count) { 
+                        res.links({
+                            next: '/api/thought/?stream_type='+stream_type+'&page='+(page+1)+'&per_page=15&sort=updated&direction=desc'
+                        });
+                    }
+
+                    if (thoughts) {
+                        if (thoughts.length == 1) {
+                            res.send(send_thoughts[0])
+                        } else {
+                            res.send(send_thoughts);
+                        }
+                    }
+                })
             });
+
+    });
+
+    app.get('/api/frequency', function(req, res) {
+        var d = new Date();
+        var numDays = 30;
+
+        d.setDate(d.getDate()-numDays);
+
+        var options = {
+          date: { $lt: new Date(), $gt: d },
+          user_id: req.user._id
+        };
+
+        Thought.find(options).sort({date:-1}).exec(function(err, thoughts) {
+
+            var frequency = [];
+
+            if (!thoughts.length) { res.send(frequency) };
+
+            for (var i = 0; i < numDays; i++) {
+
+                var endDate = new Date(new Date().setHours(0,0,0,0));
+                endDate.setDate(endDate.getDate()-(i-1));
+
+                var startDate = new Date(new Date().setHours(0,0,0,0));
+                startDate.setDate(startDate.getDate()-i);
+
+                frequency[i] = {
+                    day: startDate,
+                    thoughts: []
+                };
+
+                if (thoughts.length) thought_date = new Date(thoughts[0].date);
+
+                while (thoughts && thoughts.length && thought_date < endDate && thought_date >= startDate) {
+
+                    frequency[i].thoughts.push(thoughts.shift());
+
+                    if (thoughts.length) thought_date = new Date(thoughts[0].date);
+
+                }
+
+            }
+
+            res.send(frequency);
+        });
 
     });
 
@@ -135,30 +193,51 @@ module.exports = function(app) {
     });
 
     app.get('/api/users', function(req,res) {
+
+        var options = {};
+
+        //if (req.body.check_username) options.check_username
+
         User.find({}, function(err, users) {
 
-            var users2 = [];
-
-            for (var i=0; i< users.length;i++) {
-                delete users[i].password;
-                users2.push(users[i]);
-            }
-
-            res.send(users2);
+            res.send(users);
 
         });
+
     });
 
     app.get('/api/user_messages', function(req,res) {
         var user_id = req.query.user_id;
-        userMessage.find({user_id: user_id}, function(err,messages) {
-            res.send(messages);
+        userMessage.find({user_id: user_id}, function(err,user_messages) {
+
+            if (!user_messages.length) {
+                var user_message_data = {
+                    message_id: "1",
+                    user_id: user_id
+                };
+
+                var user_message = new userMessage(user_message_data);
+                user_message.save(function (err, user_message) {
+                    if (err) return console.error(err);
+
+                    console.log("user messages A");
+                    console.log(user_message);
+                    res.send(user_message);
+                });
+
+            } else {
+
+                console.log("user messages B");
+                console.log(user_messages);
+                res.send(user_messages);
+
+            }
+
         })
     });
 
     app.put('/api/user_messages/:user_message', function(req,res) {
         userMessage.findById(req.params.user_message, function(err,message) {
-            console.log(message);
             message.dismissed = req.body.dismissed;
             message.save(function(err) {
                 res.send(message);

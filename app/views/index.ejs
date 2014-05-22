@@ -4,7 +4,7 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-    var message = "<%= message %>";
+    var message = "<%= typeof message != 'undefined' ? message : '' %>";
     rupon.controllers.startIndexPage(message);
   })
 </script>

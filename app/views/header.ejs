@@ -19,10 +19,10 @@
     <script type="text/javascript" src="/js/third-party/handlebars.js"></script>
 
     <script type="text/x-handlebars-template" id="index-template">
-        <div class="logo-name">reflectupon</div>
-        {{#if message}}
-            <div class="special-msg">{{ message }}</div>
-        {{/if}}
+        <div class="info-container">
+            <div class="logo-name">Welcome to reflectupon</div>
+            <div class="description">An online e-journaling platform helping you to better your own self-awareness.</div>
+        </div>
         <div class="form-container login-form">
             <form id="login-form" action="/login" method="post">
                 <div class="row-container clearfix">
@@ -36,6 +36,9 @@
                 <div class="row-container clearfix">
                     <input type="submit" value="Log in"/>
                 </div>
+                {{#if message}}
+                    <div class="special-msg">{{ message }}</div>
+                {{/if}}
                 <div class="forgot-password-container">
                     <a href="javascript:;" class="forgot-password">Forgot your password?</a>
                 </div>
@@ -76,6 +79,9 @@
     </script>
     <script type="text/x-handlebars-template" id="home-template">
         <div class="message-container"></div>
+        <div class="section container">
+            <div class="post-frequency"></div>
+        </div>
         <div class="recommended-container"></div>
         <div class="thought-container"></div>
         <div class="pagination-container"></div>
@@ -110,7 +116,11 @@
         </div>
     </script>
     <script type="text/x-handlebars-template" id="frequency-template">
-        <li class="{{#if num_post}}filled{{/if}}"></li>
+        <div class="description">Post Frequency</div>
+        <ul></ul>
+    </script>
+    <script type="text/x-handlebars-template" id="frequency-item-template">
+        <div class="{{#if filled}}filled{{/if}}"></div>
     </script>
     <script type="text/x-handlebars-template" id="tooltip-template">
         <div class="heading">You just highlighted:</div>
@@ -172,18 +182,6 @@
         </span>
         <a href="javascript:;" class="description">{{ description }}</a>
         <div class="date">written {{ date }}</div>
-    </script>
-    <script type="text/x-handlebars-template" id="dashboard-template">
-        <div class="my-dashboard">
-            <div class="section-title">Post Frequency</div>
-            <div class="section container">
-                <div class="post-frequency"></div>
-            </div>
-            <div class="section-title">Recent Actions</div>
-            <div class="section">
-                <div class="message-feed"></div>
-            </div>
-        </div>
     </script>
     <script type="text/x-handlebars-template" id="message-template">
         <div class="message">
@@ -249,11 +247,6 @@
             padding-left: 2px;
         "></i>
         </div>
-        <div class="to-dashboard">
-        <i class="fa fa-dashboard fa-2x" style="
-            margin-left:-1px;
-        "></i>
-        </div>
         <div class="show-thoughts">
         <i class="fa fa-bars fa-2x" style="
             padding-left: 1px;
@@ -279,6 +272,7 @@
         {{ date }}
     </script>
     <script type="text/javascript" src="/js/models.js"></script>
+    <script type="text/javascript" src="/js/views/common_views.js"></script>
     <script type="text/javascript" src="/js/views/views.js"></script>
     <script type="text/javascript" src="/js/views/home.js"></script>
     <script type="text/javascript" src="/js/views/sidebar.js"></script>
@@ -291,7 +285,7 @@
     });
     </script>
 </head>
-<body >
+<body <% if (landing_page) { %> class="landing-page"<% } %> >
 <% if (topBar) { %>
 <% include topbar %>
 <% } %>

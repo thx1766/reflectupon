@@ -14,6 +14,7 @@ var config          = require('../../config'),
     UserMessage = mongoose.model('UserMessage');
     SALT_WORK_FACTOR = 10;
 
+
 exports.home = function(req, res) {
 
     Thought
@@ -31,7 +32,7 @@ exports.home = function(req, res) {
                     }
                 }
 
-                res.render('home', { user: req.user, topBar: true, thoughts: thoughts });
+                res.render('home', { user: req.user, topBar: true, signout: true, thoughts: thoughts, landing_page: false });
             }
 
     })
@@ -39,12 +40,19 @@ exports.home = function(req, res) {
 };
 
 exports.newUser = function(req, res) {
-    res.render('new-user', {topBar: false, body: true });
+    res.render('new-user', {topBar: false, body: true, landing_page: false });
 };
 
 exports.getIndex = function(req, res) {
-    var message = "";
-    res.render('index', { user: req.user, message: message, topBar: false });
+
+    var options = { user: req.user, signout: false, topBar: true, landing_page: true };
+
+    if (req.session.messages) {
+        options.message = req.session.messages.message;
+        req.session.messages = {};
+    }
+
+    res.render('index', options);
 };
 
 exports.postlogin = function(req, res, next) {
@@ -52,8 +60,8 @@ exports.postlogin = function(req, res, next) {
         if (err) { return next(err) }
 
         if (!user) {
-            req.session.messages =  [info.message];
-            return res.redirect('/login')
+            req.session.messages =  {message: 'Incorrect username or password'};
+            return res.redirect('/')
         }
         req.logIn(user, function(err) {
 
@@ -70,45 +78,46 @@ exports.logout = function(req, res) {
 
 exports.postregister = function(req, res, next) {
 
-    var user = new User({ username: req.body.username, email: req.body.email, password: req.body.password });
-    user.save(function(err, user_saved) {
-        if(err) {
-            console.log(err);
+    User.findOne({username: req.body.username}, function(err, user_check) {
+
+        if (user_check) {
+
+            req.session.messages = {message: 'Username already exists'};
+            return res.redirect('/');
+
         } else {
-            sendgrid.send({
-                to: req.body.email,
-                from: 'andrewjcasal@gmail.com',
-                subject: 'Welcome to reflectupon!',
-                html: 'Thanks for your interest! Stay tuned for further updates.<br /><br/>Thanks!<br />reflectupon team'
-            }, function(err, json) {
-                if (err) { return console.error(err); }
-                console.log(json);
+
+            var user = new User({ username: req.body.username, email: req.body.email, password: req.body.password });
+            user.save(function(err, user_saved) {
+                if(err) {
+                    console.log(err);
+                } else {
+                    sendgrid.send({
+                        to: req.body.email,
+                        from: 'andrewjcasal@gmail.com',
+                        subject: 'Welcome to reflectupon!',
+                        html: 'Thanks for your interest! Stay tuned for further updates.<br /><br/>Thanks!<br />reflectupon team'
+                    }, function(err, json) {
+                        if (err) { return console.error(err); }
+                        console.log(json);
+                    });
+
+                    passport.authenticate('local', function(err, user, info) {
+                        if (err) { return next(err) }
+                        if (!user) {
+                            req.session.messages =  [info.message];
+                            return res.redirect('/login')
+                        }
+                        req.logIn(user, function(err) {
+                            if (err) { return next(err); }
+                            return res.redirect('/home');
+                        });
+                    })(req, res, next);
+                }
             });
 
-            var user_message_data = {
-                message_id: "1",
-                user_id: user_saved._id,
-                date: new Date()
-            };
-
-            var user_message = new UserMessage(user_message_data);
-            user_message.save();
-            console.log("user_saved");
-            console.log(user_saved._id);
-
-            passport.authenticate('local', function(err, user, info) {
-                if (err) { return next(err) }
-                if (!user) {
-                    req.session.messages =  [info.message];
-                    return res.redirect('/login')
-                }
-                req.logIn(user, function(err) {
-                    if (err) { return next(err); }
-                    return res.redirect('/home');
-                });
-            })(req, res, next);
         }
-    });
+    })
 
 };
 
@@ -157,7 +166,7 @@ exports.postReset = function(req, res, next) {
             if (user) {
                 user.password = password;
                 user.save();
-                res.render('index', { message: "Password successfully reset.", topBar: false})
+                res.render('index', { message: "Password successfully reset.", topBar: false, landing_page: false})
             }
         })
     }
@@ -175,7 +184,7 @@ passport.deserializeUser(function(id, done) {
 });
 
 passport.use(new LocalStrategy(function(username, password, done) {
-    User.findOne({ username: username }, function(err, user) {
+    User.findOne({ username: username }, '+password', function(err, user) {
         if (err) { return done(err); }
         if (!user) { return done(null, false, { message: 'Unknown user ' + username }); }
         user.comparePassword(password, function(err, isMatch) {

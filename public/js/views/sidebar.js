@@ -109,10 +109,6 @@ window.rupon.views = window.rupon.views || {};
             this.trigger("create-reflection");
         },
 
-        showDashboard: function() {
-            this.trigger("view-dashboard");
-        },
-
         showAllThoughts: function() {
             this.trigger("view-all");
         },

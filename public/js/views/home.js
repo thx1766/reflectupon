@@ -4,6 +4,7 @@ window.rupon.views = window.rupon.views || {};
 (function() {
 
     var rv = window.rupon.views;
+    var cv = window.rupon.common_views;
 
     var privacy = ["PRIVATE", "ANONYMOUS"];
 
@@ -25,56 +26,41 @@ window.rupon.views = window.rupon.views || {};
         }
     });
 
-    rv.MessageView = Backbone.View.extend({
-        tagName: "li",
-        template: Handlebars.compile($("#message-template").html()),
+    rv.FrequencyView = cv.CollectionContainer.extend({
 
-        initialize: function() {
-            this.render();
+        tagName: "div",
+        className: "clearfix",
+
+        container_ele: "ul",
+
+        template: Handlebars.compile($("#frequency-template").html()),
+
+        initialize: function(options) {
+            this.$el.html(this.template());
+            cv.CollectionContainer.prototype.initialize.call(this, function(model) { 
+                return new rv.FrequencyItemView({model: model});
+            });
         },
 
-        render: function() {
-            this.$el.html(this.template(this.model.attributes));
-        },
-
-        close: function() {
-            this.remove();
-            this.unbind();
-        }
     });
 
-    rv.MessageFeedView = Backbone.View.extend({
-        tagName: "ul",
+    rv.FrequencyItemView = cv.TemplateView.extend({
+
+        tagName: "li",
 
         initialize: function() {
-            this.collection.on("reset", this.render, this);
-            this.collection.on("add", this.resetViews, this);
-            
-            //keep memory of views especially when refreshing new set
-            this.childViews = [];
-            
-            this.render();
+            this.listenTo(this.model, "change", this.render);
+            cv.TemplateView.prototype.initialize.call(this);
         },
 
         render: function() {
-            var self = this;
-
-            _.each(_.first(this.collection.models,3), function(model) {
-                var message = new rv.MessageView({model: model});
-                self.childViews.push(message);
-                self.$el.append(message.$el);
-            })
+            var options = {};
+            if (this.model.get("thoughts")) options.filled = this.model.get("thoughts").length;
+            cv.TemplateView.prototype.render.call(this,options);
         },
 
-        resetViews: function() {
-            _.each(this.childViews, function(childView) {
-                if (childView.close) {
-                    childView.close();
-                }
-            })
+        template: Handlebars.compile($("#frequency-item-template").html()),
 
-            this.render();
-        }
     });
 
     rv.ThoughtView = Backbone.View.extend({
@@ -84,8 +70,9 @@ window.rupon.views = window.rupon.views || {};
 
         initialize: function(options) {
 
-            this.collection.on('reset', this.render, this );
+            this.collection.on('sync', this.render, this );
             this.collection.on('add', this.displayItem, this);
+            this.collection.on('all', this.derp, this);
 
             this.modelView = options.modelView;
 
@@ -97,12 +84,16 @@ window.rupon.views = window.rupon.views || {};
 
         render: function() {
 
-            _.each( this.collection.models, this.displayItem, this);
+            _.each( this.collection.models, function(thought) {
+                this.displayItem(thought, "append")
+            }, this);
 
             return this;
         },
 
-        displayItem: function(thought) {
+        displayItem: function(thought, method) {
+
+            console.log(arguments);
 
             if (thought.get("archived")) {
                 this.archived_count = this.last_archived ? (this.archived_count+1) : 1;
@@ -120,7 +111,11 @@ window.rupon.views = window.rupon.views || {};
                 formatThought = new rv.ArchivedItemView({ model: thought });
             }
 
-            this.$el.append(formatThought.$el);
+            if (method == "append") {
+                this.$el.append(formatThought.$el);
+            } else {
+                this.$el.prepend(formatThought.$el);
+            }
 
             var self = this;
             this.listenTo(formatThought, 'all', function() {
@@ -302,13 +297,21 @@ window.rupon.views = window.rupon.views || {};
             var template_options = _.clone(this.model.attributes);
 
             if (template_options.message_id == "1") {
-                template_options.copy = "Using your cursor, highlight text on any entry in this page to activate a new form. Using this annotation, you'll be able to reflect on this by writing a new entry. Try it out!";          
-                this.$el.toggle( !template_options.dismissed);
-            } else {
-                this.$el.toggle(false);
+
+                // dismissed longer than 2 days ago
+                var d = new Date();
+                var show_date = new Date(d.setDate(d.getDate() - 2));
+                var date_dismissed = new Date(template_options.updated_at);
+
+                if (show_date > date_dismissed && template_options.dismissed < 3) {
+
+                    template_options.copy = "Using your cursor, highlight text on any entry in this page to activate a new form. Using this annotation, you'll be able to reflect on this by writing a new entry. Try it out!";          
+                    this.$el.html(this.template(template_options));
+
+                }
+
             }
 
-            this.$el.html(this.template(template_options));
         },
 
         close: function(e) {
@@ -362,11 +365,12 @@ window.rupon.views = window.rupon.views || {};
         },
 
         initialize: function() {
-            this.$el.toggle(this.collection.hasNext());
+            this.listenTo(this.collection, 'reset', this.render);
             this.render();
         },
 
         render: function() {
+            this.$el.toggle(this.collection.hasNext());
             this.$el.html(this.template());
         },
 

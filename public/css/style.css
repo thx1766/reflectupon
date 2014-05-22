@@ -1,5 +1,5 @@
 * {padding:0; margin:0}
-body{color:#444;background-color:#f5f5f5}
+body{color:#444;background-color:#f5f5f5;}
 body.new-ux{background-color:rgb(190,111,111)}
 body.new-ux .wrapper{width:600px;padding:20px;background-color:#fff;margin-top:30px;border-radius:2px;box-shadow:0 2px 6px #5e5e5e}
 body.new-ux textarea{margin-bottom:15px;}
@@ -196,7 +196,7 @@ button.btn{display: block;border: 1px solid #ccc;padding: 10px;text-decoration: 
 
 .archived-container{border-top: 2px solid #8B8B8B;margin: 18px 10px 8px;}
 .archived{width: 160px;margin: -13px auto 0;text-align: center;background-color: #f5f5f5;font-size: 18px;}
-.section{margin-bottom:15px;border-radius:1px;box-shadow:0 2px 8px rgb(214,214,214);}
+.section{margin-bottom:15px;border-radius:1px;box-shadow:0 2px 8px rgb(214,214,214);background-color:#ffffff;}
 .section-title{font-size:24px;margin-bottom:20px;font-family:arial;}
 .my-dashboard .section{background-color: #fff;box-shadow: 0 2px 8px rgb(214,214,214);}
 .container{padding:20px;}
@@ -208,10 +208,10 @@ button.btn{display: block;border: 1px solid #ccc;padding: 10px;text-decoration: 
 .message-feed .action-text{padding:5px;display:none;}
 
 /* Dashboard */
-.my-dashboard li{list-style:none;}
-.post-frequency li{border:1px solid #ccc;height:20px;width:3.33%;float:left;box-sizing:border-box;-moz-box-sizing:border-box;border-left:0}
-.post-frequency li:first-child{border-left:1px solid #ccc;}
-.post-frequency li.filled{background-color:rgb(126, 176, 231);}
+.post-frequency .description{margin-bottom:8px;font-size:20px;}
+.post-frequency li{list-style:none;}
+.post-frequency li div{height:20px;width:3.33%;float:left;box-sizing:border-box;-moz-box-sizing:border-box;}
+.post-frequency li div.filled{background-color:rgb(126, 176, 231);border-right:1px solid #ffffff;}
 
 /* Super user */
 ul.super-user {list-style:none}
