@@ -26,7 +26,9 @@ module.exports = function(app) {
         var params = {},
             limit  = 0,
             date_sort = null;
-            more_limit = 0;
+            more_limit = 0,
+            where = null,
+            populate = 'replies';
 
         var stream_type = req.query.stream_type || null,
             thought_id  = req.query.thought_id  || null,
@@ -40,10 +42,24 @@ module.exports = function(app) {
                     params.user_id = req.user._id;
                     limit = Number(per_page);
                     date_sort = {date: -1};
+                    populate = 'replies';
                     break;
                 case "other-thoughts":
                     params.user_id = { $ne: req.user._id };
+
+                    var startDate = new Date(new Date().setHours(0,0,0,0));
+                    startDate.setDate(startDate.getDate()-7);
+
+                    params.date = {
+                        $gte: startDate,
+                        $lte: new Date() 
+                    };
+
                     limit = 5;
+                    populate = {
+                        path: 'replies',
+                        match: { user_id: req.user._id }
+                    }
 
                     date_sort = {date: -1};
                     params.privacy = "ANONYMOUS"
@@ -52,6 +68,7 @@ module.exports = function(app) {
                     params.user_id = req.user._id;
                     limit = 15;
                     date_sort = {date: -1};
+                    populate = 'replies';
                     break;
             }
 
@@ -59,7 +76,7 @@ module.exports = function(app) {
         }
 
         Thought.find( params )
-            .populate('replies')
+            .populate(populate)
             .limit(limit)
             .skip(per_page * (page - 1))
             .sort(date_sort)
