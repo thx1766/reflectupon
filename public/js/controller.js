@@ -38,7 +38,13 @@ window.rupon.utils = window.rupon.utils || {};
 
                 postboxView
                     .on("create-reflection", function(attrs) {
-                        my_thoughts_collection.create(attrs,{wait:true});
+                        my_thoughts_collection.create(attrs, {
+                            wait:    true,
+                            silent:  true,
+                            success: function(response) {
+                                my_thoughts_collection.trigger('create', response);
+                            }
+                        });
                     });
 
                 $("#postbox-container").html(postboxView.$el);
@@ -71,7 +77,6 @@ window.rupon.utils = window.rupon.utils || {};
         $("#sidebar").html(sidebarView.$el);
         rc.setAllThoughts();
 
-        my_thoughts_collection.fetch({update: true, remove:false, reset: true, data: {"stream_type": "my-thoughts"}});
         other_thoughts_collection.fetch({reset: true, data: {"stream_type": "other-thoughts"}});
 
     };
@@ -99,7 +104,6 @@ window.rupon.utils = window.rupon.utils || {};
 
         var recommended_collection  = new rupon.models.thoughtCollection(),
             user_message_collection = new rupon.models.userMessageCollection(),
-            my_thoughts_collection = new rupon.models.thoughtCollection([],{type: "my-posts"}),
             frequency_collection    = new rupon.models.frequencyCollection({listen_collection: my_thoughts_collection});
 
         var mainView        = new rv.MainView(),
@@ -135,11 +139,10 @@ window.rupon.utils = window.rupon.utils || {};
             }
         })
 
-        //my_thoughts_collection.on
         frequency_collection.fetch({reset:true});
         recommended_collection.fetch({reset:true, data: {stream_type: "recommended"}});
         user_message_collection.fetch({reset:true, data: {user_id:rupon.account_info.user_id}});
-        my_thoughts_collection.fetch({remove:false, reset: true, data: {"stream_type": "my-thoughts"}});
+        my_thoughts_collection.fetch({reset:true, data: {stream_type: "my-thoughts"}});
         $('textarea').autosize();
 	};
 

@@ -43,7 +43,9 @@ window.rupon.models = window.rupon.models || {};
         model: rm.thought,
         mode: "infinite",
 
-        url: '/api/thought/',
+        url: function() {
+            return '/api/thought/';
+        },
 
         state: {
             pageSize:15,

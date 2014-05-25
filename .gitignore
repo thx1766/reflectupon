@@ -6,11 +6,15 @@ lib-cov
 *.out
 *.pid
 *.gz
-.idea
 
 pids
 logs
 results
+public/bower_components
+node_modules
+npm
+build
+.idea/workspace.xml
 
 npm-debug.log
 config_settings.js

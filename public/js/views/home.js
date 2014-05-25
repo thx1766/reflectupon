@@ -70,10 +70,8 @@ window.rupon.views = window.rupon.views || {};
 
         initialize: function(options) {
 
-            this.collection.on('sync', this.render, this );
-            this.collection.on('add', this.displayItem, this);
-            this.collection.on('all', this.derp, this);
-
+            this.listenTo(this.collection.fullCollection,'add', this.appendItem);
+            this.listenTo(this.collection, 'create', this.prependItem);
             this.modelView = options.modelView;
 
             this.render();
@@ -85,15 +83,21 @@ window.rupon.views = window.rupon.views || {};
         render: function() {
 
             _.each( this.collection.models, function(thought) {
-                this.displayItem(thought, "append")
+                this.displayItem(thought, 'append')
             }, this);
 
             return this;
         },
 
-        displayItem: function(thought, method) {
+        prependItem: function(thought) {
+            this.displayItem(thought, 'prepend');
+        },
 
-            console.log(arguments);
+        appendItem: function(thought) {
+            this.displayItem(thought, 'append');
+        },
+
+        displayItem: function(thought, method) {
 
             if (thought.get("archived")) {
                 this.archived_count = this.last_archived ? (this.archived_count+1) : 1;
@@ -111,11 +115,8 @@ window.rupon.views = window.rupon.views || {};
                 formatThought = new rv.ArchivedItemView({ model: thought });
             }
 
-            if (method == "append") {
-                this.$el.append(formatThought.$el);
-            } else {
-                this.$el.prepend(formatThought.$el);
-            }
+            method = method || "append";
+            this.$el[method](formatThought.$el);
 
             var self = this;
             this.listenTo(formatThought, 'all', function() {
@@ -370,12 +371,12 @@ window.rupon.views = window.rupon.views || {};
         },
 
         render: function() {
-            this.$el.toggle(this.collection.hasNext());
+            this.$el.toggle(this.collection.hasNextPage());
             this.$el.html(this.template());
         },
 
         getNextPage: function() {
-            this.collection.getNextPage();
+            this.collection.getNextPage({fetch:true});
         }
     });
 

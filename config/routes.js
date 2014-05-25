@@ -85,7 +85,7 @@ module.exports = function(app) {
 
                     if ((per_page * page) < count) { 
                         res.links({
-                            next: '/api/thought/?stream_type='+stream_type+'&page='+(page+1)+'&per_page=15&sort=updated&direction=desc'
+                            next: '/api/thought/?stream_type='+stream_type+'&page='+(Number(page)+1)+'&per_page=15&sort=updated&direction=desc'
                         });
                     }
 
