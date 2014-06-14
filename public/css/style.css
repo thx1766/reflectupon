@@ -10,11 +10,10 @@ button.btn{display: block;border: 1px solid #ccc;padding: 10px;text-decoration: 
 
 #topbar-wrapper{width:100%;height:45px;background-color:rgb(189, 63, 63);box-shadow:0 2px 3px rgb(133, 27, 27);position:fixed;z-index:10;}
 #topbar{width:940px;margin:0 auto;font-family:arial;}
-#topbar a{padding:9px 0;display:inline-block;font-size:24px;color:#fff;text-decoration:none;letter-spacing:1px;}
+#topbar a{float:left;padding:9px 0;display:inline-block;font-size:24px;color:#fff;text-decoration:none;letter-spacing:1px;}
 #topbar a.icon{float:right;margin-left:30px;margin-top:2px;}
 
 .wrapper{width:940px;margin:0 auto;clear:both;display:block;padding-top:70px;}
-.sidebar{float:left;min-height:300px;width:50px;position:fixed;}
 .sidebar a{display:block}
 
 .new-reflections li{list-style:none;margin:0 10px;padding:8px 6px 8px 10px;text-decoration:none;display:block;}
@@ -32,19 +31,19 @@ button.btn{display: block;border: 1px solid #ccc;padding: 10px;text-decoration: 
     width: 30px;
     height: 30px;
     margin-bottom: 10px;
-    padding: 10px;
+    padding: 4px 12px;
     border:2px solid transparent;
     border-radius:6px;
+    display:inline-block;
 }
 
 .menu>div:hover {
-    border: 2px solid rgb(97,97,97);
-}
-.menu:hover {
-    color: rgb(97,97,97);
+    border: 2px solid #fff;
 }
 .menu {
-    color: rgb(241, 226, 226)
+    color:#ffffff;
+    text-align:center;
+    padding:0 100px;
 }
 
 .other-thoughts{position:relative;}
@@ -53,7 +52,7 @@ button.btn{display: block;border: 1px solid #ccc;padding: 10px;text-decoration: 
 .other-thoughts:hover .other-tooltip .content{padding:15px;}
 
 #sidebar{position:relative;z-index:10;}
-#container{margin:0 auto;min-height:600px;width:730px;position:relative;z-index:1;}
+#container{margin:0 auto;min-height:600px;width:660px;position:relative;z-index:1;}
 #container.today{padding:0}
 .today .heading{padding:10px 20px;background-color:#f3f3f3;border-bottom:1px solid #ccc;}
 .today .heading h1{margin-top:10px;}
@@ -79,9 +78,10 @@ button.btn{display: block;border: 1px solid #ccc;padding: 10px;text-decoration: 
 .thoughts-list.select-text .thought-row{opacity:0.1}
 .thoughts-list.select-text .thought-row.selected{opacity:1}
 .thought-row .title{font-weight:bold;font-size:22px;padding-bottom:5px;color:#111;}
-.thought-row .message {font-size: 20px;padding: 16px 12px 20px;color: rgb(107, 107, 107);line-height: 24px;position: relative;border-left: 5px solid #acacac;background-color: #fff;}
+.thought-row .message {font-size: 20px;padding: 5px 12px 20px;color: rgb(107, 107, 107);line-height: 24px;position: relative;background-color: #fff;}
+.show-replies.thought-row .message{float:left;}
+.thought-row .message .header{font-size: 15px;font-family: 'Helvetica Neue';font-weight: 200;border-bottom: 1px solid #ccc;margin-bottom: 14px;}
 .thought-row .message .lock-container{display:none;}
-.thought-row .message.private{border-left-color: #CF8787;}
 .thought-row .message.private .lock-container{display:block;height:23px;cursor:pointer}
 .lock-container .fa-lock{margin-right:5px;opacity:0.4;float:left;}
 .left-actions:hover .lock-container div{display:block}
@@ -167,16 +167,34 @@ button.btn{display: block;border: 1px solid #ccc;padding: 10px;text-decoration: 
 .thought-row .left-actions:hover .dropdown{display:block;}
 .thought-row .left-actions button{cursor:pointer;padding: 10px;background: #575DD8;border-radius: 4px;border: 1px solid #5C5C5C;font-size: 14px;color: #ffffff;box-shadow: 0 1px 4px #cccccc,0 1px 1px inset;outline:none;}
 
-.thought-row a{text-decoration:none;font-size:16px;color:rgb(79,94,199)}
-.thought-row .annotation{color:#fff;font-size: 14px;padding: 4px 32px;font-family:arial;background-color:#8F8F8F}
-.thought-row .reply-collection{background-color: #8F8F8F;color: #ffffff;font-family: arial;font-size: 14px;}
-.thought-row .reply-collection{list-style:none;}
-.thought-row .reply-collection li {padding:4px 32px;}
+.thought-row a{text-decoration:none;}
+.thought-row .annotation, .thought-row .reply-collection li{color:#636363;font-size: 14px;font-family:"Helvetica Neue";background-color:#F2ECE2;font-weight:200;letter-spacing:.04em;}
+.thought-row .annotation{padding: 8px 12px 6px;}
+.thought-row .reply-collection li{padding: 8px 32px 6px;list-style:none;padding-right:0;}
 .thought-row .reply-collection li:last-child {border-bottom: 0;}
 
-.reply-collection .label, .annotation .label{float:left;width:80px;margin-right:8px;text-align:right;}
-.reply-collection .label{color:#FFF8A9;}
-.annotation .label{color:#FFD5D5;}
+/* Message Feed */
+.message-feed .message{border-bottom:1px solid #ccc;padding:10px 0}
+.message-feed .heading{padding:5px;}
+.message-feed .description{padding:5px;}
+.message-feed .action-text{padding:5px;display:none;}
+.section.other-author{0 1px 5px rgb(166, 158, 202)}
+.thought-row{transition:margin .25s; -webkit-transition:margin .25s;}
+.thought-row.other-author .message{background-color:#FDFDFF;}
+.thought-row.other-author .message .header{border-bottom:1px solid #8585D3;}
+.thought-row.show-replies{margin-left:-130px;margin-right:130px;}
+
+.reply-collection li{padding:5px 0;}
+.reply-collection .label, .annotation .label{float:left;margin-right:8px;}
+.reply-collection .label{color:#A2A2A2;}
+.reply-collection .reply-description{float:left;width:405px;}
+.reply-collection .action{float:right;margin-right:10px;color:#3D43C8;}
+.reply-collection .action i{margin-left:5px;}
+
+.write-reply {background-color: #F1E8D1;padding: 5px 10px;box-shadow: inset 0 1px 0px #FFFFFF;border-top: 1px solid #E3D9D0;}
+.write-reply input{font-size: 18px;font-family: "Times New Roman";border:0;padding: 5px 8px;border-radius: 2px;width: 100%;color: #5D5D5D;outline: none;box-shadow:inset 0 1px 2px #B5B5B5;}
+
+.annotation .label{color:#A2A2A2;}
 
 .popover-content{
     border-radius: 2px;
@@ -196,22 +214,19 @@ button.btn{display: block;border: 1px solid #ccc;padding: 10px;text-decoration: 
 
 .archived-container{border-top: 2px solid #8B8B8B;margin: 18px 10px 8px;}
 .archived{width: 160px;margin: -13px auto 0;text-align: center;background-color: #f5f5f5;font-size: 18px;}
-.section{margin-bottom:15px;border-radius:1px;box-shadow:0 2px 8px rgb(214,214,214);background-color:#ffffff;}
+.section{margin-bottom:15px;border-radius:1px;box-shadow:0 3px 4px rgb(214,214,214);background-color:#ffffff;}
 .section-title{font-size:24px;margin-bottom:20px;font-family:arial;}
 .my-dashboard .section{background-color: #fff;box-shadow: 0 2px 8px rgb(214,214,214);}
 .container{padding:20px;}
 
-/* Message Feed */
-.message-feed .message{border-bottom:1px solid #ccc;padding:10px 0}
-.message-feed .heading{padding:5px;}
-.message-feed .description{padding:5px;}
-.message-feed .action-text{padding:5px;display:none;}
-
 /* Dashboard */
-.post-frequency .description{margin-bottom:8px;font-size:20px;}
+.section .description{margin-bottom:8px;font-size:20px;}
 .post-frequency li{list-style:none;}
 .post-frequency li div{height:20px;width:3.33%;float:left;box-sizing:border-box;-moz-box-sizing:border-box;}
 .post-frequency li div.filled{background-color:rgb(126, 176, 231);border-right:1px solid #ffffff;}
+
+.new-frequency li {list-style: none;background-color: #ccc;float: left;width: 9.6%;margin: 10px 6px;text-align: center;height: 40px;font-size: 35px;padding: 10px;border-radius: 2px;-webkit-transition: all .25s;transition: all .25s;}
+.new-frequency li.small {width: 1.7%;color: #ccc;height: 11px;overflow: hidden;margin: 25px 33px;}
 
 /* Super user */
 ul.super-user {list-style:none}

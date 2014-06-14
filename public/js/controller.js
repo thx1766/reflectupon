@@ -16,19 +16,19 @@ window.rupon.utils = window.rupon.utils || {};
 
     var rc = window.rupon.controllers,
         rv = window.rupon.views,
-        thoughtsView, singleView, tooltipView, postboxView, elem,
+        thoughtsView, singleView, tooltipView, postboxView, elem, newThoughtsView, FrequencyView,
         my_thoughts_collection, other_thoughts_collection;
 
     rc.startPage = function(options) {
 
-        rupon.account_info = rupon.account_info || {};
+        rupon.account_info         = rupon.account_info || {};
         rupon.account_info.user_id = options.user_id;
-        rupon.account_info.email = options.email;
+        rupon.account_info.email   = options.email;
 
-        my_thoughts_collection = new rupon.models.thoughtCollection([],{type: "my-posts"});
+        my_thoughts_collection    = new rupon.models.thoughtCollection([],{type: "my-posts"});
         other_thoughts_collection = new rupon.models.thoughtCollection([],{type: "other-posts"});
 
-        var sidebarView     = new rupon.views.Sidebar.MainView();
+        var sidebarView = new rupon.views.Sidebar.MainView({collection: my_thoughts_collection});
 
         sidebarView
             .on("create-reflection", function() {
@@ -57,24 +57,18 @@ window.rupon.utils = window.rupon.utils || {};
             .on("view-all", function() {
                 rc.resetViews();
                 rc.setAllThoughts(); })
-            .on("show-other-thoughts", function() {
-                sidebarView.startTooltip(); })
+            .on("show-other-thoughts", function() {})
             .on("show-super-user", function() {
                 rc.resetViews();
                 rc.setSuperUser();
             });
 
-        var newThoughtsView = new rupon.views.Sidebar.ThoughtsView({collection: other_thoughts_collection});
+        showOtherThoughtsView();
 
-        newThoughtsView
-            .on("view-thought", function(model) {
-                rc.resetViews();
-                rc.setSingle(model);
-            });
+        $(".actions-container").html(sidebarView.$el);
 
-        sidebarView.$el.find(".new-reflections").html(newThoughtsView.$el);
+        $("#sidebar").find(".new-reflections").html(newThoughtsView.$el);
 
-        $("#sidebar").html(sidebarView.$el);
         rc.setAllThoughts();
 
         other_thoughts_collection.fetch({reset: true, data: {"stream_type": "other-thoughts"}});
@@ -107,9 +101,13 @@ window.rupon.utils = window.rupon.utils || {};
             frequency_collection    = new rupon.models.frequencyCollection({listen_collection: my_thoughts_collection});
 
         var mainView        = new rv.MainView(),
-            frequencyView   = new rv.FrequencyView({collection: frequency_collection});
             recThoughtsView = new rv.RecommendedView({collection: recommended_collection}),
-            thoughtsView    = new rv.ThoughtView({collection: my_thoughts_collection, modelView: rv.ThoughtItemView});
+            thoughtsView    = new rv.ThoughtView({
+                collection: my_thoughts_collection,
+                user:       rupon.account_info
+            });
+
+        frequencyView   = new rv.FrequencyView({collection: frequency_collection});
 
         rc.applyTooltipEvents(thoughtsView);
         rc.applyTooltipEvents(recThoughtsView);
@@ -119,7 +117,7 @@ window.rupon.utils = window.rupon.utils || {};
         $("#container").html(mainView.$el);
 
 		mainView.$el
-            .find(".post-frequency").append(frequencyView.$el).end()
+            .find(".frequency-container").append(frequencyView.$el).end()
             .find(".recommended-container").append(recThoughtsView.$el).end()
             .find(".thought-container").append(thoughtsView.$el).end()
             .find(".pagination-container").append(paginationView.$el);
@@ -141,7 +139,9 @@ window.rupon.utils = window.rupon.utils || {};
 
         frequency_collection.fetch({reset:true});
         recommended_collection.fetch({reset:true, data: {stream_type: "recommended"}});
-        user_message_collection.fetch({reset:true, data: {user_id:rupon.account_info.user_id}});
+        user_message_collection.fetch({reset:true, data: {user_id:rupon.account_info.user_id},
+            success: function() {
+            }});
         my_thoughts_collection.fetch({reset:true, data: {stream_type: "my-thoughts"}});
         $('textarea').autosize();
 	};
@@ -221,6 +221,17 @@ window.rupon.utils = window.rupon.utils || {};
             })
             .on("archive-thought", function(model) {
                 model.save({archived: true});
+            })
+    }
+
+    showOtherThoughtsView = function() {
+
+        newThoughtsView = new rupon.views.Sidebar.ThoughtsView({collection: other_thoughts_collection});
+
+        newThoughtsView
+            .on("view-thought", function(model) {
+                rc.resetViews();
+                rc.setSingle(model);
             });
     }
 

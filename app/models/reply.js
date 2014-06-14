@@ -8,7 +8,8 @@ var replySchema = Schema({
     user_id:        String,
     thought_id:     String,
     annotations:    [{ type: Schema.Types.ObjectId, ref: 'Annotation'}],
-    date:           Date
+    date:           Date,
+    thanked:        Boolean
 });
 
 mongoose.model('Reply', replySchema)

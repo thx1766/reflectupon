@@ -94,6 +94,9 @@ window.rupon.views = window.rupon.views || {};
         },
 
         initialize: function() {
+
+            this.listenTo(this.collection, 'change:privacy', this.render);
+            this.listenTo(this.collection, 'reset', this.render);
             this.render();
         },
 
@@ -102,6 +105,7 @@ window.rupon.views = window.rupon.views || {};
             if (rupon.account_info.email == "andrewjcasal@gmail.com") {
                 template_options.showSuperUser = true;
             }
+
             this.$el.html(this.template(template_options));
         },
 

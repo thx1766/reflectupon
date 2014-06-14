@@ -79,9 +79,7 @@
     </script>
     <script type="text/x-handlebars-template" id="home-template">
         <div class="message-container"></div>
-        <div class="section container">
-            <div class="post-frequency"></div>
-        </div>
+        <div class="frequency-container"></div>
         <div class="recommended-container"></div>
         <div class="thought-container"></div>
         <div class="pagination-container"></div>
@@ -115,9 +113,15 @@
             <button type="button" class="btn btn-primary postbox-submit">Create reflection</button>
         </div>
     </script>
+    <script type="text/x-handlebars-template" id="new-frequency-template">
+        <div class="description">Anonymous reflections you have made</div>
+        <ul class="new-frequency clearfix"></ul>
+    </script>
     <script type="text/x-handlebars-template" id="frequency-template">
         <div class="description">Post Frequency</div>
         <ul></ul>
+    </script>
+    <script type="text/x-handlebars-template" id="slider-template">
     </script>
     <script type="text/x-handlebars-template" id="frequency-item-template">
         <div class="{{#if filled}}filled{{/if}}"></div>
@@ -133,11 +137,31 @@
         <div class="archived-container"><div class="archived">Archived Thought</div></div>
     </script>
     <script type="text/x-handlebars-template" id="thought-item-template">
+        {{#if annotation }}
+            <div class="annotation">
+                <div class="annotation-desc"><div class="label">Based on your snippet:</div><div>{{ annotation }}</div></div>
+            </div>
+        {{/if}}
         <div class="message clearfix{{#equal privacy "Private"}} private{{/equal}}">
+            <div class="clearfix header">
+                <div style="float: left;">
+                    {{#equal privacy "Private"}} 
+                        <span style="color: #D31616;">PRIVATE</span>
+                    {{/equal}}
+                    {{#unless is_author}}
+                        <span style="color: #8585D3;">Someone wrote:</span>
+                    {{/unless}}
+                </div>
+                <div style="float: right;">
+                    <span style="color:#999999">Written {{duration}}</span>
+                </div>
+            </div>
             <div class="description-container">
-                <div class="description">{{ description }}{{#if read_more}} <a href="javascript:;">Read more</a>{{/if}}</div>
+                <div class="description">{{ description }}{{#if read_more}} <a href="javascript:;" class="read-more">Read more</a>{{/if}}</div>
                 {{#if can_edit }}<textarea>{{ description }}</textarea>{{/if}}
             </div>
+
+            {{#if is_author}}
             <div class="right-actions dropdown-container arrow-right">
                 <a href="javascript:;" class="options">
                     <i class="fa fa-angle-down fa-lg"></i>
@@ -155,6 +179,8 @@
                     </div>
                 </div>
             </div>
+            {{/if}}
+
             <div class="left-actions dropdown-container arrow-left">
                 <div class="lock-container">
                     <i class="fa fa-lock"></i><div>Private</div>
@@ -166,15 +192,30 @@
             </div>
             <div class="tooltip_description" style="display:none;" title="No worries"></div>
         </div>
-        {{#if annotation }}
-            <div class="annotation">
-                <div class="annotation-desc"><div class="label">Annotation:</div><div>{{ annotation }}</div></div>
-            </div>
-        {{/if}}
         <div class="reply-collection-container"></div>
+        {{#if is_author }}{{else}}
+        {{#if can_reply}}
+        <div class="write-reply"><input placeholder="Write a reply"></div>
+        {{/if}}
+        {{/if}}
     </script>
     <script type="text/x-handlebars-template" id="reply-template">
-        <div class="label">Reply:</div><div>{{ description }}</div></div>
+        <div class="label">Reply:</div>
+        <div class="reply-description">{{ description }}</div>
+        {{#if is_author}}
+        {{else}}
+            {{#if thanked}}
+                <a href="javascript:;" class="action">
+                    Replier thanked!
+                    <i class="fa fa-heart"></i>
+                </a>
+            {{else}}
+                <a href="javascript:;" class="action">
+                    Thank replier
+                    <i class="fa fa-heart-o"></i>
+                </a>
+            {{/if}}
+        {{/if}}
     </script>
     <script type="text/x-handlebars-template" id="new-thought-item-template">
         <span class="checkbox {{#if replied}}active{{/if}}">
@@ -238,27 +279,16 @@
         </div>
     </script>
     <script type="text/template" id="sidebar-template">
-        <div class="menu" style="
-            float: left;
-            margin-top: 40px;
-        ">
+        <div class="menu">
         <div class="show-postbox">
-        <i class="fa fa-plus-square-o fa-2x" style="
-            padding-left: 2px;
-        "></i>
+            <i class="fa fa-plus-square-o fa-2x" style="
+                padding-left: 2px;
+            "></i>
         </div>
         <div class="show-thoughts">
-        <i class="fa fa-bars fa-2x" style="
-            padding-left: 1px;
-        "></i>
-        </div>
-        <div class="other-thoughts">
-            <i class="fa fa-leaf fa-2x" style="margin-left:-1px"></i>
-            <div class="other-tooltip" id="show-other-thoughts">
-                <div class="content arrow_box">
-                    <div class="new-reflections"></div>
-                </div>
-            </div>
+            <i class="fa fa-bars fa-2x" style="
+                padding-left: 1px;
+            "></i>
         </div>
         {{#if showSuperUser }}
             <div class="show-super-user">

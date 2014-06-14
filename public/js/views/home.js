@@ -4,6 +4,7 @@ window.rupon.views = window.rupon.views || {};
 (function() {
 
     var rv = window.rupon.views;
+    var rm = window.rupon.models;
     var cv = window.rupon.common_views;
 
     var privacy = ["PRIVATE", "ANONYMOUS"];
@@ -29,7 +30,7 @@ window.rupon.views = window.rupon.views || {};
     rv.FrequencyView = cv.CollectionContainer.extend({
 
         tagName: "div",
-        className: "clearfix",
+        className: "section container post-frequency clearfix",
 
         container_ele: "ul",
 
@@ -72,15 +73,19 @@ window.rupon.views = window.rupon.views || {};
 
             this.listenTo(this.collection.fullCollection,'add', this.appendItem);
             this.listenTo(this.collection, 'create', this.prependItem);
-            this.modelView = options.modelView;
 
-            this.render();
+            this.modelView = function(model) {
+                return new rv.ThoughtItemView({ model: model, user: options.user })
+            };
+
+            this.render(options);
 
             this.archived_count = 0;
             this.last_archived = false;
+
         },
 
-        render: function() {
+        render: function(options) {
 
             _.each( this.collection.models, function(thought) {
                 this.displayItem(thought, 'append')
@@ -110,7 +115,7 @@ window.rupon.views = window.rupon.views || {};
             var formatThought;
 
             if (!this.archived_count || (this.archived_count && this.archived_count == 1)) {
-                formatThought = new this.modelView({ model: thought });
+                formatThought = this.modelView(thought);
             } else {
                 formatThought = new rv.ArchivedItemView({ model: thought });
             }
@@ -130,31 +135,41 @@ window.rupon.views = window.rupon.views || {};
     rv.ThoughtItemView = Backbone.View.extend({
 
         tagName:   "div",
-        className: "thought-row tooltipbottom section",
+        className: "thought-row tooltipbottom section clearfix",
         template: Handlebars.compile($("#thought-item-template").html()),
 
+        user: null,
+
         events: {
-            'click a':                  'showSingle',
+            'click .read-more':         'showSingle',
             'selectstart .description': 'takeAnnotation',
             'click .privacy-status':    'changePrivacy',
             'click .edit':              'editThought',
             'click .delete':            'deleteThought',
             'click .archive':           'archiveThought',
-            'keypress textarea':        'submitEdit'
+            'keypress textarea':        'submitEdit',
+            'keypress .write-reply input': 'submitReply'
         },
 
-        initialize: function() {
+        initialize: function(options) {
             this.model.on("change", this.modelChanged, this);
             this.model.on("destroy", this.remove, this);
             this.activateTooltip();
-            this.render();
+            this.render(options);
 
-            var replies = this.model.get("replies");
+            this.user = options.user;
 
-            if (replies.length) {
-                var replyCollectionContainer = new rv.RepliesView({collection: replies});
-                this.$el.find(".reply-collection-container").html(replyCollectionContainer.$el);
-            }
+            this.replyCollection = new rm.replyCollection(this.model.get("replies").models);
+            this.replyCollectionContainer = new rv.RepliesView({collection: this.replyCollection, user: options.user});
+
+            var self = this;
+            this.replyCollectionContainer.on('thank-reply', function(attr) {
+                var reply = self.replyCollection.findWhere(attr);
+                reply.save({'thanked': !reply.get('thanked') }, {wait: true, patch: true});
+            });
+
+            this.$el.find(".reply-collection-container").html(this.replyCollectionContainer.$el);
+
         },
 
         render: function(options) {
@@ -167,7 +182,15 @@ window.rupon.views = window.rupon.views || {};
 
             var difference_ms = today - created_at;
 
+            this.user = (options && options.user) ? options.user : this.user;
+            template_options.is_author = this.user && this.user.user_id == this.model.get('user_id');
+
             template_options.can_edit = (difference_ms/(1000*60*60*24)) <= 1;
+            template_options.can_reply = !this.model.get('replies').length;
+
+            template_options.duration = moment(this.model.get("date")).fromNow();
+            
+            if (!template_options.is_author) this.$el.addClass('other-author');
 
             options = options || {};
             template_options.showMore = options.showMore || false;
@@ -201,6 +224,8 @@ window.rupon.views = window.rupon.views || {};
             var attrs = {
                 showMore: true
             }
+
+            this.$el.addClass('show-replies');
             this.render(attrs);
         },
 
@@ -264,6 +289,29 @@ window.rupon.views = window.rupon.views || {};
 
         archiveThought: function() {
             this.trigger("archive-thought", this.model);
+        },
+
+        submitReply: function(e) {
+
+            switch(e.which) {
+                case 13:
+                    var description = this.$el.find('.write-reply input').val()
+
+                    if ($.trim(description) != "") {
+
+                        var attr = {
+                            description: description,
+                            thought_id:  this.model.get('_id')
+                        };
+
+                        var self = this;
+                        this.replyCollection.create({user_id: this.user.user_id, thought_id: attr.thought_id, description: attr.description}, { success: function() {
+                            self.$el.find('.write-reply').addClass('hidden');
+                        }});
+                    }
+
+            }
+
         }
 
     });

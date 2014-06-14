@@ -76,7 +76,7 @@ window.rupon.views = window.rupon.views || {};
 
     rv.Single.ReplyView = Backbone.View.extend({
 
-        template:  _.template($("#reply-template").html()),
+        template:  Handlebars.compile($("#reply-template").html()),
 
         tagName:   "div",
         className: "reply-row",

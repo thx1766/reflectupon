@@ -1,4 +1,5 @@
 var mongoose = require('mongoose')
+  , async = require('async')
   , user_routes     = require('../app/controllers/user')
   , thought_routes  = require('../app/controllers/thought')
   , auth = require('./middlewares/authorization');
@@ -23,7 +24,7 @@ module.exports = function(app) {
 
     app.get('/api/thought', function(req, res) {
 
-        var params = {},
+        var params = {}, params2 = {}, array1 = null,
             limit  = 0,
             date_sort = null;
             more_limit = 0,
@@ -35,14 +36,94 @@ module.exports = function(app) {
             per_page    = req.query.per_page    || null,
             page        = req.query.page        || null;
 
+            if (thought_id) params._id = thought_id;
+
         if (req.user) {
 
             switch (stream_type) {
                 case "my-thoughts":
-                    params.user_id = req.user._id;
+
+                    params = {
+                        user_id: req.user._id
+                    };
+
+                    params1 = {
+                        privacy: "ANONYMOUS"
+                    };
+
                     limit = Number(per_page);
                     date_sort = {date: -1};
-                    populate = 'replies';
+                    populate = {
+                        path: 'replies',
+                        match: { user_id: req.user._id }
+                    };
+
+                    async.parallel([
+                        function(cb) {
+                            Thought.find( params )
+                                .populate('replies')
+                                .limit(limit)
+                                .skip(per_page * (page - 1))
+                                .sort(date_sort)
+                                .exec(cb)
+                        },
+
+                        function(cb) {
+                            Thought.find( params1 )
+                                .populate(populate)
+                                .limit(limit)
+                                .skip(per_page * (page - 1))
+                                .sort(date_sort)
+                                .exec(cb)
+                        }
+                        
+                    ], function(err, results) {
+
+                        console.log(results);
+
+                        var thoughts = results[1].concat(results[0]);
+
+                        function compare(a,b) {
+                            if (a.date < b.date) return 1;
+                            if (a.date > b.date) return -1;
+                            return 0;
+                        }
+
+                        thoughts.sort(compare);
+
+                        if (err) console.log(err);
+
+                        Thought.find( params).count().exec(function(err, count) {
+
+                            if (err) console.log(err);
+
+                            // Array that will be sent back that picks from data taken from database
+                            var send_thoughts = [];
+
+                            // Send reflections from different intervals of time, so user may reflect back on them
+                            if (stream_type == "recommended") {
+                                if (thoughts && thoughts[5])  send_thoughts.push(thoughts[5]);
+                            } else {
+                                send_thoughts = thoughts;
+                            }
+
+                            if ((per_page * page) < count) { 
+                                res.links({
+                                    next: '/api/thought/?stream_type='+stream_type+'&page='+(Number(page)+1)+'&per_page=15&sort=updated&direction=desc'
+                                });
+                            }
+
+                            if (thoughts) {
+                                if (thoughts.length == 1) {
+                                    res.send(send_thoughts[0])
+                                } else {
+                                    res.send(send_thoughts);
+                                }
+                            }
+                        })
+
+                    });
+
                     break;
                 case "other-thoughts":
                     params.user_id = { $ne: req.user._id };
@@ -63,19 +144,8 @@ module.exports = function(app) {
 
                     date_sort = {date: -1};
                     params.privacy = "ANONYMOUS"
-                    break;
-                case "recommended":
-                    params.user_id = req.user._id;
-                    limit = 15;
-                    date_sort = {date: -1};
-                    populate = 'replies';
-                    break;
-            }
 
-            if (thought_id) params._id = thought_id;
-        }
-
-        Thought.find( params )
+        Thought.find( params ).or( array1 )
             .populate(populate)
             .limit(limit)
             .skip(per_page * (page - 1))
@@ -93,9 +163,7 @@ module.exports = function(app) {
 
                     // Send reflections from different intervals of time, so user may reflect back on them
                     if (stream_type == "recommended") {
-                        if (thoughts[0])  send_thoughts.push(thoughts[0]);
-                        if (thoughts[5])  send_thoughts.push(thoughts[5]);
-                        if (thoughts[10]) send_thoughts.push(thoughts[10]);
+                        if (thoughts && thoughts[5])  send_thoughts.push(thoughts[5]);
                     } else {
                         send_thoughts = thoughts;
                     }
@@ -115,6 +183,54 @@ module.exports = function(app) {
                     }
                 })
             });
+                    break;
+                case "recommended":
+                    params.user_id = req.user._id;
+                    limit = 15;
+                    date_sort = {date: -1};
+                    populate = 'replies';
+
+        Thought.find( params ).or( array1 )
+            .populate(populate)
+            .limit(limit)
+            .skip(per_page * (page - 1))
+            .sort(date_sort)
+            .exec(function(err, thoughts) {
+
+                if (err) console.log(err);
+
+                Thought.find( params).count().exec(function(err, count) {
+
+                    if (err) console.log(err);
+
+                    // Array that will be sent back that picks from data taken from database
+                    var send_thoughts = [];
+
+                    // Send reflections from different intervals of time, so user may reflect back on them
+                    if (stream_type == "recommended") {
+                        if (thoughts && thoughts[5])  send_thoughts.push(thoughts[5]);
+                    } else {
+                        send_thoughts = thoughts;
+                    }
+
+                    if ((per_page * page) < count) { 
+                        res.links({
+                            next: '/api/thought/?stream_type='+stream_type+'&page='+(Number(page)+1)+'&per_page=15&sort=updated&direction=desc'
+                        });
+                    }
+
+                    if (thoughts) {
+                        if (thoughts.length == 1) {
+                            res.send(send_thoughts[0])
+                        } else {
+                            res.send(send_thoughts);
+                        }
+                    }
+                })
+            });
+                    break;
+            }
+        }
 
     });
 
@@ -236,16 +352,11 @@ module.exports = function(app) {
                 var user_message = new userMessage(user_message_data);
                 user_message.save(function (err, user_message) {
                     if (err) return console.error(err);
-
-                    console.log("user messages A");
-                    console.log(user_message);
                     res.send(user_message);
                 });
 
             } else {
 
-                console.log("user messages B");
-                console.log(user_messages);
                 res.send(user_messages);
 
             }
@@ -271,7 +382,7 @@ module.exports = function(app) {
         });
     });
 
-    app.post('/api/thought/:thought/reply/',function(req, res) {
+    app.post('/api/thought/:thought/reply',function(req, res) {
 
         var reply = new Reply({
             title:          req.body.title,
@@ -357,5 +468,25 @@ module.exports = function(app) {
     app.get('/account', auth.ensureAuthenticated, function(req,res) {
         res.send( req.user );
     });
+
+    app.patch('/api/reply/:reply_id', function(req, res) {
+        
+        var thanked = req.body.thanked;
+
+        Reply.findById(req.params.reply_id, function(err,reply) {
+
+            if (err) console.log(err);
+
+            reply.thanked = thanked;
+
+            reply.save(function() {
+
+                res.send( reply );
+
+            })
+
+        });
+
+    })
 
 }

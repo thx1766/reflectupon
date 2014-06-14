@@ -68,7 +68,22 @@ window.rupon.models = window.rupon.models || {};
     rm.reply = Backbone.Model.extend({
         defaults: {
             "title":       "Untitled"
+        },
+
+        initialize: function(options) {
+            this.thought_id = options.thought_id;
+        },
+
+        urlRoot: '/api/reply/',
+
+        url: function() {
+            if (this.isNew()) {
+                return '/api/thought/'+this.thought_id+'/reply'
+            } else {
+                return Backbone.Model.prototype.url.call(this);
+            }
         }
+
     });
 
     rm.annotation = Backbone.Model.extend({
@@ -79,11 +94,10 @@ window.rupon.models = window.rupon.models || {};
         model: rm.reply,
 
         initialize: function(options) {
-            this.thought_id = options.thought_id;
         },
 
         url: function() {
-            return '/api/thought/'+ this.thought_id +'/reply/';
+            return '/api/thought/'+this.thought_id+'/reply'
         }
     });
 
@@ -116,11 +130,11 @@ window.rupon.models = window.rupon.models || {};
 
         initialize: function(options) {
             this.listen_collection = options.listen_collection;
-            this.listen_collection.on("add", this.addToLastModel, this);
+            this.listenTo(this.listen_collection, 'create', this.addToLastModel);
         },
 
         addToLastModel: function(model) {
-            
+
             var freq_model = this.models[0],
                 thoughts   = _.clone(freq_model.get("thoughts"));
 
