@@ -79,8 +79,10 @@
     </script>
     <script type="text/x-handlebars-template" id="home-template">
         <div class="message-container"></div>
-        <div class="frequency-container"></div>
-        <div class="recommended-container"></div>
+        <div class="section container">
+            <div class="frequency-container"></div>
+            <div class="recommended-container"></div>
+        </div>
         <div class="thought-container"></div>
         <div class="pagination-container"></div>
     </script>
@@ -91,6 +93,10 @@
             </a>
         </div>
         <div class="message">{{copy}}</div>
+    </script>
+    <script type="text/x-handlebars-template" id="recommended-template">
+        <div class="description">Recommended for you</div>
+        <div class="rec-thought-container"></div>
     </script>
     <script type="text/x-handlebars-template" id="recommended-item-template">
         <div class="date">Written {{ duration }}</div>
@@ -103,6 +109,9 @@
         <div class="postbox-two clearfix">
             <p>How do you feel now? Don't hesitate to write freely.</p>
             <textarea class="form-control postbox-description" rows="10"></textarea>
+            <div class="privacy-action">
+                <input type="checkbox" />Mark as Private (Reflections default to Anonymous)
+            </div>
             <button type="button" class="btn btn-primary postbox-send">Create reflection</button>
         </div>
         <div class="postbox-options">
@@ -118,6 +127,14 @@
         <ul class="new-frequency clearfix"></ul>
     </script>
     <script type="text/x-handlebars-template" id="frequency-template">
+        <div style="
+        float: right;
+        font-size: 14px;
+        font-weight: 200;
+        font-family: Helvetica Neue;
+        padding-top: 4px;
+        color: #999999;
+    ">(last 30 days)</div>
         <div class="description">Post Frequency</div>
         <ul></ul>
     </script>
@@ -137,6 +154,14 @@
         <div class="archived-container"><div class="archived">Archived Thought</div></div>
     </script>
     <script type="text/x-handlebars-template" id="thought-item-template">
+        <div class="section clearfix">
+        {{#unless is_author}}
+            <div class="past-posts-summary">
+                Important to you: Interacted {{past_posts}} times
+                <a href="javascript:;">View History</a>
+                <div class="past-posts-container"></div>
+            </div>
+        {{/unless}}
         {{#if annotation }}
             <div class="annotation">
                 <div class="annotation-desc"><div class="label">Based on your snippet:</div><div>{{ annotation }}</div></div>
@@ -149,15 +174,15 @@
                         <span style="color: #D31616;">PRIVATE</span>
                     {{/equal}}
                     {{#unless is_author}}
-                        <span style="color: #8585D3;">Someone wrote:</span>
+                        <span style="color: #4848C5;font-weight:400">Someone wrote:</span>
                     {{/unless}}
                 </div>
                 <div style="float: right;">
-                    <span style="color:#999999">Written {{duration}}</span>
+                    <span style="color:{{#if is_author}}#999999{{else}}#4848C5{{/if}}">Written {{duration}}</span>
                 </div>
             </div>
             <div class="description-container">
-                <div class="description">{{ description }}{{#if read_more}} <a href="javascript:;" class="read-more">Read more</a>{{/if}}</div>
+                <div class="description">{{ breaklines description }}{{#if read_more}} <a href="javascript:;" class="read-more">Read more</a>{{/if}}</div>
                 {{#if can_edit }}<textarea>{{ description }}</textarea>{{/if}}
             </div>
 
@@ -198,15 +223,21 @@
         <div class="write-reply"><input placeholder="Write a reply"></div>
         {{/if}}
         {{/if}}
+        </div>
+    </script>
+    <script type="text/x-handlebars-template" id="vet-thought-template">
+        {{breaklines description}} <a href="javascript:;" class="delete">Delete</a>
     </script>
     <script type="text/x-handlebars-template" id="reply-template">
         <div class="label">Reply:</div>
         <div class="reply-description">{{ description }}</div>
         {{#if is_author}}
+            {{#if thanked}}
+                <span>You were thanked!</span>
+            {{/if}}
         {{else}}
             {{#if thanked}}
                 <a href="javascript:;" class="action">
-                    Replier thanked!
                     <i class="fa fa-heart"></i>
                 </a>
             {{else}}
@@ -281,14 +312,8 @@
     <script type="text/template" id="sidebar-template">
         <div class="menu">
         <div class="show-postbox">
-            <i class="fa fa-plus-square-o fa-2x" style="
-                padding-left: 2px;
-            "></i>
-        </div>
-        <div class="show-thoughts">
-            <i class="fa fa-bars fa-2x" style="
-                padding-left: 1px;
-            "></i>
+            <i class="fa fa-plus-square-o fa-2x" style="float:left;"></i>
+            <div style="float:left;padding:7px">Write a reflection</div>
         </div>
         {{#if showSuperUser }}
             <div class="show-super-user">
@@ -297,9 +322,18 @@
         {{/if}}
         </div>
     </script>
+    <script type="text/x-handlebars-template" id="past-post-template">
+        {{breaklines description}}
+    </script>
+    <script type="text/x-handlebars-template" id="super-user-template">
+        <div class="user-view-container"></div>
+        <div class="thought-view-container"></div>
+    </script>
     <script type="text/x-handlebars-template" id="user-template">
-        {{ email }}<br />
-        {{ date }}
+        <div class="email">{{ email }}</div>
+        <div class="num_thoughts">{{ num_thoughts }}</div>
+        <div class="date">{{ date }}</div>
+        <div class="delete"><a href="javascript:;">Delete</a></div>
     </script>
     <script type="text/javascript" src="/js/models.js"></script>
     <script type="text/javascript" src="/js/views/common_views.js"></script>

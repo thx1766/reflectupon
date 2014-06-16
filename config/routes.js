@@ -2,7 +2,8 @@ var mongoose = require('mongoose')
   , async = require('async')
   , user_routes     = require('../app/controllers/user')
   , thought_routes  = require('../app/controllers/thought')
-  , auth = require('./middlewares/authorization');
+  , auth = require('./middlewares/authorization')
+  , _ = require('underscore');
 
 var Thought     = mongoose.model('Thought'),
     Reply       = mongoose.model('Reply'),
@@ -48,10 +49,13 @@ module.exports = function(app) {
                     };
 
                     params1 = {
-                        privacy: "ANONYMOUS"
+                        privacy: "ANONYMOUS",
+                        user_id: { $ne: req.user._id }
                     };
 
-                    limit = Number(per_page);
+                    limit1 = 10;
+                    limit2 = 5;
+
                     date_sort = {date: -1};
                     populate = {
                         path: 'replies',
@@ -62,7 +66,7 @@ module.exports = function(app) {
                         function(cb) {
                             Thought.find( params )
                                 .populate('replies')
-                                .limit(limit)
+                                .limit(limit1)
                                 .skip(per_page * (page - 1))
                                 .sort(date_sort)
                                 .exec(cb)
@@ -71,15 +75,13 @@ module.exports = function(app) {
                         function(cb) {
                             Thought.find( params1 )
                                 .populate(populate)
-                                .limit(limit)
+                                .limit(limit2)
                                 .skip(per_page * (page - 1))
                                 .sort(date_sort)
                                 .exec(cb)
                         }
                         
                     ], function(err, results) {
-
-                        console.log(results);
 
                         var thoughts = results[1].concat(results[0]);
 
@@ -97,29 +99,51 @@ module.exports = function(app) {
 
                             if (err) console.log(err);
 
-                            // Array that will be sent back that picks from data taken from database
                             var send_thoughts = [];
 
-                            // Send reflections from different intervals of time, so user may reflect back on them
-                            if (stream_type == "recommended") {
-                                if (thoughts && thoughts[5])  send_thoughts.push(thoughts[5]);
-                            } else {
-                                send_thoughts = thoughts;
-                            }
+                            async.each(thoughts, function(thought, callback) {
+                                var send_thought = thought.toObject();
+                                if (req.user._id != send_thought.user_id) {
 
-                            if ((per_page * page) < count) { 
-                                res.links({
-                                    next: '/api/thought/?stream_type='+stream_type+'&page='+(Number(page)+1)+'&per_page=15&sort=updated&direction=desc'
-                                });
-                            }
+                                    var params = {
+                                        user_id: send_thought.user_id,
+                                        privacy: "ANONYMOUS",
+                                        replies: {$not: {$size: 0}}
+                                    };
 
-                            if (thoughts) {
-                                if (thoughts.length == 1) {
-                                    res.send(send_thoughts[0])
+                                    Thought.find(params).exec(function(err, related) {
+                                        if (related) send_thought.history = related;
+                                        send_thoughts.push(send_thought);
+                                        console.log(send_thought);
+                                        callback();
+                                    })
+
                                 } else {
-                                    res.send(send_thoughts);
+
+                                    send_thoughts.push(send_thought);
+                                    callback();
+
                                 }
-                            }
+
+
+                            }, function(err) {
+
+                                if ((per_page * page) < count) { 
+                                    res.links({
+                                        next: '/api/thought/?stream_type='+stream_type+'&page='+(Number(page)+1)+'&per_page=15&sort=updated&direction=desc'
+                                    });
+                                }
+
+                                if (thoughts) {
+                                    if (thoughts.length == 1) {
+                                        res.send(send_thoughts[0])
+                                    } else {
+                                        res.send(send_thoughts);
+                                    }
+                                }
+
+                            });
+
                         })
 
                     });
@@ -129,105 +153,48 @@ module.exports = function(app) {
                     params.user_id = { $ne: req.user._id };
 
                     var startDate = new Date(new Date().setHours(0,0,0,0));
-                    startDate.setDate(startDate.getDate()-7);
+                    startDate.setDate(startDate.getDate()-14);
 
                     params.date = {
                         $gte: startDate,
                         $lte: new Date() 
                     };
 
-                    limit = 5;
-                    populate = {
-                        path: 'replies',
-                        match: { user_id: req.user._id }
-                    }
-
                     date_sort = {date: -1};
                     params.privacy = "ANONYMOUS"
 
-        Thought.find( params ).or( array1 )
-            .populate(populate)
-            .limit(limit)
-            .skip(per_page * (page - 1))
-            .sort(date_sort)
-            .exec(function(err, thoughts) {
+                    Thought.find( params )
+                        .sort(date_sort)
+                        .exec(function(err, thoughts) {
 
-                if (err) console.log(err);
+                            if (err) console.log(err);
 
-                Thought.find( params).count().exec(function(err, count) {
+                            res.send(thoughts);
 
-                    if (err) console.log(err);
-
-                    // Array that will be sent back that picks from data taken from database
-                    var send_thoughts = [];
-
-                    // Send reflections from different intervals of time, so user may reflect back on them
-                    if (stream_type == "recommended") {
-                        if (thoughts && thoughts[5])  send_thoughts.push(thoughts[5]);
-                    } else {
-                        send_thoughts = thoughts;
-                    }
-
-                    if ((per_page * page) < count) { 
-                        res.links({
-                            next: '/api/thought/?stream_type='+stream_type+'&page='+(Number(page)+1)+'&per_page=15&sort=updated&direction=desc'
                         });
-                    }
 
-                    if (thoughts) {
-                        if (thoughts.length == 1) {
-                            res.send(send_thoughts[0])
-                        } else {
-                            res.send(send_thoughts);
-                        }
-                    }
-                })
-            });
                     break;
                 case "recommended":
                     params.user_id = req.user._id;
                     limit = 15;
                     date_sort = {date: -1};
-                    populate = 'replies';
 
-        Thought.find( params ).or( array1 )
-            .populate(populate)
-            .limit(limit)
-            .skip(per_page * (page - 1))
-            .sort(date_sort)
-            .exec(function(err, thoughts) {
+                    Thought.find( params )
+                        .limit(limit)
+                        .skip(per_page * (page - 1))
+                        .sort(date_sort)
+                        .exec(function(err, thoughts) {
 
-                if (err) console.log(err);
+                            if (err) console.log(err);
 
-                Thought.find( params).count().exec(function(err, count) {
+                            // Array that will be sent back that picks from data taken from database
+                            var send_thoughts = [];
 
-                    if (err) console.log(err);
+                            // Send reflections from different intervals of time, so user may reflect back on them
+                            if (thoughts && thoughts[5])  send_thoughts.push(thoughts[5]);
 
-                    // Array that will be sent back that picks from data taken from database
-                    var send_thoughts = [];
-
-                    // Send reflections from different intervals of time, so user may reflect back on them
-                    if (stream_type == "recommended") {
-                        if (thoughts && thoughts[5])  send_thoughts.push(thoughts[5]);
-                    } else {
-                        send_thoughts = thoughts;
-                    }
-
-                    if ((per_page * page) < count) { 
-                        res.links({
-                            next: '/api/thought/?stream_type='+stream_type+'&page='+(Number(page)+1)+'&per_page=15&sort=updated&direction=desc'
-                        });
-                    }
-
-                    if (thoughts) {
-                        if (thoughts.length == 1) {
                             res.send(send_thoughts[0])
-                        } else {
-                            res.send(send_thoughts);
-                        }
-                    }
-                })
-            });
+                        });
                     break;
             }
         }
@@ -333,10 +300,31 @@ module.exports = function(app) {
 
         User.find({}, function(err, users) {
 
-            res.send(users);
+            var send_users = [];
+
+            async.eachSeries(users, function(user, callback) {
+                var send_user = user.toObject();
+
+                Thought.find({user_id: send_user._id}).count().exec(function(err,count) {
+                    send_user.num_thoughts = count;
+                    send_users.push(send_user);
+                    callback();
+                });
+            }, function(err){
+                res.send(send_users);
+            });
 
         });
 
+    });
+
+    app.delete('/api/users/:id', function(req,res) {
+        User.findById(req.params.id, function(err,user) {
+            user.remove(function(err) {
+                if (err) console.log(err);
+                res.send(user);
+            })
+        });
     });
 
     app.get('/api/user_messages', function(req,res) {

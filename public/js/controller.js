@@ -101,7 +101,9 @@ window.rupon.utils = window.rupon.utils || {};
             frequency_collection    = new rupon.models.frequencyCollection({listen_collection: my_thoughts_collection});
 
         var mainView        = new rv.MainView(),
-            recThoughtsView = new rv.RecommendedView({collection: recommended_collection}),
+            recThoughtsView = new rv.RecommendedView({
+                collection: recommended_collection,
+                user:       rupon.account_info}),
             thoughtsView    = new rv.ThoughtView({
                 collection: my_thoughts_collection,
                 user:       rupon.account_info
@@ -168,7 +170,10 @@ window.rupon.utils = window.rupon.utils || {};
 
     rc.setSuperUser = function() {
         var user_collection = new rupon.models.userCollection();
-        var superUserView = new rupon.views.UsersView({collection: user_collection});
+        var superUserView = new rupon.views.SuperUserView({
+            user_collection: user_collection,
+            other_thoughts_collection: other_thoughts_collection
+        });
         $("#container").html(superUserView.$el);
         user_collection.fetch();
     }

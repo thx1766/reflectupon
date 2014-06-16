@@ -123,6 +123,9 @@ window.rupon.common_views = window.rupon.common_views || {};
         },
 
         render: function() {
+
+            if (this.template) this.$el.html(this.template());
+
             var container_ele = this.container_ele || null;
             var num_elements  = this.num_elements  || null;
 
@@ -134,6 +137,9 @@ window.rupon.common_views = window.rupon.common_views || {};
         },
 
         addView: function(model, opt_selector) {
+
+            if (typeof opt_selector != "string") opt_selector = null;
+            
             var modelView;
             if (this.modelViewClass) {
                 modelView = new this.modelViewClass({model: model});

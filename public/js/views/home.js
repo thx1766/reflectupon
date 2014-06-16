@@ -3,6 +3,12 @@ window.rupon.views = window.rupon.views || {};
 
 (function() {
 
+    Handlebars.registerHelper('breaklines', function(text) {
+        text = Handlebars.Utils.escapeExpression(text);
+        text = text.replace(/(\r\n|\n|\r)/gm, '<br>');
+        return new Handlebars.SafeString(text);
+    });
+
     var rv = window.rupon.views;
     var rm = window.rupon.models;
     var cv = window.rupon.common_views;
@@ -30,7 +36,7 @@ window.rupon.views = window.rupon.views || {};
     rv.FrequencyView = cv.CollectionContainer.extend({
 
         tagName: "div",
-        className: "section container post-frequency clearfix",
+        className: "post-frequency clearfix",
 
         container_ele: "ul",
 
@@ -135,12 +141,13 @@ window.rupon.views = window.rupon.views || {};
     rv.ThoughtItemView = Backbone.View.extend({
 
         tagName:   "div",
-        className: "thought-row tooltipbottom section clearfix",
+        className: "thought-row tooltipbottom clearfix",
         template: Handlebars.compile($("#thought-item-template").html()),
 
         user: null,
 
         events: {
+            'click .past-posts-summary a': 'showPastPosts',
             'click .read-more':         'showSingle',
             'selectstart .description': 'takeAnnotation',
             'click .privacy-status':    'changePrivacy',
@@ -185,18 +192,20 @@ window.rupon.views = window.rupon.views || {};
             this.user = (options && options.user) ? options.user : this.user;
             template_options.is_author = this.user && this.user.user_id == this.model.get('user_id');
 
-            template_options.can_edit = (difference_ms/(1000*60*60*24)) <= 1;
+            template_options.can_edit  = (difference_ms/(1000*60*60*24)) <= 1;
             template_options.can_reply = !this.model.get('replies').length;
 
-            template_options.duration = moment(this.model.get("date")).fromNow();
+            template_options.duration  = moment(this.model.get("date")).fromNow();
             
+            template_options.past_posts = this.model.get('history') ? this.model.get('history').length : null;
+
             if (!template_options.is_author) this.$el.addClass('other-author');
 
             options = options || {};
             template_options.showMore = options.showMore || false;
 
             if (!template_options.showMore && template_options.description.length >300) {
-                template_options.description = template_options.description.trim().substring(0,300).split(" ").slice(0, -1).join(" ").replace(/\n/g,"<br>") + "...";
+                template_options.description = template_options.description.trim().substring(0,300).split(" ").slice(0, -1).join(" ") + "...";
                 template_options.read_more = true;
             }
 
@@ -312,8 +321,26 @@ window.rupon.views = window.rupon.views || {};
 
             }
 
+        },
+
+        showPastPosts: function() {
+
+            this.$el.find('.past-posts-summary a').addClass('hidden');
+            this.$el.find(".past-posts-container").append('<div class="past-posts"></div>');
+
+            _.each(this.model.get('history'), function(thought) {
+                var past_post_view = new rv.PastPostView({model: new rm.thought(thought) });
+                this.$el.find(".past-posts").append(past_post_view.$el);
+            }, this);
+
         }
 
+    });
+
+    rv.PastPostView = cv.SimpleModelView.extend({
+        tagName: "div",
+
+        template: Handlebars.compile($("#past-post-template").html()),
     });
 
     rv.ArchivedItemView = Backbone.View.extend({
@@ -369,12 +396,21 @@ window.rupon.views = window.rupon.views || {};
         }
     })
 
-    rv.RecommendedView = rv.ThoughtView.extend({
+    rv.RecommendedView = cv.CollectionContainer.extend({
         tagName: "div",
+        className: "recommended-view",
 
-        initialize: function() {
-            rv.ThoughtView.prototype.initialize.call(this,{modelView: rv.RecommendedItemView});
+        template: Handlebars.compile($("#recommended-template").html()),
+
+        initialize: function(options) {
+            cv.CollectionContainer.prototype.initialize.call(this, function(model) {
+                return new rv.ThoughtItemView({
+                    model: model,
+                    user:  options.user
+                });
+            });
         }
+
     });
 
     rv.RecommendedItemView = Backbone.View.extend({
