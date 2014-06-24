@@ -7,7 +7,7 @@ window.rupon.views = window.rupon.views || {};
     rv.Sidebar = rv.Sidebar || {};
 
     var getMonth = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
+/*
     rv.Sidebar.ThoughtView = Backbone.View.extend({
         tagName: 'li',
         template: Handlebars.compile($("#new-thought-item-template").html()),
@@ -51,7 +51,7 @@ window.rupon.views = window.rupon.views || {};
             this.trigger("view-thought", this.model);
         }
 
-    });
+    });*/
 
     rv.Sidebar.ThoughtsView = Backbone.View.extend({
         tagName: 'ul',

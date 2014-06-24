@@ -9,53 +9,7 @@ window.rupon.views = window.rupon.views || {};
     _.templateSettings = {
         interpolate : /\{\{(.+?)\}\}/g
     };
-
-    rv.RepliesView = cv.CollectionContainer.extend({
-        tagName: "ul",
-        className: "reply-collection",
-
-        initialize: function(options) {
-            cv.CollectionContainer.prototype.initialize.call(this, function(model) { 
-                options.model = model;
-                return new rv.ReplyView(options);
-            });
-        },
-
-        addView: function(model) {
-            if (model.get('description') != undefined && model.get('description') != "") {
-                cv.CollectionContainer.prototype.addView.call(this, model);
-            }
-        }
-
-    });
-
-    rv.ReplyView = cv.TemplateView.extend({
-        tagName: "li",
-        className: "clearfix",
-        template: Handlebars.compile($("#reply-template").html()),
-
-        initialize: function(options) {
-            this.listenTo(this.model, "change", this.render);
-
-            cv.TemplateView.prototype.initialize.call(this, options);
-        },
-        events: {
-            "click .action": "thankReply"
-        },
-
-        render: function(options) {
-            var template_options = _.clone(this.model.attributes);
-            template_options.is_author = options.user && options.user.user_id == this.model.get('user_id');
-            this.$el.html(this.template(template_options));
-        },
-
-        thankReply: function() {
-            var attr = _.clone(this.model.attributes);
-            this.trigger('thank-reply', attr);
-        }
-
-    });
-
+    
     rv.TooltipView = Backbone.View.extend({
         tagName:   "div",
         className: "tooltip-view",

@@ -1,8 +1,12 @@
 <div id="topbar-wrapper">
-    <div id="topbar">
-        <a id="lifeline" href="/home">reflectupon</a>
-        <a class="icon" href="/logout"><i class="fa fa-sign-out <% if (!signout) { %>hidden <% }%>"></i></a>
+    <div id="topbar" class="container">
+        <div class="col-xs-4">
+          <a id="lifeline" href="/home">reflectupon</a>
+        </div>
+        <div class="col-xs-8">
+          <div class="actions-container"></div>
+          <a class="icon" href="/logout"><i class="fa fa-sign-out <% if (!signout) { %>hidden <% }%>"></i></a>
+        </div>
         <a class="icon" style="display:none" href="/dashboard"><i class="fa fa-video-camera"></i></a>
-        <div class="actions-container"></div>
     </div>
 </div>

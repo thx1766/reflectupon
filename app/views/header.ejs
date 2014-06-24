@@ -1,12 +1,14 @@
 <html>
 <head>
+    <link href="//fonts.googleapis.com/css?family=Merriweather:300italic,300,400italic,400,700italic,700,900italic,900" rel="stylesheet" type="text/css">
     <link type="text/css" href="/css/third-party/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
     <link type="text/css" href="/css/third-party/jquery.tooltip.css" rel="stylesheet" />
+    <link type="text/css" href="/css/third-party/bootstrap.min.css" rel="stylesheet" />
     <link type="text/css" href="/css/style.css" rel="stylesheet" />
     <link type="text/css" href="/css/index.css" rel="stylesheet" />
     <link type="text/css" href="/css/single.css" rel="stylesheet" />
     <script type="text/javascript" src="/js/third-party/jquery.min.js"></script>
-    <script type="text/javascript" src="/js/third-party/bootstrap.js"></script>
+    <script type="text/javascript" src="/js/third-party/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/third-party/underscore.min.js"></script>
     <script type="text/javascript" src="/js/third-party/backbone.min.js"></script>
     <script type="text/javascript" src="/bower_components/backbone.paginator/lib/backbone.paginator.min.js"></script>
@@ -19,72 +21,114 @@
     <script type="text/javascript" src="/js/third-party/handlebars.js"></script>
 
     <script type="text/x-handlebars-template" id="index-template">
-        <div class="info-container">
-            <div class="logo-name">Welcome to reflectupon</div>
-            <div class="description">An online e-journaling platform helping you to better your own self-awareness.</div>
+        <div class="background"></div>
+        <div class="head-content">
+            <div class="container">
+                <div class="title">reflectupon</div>
+                <div class="description">Community feedback for your journal entries.</div>
+                <a href="javascript:;" class="btn">Get started</a>
+            </div>
         </div>
-        <div class="form-container login-form">
-            <form id="login-form" action="/login" method="post">
-                <div class="row-container clearfix">
-                    <label>Username</label>
-                    <input class="input" type="text" name="username"/><br/>
-                </div>
-                <div class="row-container clearfix">
-                    <label>Password</label>
-                    <input class="input" type="password" name="password"/>
-                </div>
-                <div class="row-container clearfix">
-                    <input type="submit" value="Log in"/>
-                </div>
+        <div class="tiers-content">
+          <div class="container" style="">
+            <div class="col-md-4">
+                <h3>Write anonymously</h3>
+                <p>Your reflections are not tied to a username. Fortunately, you will often see reflections of users who you have responded to before.</p>
+            </div>
+            <div class="col-md-4">
+                <h3>Support each other</h3>
+                <p>Everyone has a chance to reflect on each other's entries as a way to cultivate community. Maybe you thought of a way to make someone's life better or easier.</p>
+            </div>
+            <div class="col-md-4">
+                <h3>Find inspiration</h3>
+                <p>Look at how far you've gone in your journey and what you can do differently for the road ahead.</p>
+            </div>
+          </div>
+        </div>
+        <div class="main-content">
+          <div class="container">
+            <div><h4>Our community reflections</h4></div>
+          </div>
+        </div>
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Log In</h4>
+              </div>
+              <div class="modal-body">
                 {{#if message}}
                     <div class="special-msg">{{ message }}</div>
                 {{/if}}
-                <div class="forgot-password-container">
-                    <a href="javascript:;" class="forgot-password">Forgot your password?</a>
+                <div class="form-container login-form">
+                    <form id="login-form" action="/login" method="post" role="form">
+                    <form role="form">
+                        <div class="form-group">
+                            <label>Username</label>
+                            <input class="form-control" type="text" name="username"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input class="form-control" type="password" name="password"/>
+                        </div>
+                        <div class="submit-box">
+                            <input type="submit" value="Log in"/>
+                        </div>
+                        <div class="forgot-password-container">
+                            <a href="javascript:;" class="forgot-password">Forgot your password?</a>
+                        </div>
+                    </form>
+                    <div class="or-register">or <a href="javascript:;">Register</a></div>
+                    <form id="register-form" action="/register" method="post">
+                        <div class="form-group">
+                            <label>Username</label>
+                            <input class="form-control" type="text" name="username"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input class="form-control" type="password" name="password"/>
+                        </div>
+                        <div class="form-group">
+                            <label>E-mail</label>
+                            <input class="form-control" type="text" name="email"/><br/>
+                        </div>
+                        <div class="submit-box clearfix">
+                            <input type="submit" value="Register"/>
+                        </div>
+                    </form>
+                    <div class="or-login">or <a href="javascript:;">Log In</a></div>
+                    <form id="forgot-password" class="hidden" action="/forgot" method="post">
+                        <div class="row-container clearfix">
+                            Forgot your password?
+                        </div>
+                        <hr>
+                        <div class="row-container clearfix">
+                            <label>Email</label>
+                            <input class="input" type="text" name="email" />
+                        </div>
+                        <div class="row-container clearfix">
+                            <input type="submit" value="Retrieve"/>
+                        </div>
+                    </form>
                 </div>
-            </form>
-            <div class="or-register">or <a href="javascript:;">Register</a></div>
-            <form id="register-form" action="/register" method="post">
-                <div class="row-container clearfix">
-                    <label>Username</label>
-                    <input class="input" type="text" name="username"/><br/>
-                </div>
-                <div class="row-container clearfix">
-                    <label>Password</label>
-                    <input class="input" type="password" name="password"/>
-                </div>
-                <div class="row-container clearfix">
-                    <label>E-mail</label>
-                    <input class="input" type="text" name="email"/><br/>
-                </div>
-                <div class="clearfix">
-                    <input type="submit" value="Register"/>
-                </div>
-            </form>
-            <div class="or-login">or <a href="javascript:;">Log In</a></div>
-            <form id="forgot-password" class="hidden" action="/forgot" method="post">
-                <div class="row-container clearfix">
-                    Forgot your password?
-                </div>
-                <hr>
-                <div class="row-container clearfix">
-                    <label>Email</label>
-                    <input class="input" type="text" name="email" />
-                </div>
-                <div class="row-container clearfix">
-                    <input type="submit" value="Retrieve"/>
-                </div>
-            </form>
+              </div>
+            </div>
+          </div>
         </div>
+
     </script>
     <script type="text/x-handlebars-template" id="home-template">
-        <div class="message-container"></div>
-        <div class="section container">
-            <div class="frequency-container"></div>
-            <div class="recommended-container"></div>
+        <div>
+            <div class="col-md-9">
+                <div class="section" style="padding:20px 12px; margin-bottom:12px;">
+                    <div class="frequency-container"></div>
+                </div>
+            </div>
+            <div class="message-container col-md-3"></div>
         </div>
         <div class="thought-container"></div>
-        <div class="pagination-container"></div>
+        <div class="pagination-container col-md-12"></div>
     </script>
     <script type="text/x-handlebars-template" id="nag-template">
         <div class="header clearfix">
@@ -95,20 +139,20 @@
         <div class="message">{{copy}}</div>
     </script>
     <script type="text/x-handlebars-template" id="recommended-template">
-        <div class="description">Recommended for you</div>
-        <div class="rec-thought-container"></div>
+        <!--<div class="description">Recommended for you</div>
+        <div class="rec-thought-container"></div>-->
     </script>
     <script type="text/x-handlebars-template" id="recommended-item-template">
-        <div class="date">Written {{ duration }}</div>
-        <div class="rec-thought-container"></div>
+        <!--<div class="date">Written {{ duration }}</div>
+        <div class="rec-thought-container"></div>-->
     </script>
     <script type="text/x-handlebars-template" id="pagination-template">
-        <a href="javascript:;" class="section container">View More Thoughts</a>
+        <a href="javascript:;" class="section">View More Thoughts</a>
     </script>
     <script type="text/x-handlebars-template" id="postbox-template">
         <div class="postbox-two clearfix">
             <p>How do you feel now? Don't hesitate to write freely.</p>
-            <textarea class="form-control postbox-description" rows="10"></textarea>
+            <textarea class="postbox-description" rows="10"></textarea>
             <div class="privacy-action">
                 <input type="checkbox" />Mark as Private (Reflections default to Anonymous)
             </div>
@@ -154,99 +198,113 @@
         <div class="archived-container"><div class="archived">Archived Thought</div></div>
     </script>
     <script type="text/x-handlebars-template" id="thought-item-template">
-        <div class="section clearfix">
-        {{#unless is_author}}
-            <div class="past-posts-summary">
-                Important to you: Interacted {{past_posts}} times
-                <a href="javascript:;">View History</a>
-                <div class="past-posts-container"></div>
-            </div>
-        {{/unless}}
-        {{#if annotation }}
-            <div class="annotation">
-                <div class="annotation-desc"><div class="label">Based on your snippet:</div><div>{{ annotation }}</div></div>
-            </div>
-        {{/if}}
-        <div class="message clearfix{{#equal privacy "Private"}} private{{/equal}}">
-            <div class="clearfix header">
-                <div style="float: left;">
-                    {{#equal privacy "Private"}} 
-                        <span style="color: #D31616;">PRIVATE</span>
-                    {{/equal}}
-                    {{#unless is_author}}
-                        <span style="color: #4848C5;font-weight:400">Someone wrote:</span>
-                    {{/unless}}
-                </div>
-                <div style="float: right;">
-                    <span style="color:{{#if is_author}}#999999{{else}}#4848C5{{/if}}">Written {{duration}}</span>
-                </div>
-            </div>
-            <div class="description-container">
-                <div class="description">{{ breaklines description }}{{#if read_more}} <a href="javascript:;" class="read-more">Read more</a>{{/if}}</div>
-                {{#if can_edit }}<textarea>{{ description }}</textarea>{{/if}}
-            </div>
-
-            {{#if is_author}}
-            <div class="right-actions dropdown-container arrow-right">
-                <a href="javascript:;" class="options">
-                    <i class="fa fa-angle-down fa-lg"></i>
-                </a>
-                <div class="dropdown-arrow clearfix">
-                    <div class="arrow">
+        <div class="clearfix">
+            <div class="col-md-9">
+                <div class="section clearfix">
+                {{#if past_posts}}
+                    <div class="past-posts-summary">
+                        <i class="fa fa-star" style="margin-right:3px"></i>You've replied to {{past_posts}} of this user's reflections before
+                        <a href="javascript:;">View History</a>
+                        <div class="past-posts-container"></div>
                     </div>
-                    <div class="dropdown">
-                        <ul>
-                            <li><a href="javascript:;" class="privacy-status">Set as {{privacy_inverse}}</a></li>
-                            {{#if can_edit }}<li><a href="javascript:;" class="edit">Edit</a></li>{{/if}}
-                            <li><a href="javascript:;" class="delete">Delete</a></li>
-                            <li><a href="javascript:;" class="archive">Archive</a></li>
-                        </ul>
+                {{/if}}
+                {{#if annotation }}
+                    <div class="annotation">
+                        <div class="annotation-desc"><div class="label">Based on your snippet:</div><div>{{ annotation }}</div></div>
                     </div>
-                </div>
-            </div>
-            {{/if}}
+                {{/if}}
+                <div class="message clearfix{{#equal privacy "Private"}} private{{/equal}}">
+                    <div class="clearfix header">
+                        <div style="float: left;">
+                            {{#equal privacy "Private"}} 
+                                <span style="color: #D31616;">PRIVATE</span>
+                            {{/equal}}
+                            {{#unless is_author}}
+                                <span style="color: #4848C5;font-weight:400">Someone wrote:</span>
+                            {{/unless}}
+                        </div>
+                        <div style="float: right;">
+                            <span style="color:{{#if is_author}}#999999{{else}}#4848C5{{/if}}">Written {{duration}}</span>
+                        </div>
+                    </div>
+                    <div class="description-container">
+                        <div class="description">{{ breaklines description }}{{#if read_more}} <a href="javascript:;" class="read-more">Read more</a>{{/if}}</div>
+                        {{#if can_edit }}<textarea>{{ description }}</textarea>{{/if}}
+                    </div>
 
-            <div class="left-actions dropdown-container arrow-left">
-                <div class="lock-container">
-                    <i class="fa fa-lock"></i><div>Private</div>
-                </div>
-                <div class="dropdown-arrow">
-                    <div class="arrow"></div>
-                    <div class="dropdown"><button class="privacy-status">Set as anonymous</button></div>
+                    {{#if is_author}}
+                    <div class="right-actions dropdown-container arrow-right">
+                        <a href="javascript:;" class="options">
+                            <i class="fa fa-angle-down fa-lg"></i>
+                        </a>
+                        <div class="dropdown-arrow clearfix">
+                            <div class="arrow">
+                            </div>
+                            <div class="dropdown">
+                                <ul>
+                                    <li><a href="javascript:;" class="privacy-status">Set as {{privacy_inverse}}</a></li>
+                                    {{#if can_edit }}<li><a href="javascript:;" class="edit">Edit</a></li>{{/if}}
+                                    <li><a href="javascript:;" class="delete">Delete</a></li>
+                                    <li><a href="javascript:;" class="archive">Archive</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}}
+
+                    <div class="left-actions dropdown-container arrow-left">
+                        <div class="lock-container">
+                            <i class="fa fa-lock"></i><div>Private</div>
+                        </div>
+                        <div class="dropdown-arrow">
+                            <div class="arrow"></div>
+                            <div class="dropdown"><button class="privacy-status">Set as anonymous</button></div>
+                        </div>
+                    </div>
+                    <div class="tooltip_description" style="display:none;" title="No worries"></div>
                 </div>
             </div>
-            <div class="tooltip_description" style="display:none;" title="No worries"></div>
         </div>
-        <div class="reply-collection-container"></div>
+        <div class="col-md-3">
+            <div class="reply-collection-container"></div>
         {{#if is_author }}{{else}}
         {{#if can_reply}}
-        <div class="write-reply"><input placeholder="Write a reply"></div>
+            <div class="preempt-reply">
+                <a href="javascript:;"><i class="fa fa-plus"></i>Write a reply</a>
+            </div>
+            <div class="write-reply"><input placeholder="Write a reply"></div>
         {{/if}}
         {{/if}}
+        </div>
         </div>
     </script>
     <script type="text/x-handlebars-template" id="vet-thought-template">
         {{breaklines description}} <a href="javascript:;" class="delete">Delete</a>
     </script>
     <script type="text/x-handlebars-template" id="reply-template">
-        <div class="label">Reply:</div>
-        <div class="reply-description">{{ description }}</div>
-        {{#if is_author}}
+        <div>
+            <div>
+                <p><strong>{{#if is_author}}You{{else}}Someone{{/if}} replied:</strong></p>
+                <p>{{ description }}</p>
+            </div>
+            <div>
             {{#if thanked}}
-                <span>You were thanked!</span>
-            {{/if}}
-        {{else}}
-            {{#if thanked}}
-                <a href="javascript:;" class="action">
-                    <i class="fa fa-heart"></i>
-                </a>
+                {{#if is_author}}
+                    <span>You were thanked!</span>
+                {{else}}
+                    <a href="javascript:;" class="action">
+                        <i class="fa fa-heart"></i>
+                    </a>
+                {{/if}}
             {{else}}
-                <a href="javascript:;" class="action">
-                    Thank replier
-                    <i class="fa fa-heart-o"></i>
-                </a>
+                {{#if can_reply}}
+                    <a href="javascript:;" class="action">
+                        <span>Thank replier</span>
+                        <i class="fa fa-heart-o"></i>
+                    </a>
+                {{/if}}
             {{/if}}
-        {{/if}}
+            </div>
     </script>
     <script type="text/x-handlebars-template" id="new-thought-item-template">
         <span class="checkbox {{#if replied}}active{{/if}}">
@@ -313,11 +371,11 @@
         <div class="menu">
         <div class="show-postbox">
             <i class="fa fa-plus-square-o fa-2x" style="float:left;"></i>
-            <div style="float:left;padding:7px">Write a reflection</div>
+            <div style="float:left;padding: 3px 7px;font-size:16px;">Write</div>
         </div>
         {{#if showSuperUser }}
             <div class="show-super-user">
-                <i class="fa fa-globe fa-2x" style="margin-left:1px"></i>
+                <i class="fa fa-globe fa-2x" style="margin-top:-1px"></i>
             </div>
         {{/if}}
         </div>
@@ -342,6 +400,7 @@
     <script type="text/javascript" src="/js/views/sidebar.js"></script>
     <script type="text/javascript" src="/js/views/single.js"></script>
     <script type="text/javascript" src="/js/views/index.js"></script>
+    <script type="text/javascript" src="/js/views/replies.js"></script>
     <script type="text/javascript" src="/js/controller.js"></script>
     <script type="text/javascript">
     $(document).ready(function(){

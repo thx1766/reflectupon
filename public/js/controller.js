@@ -67,8 +67,6 @@ window.rupon.utils = window.rupon.utils || {};
 
         $(".actions-container").html(sidebarView.$el);
 
-        $("#sidebar").find(".new-reflections").html(newThoughtsView.$el);
-
         rc.setAllThoughts();
 
         other_thoughts_collection.fetch({reset: true, data: {"stream_type": "other-thoughts"}});
@@ -166,6 +164,21 @@ window.rupon.utils = window.rupon.utils || {};
     rc.startIndexPage = function(message) {
 		var indexView = new rupon.views.IndexView({message: message});
 		$(".index-container").html(indexView.$el);
+
+        var thoughts_collection = new rupon.models.thoughtCollection();
+
+        var thoughtsView = new rv.ThoughtView({
+            collection: thoughts_collection,
+            user:       rupon.account_info
+        });
+
+        thoughts_collection.fetch({ data: {"stream_type": "other-thoughts"}});
+
+        $(".index-container").find(".main-content .container").html(thoughtsView.$el);
+
+        $('.index-container').find('.btn').click(function() {
+            $('#myModal').modal();
+        });
     }
 
     rc.setSuperUser = function() {

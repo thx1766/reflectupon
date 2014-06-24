@@ -101,6 +101,10 @@ window.rupon.common_views = window.rupon.common_views || {};
         container_ele: null,
         num_elements:  null,
 
+        events: {
+            'click .trigger': 'expandOthers'
+        },
+
         /**
          * Initialize takes either the the model view class used to
          * render the models in the collection, or a constructor function
@@ -131,8 +135,18 @@ window.rupon.common_views = window.rupon.common_views || {};
 
             var collection = num_elements ? this.collection.first(num_elements) : this.collection.models;
 
-            _.each(collection, function(model) {
-                this.addView(model, container_ele);
+            _.each(collection, function(model, index) {
+                this.addView(model, this.container_ele);
+
+                if (this.collapsible) {
+                    if (index == 0 && this.collection.length > 1) {
+                        this.$el.append("<div class='collapsible-container'><a href='javascript:;' class='trigger'>Read "+ (collection.length - 1) +" more "+ this.collapsible.label +"</a><div class='collapsible-contents hidden'></div></div>");
+                        this.container_ele = ".collapsible-contents";
+                    }
+                }
+
+                console.log(this.container_ele);
+
             }, this);
         },
 
@@ -173,6 +187,11 @@ window.rupon.common_views = window.rupon.common_views || {};
             this.modelViews = {};
             this.render();
         },
+
+        expandOthers: function() {
+            this.$el.find('.collapsible-contents').removeClass('hidden').end()
+                .find('.trigger').addClass('hidden');
+        }
     });
 
 })()

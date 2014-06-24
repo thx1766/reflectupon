@@ -138,7 +138,7 @@ window.rupon.views = window.rupon.views || {};
 
     });
 
-    rv.ThoughtItemView = Backbone.View.extend({
+    rv.ThoughtItemView = cv.Container.extend({
 
         tagName:   "div",
         className: "thought-row tooltipbottom clearfix",
@@ -155,10 +155,14 @@ window.rupon.views = window.rupon.views || {};
             'click .delete':            'deleteThought',
             'click .archive':           'archiveThought',
             'keypress textarea':        'submitEdit',
+            'click .preempt-reply':     'writeReply', 
             'keypress .write-reply input': 'submitReply'
         },
 
         initialize: function(options) {
+
+            cv.Container.prototype.initialize.call(this);
+
             this.model.on("change", this.modelChanged, this);
             this.model.on("destroy", this.remove, this);
             this.activateTooltip();
@@ -175,8 +179,7 @@ window.rupon.views = window.rupon.views || {};
                 reply.save({'thanked': !reply.get('thanked') }, {wait: true, patch: true});
             });
 
-            this.$el.find(".reply-collection-container").html(this.replyCollectionContainer.$el);
-
+            this.addChild(this.replyCollectionContainer, ".reply-collection-container");
         },
 
         render: function(options) {
@@ -222,7 +225,10 @@ window.rupon.views = window.rupon.views || {};
             }
 
             var outputHtml = this.template(template_options);
+
+            cv.Container.prototype.detachChildren.call(this);
             this.$el.html(outputHtml);
+            cv.Container.prototype.reattachChildren.call(this);
         },
 
         modelChanged: function(model, changes) {
@@ -298,6 +304,17 @@ window.rupon.views = window.rupon.views || {};
 
         archiveThought: function() {
             this.trigger("archive-thought", this.model);
+        },
+
+        writeReply: function() {
+
+            if (typeof this.user == "undefined") {
+                $('#myModal').modal();
+            } else {
+                this.$el
+                    .find('.preempt-reply').addClass('hidden').end()
+                    .find('.write-reply').css('display','block');
+            }
         },
 
         submitReply: function(e) {

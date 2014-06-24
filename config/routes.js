@@ -63,13 +63,16 @@ module.exports = function(app) {
                     };
 
                     async.parallel([
+
                         function(cb) {
-                            Thought.find( params )
-                                .populate('replies')
-                                .limit(limit1)
-                                .skip(per_page * (page - 1))
-                                .sort(date_sort)
-                                .exec(cb)
+                            if (params.user_id) {
+                                Thought.find( params )
+                                    .populate('replies')
+                                    .limit(limit1)
+                                    .skip(per_page * (page - 1))
+                                    .sort(date_sort)
+                                    .exec(cb)
+                            }
                         },
 
                         function(cb) {
@@ -107,14 +110,26 @@ module.exports = function(app) {
 
                                     var params = {
                                         user_id: send_thought.user_id,
-                                        privacy: "ANONYMOUS",
-                                        replies: {$not: {$size: 0}}
+                                        privacy: "ANONYMOUS"
                                     };
 
-                                    Thought.find(params).exec(function(err, related) {
-                                        if (related) send_thought.history = related;
+                                    Thought.find(params).populate('replies').exec(function(err, related) {
+
+                                        send_thought.history = [];
+
+                                        _.each(related, function(thought) {
+                                            if (thought.replies.length) {
+                                                _.each(thought.replies, function(reply) {
+                                                    if (reply.user_id == req.user._id) {
+
+                                                        console.log(thought);
+                                                        send_thought.history.push(thought);
+                                                    }
+                                                })
+                                            }
+                                        })
+
                                         send_thoughts.push(send_thought);
-                                        console.log(send_thought);
                                         callback();
                                     })
 
@@ -149,31 +164,6 @@ module.exports = function(app) {
                     });
 
                     break;
-                case "other-thoughts":
-                    params.user_id = { $ne: req.user._id };
-
-                    var startDate = new Date(new Date().setHours(0,0,0,0));
-                    startDate.setDate(startDate.getDate()-14);
-
-                    params.date = {
-                        $gte: startDate,
-                        $lte: new Date() 
-                    };
-
-                    date_sort = {date: -1};
-                    params.privacy = "ANONYMOUS"
-
-                    Thought.find( params )
-                        .sort(date_sort)
-                        .exec(function(err, thoughts) {
-
-                            if (err) console.log(err);
-
-                            res.send(thoughts);
-
-                        });
-
-                    break;
                 case "recommended":
                     params.user_id = req.user._id;
                     limit = 15;
@@ -197,6 +187,30 @@ module.exports = function(app) {
                         });
                     break;
             }
+        } else {
+
+            var startDate = new Date(new Date().setHours(0,0,0,0));
+            startDate.setDate(startDate.getDate()-14);
+
+            params.date = {
+                $gte: startDate,
+                $lte: new Date() 
+            };
+
+            date_sort = {date: -1};
+            params.privacy = "ANONYMOUS";
+            
+            Thought.find( params )
+                .sort(date_sort)
+                .limit(6)
+                .exec(function(err, thoughts) {
+
+                    if (err) console.log(err);
+
+                    res.send(thoughts);
+
+                });
+
         }
 
     });
@@ -215,8 +229,6 @@ module.exports = function(app) {
         Thought.find(options).sort({date:-1}).exec(function(err, thoughts) {
 
             var frequency = [];
-
-            if (!thoughts.length) { res.send(frequency) };
 
             for (var i = 0; i < numDays; i++) {
 
