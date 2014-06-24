@@ -155,6 +155,7 @@ window.rupon.views = window.rupon.views || {};
             'click .delete':            'deleteThought',
             'click .archive':           'archiveThought',
             'keypress textarea':        'submitEdit',
+            'focusin input':            'focusTextarea',
             'click .preempt-reply':     'writeReply', 
             'keypress .write-reply input': 'submitReply'
         },
@@ -315,6 +316,14 @@ window.rupon.views = window.rupon.views || {};
                     .find('.preempt-reply').addClass('hidden').end()
                     .find('.write-reply').css('display','block');
             }
+        },
+
+        focusTextarea: function() {
+
+            if (typeof this.user == "undefined") {
+                $('#myModal').modal();
+            }
+
         },
 
         submitReply: function(e) {
