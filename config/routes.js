@@ -118,7 +118,7 @@ module.exports = function(app) {
                                         send_thought.history = [];
 
                                         _.each(related, function(thought) {
-                                            if (thought.replies.length) {
+                                            if (thought.replies && thought.replies.length) {
                                                 _.each(thought.replies, function(reply) {
                                                     if (reply.user_id == req.user._id) {
 
