@@ -120,7 +120,7 @@
 
     </script>
     <script type="text/x-handlebars-template" id="home-template">
-        <div>
+        <div class="row">
             <div class="col-md-9">
                 <div class="section" style="padding:20px 12px; margin-bottom:12px;">
                     <div class="frequency-container"></div>
@@ -199,7 +199,7 @@
         <div class="archived-container"><div class="archived">Archived Thought</div></div>
     </script>
     <script type="text/x-handlebars-template" id="thought-item-template">
-        <div class="clearfix">
+        <div class="row">
             <div class="col-md-9">
                 <div class="section clearfix">
                 {{#if past_posts}}
@@ -211,7 +211,7 @@
                 {{/if}}
                 {{#if annotation }}
                     <div class="annotation">
-                        <div class="annotation-desc"><div class="label">Based on your snippet:</div><div>{{ annotation }}</div></div>
+                        <div class="annotation-desc"><span>Based on your snippet:</span> <span>{{ annotation }}</span></div>
                     </div>
                 {{/if}}
                 <div class="message clearfix{{#equal privacy "Private"}} private{{/equal}}">
@@ -229,7 +229,12 @@
                         </div>
                     </div>
                     <div class="description-container">
-                        <div class="description">{{ breaklines description }}{{#if read_more}} <a href="javascript:;" class="read-more">Read more</a>{{/if}}</div>
+                        <div class="description">
+                            <span class="selectable-text">{{{ description }}}</span>
+                            {{#if read_more}} 
+                                <a href="javascript:;" class="read-more">Read more</a>
+                            {{/if}}
+                        </div>
                         {{#if can_edit }}<textarea>{{ description }}</textarea>{{/if}}
                     </div>
 
@@ -264,6 +269,11 @@
                     </div>
                     <div class="tooltip_description" style="display:none;" title="No worries"></div>
                 </div>
+                {{#if annotation_notice}}
+                <div class="annotation-notice">
+                    <i class="fa fa-info-circle" style="margin-right:3px;"></i>Reply to this reflection by selecting text in the entry or clicking to the right
+                </div>
+                {{/if}}
             </div>
         </div>
         <div class="col-md-3">
@@ -273,7 +283,9 @@
             <div class="preempt-reply">
                 <a href="javascript:;"><i class="fa fa-plus"></i>Write a reply</a>
             </div>
-            <div class="write-reply"><input placeholder="Write a reply"></div>
+            <div class="write-reply section">
+                <textarea placeholder="Write a reply"></textarea>
+            </div>
         {{/if}}
         {{/if}}
         </div>
@@ -369,22 +381,28 @@
         </div>
     </script>
     <script type="text/template" id="sidebar-template">
-        <div class="menu">
-        <div class="show-postbox">
-            <i class="fa fa-plus-square-o fa-2x" style="float:left;"></i>
-            <div style="float:left;padding: 3px 7px;font-size:16px;">Write</div>
-        </div>
+        <li class="show-postbox">
+            <a href="#">
+                Write a reflection
+            </a>
+        </li>
         {{#if showSuperUser }}
-            <div class="show-super-user">
-                <i class="fa fa-globe fa-2x" style="margin-top:-1px"></i>
-            </div>
+            <li class="show-super-user">
+                <a href="#">
+                    Superuser
+                </a>
+            </li>
         {{/if}}
-        </div>
     </script>
     <script type="text/x-handlebars-template" id="past-post-template">
         {{breaklines description}}
     </script>
+    <script type="text/x-handlebars-template" id="active-user-ranges-template">
+        {{start_date}}
+        {{end_date}}
+    </script>
     <script type="text/x-handlebars-template" id="super-user-template">
+        <div class="active-user-ranges-view-container"></div>
         <div class="user-view-container"></div>
         <div class="thought-view-container"></div>
     </script>
@@ -401,6 +419,7 @@
     <script type="text/javascript" src="/js/views/sidebar.js"></script>
     <script type="text/javascript" src="/js/views/single.js"></script>
     <script type="text/javascript" src="/js/views/index.js"></script>
+    <script type="text/javascript" src="/js/views/thoughts.js"></script>
     <script type="text/javascript" src="/js/views/replies.js"></script>
     <script type="text/javascript" src="/js/controller.js"></script>
     <script type="text/javascript">

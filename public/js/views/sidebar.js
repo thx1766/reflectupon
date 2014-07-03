@@ -81,8 +81,7 @@ window.rupon.views = window.rupon.views || {};
 
     rv.Sidebar.MainView = Backbone.View.extend({
 
-        tagName:   "div",
-        className: "sidebar",
+        el:   ".left-nav",
         template: Handlebars.compile($("#sidebar-template").html()),
 
         events: {

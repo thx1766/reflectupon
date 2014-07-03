@@ -118,6 +118,21 @@ window.rupon.views = window.rupon.views || {};
 
             this.$el.html(this.template());
 
+            var userRangesCollection = [{
+                start_date: "May 12",
+                end_date: "May 18"
+            },{
+                start_date: "May 19",
+                end_date: "May 25"
+            },{
+                start_date: "May 26",
+                end_date: "June 1"
+            }];
+
+            this.addChild(new rv.ActiveUserRangesView({
+                collection: userRangesCollection
+            }), '.active-user-ranges-view-container');
+
             this.addChild(new rv.UsersView({
                 collection: options.user_collection
             }), '.user-view-container');
@@ -129,6 +144,25 @@ window.rupon.views = window.rupon.views || {};
         }
 
     });
+
+    rv.ActiveUserRangesView = cv.CollectionContainer.extend({
+        tagName: "div",
+        className: "active-user-ranges-view",
+
+        initialize: function() {
+            cv.CollectionContainer.prototype.initialize.call(this, function(model) {
+                return new ActiveUserRangeView({model: model});
+            });
+        }
+
+    });
+
+    rv.ActiveUserRangeView = cv.TemplateView.extend({
+
+        template: Handlebars.compile($("#active-user-ranges-template").html())
+
+    });
+
 
     rv.UsersView = cv.CollectionContainer.extend({
         tagName: 'ul',

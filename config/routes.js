@@ -98,67 +98,77 @@ module.exports = function(app) {
 
                         if (err) console.log(err);
 
-                        Thought.find( params).count().exec(function(err, count) {
+                        var options = {
+                            path: 'replies.annotations',
+                            model: 'Annotation'
+                        }
 
-                            if (err) console.log(err);
+                        // Get annotations for all thoughts being outputted
+                        Thought.populate(thoughts, options, function(err, thoughts2) {
 
-                            var send_thoughts = [];
+                            Thought.find( params).count().exec(function(err, count) {
 
-                            async.each(thoughts, function(thought, callback) {
-                                var send_thought = thought.toObject();
-                                if (req.user._id != send_thought.user_id) {
+                                if (err) console.log(err);
 
-                                    var params = {
-                                        user_id: send_thought.user_id,
-                                        privacy: "ANONYMOUS"
-                                    };
+                                var send_thoughts = [];
 
-                                    Thought.find(params).populate('replies').exec(function(err, related) {
+                                async.each(thoughts2, function(thought, callback) {
 
-                                        send_thought.history = [];
+                                    var send_thought = thought.toObject();
+                                    if (req.user._id != send_thought.user_id) {
 
-                                        _.each(related, function(thought) {
-                                            if (thought.replies && thought.replies.length) {
-                                                _.each(thought.replies, function(reply) {
-                                                    if (reply.user_id == req.user._id) {
+                                        var params = {
+                                            user_id: send_thought.user_id,
+                                            privacy: "ANONYMOUS"
+                                        };
 
-                                                        console.log(thought);
-                                                        send_thought.history.push(thought);
-                                                    }
-                                                })
-                                            }
+                                        Thought.find(params).populate('replies').exec(function(err, related) {
+
+                                            send_thought.history = [];
+
+                                            _.each(related, function(thought) {
+                                                if (thought.replies && thought.replies.length) {
+                                                    _.each(thought.replies, function(reply) {
+                                                        if (reply.user_id == req.user._id) {
+
+                                                            console.log(thought);
+                                                            send_thought.history.push(thought);
+                                                        }
+                                                    })
+                                                }
+                                            })
+
+                                            send_thoughts.push(send_thought);
+                                            callback();
                                         })
+
+                                    } else {
 
                                         send_thoughts.push(send_thought);
                                         callback();
-                                    })
 
-                                } else {
-
-                                    send_thoughts.push(send_thought);
-                                    callback();
-
-                                }
-
-
-                            }, function(err) {
-
-                                if ((per_page * page) < count) { 
-                                    res.links({
-                                        next: '/api/thought/?stream_type='+stream_type+'&page='+(Number(page)+1)+'&per_page=15&sort=updated&direction=desc'
-                                    });
-                                }
-
-                                if (thoughts) {
-                                    if (thoughts.length == 1) {
-                                        res.send(send_thoughts[0])
-                                    } else {
-                                        res.send(send_thoughts);
                                     }
-                                }
 
-                            });
 
+                                }, function(err) {
+
+                                    if ((per_page * page) < count) { 
+                                        res.links({
+                                            next: '/api/thought/?stream_type='+stream_type+'&page='+(Number(page)+1)+'&per_page=15&sort=updated&direction=desc'
+                                        });
+                                    }
+
+                                    if (thoughts) {
+                                        if (thoughts.length == 1) {
+                                            res.send(send_thoughts[0])
+                                        } else {
+                                            res.send(send_thoughts);
+                                        }
+                                    }
+
+                                });
+
+                            })
                         })
 
                     });

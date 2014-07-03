@@ -16,6 +16,7 @@ window.rupon.utils = window.rupon.utils || {};
 
     var rc = window.rupon.controllers,
         rv = window.rupon.views,
+        rm = window.rupon.models,
         thoughtsView, singleView, tooltipView, postboxView, elem, newThoughtsView, FrequencyView,
         my_thoughts_collection, other_thoughts_collection;
 
@@ -99,18 +100,19 @@ window.rupon.utils = window.rupon.utils || {};
             frequency_collection    = new rupon.models.frequencyCollection({listen_collection: my_thoughts_collection});
 
         var mainView        = new rv.MainView(),
-            recThoughtsView = new rv.RecommendedView({
+            /* recThoughtsView = new rv.RecommendedView({
                 collection: recommended_collection,
-                user:       rupon.account_info}),
+                user:       rupon.account_info}), */
             thoughtsView    = new rv.ThoughtView({
                 collection: my_thoughts_collection,
-                user:       rupon.account_info
+                user:       rupon.account_info,
+                reply_collection: rm.replyCollection
             });
 
         frequencyView   = new rv.FrequencyView({collection: frequency_collection});
 
         rc.applyTooltipEvents(thoughtsView);
-        rc.applyTooltipEvents(recThoughtsView);
+        //rc.applyTooltipEvents(recThoughtsView);
 
         var paginationView = new rv.PaginationView({collection: my_thoughts_collection});
 
@@ -118,7 +120,7 @@ window.rupon.utils = window.rupon.utils || {};
 
 		mainView.$el
             .find(".frequency-container").append(frequencyView.$el).end()
-            .find(".recommended-container").append(recThoughtsView.$el).end()
+            //.find(".recommended-container").append(recThoughtsView.$el).end()
             .find(".thought-container").append(thoughtsView.$el).end()
             .find(".pagination-container").append(paginationView.$el);
 
@@ -169,7 +171,8 @@ window.rupon.utils = window.rupon.utils || {};
 
         var thoughtsView = new rv.ThoughtView({
             collection: thoughts_collection,
-            user:       rupon.account_info
+            user:       rupon.account_info,
+            reply_collection: rm.replyCollection
         });
 
         thoughts_collection.fetch({ data: {"stream_type": "other-thoughts"}});

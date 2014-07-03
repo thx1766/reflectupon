@@ -145,8 +145,6 @@ window.rupon.common_views = window.rupon.common_views || {};
                     }
                 }
 
-                console.log(this.container_ele);
-
             }, this);
         },
 
