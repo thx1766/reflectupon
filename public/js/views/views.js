@@ -129,9 +129,9 @@ window.rupon.views = window.rupon.views || {};
                 end_date: "June 1"
             }];
 
-            this.addChild(new rv.ActiveUserRangesView({
+            /* this.addChild(new rv.ActiveUserRangesView({
                 collection: userRangesCollection
-            }), '.active-user-ranges-view-container');
+            }), '.active-user-ranges-view-container'); */
 
             this.addChild(new rv.UsersView({
                 collection: options.user_collection
@@ -143,7 +143,7 @@ window.rupon.views = window.rupon.views || {};
 
         }
 
-    });
+    });/*
 
     rv.ActiveUserRangesView = cv.CollectionContainer.extend({
         tagName: "div",
@@ -162,7 +162,7 @@ window.rupon.views = window.rupon.views || {};
         template: Handlebars.compile($("#active-user-ranges-template").html())
 
     });
-
+*/
 
     rv.UsersView = cv.CollectionContainer.extend({
         tagName: 'ul',
