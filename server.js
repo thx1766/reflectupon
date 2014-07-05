@@ -11,7 +11,9 @@ var http     = require('http')
   , fs       = require('fs')
   , forgot   = require('./forgot')
   , express  = require('express')
-  , passport = require('passport');
+  , passport = require('passport')
+  , redis    = require('redis')
+  , url      = require('url');
 
 var app = express();
 exports.app = app;
@@ -23,7 +25,7 @@ app.configure( function() {
     app.use( express.static( __dirname + '/public' ));
     app.use( express.cookieParser());
     app.use( express.bodyParser() );
-    app.use( express.session({ secret: 'keyboard cat' }));
+    app.use( express.session({secret: 'keyboard cat' }));
     app.use( passport.initialize());
     app.use( passport.session());
     app.use( express.methodOverride() );

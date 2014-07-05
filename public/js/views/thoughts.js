@@ -22,7 +22,7 @@ window.rupon.views = window.rupon.views || {};
         return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
     }
 
-    rv.ThoughtView = Backbone.View.extend({
+    rv.ThoughtsView = Backbone.View.extend({
 
         tagName: "div",
         className: "thoughts-list",
@@ -33,10 +33,11 @@ window.rupon.views = window.rupon.views || {};
             this.listenTo(this.collection, 'create', this.prependItem);
 
             this.modelView = function(model) {
-                return new rv.ThoughtItemView({
+                return new rv.ThoughtWrapperView({
                     model: model,
                     user:  options.user,
-                    reply_collection: options.reply_collection
+                    reply_collection: options.reply_collection,
+                    thought_collection: options.thought_collection
                 })
             };
 
@@ -94,7 +95,7 @@ window.rupon.views = window.rupon.views || {};
 
     });
 
-    rv.ThoughtItemView = cv.Container.extend({
+    rv.ThoughtWrapperView = cv.Container.extend({
 
         tagName:   "div",
         className: "thought-row tooltipbottom clearfix",
@@ -103,7 +104,7 @@ window.rupon.views = window.rupon.views || {};
         user: null,
 
         events: {
-            'click .past-posts-summary a': 'showPastPosts',
+            'click .past-posts-label': 'showPastPosts',
             'click .read-more':         'showSingle',
             'selectstart .selectable-text': 'takeAnnotation',
             'click .privacy-status':    'changePrivacy',
@@ -129,7 +130,10 @@ window.rupon.views = window.rupon.views || {};
             this.user = options.user;
 
             this.replyCollection = new options.reply_collection(this.model.get("replies").models);
+            this.thought_collection = options.thought_collection;
+
             this.replyCollectionContainer = new rv.RepliesView({collection: this.replyCollection, user: options.user});
+
 
             var self = this;
             this.replyCollectionContainer.on('thank-reply', function(attr) {
@@ -169,6 +173,8 @@ window.rupon.views = window.rupon.views || {};
                 template_options.description = template_options.description.trim().substring(0,300).split(" ").slice(0, -1).join(" ") + "...";
                 template_options.read_more = true;
             }
+
+            template_options.description = template_options.description.replace('\n', '<br><br>');
 
             template_options.annotation_notice = !!template_options.can_reply;
 
@@ -378,13 +384,10 @@ window.rupon.views = window.rupon.views || {};
 
         showPastPosts: function() {
 
-            this.$el.find('.past-posts-summary a').addClass('hidden');
-            this.$el.find(".past-posts-container").append('<div class="past-posts"></div>');
+            this.$el.find('.past-posts-label').addClass('hidden');
 
-            _.each(this.model.get('history'), function(thought) {
-                var past_post_view = new rv.PastPostView({model: new rm.thought(thought) });
-                this.$el.find(".past-posts").append(past_post_view.$el);
-            }, this);
+            var collection = new this.thought_collection(this.model.get('history'));
+            this.addChild(new rv.PastPostsView({collection: collection}), '.past-posts-container');
 
         }
 

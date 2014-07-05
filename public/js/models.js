@@ -141,6 +141,13 @@ window.rupon.models = window.rupon.models || {};
             thoughts.push(model);
             freq_model.set("thoughts",thoughts);
         }
+    });
+
+    rm.userRange = Backbone.Model.extend({});
+
+    rm.userRangesCollection = Backbone.Collection.extend({
+        model: rm.userRange,
+        url: '/api/active_users'
     })
 
 })();

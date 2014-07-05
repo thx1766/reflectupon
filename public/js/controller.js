@@ -103,10 +103,13 @@ window.rupon.utils = window.rupon.utils || {};
             /* recThoughtsView = new rv.RecommendedView({
                 collection: recommended_collection,
                 user:       rupon.account_info}), */
-            thoughtsView    = new rv.ThoughtView({
+            thoughtsView    = new rv.ThoughtsView({
                 collection: my_thoughts_collection,
                 user:       rupon.account_info,
-                reply_collection: rm.replyCollection
+                reply_collection: rm.replyCollection,
+
+                // used for past posts
+                thought_collection: rm.thoughtCollection
             });
 
         frequencyView   = new rv.FrequencyView({collection: frequency_collection});
@@ -169,7 +172,7 @@ window.rupon.utils = window.rupon.utils || {};
 
         var thoughts_collection = new rupon.models.thoughtCollection();
 
-        var thoughtsView = new rv.ThoughtView({
+        var thoughtsView = new rv.ThoughtsView({
             collection: thoughts_collection,
             user:       rupon.account_info,
             reply_collection: rm.replyCollection
@@ -186,12 +189,17 @@ window.rupon.utils = window.rupon.utils || {};
 
     rc.setSuperUser = function() {
         var user_collection = new rupon.models.userCollection();
+        var user_ranges_collection = new rupon.models.userRangesCollection();
+
         var superUserView = new rupon.views.SuperUserView({
             user_collection: user_collection,
-            other_thoughts_collection: other_thoughts_collection
+            other_thoughts_collection: other_thoughts_collection,
+            user_ranges_collection: user_ranges_collection
         });
+
         $("#container").html(superUserView.$el);
         user_collection.fetch();
+        user_ranges_collection.fetch();
     }
     
     rc.applyTooltipEvents = function(view) {

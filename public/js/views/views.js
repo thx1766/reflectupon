@@ -118,20 +118,9 @@ window.rupon.views = window.rupon.views || {};
 
             this.$el.html(this.template());
 
-            var userRangesCollection = [{
-                start_date: "May 12",
-                end_date: "May 18"
-            },{
-                start_date: "May 19",
-                end_date: "May 25"
-            },{
-                start_date: "May 26",
-                end_date: "June 1"
-            }];
-
-            /* this.addChild(new rv.ActiveUserRangesView({
-                collection: userRangesCollection
-            }), '.active-user-ranges-view-container'); */
+            this.addChild(new rv.ActiveUserRangesView({
+                collection: options.user_ranges_collection
+            }), '.active-user-ranges-view-container');
 
             this.addChild(new rv.UsersView({
                 collection: options.user_collection
@@ -143,7 +132,7 @@ window.rupon.views = window.rupon.views || {};
 
         }
 
-    });/*
+    });
 
     rv.ActiveUserRangesView = cv.CollectionContainer.extend({
         tagName: "div",
@@ -151,7 +140,7 @@ window.rupon.views = window.rupon.views || {};
 
         initialize: function() {
             cv.CollectionContainer.prototype.initialize.call(this, function(model) {
-                return new ActiveUserRangeView({model: model});
+                return new rv.ActiveUserRangeView({model: model});
             });
         }
 
@@ -159,10 +148,16 @@ window.rupon.views = window.rupon.views || {};
 
     rv.ActiveUserRangeView = cv.TemplateView.extend({
 
-        template: Handlebars.compile($("#active-user-ranges-template").html())
+        template: Handlebars.compile($("#active-user-ranges-template").html()),
+
+        render: function(options) {
+            var template_options = _.clone(this.model.attributes);
+            template_options.start_date = moment(template_options.start_date).format('MMM D');
+            template_options.end_date = moment(template_options.end_date).format('MMM D');
+            cv.TemplateView.prototype.render.call(this, template_options);
+        }
 
     });
-*/
 
     rv.UsersView = cv.CollectionContainer.extend({
         tagName: 'ul',

@@ -23,6 +23,58 @@ module.exports = function(app) {
     app.post('/reset',                          user_routes.postReset);
     app.get( '/twiml',                          thought_routes.getTwiml);
 
+    app.get('/api/active_users', function(req, res) {
+
+        var i = 0 + (new Date().getDay());
+        var results = [];
+
+        async.whilst(
+            function() { return i < 100; },
+            function(callback) {
+
+                var result = {};
+
+                var startDate = new Date(new Date().setHours(0,0,0,0));
+                startDate.setDate(startDate.getDate()-i);
+
+                var endDate = new Date(new Date().setHours(0,0,0,0));
+                endDate.setDate(endDate.getDate()-(i-7));
+
+                result.start_date = startDate;
+                result.end_date = endDate;
+
+                var params = {
+                    date: {
+                        $gte: startDate,
+                        $lte: endDate
+                    }
+                };
+
+                Thought.find(params, function(err, thoughts) {
+
+                    if (err) console.log(err);
+
+                    var unique_users = _.reduce(thoughts, function(unique_users, thought) {
+                        if (unique_users.indexOf(thought.user_id) == -1) {
+                            unique_users.push(thought.user_id);
+                        }
+                        return unique_users;
+                    }, []);
+
+                    result.active_user_count = unique_users.length;
+                    results.push(result);
+                    i = i+7;
+                    callback();
+
+                });
+            },
+            function() {
+                res.send(results);
+            }
+        );
+
+    })
+
     app.get('/api/thought', function(req, res) {
 
         var params = {}, params2 = {}, array1 = null,
@@ -131,7 +183,6 @@ module.exports = function(app) {
                                                     _.each(thought.replies, function(reply) {
                                                         if (reply.user_id == req.user._id) {
 
-                                                            console.log(thought);
                                                             send_thought.history.push(thought);
                                                         }
                                                     })

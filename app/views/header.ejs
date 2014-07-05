@@ -1,6 +1,10 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, user-scalable=no">
+
+    <link rel="shortcut icon" href="/images/favicon.ico" />
+    <title>reflectupon | an online journaling support community</title>
+
     <link href="//fonts.googleapis.com/css?family=Merriweather:300italic,300,400italic,400,700italic,700,900italic,900" rel="stylesheet" type="text/css">
     <link type="text/css" href="/css/third-party/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
     <link type="text/css" href="/css/third-party/jquery.tooltip.css" rel="stylesheet" />
@@ -203,11 +207,7 @@
             <div class="col-md-9">
                 <div class="section clearfix">
                 {{#if past_posts}}
-                    <div class="past-posts-summary">
-                        <i class="fa fa-star" style="margin-right:3px"></i>You've replied to {{past_posts}} of this user's reflections before
-                        <a href="javascript:;">View History</a>
-                        <div class="past-posts-container"></div>
-                    </div>
+                    <div class="past-posts-container"></div>
                 {{/if}}
                 {{#if annotation }}
                     <div class="annotation">
@@ -221,12 +221,18 @@
                                 <span style="color: #D31616;">PRIVATE</span>
                             {{/equal}}
                             {{#unless is_author}}
-                                <span style="color: #4848C5;font-weight:400">Someone wrote:</span>
+                                <span style="color: #555596;font-weight:400">
+                                    <i class="fa fa-user" style="margin-right:3px;"></i>
+                                    Someone wrote:
+                                </span>
                             {{/unless}}
                         </div>
-                        <div style="float: right;">
-                            <span style="color:{{#if is_author}}#999999{{else}}#4848C5{{/if}}">Written {{duration}}</span>
-                        </div>
+
+                        {{#if past_posts}}
+                            <a href="javascript:;" class="past-posts-label">
+                                <i class="fa fa-archive fa-lg" style="padding:4px 4px 4px 0"></i>Past Posts
+                            </a>
+                        {{/if}}
                     </div>
                     <div class="description-container">
                         <div class="description">
@@ -257,6 +263,9 @@
                         </div>
                     </div>
                     {{/if}}
+                    <div class="timestamp">
+                        <span>Written {{duration}}</span>
+                    </div>
 
                     <div class="left-actions dropdown-container arrow-left">
                         <div class="lock-container">
@@ -395,11 +404,15 @@
         {{/if}}
     </script>
     <script type="text/x-handlebars-template" id="past-post-template">
-        {{breaklines description}}
+        <div class="time-posted">{{date}}</div>
+        <div class="description">
+            {{breaklines description}}
+        </div>
     </script>
     <script type="text/x-handlebars-template" id="active-user-ranges-template">
         {{start_date}}
         {{end_date}}
+        {{active_user_count}}
     </script>
     <script type="text/x-handlebars-template" id="super-user-template">
         <div class="active-user-ranges-view-container"></div>

@@ -64,10 +64,30 @@ window.rupon.views = window.rupon.views || {};
 
     });
 
-    rv.PastPostView = cv.SimpleModelView.extend({
+    rv.PastPostsView = cv.CollectionContainer.extend({
         tagName: "div",
+        className: "past-posts",
+
+        num_elements: 3,
+
+        initialize: function() {
+            cv.CollectionContainer.prototype.initialize.call(this, function(model) {
+                return new rv.PastPostView({model: model});
+            });
+        }
+    });
+
+    rv.PastPostView = cv.TemplateView.extend({
+        tagName: "div",
+        className: "clearfix",
 
         template: Handlebars.compile($("#past-post-template").html()),
+
+        render: function() {
+            var template_options = _.clone(this.model.attributes);
+            template_options.date = moment(template_options.date).format('MMM D');
+            cv.TemplateView.prototype.render.call(this, template_options);
+        }
     });
 
     rv.ArchivedItemView = Backbone.View.extend({
@@ -131,7 +151,7 @@ window.rupon.views = window.rupon.views || {};
 
         initialize: function(options) {
             cv.CollectionContainer.prototype.initialize.call(this, function(model) {
-                return new rv.ThoughtItemView({
+                return new rv.ThoughtWrapperView({
                     model: model,
                     user:  options.user
                 });
@@ -156,7 +176,7 @@ window.rupon.views = window.rupon.views || {};
             
             this.$el.html(this.template(template_options));
 
-            var thoughtView = new rv.ThoughtItemView({model:this.model});
+            var thoughtView = new rv.ThoughtWrapperView({model:this.model});
 
             var self = this;
             
