@@ -92,6 +92,7 @@ window.rupon.views = window.rupon.views || {};
 
     rv.ArchivedItemView = Backbone.View.extend({
         tagName: "div",
+        className: "thought-row tooltipbottom clearfix",
         template: Handlebars.compile($("#archived-item-template").html()),
 
         initialize: function() {

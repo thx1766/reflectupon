@@ -32,12 +32,6 @@ window.rupon.views = window.rupon.views || {};
             //this.$el.toggleClass('hidden', this.collection.models.length == 0);
             cv.CollectionContainer.prototype.render.call(this);
 
-        },
-
-        addView: function(model, opt_selector) {
-            if (model.get('description') != undefined && model.get('description') != "") {
-                cv.CollectionContainer.prototype.addView.call(this, model, opt_selector);
-            }
         }
 
     });

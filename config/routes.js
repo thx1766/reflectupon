@@ -105,8 +105,10 @@ module.exports = function(app) {
                         user_id: { $ne: req.user._id }
                     };
 
-                    limit1 = 10;
-                    limit2 = 5;
+                    if (per_page == 15) {
+                        limit1 = 10;
+                        limit2 = 5;
+                    }
 
                     date_sort = {date: -1};
                     populate = {
@@ -121,7 +123,7 @@ module.exports = function(app) {
                                 Thought.find( params )
                                     .populate('replies')
                                     .limit(limit1)
-                                    .skip(per_page * (page - 1))
+                                    .skip(limit1 * (page - 1))
                                     .sort(date_sort)
                                     .exec(cb)
                             }
@@ -131,7 +133,7 @@ module.exports = function(app) {
                             Thought.find( params1 )
                                 .populate(populate)
                                 .limit(limit2)
-                                .skip(per_page * (page - 1))
+                                .skip(limit2 * (page - 1))
                                 .sort(date_sort)
                                 .exec(cb)
                         }
@@ -145,8 +147,6 @@ module.exports = function(app) {
                             if (a.date > b.date) return -1;
                             return 0;
                         }
-
-                        thoughts.sort(compare);
 
                         if (err) console.log(err);
 
@@ -213,6 +213,8 @@ module.exports = function(app) {
                                         if (thoughts.length == 1) {
                                             res.send(send_thoughts[0])
                                         } else {
+
+                                            send_thoughts = send_thoughts.sort(compare);
                                             res.send(send_thoughts);
                                         }
                                     }

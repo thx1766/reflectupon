@@ -187,7 +187,7 @@ window.rupon.views = window.rupon.views || {};
 
                     if (first_annotation && first_annotation[0]) {
                         var output_annotation = [];
-                        _.each(first_annotation, function(annotation) {
+                        _.each(_.compact(first_annotation), function(annotation) {
                             output_annotation.push({
                                 text: annotation.description,
                                 start: annotation.start,

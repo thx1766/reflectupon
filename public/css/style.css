@@ -205,8 +205,7 @@ button.btn{display: block;border: 1px solid #ccc;padding: 10px;text-decoration: 
 .popover{
     z-index:10}
 
-.archived-container{border-top: 2px solid #8B8B8B;margin: 18px 10px 8px;}
-.archived{width: 160px;margin: -13px auto 0;text-align: center;background-color: #f5f5f5;font-size: 18px;}
+.archived-container{padding: 18px 10px;text-align:center;font-weight:200;font-size:18px;background-color:#EBFAFF;}
 
 .section{border-radius:1px;box-shadow:0 1px 2px #d6d6d6;background-color:#ffffff;}
 .section-title{font-size:24px;margin-bottom:20px;font-family:arial;}
