@@ -9,6 +9,12 @@ window.rupon.views = window.rupon.views || {};
     _.templateSettings = {
         interpolate : /\{\{(.+?)\}\}/g
     };
+
+    rv.WriteThoughtView = Backbone.TemplateView.extend({
+        tagName: "div",
+        className: "write-view",
+        template: Handlebars.compile($("#"))
+    })
     
     rv.TooltipView = Backbone.View.extend({
         tagName:   "div",

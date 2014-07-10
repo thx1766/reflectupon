@@ -117,6 +117,7 @@ window.rupon.utils = window.rupon.utils || {};
         rc.applyTooltipEvents(thoughtsView);
         //rc.applyTooltipEvents(recThoughtsView);
 
+        var writeThoughtView = new rv.WriteThoughtView();
         var paginationView = new rv.PaginationView({collection: my_thoughts_collection});
 
         $("#container").html(mainView.$el);
@@ -124,6 +125,7 @@ window.rupon.utils = window.rupon.utils || {};
 		mainView.$el
             .find(".frequency-container").append(frequencyView.$el).end()
             //.find(".recommended-container").append(recThoughtsView.$el).end()
+            .find(".write-container").append(writeThoughtView.$el).end()
             .find(".thought-container").append(thoughtsView.$el).end()
             .find(".pagination-container").append(paginationView.$el);
 
