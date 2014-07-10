@@ -190,6 +190,7 @@ window.rupon.utils = window.rupon.utils || {};
     rc.setSuperUser = function() {
         var user_collection = new rupon.models.userCollection();
         var user_ranges_collection = new rupon.models.userRangesCollection();
+        var other_thoughts_collection = new rupon.models.thoughtCollection([],{type: "other-posts"});
 
         var superUserView = new rupon.views.SuperUserView({
             user_collection: user_collection,
@@ -200,6 +201,7 @@ window.rupon.utils = window.rupon.utils || {};
         $("#container").html(superUserView.$el);
         user_collection.fetch();
         user_ranges_collection.fetch();
+        other_thoughts_collection.fetch({reset: true, data: {"stream_type": "other-thoughts"}});
     }
     
     rc.applyTooltipEvents = function(view) {

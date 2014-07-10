@@ -218,11 +218,16 @@ window.rupon.views = window.rupon.views || {};
         template: Handlebars.compile($("#vet-thought-template").html()),
 
         events: {
-            'click .delete': 'deleteThought'
+            'click .delete': 'deleteThought',
+            'click .set-private': 'setPrivate'
         },
 
         deleteThought: function() {
             this.model.destroy();
+        },
+
+        setPrivate: function() {
+            this.model.save({privacy: 'PRIVATE'});
         }
 
     });

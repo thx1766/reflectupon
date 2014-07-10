@@ -227,6 +227,29 @@ module.exports = function(app) {
                     });
 
                     break;
+                case "other-thoughts":
+
+                    var startDate = new Date(new Date().setHours(0,0,0,0));
+                    startDate.setDate(startDate.getDate()-14);
+
+                    params.date = {
+                        $gte: startDate,
+                        $lte: new Date() 
+                    };
+
+                    date_sort = {date: -1};
+                    params.privacy = "ANONYMOUS";
+                    
+                    Thought.find( params )
+                        .sort(date_sort)
+                        .exec(function(err, thoughts) {
+
+                            if (err) console.log(err);
+
+                            res.send(thoughts);
+
+                        });
+                    break;
                 case "recommended":
                     params.user_id = req.user._id;
                     limit = 15;
