@@ -141,7 +141,7 @@ window.rupon.views = window.rupon.views || {};
                 reply.save({'thanked': !reply.get('thanked') }, {wait: true, patch: true});
             });
 
-            this.addChild(this.replyCollectionContainer, ".reply-collection-container");
+            if (this.user) this.addChild(this.replyCollectionContainer, ".reply-collection-container");
         },
 
         render: function(options) {
@@ -158,7 +158,9 @@ window.rupon.views = window.rupon.views || {};
             template_options.is_author = this.user && this.user.user_id == this.model.get('user_id');
 
             template_options.can_edit  = (difference_ms/(1000*60*60*24)) <= 1;
-            template_options.can_reply = !this.model.get('replies').length && !template_options.is_author;
+
+            //show "write reply" for all posts on index page
+            template_options.can_reply = (!this.model.get('replies').length && !template_options.is_author) || !this.user;
 
             template_options.duration  = moment(this.model.get("date")).fromNow();
             
