@@ -64,8 +64,6 @@ window.rupon.utils = window.rupon.utils || {};
                 rc.setSuperUser();
             });
 
-        showOtherThoughtsView();
-
         $(".actions-container").html(sidebarView.$el);
 
         rc.setAllThoughts();
@@ -255,17 +253,6 @@ window.rupon.utils = window.rupon.utils || {};
             .on("archive-thought", function(model) {
                 model.save({archived: true});
             })
-    }
-
-    showOtherThoughtsView = function() {
-
-        newThoughtsView = new rupon.views.Sidebar.ThoughtsView({collection: other_thoughts_collection});
-
-        newThoughtsView
-            .on("view-thought", function(model) {
-                rc.resetViews();
-                rc.setSingle(model);
-            });
     }
 
 })();
