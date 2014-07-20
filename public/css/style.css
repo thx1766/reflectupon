@@ -5,7 +5,6 @@ body.new-ux .wrapper{width:600px;padding:20px;background-color:#fff;margin-top:3
 body.new-ux textarea{margin-bottom:15px;}
 a img{border:0;}
 .tooltip-view textarea{border:1px solid #ccc;border-radius:3px;padding:4px;font-size:16px;line-height:22px;resize: none;width:100%;height:100px;margin-bottom:15px;}
-button.btn{display: block;border: 1px solid #ccc;padding: 10px;text-decoration: none;color: #fff;background-color: rgb(156, 62, 62);border-radius: 4px;font-size:16px;font-family:arial}
 .hidden{display:none}
 
 #topbar-wrapper{width:100%;background-color:#525252;box-shadow:0 2px 3px #B7B7B7;position:fixed;z-index:10;}
@@ -46,7 +45,6 @@ button.btn{display: block;border: 1px solid #ccc;padding: 10px;text-decoration: 
 
 .annotations-list{background-color:#ccc;width:230px;height:500px;position:fixed;right:148px;}
 
-.post-frequency{margin-bottom:20px;}
 .postbox{background-color:#fff;width:550px;height:300px;padding:15px;}
 .postbox-options,.postbox-poem,.postbox-song{display:none;}
 .postbox-poem textarea, .postbox-song textarea{height:150px;margin-bottom:15px;}
@@ -68,7 +66,7 @@ button.btn{display: block;border: 1px solid #ccc;padding: 10px;text-decoration: 
 .thoughts-list.select-text .thought-row{opacity:0.1}
 .thoughts-list.select-text .thought-row.selected{opacity:1}
 .thought-row .title{font-weight:bold;font-size:22px;padding-bottom:5px;color:#111;}
-.thought-row .message {font-size: 20px;padding: 5px 12px 4px;color:#626262;line-height: 24px;position: relative;background-color: #fff;}
+.thought-row .message {padding: 5px 12px 4px;color:#626262;line-height: 24px;position: relative;background-color: #fff;}
 .show-replies.thought-row .message{float:left;}
 .thought-row .message .header{font-size: 15px;font-family: 'Helvetica Neue';font-weight: 200;border-bottom: 1px solid #ccc;margin-bottom: 14px;min-height:25px;}
 .thought-row .message .lock-container{display:none;}
@@ -131,6 +129,17 @@ button.btn{display: block;border: 1px solid #ccc;padding: 10px;text-decoration: 
 .timestamp{float:right;color:#cccccc;font-size:14px;font-weight:200;}
 .past-posts-label{float:right;color:#999999;}
 
+.write-view .header{border-bottom: 1px solid #ccc;padding: 8px 12px;font-size: 16px;background-color: #8d8d8d;color:#fafafa;}
+.write-view .thought-row textarea{display:block;font-family:'Merriweather';font-size:18px;border:0;min-height:200px;width:100%;max-height:500px;}
+.write-view .thought-row .message{padding:12px;}
+.write-view .footer{border-top:1px solid #ccc;margin:0 12px;padding:8px 0;}
+.write-view .footer .privacy{outline:none;}
+.write-view .footer .create{float:right;padding-left:20px;padding-right:20px;}
+.write-view .expanded{-webkit-transition:all .5s;transition:all .5s;overflow:hidden;max-height:750px;position:relative;z-index:2;background-color:#fff;}
+.write-view .expanded.no-opacity{opacity:0;max-height:54px;pointer-events:none;}
+.write-view .condensed{height:100%;width:100%;background-color:#8d8d8d;position:absolute;bottom:0;left:0;}
+.write-view .condensed .write-another{padding:16px;text-align:center;font-size:16px;color:#fafafa;position:absolute;bottom:0;left:0;width:100%;}
+.write-view .condensed .write-another:hover{text-decoration:underline;}
 .thought-row .description-container{width:94%;float:left;min-height:80px;}
 .thought-row .description{margin-bottom:6px;width:100%;font-family: 'Merriweather';}
 .thought-row .message .description{font-size:18px;}
@@ -207,19 +216,48 @@ button.btn{display: block;border: 1px solid #ccc;padding: 10px;text-decoration: 
 
 .archived-container{padding: 18px 10px;text-align:center;font-weight:200;font-size:18px;background-color:#EBFAFF;}
 
-.section{border-radius:1px;box-shadow:0 1px 2px #d6d6d6;background-color:#ffffff;}
+.section{border-radius:1px;box-shadow:0 1px 2px #d6d6d6;background-color:#ffffff;position:relative;}
 .section-title{font-size:24px;margin-bottom:20px;font-family:arial;}
 .my-dashboard .section{background-color: #fff;box-shadow: 0 2px 8px rgb(214,214,214);}
 
 /* Dashboard */
 .section .description{margin-bottom:8px;}
 .post-frequency li{list-style:none;}
-.post-frequency li div{height:20px;width:3.33%;float:left;box-sizing:border-box;-moz-box-sizing:border-box;border-right:1px solid #ffffff;background-color:#f2f2f2;}
+.post-frequency li div{height:20px;width:3.33%;float:left;box-sizing:border-box;-moz-box-sizing:border-box;border-right:1px solid #F4F9FD;background-color:#dcdcdc;}
 .post-frequency li div.filled{background-color:rgb(126, 176, 231);border-right:1px solid #ffffff;}
 
 .new-frequency li {list-style: none;background-color: #ccc;float: left;width: 9.6%;margin: 10px 6px;text-align: center;height: 40px;font-size: 35px;padding: 10px;border-radius: 2px;-webkit-transition: all .25s;transition: all .25s;}
 .new-frequency li.small {width: 1.7%;color: #ccc;height: 11px;overflow: hidden;margin: 25px 33px;}
 
+.stats-container{padding:10px;}
+.stats-container > div{width:25%;float:left;font-weight:200;font-size:18px;text-align:left;}
+.stats-container .container{padding:14px;}
+.stats-container .header{}
+.stats-container .desc{color:#fff;background-color:#8d8d8d;padding:1px 10px;border-radius:4px;}
+.stats-container button{margin:10px;}
+
+.expanded-container{position:relative;padding: 20px;background-color:#F4F9FD;box-shadow: inset 0 2px 2px #DBDBDB;}
+.expanded-container:after, .expanded-container:before {
+    bottom: 97%;
+    left: 30%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+
+.expanded-container:after {
+    border-bottom-color: #F4F9FD;
+    border-width: 14px;
+    margin-left: -14px;
+}
+.expanded-container:before {
+    border-bottom-color: #DBDBDB;
+    border-width: 15px;
+    margin-left: -15px;
+}
 /* Super user */
 ul.users-view {list-style:none}
 ul.users-view li{padding:6px 20px;border-bottom:1px solid #ccc;}

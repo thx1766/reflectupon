@@ -126,7 +126,7 @@
     <script type="text/x-handlebars-template" id="home-template">
         <div class="row">
             <div class="col-md-9">
-                <div class="section" style="padding:20px 12px; margin-bottom:12px;">
+                <div class="section" style="margin-bottom:12px;">
                     <div class="frequency-container"></div>
                 </div>
             </div>
@@ -157,7 +157,7 @@
     </script>
     <script type="text/x-handlebars-template" id="postbox-template">
         <div class="postbox-two clearfix">
-            <p>How do you feel now? Don't hesitate to write freely.</p>
+            <p>How do you feel now? Please write as freely as you feel.</p>
             <textarea class="postbox-description" rows="10"></textarea>
             <div class="privacy-action">
                 <input type="checkbox" />Mark as Private (Reflections default to Anonymous)
@@ -177,16 +177,35 @@
         <ul class="new-frequency clearfix"></ul>
     </script>
     <script type="text/x-handlebars-template" id="frequency-template">
-        <div style="
-        float: right;
-        font-size: 14px;
-        font-weight: 200;
-        font-family: Helvetica Neue;
-        padding-top: 4px;
-        color: #999999;
-    ">(last 30 days)</div>
-        <div class="description">Post Frequency</div>
-        <ul></ul>
+        <div class="stats-container clearfix">
+            <div>
+                <button type="button" class="btn btn-primary create"><i class="fa fa-plus-square" style="margin-right:6px"></i>Write a reflection</button>
+            </div>
+            <div class="container">
+                <span class="desc">5</span>
+                <span class="header">day streak</span>
+            </div>
+            <div class="container">
+                <span class="desc">5</span>
+                <span class="header">thanked you</span>
+            </div>
+            <div class="container">
+                <span class="desc">5</span>
+                <span class="header">replies</span>
+            </div>
+        </div>
+        <div class="expanded-container">
+            <div style="
+            float: right;
+            font-size: 14px;
+            font-weight: 200;
+            font-family: Helvetica Neue;
+            padding-top: 4px;
+            color: #999999;
+        ">(last 30 days)</div>
+            <div class="description">Post Frequency</div>
+            <ul class="clearfix"></ul>
+        </div>
     </script>
     <script type="text/x-handlebars-template" id="slider-template">
     </script>
@@ -205,6 +224,33 @@
             <div class="col-md-9">
                 <div class="section clearfix">
                     <div class="archived-container">This entry is archived</div>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script type="text/x-handlebars-template" id="write-template">
+        <div class="thought-row">
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="section clearfix">
+                        <div class="expanded">
+                            <div class="header">
+                                How do you feel now?
+                            </div>
+                            <div class="message">
+                                <div class="description">
+                                    <textarea placeholder="Please write as freely as you'd like."></textarea>
+                                </div>
+                            </div>
+                            <div class="footer">
+                                <button type="button" class="btn btn-default privacy">Mark as Private</button>
+                                <button type="button" class="btn btn-primary create">Create entry</button>
+                            </div>
+                        </div>
+                        <div class="condensed">
+                            <a href="javascript:;" class="write-another">Write another reflection</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -399,11 +445,6 @@
         </div>
     </script>
     <script type="text/template" id="sidebar-template">
-        <li class="show-postbox">
-            <a href="#">
-                Write a reflection
-            </a>
-        </li>
         {{#if showSuperUser }}
             <li class="show-super-user">
                 <a href="#">
@@ -424,6 +465,7 @@
         {{active_user_count}}
     </script>
     <script type="text/x-handlebars-template" id="super-user-template">
+        <div class="email-container"></div>
         <div class="active-user-ranges-view-container"></div>
         <div class="user-view-container"></div>
         <div class="thought-view-container"></div>

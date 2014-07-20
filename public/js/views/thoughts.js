@@ -203,7 +203,7 @@ window.rupon.views = window.rupon.views || {};
                 }
             }
 
-            if (template_options.privacy) {
+            if (_.indexOf(privacy, template_options.privacy) != -1) {
 
                 if (template_options.privacy == privacy[0]) {
                     template_options.privacy_inverse = privacy[1];

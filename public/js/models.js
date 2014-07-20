@@ -16,6 +16,10 @@ window.rupon.models = window.rupon.models || {};
         url: '/api/users/'
     });
 
+    rm.email = Backbone.Model.extend({
+        url: "/api/send_email/"
+    })
+
     rm.thought = Backbone.Model.extend({
         defaults: {
             "title":        "Untitled",
