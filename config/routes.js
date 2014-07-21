@@ -3,7 +3,12 @@ var mongoose = require('mongoose')
   , user_routes     = require('../app/controllers/user')
   , thought_routes  = require('../app/controllers/thought')
   , auth = require('./middlewares/authorization')
-  , _ = require('underscore');
+  , _ = require('underscore')
+  , config          = require('../config_settings')
+  , sendgrid        = require('sendgrid')(
+        config.sg_username,
+        config.sg_password
+    );
 
 var Thought     = mongoose.model('Thought'),
     Reply       = mongoose.model('Reply'),
@@ -22,6 +27,41 @@ module.exports = function(app) {
     app.post('/forgot',                         user_routes.postForgot);
     app.post('/reset',                          user_routes.postReset);
     app.get( '/twiml',                          thought_routes.getTwiml);
+
+    app.post('/api/send_email', function(req,res) {
+
+        var startDate = new Date();
+        startDate.setDate(startDate.getDate()-7);
+
+        var endDate = new Date();
+        endDate.setDate(endDate.getDate());
+
+        var params = {
+            date: {
+                $gte: startDate,
+                $lte: endDate
+            }
+        };
+
+        console.log(startDate);
+        console.log(endDate);
+
+        Reply.find(params, function(err, replies) {
+            console.log(replies);
+        })
+/*
+        sendgrid.send({
+            to: 'andrewjcasal@gmail.com', //req.body.email,
+            from: 'andrewjcasal@gmail.com',
+            subject: 'Welcome to reflectupon!',
+            html: 'Thanks for your interest! Stay tuned for further updates.<br /><br/>Thanks!<br />reflectupon team'
+        }, function(err, json) {
+            if (err) { return console.error(err); }
+            console.log(json);
+        });*/
+        
+        res.send({success: 1});
+    });
 
     app.get('/api/active_users', function(req, res) {
 

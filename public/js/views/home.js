@@ -36,12 +36,23 @@ window.rupon.views = window.rupon.views || {};
 
         template: Handlebars.compile($("#frequency-template").html()),
 
+        events: {
+            'click .create': 'createReflection'
+        },
+
         initialize: function(options) {
             this.$el.html(this.template());
             cv.CollectionContainer.prototype.initialize.call(this, function(model) { 
                 return new rv.FrequencyItemView({model: model});
             });
         },
+
+        createReflection: function() {
+            $('body').animate({
+                scrollTop: $('.write-container').position().top
+            }, 500);
+            $(".write-another").click();
+        }
 
     });
 

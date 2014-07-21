@@ -42,6 +42,63 @@ window.rupon.views = window.rupon.views || {};
 
     });
 
+    rv.WriteThoughtView = cv.TemplateView.extend({
+        tagName: "div",
+        className: "write-view",
+        template: Handlebars.compile($("#write-template").html()),
+
+        events: {
+            'click .create': 'submitReflection',
+            'click .privacy': 'changePrivacy',
+            'click .write-another': 'writeAnother'
+        },
+
+        changePrivacy: function() {
+
+            var privacy_ele = this.$el.find('.privacy');
+            var is_private = privacy_ele.hasClass('btn-default');
+
+            this.is_private = is_private;
+
+            privacy_ele.html(is_private ? 'Private' : 'Mark as Private');
+            privacy_ele.toggleClass('btn-default', !is_private);
+            privacy_ele.toggleClass('btn-danger', is_private);
+
+        },
+
+        writeAnother: function() {
+            
+            var textarea_ele = this.$el.find("textarea");
+            textarea_ele.val('');
+            this.$el.find('.expanded').removeClass('no-opacity');
+            textarea_ele.focus();
+        },
+
+        submitReflection: function() {
+
+            var self = this;
+            var expanded = self.$el.find('.expanded');
+            var textarea_ele = this.$el.find("textarea");
+
+            if (!this.clickedOnce && $.trim(textarea_ele.val()) != "") {
+                this.clickedOnce = true;
+
+                this.trigger("create-reflection", {
+                    description:    textarea_ele.val(),
+                    //title:          '',
+                    //expression:     '',
+                    privacy:        this.is_private ? 'PRIVATE' : 'ANONYMOUS',
+                    date:           new Date()
+                }, function() {
+
+                    expanded.addClass('no-opacity'); 
+                    self.clickedOnce = false;
+                })
+            }
+        }
+
+    })
+
     rv.PostboxView = Backbone.View.extend({
         tagName:   "div",
         className: "postbox",
@@ -118,6 +175,10 @@ window.rupon.views = window.rupon.views || {};
 
             this.$el.html(this.template());
 
+            this.addChild(new rv.EmailsView({
+                model: options.email
+            }), '.email-container');
+
             this.addChild(new rv.ActiveUserRangesView({
                 collection: options.user_ranges_collection
             }), '.active-user-ranges-view-container');
@@ -133,6 +194,19 @@ window.rupon.views = window.rupon.views || {};
         }
 
     });
+
+    rv.EmailsView = cv.TemplateView.extend({
+
+        template: Handlebars.compile("<a href='javascript:;'>send emails</a>"),
+
+        events: {
+            'click a': 'sendEmail'
+        },
+
+        sendEmail: function(){
+            this.model.save();
+        }
+    })
 
     rv.ActiveUserRangesView = cv.CollectionContainer.extend({
         tagName: "div",

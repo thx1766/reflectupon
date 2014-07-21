@@ -115,6 +115,20 @@ window.rupon.utils = window.rupon.utils || {};
         rc.applyTooltipEvents(thoughtsView);
         //rc.applyTooltipEvents(recThoughtsView);
 
+        var writeThoughtView = new rv.WriteThoughtView();
+
+        writeThoughtView
+            .on("create-reflection", function(attrs, callback) {
+                my_thoughts_collection.create(attrs, {
+                    wait:    true,
+                    silent:  true,
+                    success: function(response) {
+                        my_thoughts_collection.trigger('create', response);
+                        callback();
+                    }
+                });
+            });
+
         var paginationView = new rv.PaginationView({collection: my_thoughts_collection});
 
         $("#container").html(mainView.$el);
@@ -122,6 +136,7 @@ window.rupon.utils = window.rupon.utils || {};
 		mainView.$el
             .find(".frequency-container").append(frequencyView.$el).end()
             //.find(".recommended-container").append(recThoughtsView.$el).end()
+            .find(".write-container").append(writeThoughtView.$el).end()
             .find(".thought-container").append(thoughtsView.$el).end()
             .find(".pagination-container").append(paginationView.$el);
 
@@ -189,11 +204,13 @@ window.rupon.utils = window.rupon.utils || {};
         var user_collection = new rupon.models.userCollection();
         var user_ranges_collection = new rupon.models.userRangesCollection();
         var other_thoughts_collection = new rupon.models.thoughtCollection([],{type: "other-posts"});
+        var email = new rupon.models.email();
 
         var superUserView = new rupon.views.SuperUserView({
             user_collection: user_collection,
             other_thoughts_collection: other_thoughts_collection,
-            user_ranges_collection: user_ranges_collection
+            user_ranges_collection: user_ranges_collection,
+            email: email
         });
 
         $("#container").html(superUserView.$el);
