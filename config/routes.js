@@ -4,7 +4,7 @@ var mongoose = require('mongoose')
   , thought_routes  = require('../app/controllers/thought')
   , auth = require('./middlewares/authorization')
   , _ = require('underscore')
-  , config          = require('../config_settings')
+  , config          = require('../config')
   , sendgrid        = require('sendgrid')(
         config.sg_username,
         config.sg_password
