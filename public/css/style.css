@@ -234,9 +234,9 @@ a img{border:0;}
 .stats-container .container{padding:14px;}
 .stats-container .header{}
 .stats-container .desc{color:#fff;background-color:#8d8d8d;padding:1px 10px;border-radius:4px;}
-.stats-container button{margin:10px;}
+.stats-container button{margin:10px 0;}
 
-.expanded-container{position:relative;padding: 20px;background-color:#F4F9FD;box-shadow: inset 0 2px 2px #DBDBDB;}
+.expanded-container{position:relative;padding: 20px 12px;background-color:#F4F9FD;box-shadow: inset 0 2px 2px #DBDBDB;}
 .expanded-container:after, .expanded-container:before {
     bottom: 97%;
     left: 30%;
@@ -249,11 +249,13 @@ a img{border:0;}
 }
 
 .expanded-container:after {
+    display:none;
     border-bottom-color: #F4F9FD;
     border-width: 14px;
     margin-left: -14px;
 }
 .expanded-container:before {
+    display:none;
     border-bottom-color: #DBDBDB;
     border-width: 15px;
     margin-left: -15px;
