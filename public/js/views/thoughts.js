@@ -113,8 +113,9 @@ window.rupon.views = window.rupon.views || {};
             'click .archive':           'archiveThought',
             'keypress .message textarea':        'submitEdit',
             'focusin input':            'focusTextarea',
-            'click .preempt-reply':     'writeReply', 
-            'keypress .write-reply textarea': 'submitReply'
+            'click .write-reply2':     'writeReply', 
+            'keypress .write-reply textarea': 'submitReply',
+            'click .reply-summary':     'getReplySummary'
         },
 
         initialize: function(options) {
@@ -161,6 +162,7 @@ window.rupon.views = window.rupon.views || {};
 
             //show "write reply" for all posts on index page
             template_options.can_reply = (!this.model.get('replies').length && !template_options.is_author) || !this.user;
+            template_options.num_replies = this.model.get('replies').length;
 
             template_options.duration  = moment(this.model.get("date")).fromNow();
             
@@ -171,8 +173,8 @@ window.rupon.views = window.rupon.views || {};
             options = options || {};
             template_options.showMore = options.showMore || false;
 
-            if (!template_options.showMore && template_options.description.length >300) {
-                template_options.description = template_options.description.trim().substring(0,300).split(" ").slice(0, -1).join(" ") + "...";
+            if (!template_options.showMore && template_options.description.length >450) {
+                template_options.description = template_options.description.trim().substring(0,450).split(" ").slice(0, -1).join(" ") + "...";
                 template_options.read_more = true;
             }
 
@@ -230,6 +232,15 @@ window.rupon.views = window.rupon.views || {};
 
             this.$el.addClass('show-replies');
             this.render(attrs);
+        },
+
+        getReplySummary: function() {
+
+            $(".main-view-container").addClass('left-align');
+
+            this.$el.find('.reply-collection-container').removeClass('hidden');
+            this.$el.find('.reply-summary').addClass('hidden');
+
         },
 
         takeAnnotation: function() {
@@ -333,8 +344,10 @@ window.rupon.views = window.rupon.views || {};
                 $('#myModal').modal();
             } else {
 
+                $(".main-view-container").addClass('left-align');
+
                 this.$el
-                    .find('.preempt-reply').addClass('hidden').end()
+                    .find('.write-reply2').addClass('hidden').end()
                     .find('.write-reply').css('display','block').find('textarea').focus();
             }
         },

@@ -129,7 +129,7 @@
                     <div class="frequency-container"></div>
                 </div>
             </div>
-            <div class="message-container col-md-3"></div>
+            <!--<div class="message-container col-md-3"></div>-->
         </div>
         <div class="write-container"></div>
         <div class="thought-container"></div>
@@ -258,6 +258,19 @@
         <div class="row">
             <div class="col-md-9">
                 <div class="section clearfix">
+                    <div class="side-action-container">
+                        {{#if num_replies}}
+                            <a href="javascript:;" class="side-action reply-summary">
+                                {{num_replies}}
+                                <i class="fa fa-comment"></i>
+                            </a>
+                        {{/if}}
+                        {{#if can_reply}}
+                            <a href="javascript:;" class="side-action write-reply2">
+                                <i class="fa fa-plus"></i><span>Reply</span>
+                            </a>
+                        {{/if}}
+                    </div>
                 {{#if past_posts}}
                     <div class="past-posts-container"></div>
                 {{/if}}
@@ -270,11 +283,11 @@
                     <div class="clearfix header">
                         <div style="float: left;">
                             {{#equal privacy "Private"}} 
-                                <span style="color: #D31616;">PRIVATE</span>
+                                <span style="color: #C76F6F;padding-left:4px;"><i class="fa fa-lock" style="margin-right:5px"></i>PRIVATE</span>
                             {{/equal}}
                             {{#unless is_author}}
-                                <span style="color: #555596;font-weight:400">
-                                    <i class="fa fa-user" style="margin-right:3px;"></i>
+                                <span style="color: #6E6E87;font-weight:400">
+                                    <i class="fa fa-user" style="margin-right:1px;"></i>
                                     Someone wrote:
                                 </span>
                             {{/unless}}
@@ -299,7 +312,7 @@
                     {{#if is_author}}
                     <div class="right-actions dropdown-container arrow-right">
                         <a href="javascript:;" class="options">
-                            <i class="fa fa-angle-down fa-lg"></i>
+                            <i class="fa fa-angle-down fa-2x"></i>
                         </a>
                         <div class="dropdown-arrow clearfix">
                             <div class="arrow">
@@ -320,9 +333,6 @@
                     </div>
 
                     <div class="left-actions dropdown-container arrow-left">
-                        <div class="lock-container">
-                            <i class="fa fa-lock"></i><div>Private</div>
-                        </div>
                         <div class="dropdown-arrow">
                             <div class="arrow"></div>
                             <div class="dropdown"><button class="privacy-status">Set as anonymous</button></div>
@@ -338,12 +348,9 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="reply-collection-container"></div>
+            <div class="reply-collection-container hidden"></div>
         {{#if is_author }}{{else}}
         {{#if can_reply}}
-            <div class="preempt-reply">
-                <a href="javascript:;"><i class="fa fa-plus"></i>Write a reply</a>
-            </div>
             <div class="write-reply section">
                 <textarea placeholder="Write a reply"></textarea>
             </div>
