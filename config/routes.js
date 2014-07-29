@@ -395,6 +395,7 @@ module.exports = function(app) {
             annotation:     req.body.annotation,
             privacy:        req.body.privacy,
             user_id:        req.user._id,
+            link:           req.body.link,
             date:           new Date()
         });
 

@@ -181,27 +181,24 @@ window.rupon.views = window.rupon.views || {};
             template_options.description = template_options.description.replace('\n', '<br><br>');
 
             template_options.annotation_notice = !!template_options.can_reply;
+            
+            var replies = _.clone(this.model.get('replies').models);
+            if (replies) {
+                var first_annotation = _.compact(_.map(replies, function(model) {
+                    return model.attributes.annotations[0];
+                }));
 
-            if (this.model.get("replies") && this.model.get("replies").models) {
-                var reply = this.model.get("replies").models[0]
-                if (reply && reply.attributes && reply.attributes.annotations) {
-                    var first_annotation = _.map(this.model.get("replies").models, function(model) {
-                        return model.attributes.annotations[0];
+                if (first_annotation && first_annotation.length) {
+                    var output_annotation = _.map(first_annotation, function(annotation) {
+                        return {
+                            text: annotation.description,
+                            start: annotation.start,
+                            end: annotation.end
+                        };
                     });
 
-                    if (first_annotation && first_annotation[0]) {
-                        var output_annotation = [];
-                        _.each(_.compact(first_annotation), function(annotation) {
-                            output_annotation.push({
-                                text: annotation.description,
-                                start: annotation.start,
-                                end: annotation.end
-                            })
-                        });
+                    template_options.description = condenseArray(output_annotation, template_options.description);
 
-                        template_options.description = condenseArray(output_annotation, template_options.description);
-
-                    }
                 }
             }
 
@@ -254,7 +251,7 @@ window.rupon.views = window.rupon.views || {};
 
                 var is_author = self.user && self.user.user_id == self.model.get('user_id');
 
-                if (is_author) {
+                /* if (is_author) {
 
                     if (this.getSelection() != "") {
                         $(".thoughts-list").addClass("select-text");
@@ -264,7 +261,9 @@ window.rupon.views = window.rupon.views || {};
                         self.trigger("start-tooltip", self.$el);
                     }
 
-                } else {
+                } else { */
+
+                if (!is_author) {
 
                     var selection = this.getSelection();
 

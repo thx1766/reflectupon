@@ -50,19 +50,32 @@ window.rupon.views = window.rupon.views || {};
         events: {
             'click .create': 'submitReflection',
             'click .privacy': 'changePrivacy',
-            'click .write-another': 'writeAnother'
+            'click .write-another': 'writeAnother',
+            'click .link': 'showLink'
+        },
+
+        render: function() {
+            cv.TemplateView.prototype.render.call(this);
+            this.$el.find('.fa-lock').tooltip();
+            this.$el.find('.fa-unlock-alt').tooltip();
+            this.$el.find('.fa-link').tooltip();
+        },
+
+        showLink: function() {
+            var addLink = this.$el.find('input.add-link');
+            addLink.removeClass('hidden');
+
+            setTimeout(function() {
+                addLink.addClass('revealed');
+            }, 100);
         },
 
         changePrivacy: function() {
 
             var privacy_ele = this.$el.find('.privacy');
-            var is_private = privacy_ele.hasClass('btn-default');
+            var make_not_private = privacy_ele.hasClass('is_private');
 
-            this.is_private = is_private;
-
-            privacy_ele.html(is_private ? 'Private' : 'Mark as Private');
-            privacy_ele.toggleClass('btn-default', !is_private);
-            privacy_ele.toggleClass('btn-danger', is_private);
+            privacy_ele.toggleClass('is_private', !make_not_private);
 
         },
 
@@ -77,22 +90,29 @@ window.rupon.views = window.rupon.views || {};
         submitReflection: function() {
 
             var self = this;
-            var expanded = self.$el.find('.expanded');
+            var expanded = this.$el.find('.expanded');
             var textarea_ele = this.$el.find("textarea");
+            var addlink_shown = this.$el.find('input.add-link').hasClass('revealed');
+            var privacy_ele = this.$el.find('.privacy');
 
             if (!this.clickedOnce && $.trim(textarea_ele.val()) != "") {
                 this.clickedOnce = true;
 
-                this.trigger("create-reflection", {
+                var params = {
                     description:    textarea_ele.val(),
                     //title:          '',
                     //expression:     '',
-                    privacy:        this.is_private ? 'PRIVATE' : 'ANONYMOUS',
+                    privacy:        privacy_ele.hasClass('is_private') ? 'PRIVATE' : 'ANONYMOUS',
                     date:           new Date()
-                }, function() {
+                }
 
-                    expanded.addClass('no-opacity'); 
+                if (addlink_shown) params.link = this.$el.find('input.add-link').val();
+
+                this.trigger("create-reflection", params, function() {
+
+                    expanded.addClass('no-opacity');
                     self.clickedOnce = false;
+
                 })
             }
         }

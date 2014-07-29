@@ -22,7 +22,6 @@
     <script type="text/javascript" src="/js/third-party/jquery.scrollspy.js"></script>
     <script type="text/javascript" src="/js/third-party/jquery.highlight.js"></script>
     <script type="text/javascript" src="/js/third-party/jquery.autosize.min.js"></script>
-    <script type="text/javascript" src="/js/third-party/jquery.tooltip.js"></script>
     <script type="text/javascript" src="/js/third-party/handlebars.js"></script>
 
     <script type="text/x-handlebars-template" id="index-template">
@@ -231,16 +230,23 @@
                 <div class="col-md-9">
                     <div class="section clearfix">
                         <div class="expanded">
-                            <div class="header">
-                                How do you feel now?
+                            <div class="header clearfix">
+                                <button type="button" class="btn btn-default privacy">
+                                    <i class='fa fa-lock fa-lg' title='Make Anonymous'></i>
+                                    <i class='fa fa-unlock-alt fa-lg' title='Make Private'></i>
+                                </button>
+                                <button type="button" class="btn btn-default link">
+                                    <i class='fa fa-link fa-lg' title='Add Link'></i>
+                                </button>
+                                <input class='add-link hidden' placeholder="Given a URL you include here... (add 'http')" />
+                                <span style="padding:0 5px"></span>
                             </div>
                             <div class="message">
                                 <div class="description">
-                                    <textarea placeholder="Please write as freely as you'd like."></textarea>
+                                    <textarea placeholder="Write freely about how you feel."></textarea>
                                 </div>
                             </div>
-                            <div class="footer">
-                                <button type="button" class="btn btn-default privacy">Mark as Private</button>
+                            <div class="footer clearfix">
                                 <button type="button" class="btn btn-primary create">Create entry</button>
                             </div>
                         </div>
@@ -297,6 +303,12 @@
                             </a>
                         {{/if}}
                     </div>
+                    {{#if link}}
+                        <div class="link-box">
+                            <div class="title">With a reflection to this link:</div>
+                            <a href="{{ link }}" target="_blank">{{ link }}</a>
+                        </div>
+                    {{/if}}
                     <div class="description-container">
                         <div class="description">
                             <span class="selectable-text">{{{ description }}}</span>

@@ -10,6 +10,7 @@ var thoughtSchema = Schema({
     annotation:     String,
     date:           Date,
     archived:       Boolean,
+    link:           String,
     replies:        [{
         type: Schema.Types.ObjectId,
         ref: 'Reply' }]
