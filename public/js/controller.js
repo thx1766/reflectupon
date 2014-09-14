@@ -17,7 +17,7 @@ window.rupon.utils = window.rupon.utils || {};
     var rc = window.rupon.controllers,
         rv = window.rupon.views,
         rm = window.rupon.models,
-        thoughtsView, singleView, tooltipView, postboxView, elem, newThoughtsView, FrequencyView,
+        streamView, singleView, tooltipView, postboxView, elem, newThoughtsView, FrequencyView,
         my_thoughts_collection, other_thoughts_collection;
 
     rc.startPage = function(options) {
@@ -87,7 +87,7 @@ window.rupon.utils = window.rupon.utils || {};
         if (options.all_views) {
             $("body").scrollTop(0);
             if (singleView)    singleView.remove();
-            if (thoughtsView)   thoughtsView.remove();
+            if (streamView)   streamView.remove();
         }
     };
 
@@ -98,10 +98,7 @@ window.rupon.utils = window.rupon.utils || {};
             frequency_collection    = new rupon.models.frequencyCollection({listen_collection: my_thoughts_collection});
 
         var mainView        = new rv.MainView(),
-            /* recThoughtsView = new rv.RecommendedView({
-                collection: recommended_collection,
-                user:       rupon.account_info}), */
-            thoughtsView    = new rv.ThoughtsView({
+            streamView    = new rv.StreamView({
                 collection: my_thoughts_collection,
                 user:       rupon.account_info,
                 reply_collection: rm.replyCollection,
@@ -112,8 +109,7 @@ window.rupon.utils = window.rupon.utils || {};
 
         frequencyView   = new rv.FrequencyView({collection: frequency_collection});
 
-        rc.applyTooltipEvents(thoughtsView);
-        //rc.applyTooltipEvents(recThoughtsView);
+        rc.applyTooltipEvents(streamView);
 
         var writeThoughtView = new rv.WriteThoughtView();
 
@@ -135,9 +131,8 @@ window.rupon.utils = window.rupon.utils || {};
 
 		mainView.$el
             .find(".frequency-container").append(frequencyView.$el).end()
-            //.find(".recommended-container").append(recThoughtsView.$el).end()
             .find(".write-container").append(writeThoughtView.$el).end()
-            .find(".thought-container").append(thoughtsView.$el).end()
+            .find(".thought-container").append(streamView.$el).end()
             .find(".pagination-container").append(paginationView.$el);
 
         user_message_collection.on("reset", function() {
@@ -182,18 +177,6 @@ window.rupon.utils = window.rupon.utils || {};
     rc.startIndexPage = function(message) {
 		var indexView = new rupon.views.IndexView({message: message});
 		$(".index-container").html(indexView.$el);
-
-        var thoughts_collection = new rupon.models.thoughtCollection();
-
-        var thoughtsView = new rv.ThoughtsView({
-            collection: thoughts_collection,
-            user:       rupon.account_info,
-            reply_collection: rm.replyCollection
-        });
-
-        thoughts_collection.fetch({ data: {"stream_type": "other-thoughts"}});
-
-        $(".index-container").find(".main-content .container").html(thoughtsView.$el);
 
         $('.index-container').find('.btn').click(function() {
             $('#myModal').modal();

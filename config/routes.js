@@ -176,7 +176,16 @@ module.exports = function(app) {
                                 .skip(limit2 * (page - 1))
                                 .sort(date_sort)
                                 .exec(cb)
-                        }
+                        },
+
+                        function(cb) {
+                            Reply.find( params1 )
+                                .populate(populate)
+                                .limit(limit2)
+                                .skip(limit2 * (page - 1))
+                                .sort(date_sort)
+                                .exec(cb)
+                        },
                         
                     ], function(err, results) {
 
@@ -255,6 +264,8 @@ module.exports = function(app) {
                                         } else {
 
                                             send_thoughts = send_thoughts.sort(compare);
+
+                                            send_thoughts.unshift({type: 'journey-report'});
                                             res.send(send_thoughts);
                                         }
                                     }

@@ -47,7 +47,7 @@ window.rupon.views = window.rupon.views || {};
             cv.TemplateView.prototype.initialize.call(this, options);
         },
         events: {
-            "click .action": "thankReply"
+            "click .fa-heart": "thankReply"
         },
 
         render: function(options) {

@@ -258,7 +258,7 @@
             </div>
         </div>
     </script>
-    <script type="text/x-handlebars-template" id="thought-item-template">
+    <script type="text/x-handlebars-template" id="reply-centric-template">
         <div class="row">
             <div class="col-md-9">
                 <div class="section clearfix">
@@ -286,15 +286,9 @@
                 <div class="message clearfix{{#equal privacy "Private"}} private{{/equal}}">
                     <div class="clearfix header">
                         <div style="float: left;">
-                            {{#equal privacy "Private"}} 
-                                <span style="color: #C76F6F;padding-left:4px;"><i class="fa fa-lock" style="margin-right:5px"></i>PRIVATE</span>
-                            {{/equal}}
-                            {{#unless is_author}}
-                                <span style="color: #6E6E87;font-weight:400">
-                                    <i class="fa fa-user" style="margin-right:1px;"></i>
-                                    Someone wrote:
-                                </span>
-                            {{/unless}}
+                            <span class="writer">
+                                Someone replied to your post: <strong>{{description}}
+                            <span>
                         </div>
 
                         {{#if past_posts}}
@@ -302,6 +296,9 @@
                                 <i class="fa fa-archive fa-lg" style="padding:4px 4px 4px 0"></i>Past Posts
                             </a>
                         {{/if}}
+                        {{#equal privacy "Private"}} 
+                            <span style="float:right;color: #C76F6F;padding-left:4px;"><i class="fa fa-lock" style="margin-right:5px"></i>PRIVATE</span>
+                        {{/equal}}
                     </div>
                     {{#if link}}
                         <div class="link-box">
@@ -311,33 +308,9 @@
                     {{/if}}
                     <div class="description-container">
                         <div class="description">
-                            <span class="selectable-text">{{{ description }}}</span>
-                            {{#if read_more}} 
-                                <a href="javascript:;" class="read-more">Read more</a>
-                            {{/if}}
-                        </div>
-                        {{#if can_edit }}<textarea>{{ description }}</textarea>{{/if}}
-                    </div>
-
-                    {{#if is_author}}
-                    <div class="right-actions dropdown-container arrow-right">
-                        <a href="javascript:;" class="options">
-                            <i class="fa fa-angle-down fa-2x"></i>
-                        </a>
-                        <div class="dropdown-arrow clearfix">
-                            <div class="arrow">
-                            </div>
-                            <div class="dropdown">
-                                <ul>
-                                    <li><a href="javascript:;" class="privacy-status">Set as {{privacy_inverse}}</a></li>
-                                    {{#if can_edit }}<li><a href="javascript:;" class="edit">Edit</a></li>{{/if}}
-                                    <li><a href="javascript:;" class="delete">Delete</a></li>
-                                    <li><a href="javascript:;" class="archive">Archive</a></li>
-                                </ul>
-                            </div>
+                            {{reply_description}}
                         </div>
                     </div>
-                    {{/if}}
                     <div class="timestamp">
                         <span>Written {{duration}}</span>
                     </div>
@@ -369,35 +342,165 @@
         </div>
         </div>
     </script>
+    <script type="text/x-handlebars-template" id="journey-report-template">
+        <div class="row">
+            <div class="col-md-9 clearfix">
+                <div class="header">Your new journey report is ready for you:</div>
+                <div class="description-container">
+                    <div class="description journey-report">
+                        <button type="button" class="btn btn-primary create">Go to your recent journey report</button>
+                        <p>Tags included: Rock climbing, friends, drinking</p>
+                        <p>5 Total Replies</p>
+                    </div>
+                </div>
+                <div class="timestamp">Updated today</div>
+            </div>
+        </div>
+    </script>
+    <script type="text/x-handlebars-template" id="thought-item-template">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="section clearfix">
+                    <div class="side-action-container">
+                        {{#if num_replies}}
+                            <a href="javascript:;" class="side-action reply-summary">
+                                {{num_replies}}
+                                <i class="fa fa-comment"></i>
+                            </a>
+                        {{/if}}
+                        {{#if can_reply}}
+                            <a href="javascript:;" class="side-action write-reply2">
+                                <i class="fa fa-plus"></i><span>Reply</span>
+                            </a>
+                        {{/if}}
+                    </div>
+                {{#if past_posts}}
+                    <div class="past-posts-container"></div>
+                {{/if}}
+                {{#if annotation }}
+                    <div class="annotation">
+                        <div class="annotation-desc"><span>Based on your snippet:</span> <span>{{ annotation }}</span></div>
+                    </div>
+                {{/if}}
+                <div class="message clearfix{{#equal privacy "Private"}} private{{/equal}}">
+                    <div class="clearfix header">
+                        <div style="float: left;">
+                            <span class="writer">
+                                {{#if is_author}}You wrote:{{else}}Someone wrote:{{/if}}
+                            <span>
+                        </div>
+
+                        {{#if past_posts}}
+                            <a href="javascript:;" class="past-posts-label">
+                                <i class="fa fa-archive fa-lg" style="padding:4px 4px 4px 0"></i>Past Posts
+                            </a>
+                        {{/if}}
+                        {{#equal privacy "Private"}} 
+                            <span style="float:right;color: #C76F6F;padding-left:4px;"><i class="fa fa-lock" style="margin-right:5px"></i>PRIVATE</span>
+                        {{/equal}}
+                    </div>
+                    {{#if link}}
+                        <div class="link-box">
+                            <div class="title">With a reflection to this link:</div>
+                            <a href="{{ link }}" target="_blank">{{ link }}</a>
+                        </div>
+                    {{/if}}
+                    <div class="description-container">
+                        <div class="description">
+                            <span class="selectable-text">{{{ description }}}</span>
+                            {{#if read_more}} 
+                                <a href="javascript:;" class="read-more">Read more</a>
+                            {{/if}}
+                        </div>
+                        {{#if annotation_notice}}
+                            <div class="annotation-notice">
+                                <i class="fa fa-info-circle" style="margin-right:3px;"></i>Reply to this reflection by selecting text in the entry or clicking to the right
+                            </div>
+                        {{/if}}
+                        <div class="button-container">
+                            <button type="button" class="btn btn-default privacy">
+                                <i class='fa fa-unlock-alt fa-lg' title='Make Private'></i>
+                            </button>
+
+                            {{#if is_author}}
+                            <div class="right-actions dropdown-container arrow-right">
+                                <button type="button" class="btn btn-default options">
+                                    <i class="fa fa-gear fa-lg"></i>
+                                </button>
+                                <div class="dropdown-arrow clearfix">
+                                    <div class="arrow">
+                                    </div>
+                                    <div class="dropdown">
+                                        <ul>
+                                            <li><a href="javascript:;" class="privacy-status">Set as {{privacy_inverse}}</a></li>
+                                            {{#if can_edit }}<li><a href="javascript:;" class="edit">Edit</a></li>{{/if}}
+                                            <li><a href="javascript:;" class="delete">Delete</a></li>
+                                            <li><a href="javascript:;" class="archive">Archive</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            {{/if}}
+                        </div>
+                        {{#if can_edit }}<textarea>{{ description }}</textarea>{{/if}}
+                    </div>
+                    <div class="timestamp">
+                        <span>Written {{duration}}</span>
+                    </div>
+
+                    <div class="left-actions dropdown-container arrow-left">
+                        <div class="dropdown-arrow">
+                            <div class="arrow"></div>
+                            <div class="dropdown"><button class="privacy-status">Set as anonymous</button></div>
+                        </div>
+                    </div>
+                    <div class="tooltip_description" style="display:none;" title="No worries"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="reply-collection-container hidden"></div>
+        {{#if is_author }}{{else}}
+        {{#if can_reply}}
+            <div class="write-reply section">
+                <textarea placeholder="Write a reply"></textarea>
+            </div>
+        {{/if}}
+        {{/if}}
+        </div>
+        </div>
+    </script>
     <script type="text/x-handlebars-template" id="vet-thought-template">
         {{breaklines description}}
         <a href="javascript:;" class="delete">Delete</a>
         <a href="javascript:;" class="set-private">Set Private</a>
     </script>
     <script type="text/x-handlebars-template" id="reply-template">
-        <div>
-            <div>
-                <p><strong>{{#if is_author}}You{{else}}Someone{{/if}} replied:</strong></p>
-                <p>{{ description }}</p>
+        <div class="header clearfix">
+            <p>{{#if is_author}}Your{{else}}Someone's{{/if}} reply:</p>
+            {{#unless is_author}}
+            <div class="actions">
+                <a href="javascript:;">
+                    <i class="fa fa-heart {{#if thanked}}thanked{{/if}}"></i>
+                </a>
+                <a href="javascript:;">
+                    <i class="fa fa-flag"></i>
+                </a>
             </div>
+            {{/unless}}
+        </div>
+        <div class="description">
+            <p>{{ description }}</p>
+        </div>
+        <div>
             <div>
             {{#if thanked}}
                 {{#if is_author}}
                     <span>You were thanked!</span>
-                {{else}}
-                    <a href="javascript:;" class="action">
-                        <i class="fa fa-heart"></i>
-                    </a>
-                {{/if}}
-            {{else}}
-                {{#if can_reply}}
-                    <a href="javascript:;" class="action">
-                        <span>Thank replier</span>
-                        <i class="fa fa-heart-o"></i>
-                    </a>
                 {{/if}}
             {{/if}}
             </div>
+        </div>
     </script>
     <script type="text/x-handlebars-template" id="new-thought-item-template">
         <span class="checkbox {{#if replied}}active{{/if}}">
@@ -500,6 +603,7 @@
     <script type="text/javascript" src="/js/views/single.js"></script>
     <script type="text/javascript" src="/js/views/index.js"></script>
     <script type="text/javascript" src="/js/views/thoughts.js"></script>
+    <script type="text/javascript" src="/js/views/stream.js"></script>
     <script type="text/javascript" src="/js/views/replies.js"></script>
     <script type="text/javascript" src="/js/controller.js"></script>
     <script type="text/javascript">
