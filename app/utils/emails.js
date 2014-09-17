@@ -1,4 +1,4 @@
-var config   = require('../../config_settings')
+var config   = process.env.PORT ? require('../../config') : require('../../config_settings')
   , sendgrid = require('sendgrid')(
       config.sg_username,
       config.sg_password
