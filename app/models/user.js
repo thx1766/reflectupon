@@ -9,6 +9,7 @@ var userSchema = mongoose.Schema({
   , password:   { type: String, required: true, select: false }
   , created_at: { type: Date }
   , updated_at: { type: Date }
+  ,
 });
 
 // Bcrypt middleware

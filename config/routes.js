@@ -4,11 +4,7 @@ var mongoose = require('mongoose')
   , thought_routes  = require('../app/controllers/thought')
   , auth = require('./middlewares/authorization')
   , _ = require('underscore')
-  , config          = require('../config')
-  , sendgrid        = require('sendgrid')(
-        config.sg_username,
-        config.sg_password
-    );
+  , emails           = require('../app/utils/emails');
 
 var Thought     = mongoose.model('Thought'),
     Reply       = mongoose.model('Reply'),
@@ -36,31 +32,30 @@ module.exports = function(app) {
         var endDate = new Date();
         endDate.setDate(endDate.getDate());
 
-        var params = {
-            date: {
-                $gte: startDate,
-                $lte: endDate
-            }
-        };
+        thought_routes.getAllByTimePeriod(startDate, endDate)
+            .then( function(thoughts) {
 
-        console.log(startDate);
-        console.log(endDate);
+                thoughts     = _.first(thoughts, 3);
+                descriptions = _.pluck(thoughts, 'description');
+                descriptions = _.map(descriptions, function(description) { 
+                    if (description.length > 120) {
+                        return description.substr(0,120) + "...";
+                    } else {
+                        return description;
+                    }
+                })
 
-        Reply.find(params, function(err, replies) {
-            console.log(replies);
-        })
-/*
-        sendgrid.send({
-            to: 'andrewjcasal@gmail.com', //req.body.email,
-            from: 'andrewjcasal@gmail.com',
-            subject: 'Welcome to reflectupon!',
-            html: 'Thanks for your interest! Stay tuned for further updates.<br /><br/>Thanks!<br />reflectupon team'
-        }, function(err, json) {
-            if (err) { return console.error(err); }
-            console.log(json);
-        });*/
-        
-        res.send({success: 1});
+                user_routes.getUserEmailList()
+                    .then(function(recipients) {
+                        app.render('weekly_email', {descriptions: descriptions}, function(err, html) {
+                            console.log(html);
+                            return emails.sendEmail(html, recipients)
+                        })
+                    })
+            })
+            .then( function(json) {
+                res.send({success: 1});
+            });
     });
 
     app.get('/api/active_users', function(req, res) {
