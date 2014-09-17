@@ -1,6 +1,7 @@
 var mongoose = require('mongoose')
   , util     = require('util')
-  , Thought  = mongoose.model('Thought');
+  , Thought  = mongoose.model('Thought')
+  , Q        = require('q');
 
 exports.getTwiml = function(req, res) {
 
@@ -11,4 +12,25 @@ exports.getTwiml = function(req, res) {
         res.render('twiml', {reflection: thought.description} );
 
     })
+
 };
+
+exports.getAllByTimePeriod = function(start_date, end_date) {
+
+    var deferred = Q.defer();
+
+    var params = {
+        date: {
+            $gte: start_date,
+            $lte: end_date
+        },
+        privacy: "ANONYMOUS"
+    };
+
+    Thought.find(params, function(err, thoughts) {
+      deferred.resolve(thoughts);
+    });
+
+    return deferred.promise;
+
+}

@@ -179,7 +179,7 @@ window.rupon.utils = window.rupon.utils || {};
 		return text;
     }
 
-    rc.startIndexPage = function(message) {
+    rc.startIndexPage = function(message, login) {
 		var indexView = new rupon.views.IndexView({message: message});
 		$(".index-container").html(indexView.$el);
 
@@ -198,6 +198,10 @@ window.rupon.utils = window.rupon.utils || {};
         $('.index-container').find('.btn').click(function() {
             $('#myModal').modal();
         });
+
+        if (login == "1") {
+            $('.index-container').find('.btn').click()
+        }
     }
 
     rc.setSuperUser = function() {

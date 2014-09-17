@@ -11,7 +11,9 @@ var config          = require('../../config'),
     ),
     User    = mongoose.model('User'),
     Thought = mongoose.model('Thought'),
-    UserMessage = mongoose.model('UserMessage');
+    UserMessage = mongoose.model('UserMessage'),
+    _ = require('underscore'),
+    Q = require('q');
     SALT_WORK_FACTOR = 10;
 
 
@@ -170,6 +172,20 @@ exports.postReset = function(req, res, next) {
             }
         })
     }
+
+}
+
+exports.getUserEmailList = function () {
+
+    var deferred = Q.defer();
+
+    User.find({}, function(err, users) {
+
+        deferred.resolve(_.pluck(users, "email"))
+
+    });
+
+    return deferred.promise;
 
 }
 

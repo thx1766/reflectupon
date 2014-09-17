@@ -13,7 +13,9 @@ var http     = require('http')
   , express  = require('express')
   , passport = require('passport')
   , redis    = require('redis')
-  , url      = require('url');
+  , url      = require('url')
+  , cron     = require('./app/utils/cron');
+
 
 var app = express();
 exports.app = app;
@@ -43,6 +45,10 @@ fs.readdirSync(models_path).forEach(function (file) {
 });
 
 require('./config/routes')(app);
+
+/* cron.runCron(function() {
+  console.log("email")
+}) */
 
 app.listen(process.env.PORT || 2000);
 console.log('Server running at http://127.0.0.1:2000');
