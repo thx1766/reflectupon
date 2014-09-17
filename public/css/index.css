@@ -2,12 +2,12 @@ body{position:relative;}
 body.landing-page{}
 .landing-page .wrapper{width:100%;padding:0;}
 .background{background-image:url("/images/journal-reflectupon.jpg");background-size:1800px;background-position:center -334px;height:1000px;position:fixed;top:0;left:0;width:100%;opacity:0.6;}
-.index-container .head-content{position:relative;font-family:'Merriweather' !important;background-color:rgba(0,0,0,0.45);}
+.index-container .head-content{position:relative;font-family:'Merriweather' !important;}
 .index-container .head-content .title{font-size:56px;font-weight:600;}
 .index-container .head-content .description{font-size: 25px;padding-top: 8px;font-weight: 200;line-height:46px;max-width:700px;margin:0 auto;}
 .index-container .head-content .container{padding-top:70px;padding-bottom:30px;margin:0 auto;text-align:center;color: #fff;text-shadow: 1px 1px #4F4F4F;}
 .index-container .head-content .btn{display: inline-block;padding: 12px 22px;background-color: #EDEDED;margin-top: 20px;text-shadow: none;border-radius: 3px;color: #6E4F4F;box-shadow: inset 0 1px 2px #FFF;font-size: 18px;font-weight: 600;margin-bottom: 40px;}
-.index-container .feed-content{min-height:1000px;background-color:#f5f5f5;position:relative;margin:0 auto;float:none;}
+.index-container .feed-content{min-height:1000px;position:relative;margin:0 auto;float:none;}
 .index-container .thoughts-list{margin:0 auto;padding:60px 0;}
 .main-content{position:relative;background-color:#f5f5f5;}
 .index-container {height:500px;}
