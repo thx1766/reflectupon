@@ -39,7 +39,8 @@ a img{border:0;}
 
 #sidebar{position:relative;z-index:10;}
 #container{margin:0 auto;position:relative;z-index:1;transition:margin .5s;}
-#container.with-replies{margin:0;};
+#container.with-replies{margin:0;}
+.main-view-container.col-md-8{float:none;margin:0 auto;}
 
 .container{max-width:1170px;}
 
@@ -175,7 +176,8 @@ a img{border:0;}
 .message-feed .description{padding:5px;}
 .message-feed .action-text{padding:5px;display:none;}
 .section.other-author{0 1px 5px rgb(166, 158, 202)}
-.thought-row{transition:margin .25s; -webkit-transition:margin .25s;padding-bottom:12px;}
+.thought-row{transition:margin .25s; -webkit-transition:margin .25s;padding-bottom:12px;position:relative;}
+.thought-row .col-md-3{position:absolute;top:0;right:-200px;}
 /*.thought-row.show-replies{margin-left:-130px;margin-right:130px;}*/
 
 .reply-collection li{padding:5px 0;}
@@ -373,8 +375,7 @@ div.jquery-gdakram-tooltip h1{display:none}
     .reply-summary{}
     .reply-summary i{margin-left: 6px;}
     .write-reply2 i{margin-right:4px;}
-        
-    .main-view-container .col-md-9{float:none;margin:0 auto;}
+
     .main-view-container.left-align .col-md-9{float:left;margin:auto;}
 }
 

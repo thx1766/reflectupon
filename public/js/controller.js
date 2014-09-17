@@ -191,9 +191,9 @@ window.rupon.utils = window.rupon.utils || {};
             reply_collection: rm.replyCollection
         });
 
-        thoughts_collection.fetch({ data: {"stream_type": "other-thoughts"}});
+        thoughts_collection.fetch({ data: {"stream_type": "my-thoughts"}});
 
-        $(".index-container").find(".main-content .container").html(thoughtsView.$el);
+        $(".index-container").find(".feed-content").html(thoughtsView.$el);
 
         $('.index-container').find('.btn').click(function() {
             $('#myModal').modal();

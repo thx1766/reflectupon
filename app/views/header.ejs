@@ -33,24 +33,9 @@
                 <div>
                     <a href="javascript:;" class="btn">Get started</a>
                 </div>
-                <img src="/images/reflectupon-cover.png" style="max-width: 550px;width: 100%;box-shadow: 0 5px 5px #474747;" />
             </div>
         </div>
-        <div class="tiers-content">
-          <div class="container" style="">
-            <div class="col-md-4">
-                <h4>Write anonymously</h4>
-                <p>Write about how you feel in the current moment. All entries are unnamed and treated as equal.</p>
-            </div>
-            <div class="col-md-4">
-                <h4>Cultivate community</h4>
-                <p>Respond with helpful ideas. If your advice was thanked by that user, you know you made a positive impact with that person. You will continue to see reflections from such users.</p>
-            </div>
-            <div class="col-md-4">
-                <h4>Find solutions</h4>
-                <p>Receive unbiased thoughts from a well intentioned community. Use these insights to guide you for the road ahead.</p>
-            </div>
-          </div>
+        <div class="feed-content col-md-6">
         </div>
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
           <div class="modal-dialog">
@@ -121,7 +106,7 @@
     </script>
     <script type="text/x-handlebars-template" id="home-template">
         <div class="row">
-            <div class="col-md-9">
+            <div>
                 <div class="section" style="margin-bottom:12px;">
                     <div class="frequency-container"></div>
                 </div>
@@ -130,7 +115,7 @@
         </div>
         <div class="write-container"></div>
         <div class="thought-container"></div>
-        <div class="pagination-container col-md-12"></div>
+        <div class="pagination-container"></div>
     </script>
     <script type="text/x-handlebars-template" id="nag-template">
         <div class="header clearfix">
@@ -217,7 +202,7 @@
     </script>
     <script type="text/x-handlebars-template" id="archived-item-template">
         <div class="row">
-            <div class="col-md-9">
+            <div>
                 <div class="section clearfix">
                     <div class="archived-container">This entry is archived</div>
                 </div>
@@ -227,7 +212,7 @@
     <script type="text/x-handlebars-template" id="write-template">
         <div class="thought-row">
             <div class="row">
-                <div class="col-md-9">
+                <div>
                     <div class="section clearfix">
                         <div class="expanded">
                             <div class="header clearfix">
@@ -260,7 +245,7 @@
     </script>
     <script type="text/x-handlebars-template" id="thought-item-template">
         <div class="row">
-            <div class="col-md-9">
+            <div>
                 <div class="section clearfix">
                     <div class="side-action-container">
                         {{#if num_replies}}
