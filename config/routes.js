@@ -38,8 +38,8 @@ module.exports = function(app) {
                 thoughts     = _.first(thoughts, 3);
                 descriptions = _.pluck(thoughts, 'description');
                 descriptions = _.map(descriptions, function(description) { 
-                    if (description.length > 120) {
-                        return description.substr(0,120) + "...";
+                    if (description.length > 300) {
+                        return description.substr(0,300) + "...";
                     } else {
                         return description;
                     }
