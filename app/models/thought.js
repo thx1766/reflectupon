@@ -11,6 +11,7 @@ var thoughtSchema = Schema({
     date:           Date,
     archived:       Boolean,
     link:           String,
+    tag_ids:        Array,
     replies:        [{
         type: Schema.Types.ObjectId,
         ref: 'Reply' }]

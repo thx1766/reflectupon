@@ -38,7 +38,8 @@ window.rupon.views = window.rupon.views || {};
                     user:               options.user,
                     reply_collection:   options.reply_collection,
                     thought_collection: options.thought_collection,
-                    can_reply:          options.can_reply
+                    can_reply:          options.can_reply,
+                    tags_collection:    options.tags_collection
                 })
             };
 
@@ -138,7 +139,7 @@ window.rupon.views = window.rupon.views || {};
             this.thought_collection = options.thought_collection;
 
             this.replyCollectionContainer = new rv.RepliesView({collection: this.replyCollection, user: options.user});
-
+            this.tags_collection = options.tags_collection;
 
             var self = this;
             var patch_options = {
@@ -176,15 +177,25 @@ window.rupon.views = window.rupon.views || {};
             this.user = (options && options.user) ? options.user : this.user;
             var annotations = this.model.get('annotations');
             var attrReplies = this.model.get('replies');
+            var tags = [];
+
+            if (this.model.get('tag_ids').length && this.tags_collection) {
+                tags = _.filter(_.pluck(this.tags_collection.models, 'attributes'), function (model) {
+                    return _.contains(this.model.get('tag_ids'), model._id)
+                }.bind(this));
+            }
 
             var params = {
                 is_author:       this.user && this.user.user_id == this.model.get('user_id'),
                 can_edit:        (difference_ms/(1000*60*60*24)) <= 1,
                 duration:        moment(this.model.get("date")).fromNow(),
                 past_posts:      this.model.get('history') ? this.model.get('history').length : null,
-                num_annotations: annotations && annotations.models.length,
-                num_replies:     attrReplies && attrReplies.models && attrReplies.models.length
+                num_annotations: annotations && annotations.models.length || 0,
+                num_replies:     attrReplies && attrReplies.models && attrReplies.models.length || 0,
+                tags:            tags
             }
+
+            params.enable_below_message = !!params.num_annotations || !!params.num_replies || params.tags.length;
 
             if (this.can_reply) {
                 //show "write reply" for all posts on index page
@@ -195,8 +206,7 @@ window.rupon.views = window.rupon.views || {};
                 params.show_replies = false;
             }
 
-            template_options = _.extend(template_options, params)
-
+            template_options = _.extend(template_options, params);
 
             if (!template_options.is_author) this.$el.addClass('other-author');
 

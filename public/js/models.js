@@ -171,6 +171,13 @@ window.rupon.models = window.rupon.models || {};
     rm.userRangesCollection = Backbone.Collection.extend({
         model: rm.userRange,
         url: '/api/active_users'
+    });
+
+    rm.topic = Backbone.Model.extend({});
+
+    rm.topicsCollection = Backbone.Collection.extend({
+        model: rm.topic,
+        url: '/api/topics'
     })
 
 })();

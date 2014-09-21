@@ -10,7 +10,8 @@ var Thought     = mongoose.model('Thought'),
     Reply       = mongoose.model('Reply'),
     Annotation  = mongoose.model('Annotation'),
     User        = mongoose.model('User'),
-    userMessage = mongoose.model('UserMessage');
+    userMessage = mongoose.model('UserMessage'),
+    Topic       = mongoose.model('Topic');
 
 module.exports = function(app) {
 
@@ -405,6 +406,7 @@ module.exports = function(app) {
             privacy:        req.body.privacy,
             user_id:        req.user._id,
             link:           req.body.link,
+            tag_ids:        req.body.tag_ids,
             date:           new Date()
         });
 
@@ -637,6 +639,35 @@ module.exports = function(app) {
 
         });
 
-    })
+    });
+
+    var topics_uri = '/api/topics';
+
+    app.post(topics_uri, function(req, res) {
+
+        var topic = new Topic({
+            name: req.body.name,
+            date: new Date()
+        });
+
+        topic.save(function(err) {
+            res.send(topic);
+        });
+    });
+
+    app.get(topics_uri, function(req, res) {
+        Topic.find({}, function(err, topics) {
+            res.send(topics);
+        });
+    });
+
+    app.delete(topics_uri +"/:id", function(req, res) {
+        Topic.findById(req.params.id, function(err,topic) {
+            topic.remove(function(err) {
+                if (err) console.log(err);
+                res.send(topic);
+            })
+        });
+    });
 
 }

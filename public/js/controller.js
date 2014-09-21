@@ -95,16 +95,18 @@ window.rupon.utils = window.rupon.utils || {};
 
         var recommended_collection  = new rupon.models.thoughtCollection(),
             user_message_collection = new rupon.models.userMessageCollection(),
-            frequency_collection    = new rupon.models.frequencyCollection({listen_collection: my_thoughts_collection});
+            frequency_collection    = new rupon.models.frequencyCollection({listen_collection: my_thoughts_collection}),
+            tags_collection         = new rm.topicsCollection();
 
         var mainView        = new rv.MainView(),
             /* recThoughtsView = new rv.RecommendedView({
                 collection: recommended_collection,
                 user:       rupon.account_info}), */
             thoughtsView    = new rv.ThoughtsView({
-                collection: my_thoughts_collection,
-                user:       rupon.account_info,
-                reply_collection: rm.replyCollection,
+                collection:         my_thoughts_collection,
+                user:               rupon.account_info,
+                reply_collection:   rm.replyCollection,
+                tags_collection:    tags_collection,
 
                 // used for past posts
                 thought_collection: rm.thoughtCollection
@@ -115,7 +117,9 @@ window.rupon.utils = window.rupon.utils || {};
         rc.applyTooltipEvents(thoughtsView);
         //rc.applyTooltipEvents(recThoughtsView);
 
-        var writeThoughtView = new rv.WriteThoughtView();
+        var writeThoughtView = new rv.WriteThoughtView({
+            tags_collection: tags_collection
+        });
 
         writeThoughtView
             .on("create-reflection", function(attrs, callback) {
@@ -171,6 +175,7 @@ window.rupon.utils = window.rupon.utils || {};
                 });
             }
         });
+        tags_collection.fetch();
         $('textarea').autosize();
 	};
 
@@ -193,13 +198,15 @@ window.rupon.utils = window.rupon.utils || {};
 		var indexView = new rupon.views.IndexView({message: message});
 		$(".index-container").html(indexView.$el);
 
-        var thoughts_collection = new rupon.models.thoughtCollection();
+        var thoughts_collection = new rupon.models.thoughtCollection(),
+            tags_collection     = new rm.topicsCollection();
 
         var thoughtsView = new rv.ThoughtsView({
             collection:       thoughts_collection,
             user:             rupon.account_info,
             reply_collection: rm.replyCollection,
-            can_reply:        false
+            can_reply:        false,
+            tags_collection:  tags_collection,
         });
 
         thoughts_collection.fetch({ 
@@ -214,6 +221,8 @@ window.rupon.utils = window.rupon.utils || {};
             }
         });
 
+        tags_collection.fetch();
+
         $(".index-container").find(".feed-content").html(thoughtsView.$el);
 
         $('.index-container').find('.btn').click(function() {
@@ -226,19 +235,23 @@ window.rupon.utils = window.rupon.utils || {};
     }
 
     rc.setSuperUser = function() {
-        var user_collection = new rupon.models.userCollection();
-        var user_ranges_collection = new rupon.models.userRangesCollection();
-        var other_thoughts_collection = new rupon.models.thoughtCollection([],{type: "other-posts"});
-        var email = new rupon.models.email();
+        var topics_collection         = new rm.topicsCollection(),
+            user_collection           = new rm.userCollection(),
+            user_ranges_collection    = new rm.userRangesCollection(),
+            other_thoughts_collection = new rm.thoughtCollection([],{type: "other-posts"}),
+            email                     = new rm.email();
 
         var superUserView = new rupon.views.SuperUserView({
-            user_collection: user_collection,
+            topics_collection:         topics_collection,
+            user_collection:           user_collection,
             other_thoughts_collection: other_thoughts_collection,
-            user_ranges_collection: user_ranges_collection,
-            email: email
+            user_ranges_collection:    user_ranges_collection,
+            email:                     email
         });
 
         $("#container").html(superUserView.$el);
+
+        topics_collection.fetch();
         user_collection.fetch();
         user_ranges_collection.fetch();
         other_thoughts_collection.fetch({reset: true, data: {"stream_type": "other-thoughts"}});

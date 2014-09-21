@@ -26,6 +26,7 @@
 
     <script type="text/x-handlebars-template" id="index-template">
         <div class="background"></div>
+        <div class="background-overlay"></div>
         <div class="head-content">
             <div class="container">
                 <div class="title">reflectupon</div>
@@ -216,15 +217,21 @@
                     <div class="section clearfix">
                         <div class="expanded">
                             <div class="header clearfix">
-                                <button type="button" class="btn btn-default privacy">
-                                    <i class='fa fa-lock fa-lg' title='Make Anonymous'></i>
-                                    <i class='fa fa-unlock-alt fa-lg' title='Make Private'></i>
-                                </button>
-                                <button type="button" class="btn btn-default link">
-                                    <i class='fa fa-link fa-lg' title='Add Link'></i>
-                                </button>
-                                <input class='add-link hidden' placeholder="Given a URL you include here... (add 'http')" />
-                                <span style="padding:0 5px"></span>
+                                <div class="clearfix">
+                                    <button type="button" class="btn btn-default privacy">
+                                        <i class='fa fa-lock fa-lg' title='Make Anonymous'></i>
+                                        <i class='fa fa-unlock-alt fa-lg' title='Make Private'></i>
+                                    </button>
+                                    <button type="button" class="btn btn-default link">
+                                        <i class='fa fa-link fa-lg' title='Add Link'></i>
+                                    </button>
+                                    <button type="button" class="btn btn-default tag">
+                                        <i class='fa fa-tag fa-lg' title='Add Tags'></i>
+                                    </button>
+                                    <input class='add-link hidden' placeholder="Given a URL you include here... (add 'http')" />
+                                    <span style="padding:0 5px"></span>
+                                </div>
+                                <div class="tags-container"></div>
                             </div>
                             <div class="message">
                                 <div class="description">
@@ -283,7 +290,7 @@
                     </div>
                     {{#if link}}
                         <div class="link-box">
-                            <div class="title">With a reflection to this link:</div>
+                            <span class="title">With a reflection to this link:</span>
                             <a href="{{ link }}" target="_blank">{{ link }}</a>
                         </div>
                     {{/if}}
@@ -327,13 +334,27 @@
                         </div>
                     </div>
                     <div class="tooltip_description" style="display:none;" title="No worries"></div>
-                    {{#if num_annotations}}
-                        <div class="count-annotations">{{num_annotations}} annotations</div>
-                    {{/if}}
-                    {{#if num_replies}}
-                        <div class="count-replies">{{num_replies}} replies</div>
-                    {{/if}}
                 </div>
+                {{#if enable_below_message}}
+                    <div class="below-message">
+                        {{#if num_annotations}}
+                            <div class="count-annotations">{{num_annotations}} <i class="fa fa-bookmark"></i></div>
+                        {{/if}}
+                        {{#if num_replies}}
+                            <div class="count-replies">{{num_replies}} <i class="fa fa-comment"></i></div>
+                        {{/if}}
+                        {{#if tags}}
+                            <div class="tags-container">
+                                <i class="fa fa-tag"></i>
+                                <ul class="tags">
+                                    {{#each tags}}
+                                        <li>{{name}}</li>
+                                    {{/each}}
+                                </ul>
+                            </div>
+                        {{/if}}
+                    </div>
+                {{/if}}
                 {{#if annotation_notice}}
                 <div class="annotation-notice">
                     <i class="fa fa-info-circle" style="margin-right:3px;"></i>Reply to this reflection by selecting text in the entry or clicking to the right
@@ -465,6 +486,7 @@
         {{active_user_count}}
     </script>
     <script type="text/x-handlebars-template" id="super-user-template">
+        <div class="tags-container"></div>
         <div class="email-container"></div>
         <div class="active-user-ranges-view-container"></div>
         <div class="user-view-container"></div>

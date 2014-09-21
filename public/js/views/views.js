@@ -47,18 +47,39 @@ window.rupon.views = window.rupon.views || {};
         className: "write-view",
         template: Handlebars.compile($("#write-template").html()),
 
+        tags: [],
+
         events: {
-            'click .create': 'submitReflection',
-            'click .privacy': 'changePrivacy',
+            'click .create':        'submitReflection',
+            'click .privacy':       'changePrivacy',
             'click .write-another': 'writeAnother',
-            'click .link': 'showLink'
+            'click .link':          'showLink',
+            'click .tag':           'openTagsMenu'
         },
 
-        render: function() {
+        render: function(options) {
             cv.TemplateView.prototype.render.call(this);
-            this.$el.find('.fa-lock').tooltip();
-            this.$el.find('.fa-unlock-alt').tooltip();
-            this.$el.find('.fa-link').tooltip();
+
+            var writeTagsView = new rv.WriteTagsView({collection: options.tags_collection});
+
+            var self = this;
+            writeTagsView
+                .on('create-new-tag', function(attr) {
+                    options.tags_collection.create({name: attr}, {wait: true});
+                })
+                .on('activate-tag', function(attr, cb) {
+                    if (_.contains(self.tags, attr)) {
+                        var tag_index = self.tags.indexOf(attr);
+                        self.tags.splice(tag_index, 1);
+                        cb(false)
+                    } else {
+                        self.tags.push(attr);
+                        cb(true)
+                    }
+                })
+
+            this.$el.find('.tags-container').html(writeTagsView.$el);
+            this.$el.find('.fa').tooltip();
         },
 
         showLink: function() {
@@ -68,6 +89,10 @@ window.rupon.views = window.rupon.views || {};
             setTimeout(function() {
                 addLink.addClass('revealed');
             }, 100);
+        },
+
+        openTagsMenu: function() {
+            this.$el.find('.tags-content').removeClass('hidden');
         },
 
         changePrivacy: function() {
@@ -103,7 +128,8 @@ window.rupon.views = window.rupon.views || {};
                     //title:          '',
                     //expression:     '',
                     privacy:        privacy_ele.hasClass('is_private') ? 'PRIVATE' : 'ANONYMOUS',
-                    date:           new Date()
+                    date:           new Date(),
+                    tag_ids:        self.tags
                 }
 
                 if (addlink_shown) params.link = this.$el.find('input.add-link').val();
@@ -117,7 +143,54 @@ window.rupon.views = window.rupon.views || {};
             }
         }
 
-    })
+    });
+
+    rv.WriteTagsView = cv.CollectionContainer.extend({
+        container_ele: 'ul',
+        className: 'tags-content hidden',
+        template: Handlebars.compile("<input placeholder='Add new' /><div class='tags'><ul></ul></div>"),
+
+        initialize: function() {
+            cv.CollectionContainer.prototype.initialize.call(this, function(model) {
+                return new rv.WriteTagView({model: model});
+            });
+        },
+
+        events: {
+            'keypress input': 'createNew'
+        },
+
+        createNew: function(e){
+            switch (e.which) {
+                case 13:
+                    var new_tag = this.$el.find('input').val();
+
+                    if ($.trim(new_tag) != "") {
+                        this.trigger('create-new-tag', new_tag);
+                    }
+
+                    this.$el.find('input').val("");
+
+            }
+            
+        }
+    });
+
+    rv.WriteTagView = cv.SimpleModelView.extend({
+        tagName: 'li',
+        template: Handlebars.compile("<i class='fa fa-tag'></i>{{name}}"),
+
+        events: {
+            'click': 'activateTag'
+        },
+
+        activateTag: function() {
+            var self = this;
+            this.trigger('activate-tag', this.model.id, function(is_activated) {
+                self.$el.toggleClass('activated', is_activated)
+            });
+        }
+    });
 
     rv.PostboxView = Backbone.View.extend({
         tagName:   "div",
@@ -195,6 +268,10 @@ window.rupon.views = window.rupon.views || {};
 
             this.$el.html(this.template());
 
+            this.addChild(new rv.TopicsView({
+                collection: options.topics_collection
+            }), '.tags-container');
+
             this.addChild(new rv.EmailsView({
                 model: options.email
             }), '.email-container');
@@ -214,6 +291,47 @@ window.rupon.views = window.rupon.views || {};
         }
 
     });
+
+    rv.TopicsView = cv.CollectionContainer.extend({
+
+        container_ele: 'ul',
+        template: Handlebars.compile("<ul></ul><input type='text' /><a class='add' href='javascript:;'>Add topic</a>"),
+
+        events: {
+            'click .add': 'addTopic'
+        },
+
+        initialize: function() {
+            cv.CollectionContainer.prototype.initialize.call(this, function(model) {
+                return new rv.TopicView({model: model});
+            });
+        },
+
+        addTopic: function() {
+
+            var topic = this.$el.find('input').val();
+
+            this.collection.create({
+                name: topic
+            });
+
+            this.$el.find('input').val("");
+        }
+
+    });
+
+    rv.TopicView = cv.SimpleModelView.extend({
+        tagName: "li",
+        template: Handlebars.compile("{{name}} <a class='remove' href='javascript:;'>Remove</a>"),
+
+        events: {
+            'click .remove': 'removeTopic'
+        },
+
+        removeTopic: function() {
+            this.model.destroy();
+        }
+    })
 
     rv.EmailsView = cv.TemplateView.extend({
 
