@@ -15,6 +15,12 @@ body.landing-page{}
 .logo-name form{position: absolute;top: 230px;left: 0;width: 100%;}
 .index-container .special-msg{text-align: center;background-color: #E45C5C;margin: 10px auto 20px;padding: 10px 0;color:#ffffff;border-radius:2px;}
 
+.thoughts-list .tooltip{opacity:1;box-shadow:0 0 0 #000000;}
+.thoughts-list .tooltip.bottom .tooltip-arrow{top:-4px;margin-left:-8px;border-width:0 10px 10px;border-bottom-color:#fff;}
+.thoughts-list .tooltip-inner{background-color: #fff;color: #656565;padding: 13px 10px;border-radius: 3px;box-shadow: 0 2px 6px #9E9E9E;font-size: 15px;border: 1px solid #ccc;}
+.thoughts-list .tooltip ul {list-style: none;text-align: left;margin-bottom:0;}
+.thoughts-list .tooltip li {margin-bottom: 3px;border-bottom: 1px solid #ccc;padding-bottom: 3px;}
+.thoughts-list .tooltip li:last-child{border-bottom:0;margin-bottom:0;}
 .login-form{border-radius:3px;}
 .login-form .row-container label{width:85px;}
 .reset-password-form{width:320px;}

@@ -160,7 +160,17 @@ window.rupon.utils = window.rupon.utils || {};
         user_message_collection.fetch({reset:true, data: {user_id:rupon.account_info.user_id},
             success: function() {
             }});
-        my_thoughts_collection.fetch({reset:true, data: {stream_type: "my-thoughts"}});
+        my_thoughts_collection.fetch({
+            reset: true,
+            data:  {
+                stream_type: "my-thoughts"
+            },
+            success: function(collection) {
+                _.each(collection.models, function(model) {
+                    model.getAnnotations();
+                });
+            }
+        });
         $('textarea').autosize();
 	};
 
@@ -186,12 +196,23 @@ window.rupon.utils = window.rupon.utils || {};
         var thoughts_collection = new rupon.models.thoughtCollection();
 
         var thoughtsView = new rv.ThoughtsView({
-            collection: thoughts_collection,
-            user:       rupon.account_info,
-            reply_collection: rm.replyCollection
+            collection:       thoughts_collection,
+            user:             rupon.account_info,
+            reply_collection: rm.replyCollection,
+            can_reply:        false
         });
 
-        thoughts_collection.fetch({ data: {"stream_type": "my-thoughts"}});
+        thoughts_collection.fetch({ 
+            data: {
+                "stream_type":   "my-thoughts",
+                "reply_privacy": "AUTHOR_TO_PUBLIC"
+            },
+            success: function(collection) {
+                _.each(collection.models, function(model) {
+                    model.getAnnotations();
+                });
+            }
+        });
 
         $(".index-container").find(".feed-content").html(thoughtsView.$el);
 

@@ -34,10 +34,11 @@ window.rupon.views = window.rupon.views || {};
 
             this.modelView = function(model) {
                 return new rv.ThoughtWrapperView({
-                    model: model,
-                    user:  options.user,
-                    reply_collection: options.reply_collection,
-                    thought_collection: options.thought_collection
+                    model:              model,
+                    user:               options.user,
+                    reply_collection:   options.reply_collection,
+                    thought_collection: options.thought_collection,
+                    can_reply:          options.can_reply
                 })
             };
 
@@ -102,20 +103,22 @@ window.rupon.views = window.rupon.views || {};
         template: Handlebars.compile($("#thought-item-template").html()),
 
         user: null,
+        can_reply: true,
 
         events: {
-            'click .past-posts-label': 'showPastPosts',
-            'click .read-more':         'showSingle',
-            'selectstart .selectable-text': 'takeAnnotation',
-            'click .privacy-status':    'changePrivacy',
-            'click .edit':              'editThought',
-            'click .delete':            'deleteThought',
-            'click .archive':           'archiveThought',
-            'keypress .message textarea':        'submitEdit',
-            'focusin input':            'focusTextarea',
-            'click .write-reply2':     'writeReply', 
+            'click .past-posts-label':        'showPastPosts',
+            'click .read-more':               'showSingle',
+            'selectstart .selectable-text':   'takeAnnotation',
+            'click .privacy-status':          'changePrivacy',
+            'click .edit':                    'editThought',
+            'click .delete':                  'deleteThought',
+            'click .archive':                 'archiveThought',
+            'keypress .message textarea':     'submitEdit',
+            'focusin input':                  'focusTextarea',
+            'click .write-reply2':            'writeReply', 
             'keypress .write-reply textarea': 'submitReply',
-            'click .reply-summary':     'getReplySummary'
+            'click .reply-summary':           'getReplySummary',
+            'hover .perm':                    'viewReply'
         },
 
         initialize: function(options) {
@@ -128,7 +131,8 @@ window.rupon.views = window.rupon.views || {};
             this.activateTooltip();
             this.render(options);
 
-            this.user = options.user;
+            this.user      = options.user;
+            this.can_reply = (options.can_reply == false) ? false : true;
 
             this.replyCollection = new options.reply_collection(this.model.get("replies").models);
             this.thought_collection = options.thought_collection;
@@ -137,10 +141,24 @@ window.rupon.views = window.rupon.views || {};
 
 
             var self = this;
-            this.replyCollectionContainer.on('thank-reply', function(attr) {
-                var reply = self.replyCollection.findWhere(attr);
-                reply.save({'thanked': !reply.get('thanked') }, {wait: true, patch: true});
-            });
+            var patch_options = {
+                wait: true,
+                patch: true
+            };
+
+            this.replyCollectionContainer
+                .on('thank-reply', function(attr) {
+                    var reply = self.replyCollection.findWhere(attr);
+                    reply.save({
+                        'thanked': !reply.get('thanked')
+                    }, patch_options);
+                })
+                .on('make-reply-public', function(attr) {
+                    var reply = self.replyCollection.findWhere(attr);
+                    reply.save({
+                        'privacy': 'AUTHOR_TO_PUBLIC'
+                    }, patch_options);
+                })
 
             if (this.user) this.addChild(this.replyCollectionContainer, ".reply-collection-container");
         },
@@ -156,17 +174,29 @@ window.rupon.views = window.rupon.views || {};
             var difference_ms = today - created_at;
 
             this.user = (options && options.user) ? options.user : this.user;
-            template_options.is_author = this.user && this.user.user_id == this.model.get('user_id');
+            var annotations = this.model.get('annotations');
+            var attrReplies = this.model.get('replies');
 
-            template_options.can_edit  = (difference_ms/(1000*60*60*24)) <= 1;
+            var params = {
+                is_author:       this.user && this.user.user_id == this.model.get('user_id'),
+                can_edit:        (difference_ms/(1000*60*60*24)) <= 1,
+                duration:        moment(this.model.get("date")).fromNow(),
+                past_posts:      this.model.get('history') ? this.model.get('history').length : null,
+                num_annotations: annotations && annotations.models.length,
+                num_replies:     attrReplies && attrReplies.models.length
+            }
 
-            //show "write reply" for all posts on index page
-            template_options.can_reply = (!this.model.get('replies').length && !template_options.is_author) || !this.user;
-            template_options.num_replies = this.model.get('replies').length;
+            if (this.can_reply) {
+                //show "write reply" for all posts on index page
+                params.can_reply = (!this.model.get('replies').length && !params.is_author) || !this.user;
+                params.show_replies = true;
+            } else {
+                params.can_reply = false;
+                params.show_replies = false;
+            }
 
-            template_options.duration  = moment(this.model.get("date")).fromNow();
-            
-            template_options.past_posts = this.model.get('history') ? this.model.get('history').length : null;
+            template_options = _.extend(template_options, params)
+
 
             if (!template_options.is_author) this.$el.addClass('other-author');
 
@@ -179,27 +209,21 @@ window.rupon.views = window.rupon.views || {};
             }
 
             template_options.description = template_options.description.replace('\n', '<br><br>');
-
             template_options.annotation_notice = !!template_options.can_reply;
-            
-            var replies = _.clone(this.model.get('replies').models);
-            if (replies) {
-                var first_annotation = _.compact(_.map(replies, function(model) {
-                    return model.attributes.annotations[0];
-                }));
 
-                if (first_annotation && first_annotation.length) {
-                    var output_annotation = _.map(first_annotation, function(annotation) {
-                        return {
-                            text: annotation.description,
-                            start: annotation.start,
-                            end: annotation.end
-                        };
-                    });
+            if (annotations && annotations.models.length) {
+                var output_annotation = _.map(annotations.models, function(model) {
+                    return {
+                        text:     model.get('description'),
+                        start:    model.get('start'),
+                        end:      model.get('end'),
+                        reply_id: [model.get('_reply_id')]
+                    };
+                });
 
-                    template_options.description = condenseArray(output_annotation, template_options.description);
-
-                }
+                // Start from the last of array, better with text injection
+                annotations_object = condenseArray(output_annotation).reverse();
+                template_options.description = replaceWithAnnotations(annotations_object, template_options.description);
             }
 
             if (_.indexOf(privacy, template_options.privacy) != -1) {
@@ -219,6 +243,35 @@ window.rupon.views = window.rupon.views || {};
             cv.Container.prototype.detachChildren.call(this);
             this.$el.html(outputHtml);
             this.$el.find('.write-reply textarea').autosize();
+
+            if (annotations && annotations.models.length &&
+                attrReplies && attrReplies.models.length) {
+
+                var highlights = this.$el.find('.perm');
+                _.each(highlights, function(highlight) {
+
+                    var filteredReplies = _.filter(attrReplies.models, function(reply) {
+                        var reply_ids = $(highlight).attr('data-reply-id').split(',');
+                        return _.contains(reply_ids, reply.id)
+                    }, this);
+
+                    if (filteredReplies.length) {
+                        var list = _.map(filteredReplies, function(reply) {
+                            return "<li>" + reply.get('description') + "</li>";
+                        });
+
+                        list = "<ul>" + list.join("") + "</ul>";
+
+                        $(highlight).tooltip({
+                            title:     list,
+                            placement: 'bottom',
+                            html:      true
+                        });
+                    }
+
+                }, this);
+
+            }
             cv.Container.prototype.reattachChildren.call(this);
         },
 
@@ -237,10 +290,15 @@ window.rupon.views = window.rupon.views || {};
 
             this.$el.find('.reply-collection-container').removeClass('hidden');
             this.$el.find('.reply-summary').addClass('hidden');
+            this.$el.find('.message').addClass('reply-summary-activated');
 
         },
 
         takeAnnotation: function() {
+
+            if (!this.can_reply) {
+                return;
+            }
 
             var self = this;
 
@@ -394,101 +452,100 @@ window.rupon.views = window.rupon.views || {};
 
             }
 
-        },
-
-        showPastPosts: function() {
-
-            this.$el.find('.past-posts-label').addClass('hidden');
-
-            var collection = new this.thought_collection(this.model.get('history'));
-            this.addChild(new rv.PastPostsView({collection: collection}), '.past-posts-container');
-
         }
 
     });
 
-    var condenseArray = function(arr, str) {
-      for (var i = 0; i < arr.length; i++) {
-        arr[i].end = arr[i].start + arr[i].text.length;
-      }
+    // puts elements in order by letter position
+    var condenseArray = function(input) {
 
-      String.prototype.splice = function( idx, rem, s ) {
-        return (this.slice(0,idx) + s + this.slice(idx + Math.abs(rem)));
-      };
-
-      var new_array = [];
-
-      function comparePositions(obj1, obj2) {
-
-        return obj1.start > obj2.start && obj1.start < obj2.end && obj1.end > obj2.end;
-
-      }
-
-      function overlap_by_position(obj) {
-
-        if (!new_array.length) {
-
-          new_array.push(obj);
-
-        } else {
-         
-          var not_here = 1;
-
-          for (var k = 0; k < new_array.length; k++ ) {
-
-            if (comparePositions(new_array[k], obj)) {
-              
-              new_array[k] = {
-                text: str.substring(obj.start,new_array[k].end),
-                start: obj.start,
-                end: new_array[k].end
-              }
-
-              not_here = 0;
-
-            } else if (comparePositions(obj, new_array[k])) {
-              
-              new_array[k] = {
-                text: str.substring(new_array[k].start,obj.end),
-                start: new_array[k].start,
-                end: obj.end
-              }
-
-              not_here = 0;
-
-            } else if (obj.start < new_array[k].start && obj.end > new_array[k].end) {
-              
-              new_array[k] = obj;
-
-              not_here = 0;
-
-            } else if (obj.start > new_array[k].start && obj.end < new_array[k].end) {
-
-              not_here = 0;
-
-            }
-
-          } 
-
-          if (not_here == 1) {
-
-            new_array.push(obj);
-
-          }
-
+        var injectAfter = function(pos, into_array, element) {
+            into_array.splice(pos+1, 0, element);
+            return into_array;
         }
 
-      }
+        var injectBefore = function(pos, into_array, element) {
+            into_array.splice(pos, 0, element);
+            return into_array;
+        }
 
-      for (var m = 0; m < arr.length; m++) {
-        overlap_by_position(arr[m]);
-      }
-      
-      for (var n = 0; n < new_array.length; n++) {
-        str = str.replace(new_array[n].text, "<span class='perm'>" + new_array[n].text + "</span>" );
-      }
+        var overlapLater = function(pos, into_array, element) {
 
-      return str;
-    }
+            old_reply_id = into_array[pos].reply_id;
+
+            into_array[pos].end = element.end;
+            into_array[pos].reply_id = old_reply_id.push(element.reply_id);
+
+            return into_array;
+        }
+
+        var overlapEarlier = function(pos, into_array, element) {
+
+            old_reply_id = into_array[pos].reply_id;
+
+            into_array[pos].start = element.start;
+            into_array[pos].reply_id = old_reply_id.push(element.reply_id);
+
+            return into_array;
+        }
+
+        var overlapAround = function(pos, into_array, element) {
+
+            old_reply_ids = into_array[pos].reply_id;
+            old_reply_ids.push(element.reply_id[0]);
+
+            into_array[pos].start = element.start;
+            into_array[pos].end   = element.end;
+            into_array[pos].reply_id = old_reply_ids;
+
+            return into_array;
+        }
+
+        var overlapWithin = function(pos, into_array, element) {
+
+            old_reply_id = into_array[pos].reply_id;
+            into_array[pos].reply_id = old_reply_id.push(element.reply_id);
+
+            return into_array;
+        }
+
+        var output = [input.shift()];
+
+        _(input.length).times( function(n) {
+            if (output[0].end < input[0].start) {
+                output = injectAfter(0, output, input.shift());
+
+            } else if (input[0].end < output[0].start) {
+                output = injectBefore(0, output, input.shift());
+
+            } else if (input[0].start > output[0].start && input[0].end > output[0].end) {
+                output = overlapLater(0, output, input.shift());
+
+            } else if (output[0].start > input[0].start && output[0].end > input[0].end) {
+                output = overlapEarlier(0, output, input.shift());
+
+            } else if (input[0].start < output[0].start && output[0].end < input[0].end) {
+                output = overlapAround(0, output, input.shift());
+
+            } else if (output[0].start < input[0].start && input[0].end < output[0].end) {
+                output = overlapWithin(0, output, input.shift());
+            }
+        })
+
+        return output;
+
+    };
+
+    var replaceWithAnnotations = function (annotations, str) {
+
+        _.each(annotations, function(annotation) {
+            end_tag   = "</span>";
+            start_tag = "<span class='perm' data-reply-id='"+annotation.reply_id+"'>";
+            str = [str.slice(0, annotation.end), end_tag, str.slice(annotation.end)].join('');
+            str = [str.slice(0, annotation.start), start_tag, str.slice(annotation.start)].join('');
+        });
+
+        return str;
+    };
 
 })();

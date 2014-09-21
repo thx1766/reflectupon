@@ -248,11 +248,13 @@
             <div>
                 <div class="section clearfix">
                     <div class="side-action-container">
-                        {{#if num_replies}}
-                            <a href="javascript:;" class="side-action reply-summary">
-                                {{num_replies}}
-                                <i class="fa fa-comment"></i>
-                            </a>
+                        {{#if show_replies}}
+                            {{#if num_replies}}
+                                <a href="javascript:;" class="side-action reply-summary">
+                                    {{num_replies}}
+                                    <i class="fa fa-comment"></i>
+                                </a>
+                            {{/if}}
                         {{/if}}
                         {{#if can_reply}}
                             <a href="javascript:;" class="side-action write-reply2">
@@ -260,9 +262,6 @@
                             </a>
                         {{/if}}
                     </div>
-                {{#if past_posts}}
-                    <div class="past-posts-container"></div>
-                {{/if}}
                 {{#if annotation }}
                     <div class="annotation">
                         <div class="annotation-desc"><span>Based on your snippet:</span> <span>{{ annotation }}</span></div>
@@ -281,12 +280,6 @@
                                 </span>
                             {{/unless}}
                         </div>
-
-                        {{#if past_posts}}
-                            <a href="javascript:;" class="past-posts-label">
-                                <i class="fa fa-archive fa-lg" style="padding:4px 4px 4px 0"></i>Past Posts
-                            </a>
-                        {{/if}}
                     </div>
                     {{#if link}}
                         <div class="link-box">
@@ -334,6 +327,12 @@
                         </div>
                     </div>
                     <div class="tooltip_description" style="display:none;" title="No worries"></div>
+                    {{#if num_annotations}}
+                        <div class="count-annotations">{{num_annotations}} annotations</div>
+                    {{/if}}
+                    {{#if num_replies}}
+                        <div class="count-replies">{{num_replies}} replies</div>
+                    {{/if}}
                 </div>
                 {{#if annotation_notice}}
                 <div class="annotation-notice">
@@ -344,13 +343,13 @@
         </div>
         <div class="col-md-3">
             <div class="reply-collection-container hidden"></div>
-        {{#if is_author }}{{else}}
-        {{#if can_reply}}
-            <div class="write-reply section">
-                <textarea placeholder="Write a reply"></textarea>
-            </div>
-        {{/if}}
-        {{/if}}
+        {{#unless is_author }}
+            {{#if can_reply}}
+                <div class="write-reply section">
+                    <textarea placeholder="Write a reply"></textarea>
+                </div>
+            {{/if}}
+        {{/unless}}
         </div>
         </div>
     </script>
@@ -382,6 +381,12 @@
                     </a>
                 {{/if}}
             {{/if}}
+            <a href="javascript:;" class="make-public {{#if is_public}}hidden{{/if}}">
+                Make Public
+            </a>
+            <span class="public {{#unless is_public}}hidden{{/unless}}">
+                Public
+            </span>
             </div>
     </script>
     <script type="text/x-handlebars-template" id="new-thought-item-template">
@@ -453,12 +458,6 @@
                 </a>
             </li>
         {{/if}}
-    </script>
-    <script type="text/x-handlebars-template" id="past-post-template">
-        <div class="time-posted">{{date}}</div>
-        <div class="description">
-            {{breaklines description}}
-        </div>
     </script>
     <script type="text/x-handlebars-template" id="active-user-ranges-template">
         {{start_date}}

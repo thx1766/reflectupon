@@ -39,6 +39,19 @@ window.rupon.models = window.rupon.models || {};
 
         repliesAdded: function(model) {
             this.trigger('reply:change', model)
+        },
+
+        getAnnotations: function() {
+            
+            var annotations = new rm.annotationCollection();
+            annotations.thought_id = this.id;
+
+            var self = this;
+            annotations.fetch({
+                success: function() {
+                    self.set('annotations', annotations)
+                }
+            })
         }
 
     });
@@ -108,7 +121,13 @@ window.rupon.models = window.rupon.models || {};
     rm.annotationCollection = Backbone.Collection.extend({
         model: rm.annotation,
         url: function() {
-            return '/api/thought/'+ this.thoughtId +'/reply/'+ this.replyId + '/annotation/';
+
+            var query = "";
+            if (this.thought_id) {
+                query += '?thought_id=' + this.thought_id;
+            }
+
+            return '/api/annotations' + query;
         }
     });
 

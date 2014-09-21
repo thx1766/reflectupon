@@ -5,16 +5,18 @@ var config   = process.env.PORT ? require('../../config') : require('../../confi
     )
   , Q        = require('q');
 
-exports.sendEmail = function(html_template, recipients) {
+exports.sendEmail = function(params) {
 
   var deferred = Q.defer();
 
-  sendgrid.send({
-      to: recipients, //req.body.email,
-      from: 'andrewjcasal@gmail.com',
-      subject: 'Welcome to reflectupon!',
-      html: html_template
-  }, function(err, json) {
+  email_params = {
+      to:       params.recipients,
+      from:     'andrewjcasal@gmail.com',
+      subject:  params.subject,
+      html:     params.html_template
+  }
+
+  sendgrid.send(email_params, function(err, json) {
       if (err) { return console.error(err); }
       deferred.resolve(json)
   });

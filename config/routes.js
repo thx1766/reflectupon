@@ -48,8 +48,14 @@ module.exports = function(app) {
                 user_routes.getUserEmailList()
                     .then(function(recipients) {
                         app.render('weekly_email', {descriptions: descriptions}, function(err, html) {
-                            console.log(html);
-                            return emails.sendEmail(html, recipients)
+
+                            params = {
+                                html_template: html,
+                                subject:       "Weekly Postings on Reflect Upon",
+                                recipients:    recipients
+                            }
+
+                            return emails.sendEmail(params)
                         })
                     })
             })
@@ -119,10 +125,11 @@ module.exports = function(app) {
             where = null,
             populate = 'replies';
 
-        var stream_type = req.query.stream_type || null,
-            thought_id  = req.query.thought_id  || null,
-            per_page    = req.query.per_page    || null,
-            page        = req.query.page        || null;
+        var stream_type   = req.query.stream_type   || null,
+            thought_id    = req.query.thought_id    || null,
+            per_page      = req.query.per_page      || null,
+            page          = req.query.page          || null,
+            reply_privacy = req.query.reply_privacy || null;
 
             if (thought_id) params._id = thought_id;
 
@@ -209,7 +216,8 @@ module.exports = function(app) {
                                             privacy: "ANONYMOUS"
                                         };
 
-                                        Thought.find(params).populate('replies').exec(function(err, related) {
+                                        Thought.find(params)
+                                            .populate('replies').exec(function(err, related) {
 
                                             send_thought.history = [];
 
@@ -320,9 +328,15 @@ module.exports = function(app) {
 
             date_sort = {date: -1};
             params.privacy = "ANONYMOUS";
-            
+
+            populate = {
+                path: 'replies',
+                match: { privacy: reply_privacy }
+            };
+
             Thought.find( params )
                 .sort(date_sort)
+                .populate(populate)
                 .limit(6)
                 .exec(function(err, thoughts) {
 
@@ -587,19 +601,33 @@ module.exports = function(app) {
 
     });
 
+    app.get('/api/annotations', function(req, res) {
+        Annotation.find({
+            thought_id: req.query.thought_id
+        }, function(err, annotations) {
+            res.send(annotations)
+        })
+    });
+
     app.get('/account', auth.ensureAuthenticated, function(req,res) {
         res.send( req.user );
     });
 
     app.patch('/api/reply/:reply_id', function(req, res) {
         
-        var thanked = req.body.thanked;
-
         Reply.findById(req.params.reply_id, function(err,reply) {
 
             if (err) console.log(err);
 
-            reply.thanked = thanked;
+            var permitted_privacy = [
+                'REPLIER_TO_PRIVATE',
+                'REPLIER_TO_PUBLIC',
+                'AUTHOR_TO_PRIVATE',
+                'AUTHOR_TO_PUBLIC'
+            ];
+
+            if (req.body.thanked) reply.thanked = req.body.thanked;
+            if (req.body.privacy) reply.privacy = req.body.privacy;
 
             reply.save(function() {
 
