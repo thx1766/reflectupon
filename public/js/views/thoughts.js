@@ -183,7 +183,7 @@ window.rupon.views = window.rupon.views || {};
                 duration:        moment(this.model.get("date")).fromNow(),
                 past_posts:      this.model.get('history') ? this.model.get('history').length : null,
                 num_annotations: annotations && annotations.models.length,
-                num_replies:     attrReplies && attrReplies.models.length
+                num_replies:     attrReplies && attrReplies.models && attrReplies.models.length
             }
 
             if (this.can_reply) {
