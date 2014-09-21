@@ -131,8 +131,7 @@ a img{border:0;}
 .dropdown-container.arrow-left .arrow:after,.dropdown-container.arrow-left .arrow:before {left:40%;}
 .dropdown-container.arrow-left .dropdown-arrow{left:-30px}
 
-.annotation-notice{font-family:"Helvetica Neue";font-weight: 200;font-size: 14px;padding: 4px 12px 6px;color: #aeaeae;background-color:#ececec;}
-.annotation-notice:hover{color:#333;}
+.annotation-notice{text-align:center;font-weight:500;font-size:15px;color:#3BB4D7;}
 .timestamp{float:right;color:#cccccc;font-size:14px;font-weight:200;position:absolute;top:4px;right:12px;}
 
 .past-posts-label{float:right;color:#999999;}

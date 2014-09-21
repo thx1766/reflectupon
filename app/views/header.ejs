@@ -294,34 +294,41 @@
                             <a href="{{ link }}" target="_blank">{{ link }}</a>
                         </div>
                     {{/if}}
-                    <div class="description-container">
-                        <div class="description">
-                            <span class="selectable-text">{{{ description }}}</span>
-                            {{#if read_more}} 
-                                <a href="javascript:;" class="read-more">Read more</a>
-                            {{/if}}
+                    <div class="clearfix">
+                        <div class="description-container">
+                            <div class="description">
+                                <span class="selectable-text">{{{ description }}}</span>
+                                {{#if read_more}} 
+                                    <a href="javascript:;" class="read-more">Read more</a>
+                                {{/if}}
+                            </div>
+                            {{#if can_edit }}<textarea>{{ description }}</textarea>{{/if}}
                         </div>
-                        {{#if can_edit }}<textarea>{{ description }}</textarea>{{/if}}
-                    </div>
 
-                    {{#if is_author}}
-                    <div class="right-actions dropdown-container arrow-right">
-                        <a href="javascript:;" class="options">
-                            <i class="fa fa-angle-down fa-2x"></i>
-                        </a>
-                        <div class="dropdown-arrow clearfix">
-                            <div class="arrow">
-                            </div>
-                            <div class="dropdown">
-                                <ul>
-                                    <li><a href="javascript:;" class="privacy-status">Set as {{privacy_inverse}}</a></li>
-                                    {{#if can_edit }}<li><a href="javascript:;" class="edit">Edit</a></li>{{/if}}
-                                    <li><a href="javascript:;" class="delete">Delete</a></li>
-                                    <li><a href="javascript:;" class="archive">Archive</a></li>
-                                </ul>
+                        {{#if is_author}}
+                        <div class="right-actions dropdown-container arrow-right">
+                            <a href="javascript:;" class="options">
+                                <i class="fa fa-angle-down fa-2x"></i>
+                            </a>
+                            <div class="dropdown-arrow clearfix">
+                                <div class="arrow">
+                                </div>
+                                <div class="dropdown">
+                                    <ul>
+                                        <li><a href="javascript:;" class="privacy-status">Set as {{privacy_inverse}}</a></li>
+                                        {{#if can_edit }}<li><a href="javascript:;" class="edit">Edit</a></li>{{/if}}
+                                        <li><a href="javascript:;" class="delete">Delete</a></li>
+                                        <li><a href="javascript:;" class="archive">Archive</a></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
+                        {{/if}}
                     </div>
+                    {{#if annotation_notice}}
+                        <div class="annotation-notice">
+                            Select text in this entry to highlight
+                        </div>
                     {{/if}}
                     <div class="timestamp">
                         <span>Written {{duration}}</span>
@@ -354,11 +361,6 @@
                             </div>
                         {{/if}}
                     </div>
-                {{/if}}
-                {{#if annotation_notice}}
-                <div class="annotation-notice">
-                    <i class="fa fa-info-circle" style="margin-right:3px;"></i>Reply to this reflection by selecting text in the entry or clicking to the right
-                </div>
                 {{/if}}
             </div>
         </div>
