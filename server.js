@@ -17,24 +17,24 @@ var http     = require('http')
   , cron     = require('./app/utils/cron')
   , RedisStore = require('connect-redis')(express);
 
-enable_redis = true;
+enable_redis = false;
 
 var app = express();
 exports.app = app;
 
 var redis_params;
-//if (process.env.PORT) {
+if (process.env.PORT) {
   redis_params = {
     host: 'pub-redis-19191.us-east-1-1.1.ec2.garantiadata.com',
     port: 19191,
     pass: 'FDZbIPECeHSF9MT0'
-  } /*
+  }
 } else {
   redis_params = {
     host: '127.0.0.1',
     port: 6379
   }
-}*/
+}
 
 var session_params;
 
