@@ -17,6 +17,8 @@ var http     = require('http')
   , cron     = require('./app/utils/cron')
   , RedisStore = require('connect-redis')(express);
 
+enable_redis = false;
+
 var app = express();
 exports.app = app;
 
@@ -33,6 +35,17 @@ if (process.env.PORT) {
     port: 6379
   }
 }
+
+var session_params;
+
+if (enable_redis) {
+  session_params = {
+      store: new RedisStore(redis_params),
+      secret: 'keyboard cat'
+  }
+} else {
+  session_params = {secret: 'keyboard cat'}
+} 
 app.configure( function() {
 
     app.set('views', __dirname + '/app/views');
@@ -40,9 +53,7 @@ app.configure( function() {
     app.use( express.static( __dirname + '/public' ));
     app.use( express.cookieParser());
     app.use( express.bodyParser() );
-    app.use( express.session({
-      store: new RedisStore(redis_params),
-      secret: 'keyboard cat' }));
+    app.use( express.session(session_params));
     app.use( passport.initialize());
     app.use( passport.session());
     app.use( express.methodOverride() );
