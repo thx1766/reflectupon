@@ -14,12 +14,24 @@ var http     = require('http')
   , passport = require('passport')
   , redis    = require('redis')
   , url      = require('url')
-  , cron     = require('./app/utils/cron');
-
+  , cron     = require('./app/utils/cron')
+  , RedisStore = require('connect-redis')(express);
 
 var app = express();
 exports.app = app;
 
+var redis_params;
+if (process.env.PORT) {
+  redis_params = {
+    host: 'pub-redis-14779.us-east-1-4.2.ec2.garantiadata.com',
+    port: 14779
+  }
+} else {
+  redis_params = {
+    host: '127.0.0.1',
+    port: 6379
+  }
+}
 app.configure( function() {
 
     app.set('views', __dirname + '/app/views');
@@ -27,7 +39,9 @@ app.configure( function() {
     app.use( express.static( __dirname + '/public' ));
     app.use( express.cookieParser());
     app.use( express.bodyParser() );
-    app.use( express.session({secret: 'keyboard cat' }));
+    app.use( express.session({
+      store: new RedisStore(redis_params),
+      secret: 'keyboard cat' }));
     app.use( passport.initialize());
     app.use( passport.session());
     app.use( express.methodOverride() );
