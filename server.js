@@ -24,7 +24,8 @@ var redis_params;
 if (process.env.PORT) {
   redis_params = {
     host: 'pub-redis-14779.us-east-1-4.2.ec2.garantiadata.com',
-    port: 14779
+    port: 14779,
+    db:   'reflectupon'
   }
 } else {
   redis_params = {
