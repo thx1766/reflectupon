@@ -25,9 +25,9 @@ exports.app = app;
 var redis_params;
 if (process.env.PORT) {
   redis_params = {
-    host: 'pub-redis-14779.us-east-1-4.2.ec2.garantiadata.com',
-    port: 14779,
-    db:   'reflectupon'
+    host: 'pub-redis-19191.us-east-1-1.1.ec2.garantiadata.com',
+    port: 19191,
+    pass: 'FDZbIPECeHSF9MT0'
   }
 } else {
   redis_params = {
