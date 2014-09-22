@@ -17,7 +17,7 @@ var http     = require('http')
   , cron     = require('./app/utils/cron')
   , RedisStore = require('connect-redis')(express);
 
-enable_redis = false;
+enable_redis = true;
 
 var app = express();
 exports.app = app;
