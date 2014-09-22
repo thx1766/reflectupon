@@ -17,7 +17,7 @@ var http     = require('http')
   , cron     = require('./app/utils/cron')
   , RedisStore = require('connect-redis')(express);
 
-enable_redis = false;
+enable_redis = true;
 
 var app = express();
 exports.app = app;
@@ -52,11 +52,11 @@ app.configure( function() {
     app.set('view engine', 'ejs');
     app.use( express.static( __dirname + '/public' ));
     app.use( express.cookieParser());
-    app.use( express.bodyParser() );
+    app.use( express.methodOverride() );
     app.use( express.session(session_params));
+    app.use( express.bodyParser() );
     app.use( passport.initialize());
     app.use( passport.session());
-    app.use( express.methodOverride() );
     app.use( app.router );
     app.use( express.errorHandler({ dumpExceptions: true, showStack: true }));
     app.use( forgot.forgot.middleware);
