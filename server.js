@@ -56,6 +56,7 @@ app.configure( function() {
     app.use( express.session(session_params));
     app.use( passport.initialize());
     app.use( passport.session());
+    app.use( express.methodOverride() );
     app.use( app.router );
     app.use( express.errorHandler({ dumpExceptions: true, showStack: true }));
     app.use( forgot.forgot.middleware);
