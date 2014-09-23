@@ -199,8 +199,13 @@ passport.deserializeUser(function(id, done) {
     });
 });
 
-passport.use(new LocalStrategy(function(username, password, done) {
-    User.findOne({ username: username }, '+password', function(err, user) {
+passport.use(new LocalStrategy(function(email, password, done) {
+
+    /* validate e-mail */
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    var params = re.test(email) ? {email: email} : {username: email};
+
+    User.findOne(params, '+password', function(err, user) {
         if (err) { return done(err); }
         if (!user) { return done(null, false, { message: 'Unknown user ' + username }); }
         user.comparePassword(password, function(err, isMatch) {
