@@ -139,6 +139,13 @@ module.exports = function(app) {
             switch (stream_type) {
                 case "my-thoughts":
 
+                    if (per_page == 0) {
+                        res.links({
+                            next: '/api/thought/?stream_type='+stream_type+'&page='+(Number(page)+1)+'&per_page=15&sort=updated&direction=desc'
+                        });
+                        res.send([])
+                    }
+
                     params = {
                         user_id: req.user._id
                     };
@@ -149,8 +156,8 @@ module.exports = function(app) {
                     };
 
                     if (per_page == 15) {
-                        limit1 = 10;
-                        limit2 = 5;
+                        limit1 = 1;
+                        limit2 = 1;
                     }
 
                     date_sort = {date: -1};
@@ -183,7 +190,7 @@ module.exports = function(app) {
                         
                     ], function(err, results) {
 
-                        var thoughts = results[1].concat(results[0]);
+                        var thoughts = results[0]
 
                         function compare(a,b) {
                             if (a.date < b.date) return 1;

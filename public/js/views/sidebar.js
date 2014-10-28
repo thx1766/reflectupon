@@ -18,7 +18,7 @@ window.rupon.views = window.rupon.views || {};
             'click .to-dashboard': 'showDashboard',
             'click .show-thoughts': 'showAllThoughts',
             'click .other-thoughts': 'showOtherThoughts',
-            'click .show-super-user': 'showSuperUser',
+            'click .show-super-user': 'showSuperUser'
         },
 
         initialize: function() {
@@ -51,7 +51,7 @@ window.rupon.views = window.rupon.views || {};
 
         showSuperUser: function() {
             this.trigger("show-super-user");
-        },
+        }
 
     });
 
