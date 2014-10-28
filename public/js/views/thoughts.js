@@ -24,6 +24,7 @@ window.rupon.views = window.rupon.views || {};
 
     rv.ThoughtsView = Backbone.View.extend({
 
+        modelPosition: 0,
         tagName: "div",
         className: "thoughts-list",
 
@@ -86,7 +87,11 @@ window.rupon.views = window.rupon.views || {};
             }
 
             method = method || "append";
-            this.$el[method](formatThought.$el);
+            if (method == "append") {
+                this.$el.html(formatThought.$el)
+            } else {
+                this.$el[method](formatThought.$el);
+            }
 
             var self = this;
             this.listenTo(formatThought, 'all', function() {

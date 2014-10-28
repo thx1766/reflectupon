@@ -65,9 +65,9 @@ window.rupon.models = window.rupon.models || {};
         },
 
         state: {
-            pageSize:15,
-            sortKey: "updated",
-            order:1
+            pageSize: 15,
+            sortKey:  "updated",
+            order:    1
         },
 
         queryParams: {

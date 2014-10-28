@@ -62,7 +62,7 @@ window.rupon.utils = window.rupon.utils || {};
             .on("show-super-user", function() {
                 rc.resetViews();
                 rc.setSuperUser();
-            });
+            })
 
         $(".actions-container").html(sidebarView.$el);
 
@@ -102,19 +102,9 @@ window.rupon.utils = window.rupon.utils || {};
             /* recThoughtsView = new rv.RecommendedView({
                 collection: recommended_collection,
                 user:       rupon.account_info}), */
-            thoughtsView    = new rv.ThoughtsView({
-                collection:         my_thoughts_collection,
-                user:               rupon.account_info,
-                reply_collection:   rm.replyCollection,
-                tags_collection:    tags_collection,
-
-                // used for past posts
-                thought_collection: rm.thoughtCollection
-            });
 
         frequencyView   = new rv.FrequencyView({collection: frequency_collection});
 
-        rc.applyTooltipEvents(thoughtsView);
         //rc.applyTooltipEvents(recThoughtsView);
 
         var writeThoughtView = new rv.WriteThoughtView({
@@ -122,27 +112,52 @@ window.rupon.utils = window.rupon.utils || {};
         });
 
         writeThoughtView
-            .on("create-reflection", function(attrs, callback) {
+            .on("create-reflection", function(attrs) {
                 my_thoughts_collection.create(attrs, {
                     wait:    true,
                     silent:  true,
                     success: function(response) {
                         my_thoughts_collection.trigger('create', response);
-                        callback();
+                        writeThoughtView.remove()
+
+                        my_thoughts_collection.fetch({
+                            reset: true,
+                            data:  {
+                                stream_type: "my-thoughts"
+                            },
+                            success: function(collection) {
+                                // _.each(collection.models, function(model) {
+                                //     model.getAnnotations();
+                                // });
+                            }
+                        });
+                        
+                        thoughtsView    = new rv.ThoughtsView({
+                            collection:         my_thoughts_collection,
+                            user:               rupon.account_info,
+                            reply_collection:   rm.replyCollection,
+                            tags_collection:    tags_collection,
+
+                            // used for past posts
+                            thought_collection: rm.thoughtCollection
+                        });
+
+                        var paginationView = new rv.PaginationView({collection: my_thoughts_collection});
+                        mainView.$el.find(".thought-container").append(thoughtsView.$el)
+                        mainView.$el.find(".pagination-container").append(paginationView.$el);
+                        rc.applyTooltipEvents(thoughtsView);
                     }
                 });
-            });
 
-        var paginationView = new rv.PaginationView({collection: my_thoughts_collection});
+            });
 
         $("#container").html(mainView.$el);
 
 		mainView.$el
             .find(".frequency-container").append(frequencyView.$el).end()
             //.find(".recommended-container").append(recThoughtsView.$el).end()
-            .find(".write-container").append(writeThoughtView.$el).end()
-            .find(".thought-container").append(thoughtsView.$el).end()
-            .find(".pagination-container").append(paginationView.$el);
+            .find(".thought-container").append(writeThoughtView.$el).end()
+            //.find(".thought-container").append(thoughtsView.$el).end()
 
         user_message_collection.on("reset", function() {
             if (user_message_collection.at(0)) {
@@ -164,17 +179,6 @@ window.rupon.utils = window.rupon.utils || {};
         user_message_collection.fetch({reset:true, data: {user_id:rupon.account_info.user_id},
             success: function() {
             }});
-        my_thoughts_collection.fetch({
-            reset: true,
-            data:  {
-                stream_type: "my-thoughts"
-            },
-            success: function(collection) {
-                _.each(collection.models, function(model) {
-                    model.getAnnotations();
-                });
-            }
-        });
         tags_collection.fetch();
         $('textarea').autosize();
 	};
@@ -182,7 +186,7 @@ window.rupon.utils = window.rupon.utils || {};
     rc.setSingle = function(model) {
 		singleView = new rupon.views.Single.ThoughtView({model: model});
 		$("#container").html(singleView.$el);
-    }
+    };
 
     rupon.utils.getSelectionText = function() {
 		var text = "";

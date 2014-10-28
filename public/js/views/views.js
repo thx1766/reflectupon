@@ -127,19 +127,14 @@ window.rupon.views = window.rupon.views || {};
                     description:    textarea_ele.val(),
                     //title:          '',
                     //expression:     '',
-                    privacy:        privacy_ele.hasClass('is_private') ? 'PRIVATE' : 'ANONYMOUS',
+                    privacy:        'PRIVATE', //privacy_ele.hasClass('is_private') ? 'PRIVATE' : 'ANONYMOUS',
                     date:           new Date(),
                     tag_ids:        self.tags
                 }
 
                 if (addlink_shown) params.link = this.$el.find('input.add-link').val();
 
-                this.trigger("create-reflection", params, function() {
-
-                    expanded.addClass('no-opacity');
-                    self.clickedOnce = false;
-
-                })
+                this.trigger("create-reflection", params)
             }
         }
 
