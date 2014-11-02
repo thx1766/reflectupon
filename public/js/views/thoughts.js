@@ -30,8 +30,11 @@ window.rupon.views = window.rupon.views || {};
 
         initialize: function(options) {
 
-            this.listenTo(this.collection.fullCollection,'add', this.appendItem);
+            //this.listenTo(this.collection.fullCollection,'add', this.appendItem);
             this.listenTo(this.collection, 'create', this.prependItem);
+
+            this.on('go-to-entry',    this.goToEntry);
+            this.on('get-next-entry', this.getNextEntry);
 
             this.modelView = function(model) {
                 return new rv.ThoughtWrapperView({
@@ -69,6 +72,7 @@ window.rupon.views = window.rupon.views || {};
         },
 
         displayItem: function(thought, method) {
+            this.current_thought = _.findWhere(this.collection.models, {id: thought.id});
 
             if (thought.get("archived")) {
                 this.archived_count = this.last_archived ? (this.archived_count+1) : 1;
@@ -98,6 +102,18 @@ window.rupon.views = window.rupon.views || {};
                 self.trigger.apply(this, arguments);
             });
 
+        },
+
+        goToEntry: function(val) {
+            var model = this.collection.where({_id: val});
+            this.displayItem(model[0], "append");
+        },
+
+        getNextEntry: function() {
+            console.log(this.current_thought);
+            sorted_models = _.sortBy(this.collection.models, function(model){ return -new Date(model.attributes.date); });
+            model_index = _.indexOf(sorted_models, this.current_thought);
+            this.displayItem(sorted_models[model_index + 1]);
         }
 
     });

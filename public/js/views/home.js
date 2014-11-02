@@ -13,6 +13,43 @@ window.rupon.views = window.rupon.views || {};
     var rm = window.rupon.models;
     var cv = window.rupon.common_views;
 
+    rv.SideView = Backbone.View.extend({
+        tagName: "div",
+        className: "side-view-container col-md-2",
+
+        events: {
+            "click a": "goToEntry"
+        },
+
+        initialize: function() {
+            this.render();
+            this.listenTo(this.collection, "reset", this.render)
+            this.listenTo(this.collection, "create", this.displayItem)
+        },
+
+        render: function() {
+            var list_ele = "<div class='side-view'>";
+            list_ele += _.map(this.collection.models, this.template).join("");
+            list_ele += "</div>";
+            this.$el.html(list_ele)
+        },
+
+        displayItem: function(model) {
+            this.$el.find('.side-view').prepend(this.template(model));
+        },
+
+        template: function(model) {
+            description = model.attributes.description.substring(0, 10);
+            date = moment(model.attributes.date).format('MMM Do');
+            return "<li><div>"+date+"</div><a href='javascript:;' data-model-id='"+model.attributes._id+"'>"+description+"</a></li>"
+        },
+
+        goToEntry: function(e) {
+            var val = $(e.currentTarget).attr('data-model-id')
+            this.trigger('go-to-entry', val)
+        }
+    });
+
     rv.MainView = Backbone.View.extend({
         tagName: "div",
         className: "main-view-container col-md-10",
@@ -193,7 +230,8 @@ window.rupon.views = window.rupon.views || {};
         },
 
         getNextPage: function() {
-            this.collection.getNextPage({fetch:true});
+            this.trigger('get-next-entry');
+            //this.collection.getNextPage({fetch:true});
         }
     });
 

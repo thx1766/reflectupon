@@ -98,12 +98,31 @@ window.rupon.utils = window.rupon.utils || {};
             frequency_collection    = new rupon.models.frequencyCollection({listen_collection: my_thoughts_collection}),
             tags_collection         = new rm.topicsCollection();
 
-        var mainView        = new rv.MainView(),
-            /* recThoughtsView = new rv.RecommendedView({
-                collection: recommended_collection,
-                user:       rupon.account_info}), */
+        thoughtsView    = new rv.ThoughtsView({
+            collection:         my_thoughts_collection,
+            user:               rupon.account_info,
+            reply_collection:   rm.replyCollection,
+            tags_collection:    tags_collection,
 
-        frequencyView   = new rv.FrequencyView({collection: frequency_collection});
+            // used for past posts
+            thought_collection: rm.thoughtCollection
+        });
+        
+        var paginationView = new rv.PaginationView({collection: my_thoughts_collection});
+        paginationView.on('get-next-entry', function() {
+            thoughtsView.trigger('get-next-entry');
+            writeThoughtView.remove()
+        });
+        
+        var mainView = new rv.MainView();
+        var sideView = new rv.SideView({collection: my_thoughts_collection});
+
+        sideView.on('go-to-entry', function(val) {
+            thoughtsView.trigger('go-to-entry', val);
+            writeThoughtView.remove()
+        });
+
+        frequencyView = new rv.FrequencyView({collection: frequency_collection});
 
         //rc.applyTooltipEvents(recThoughtsView);
 
@@ -119,45 +138,23 @@ window.rupon.utils = window.rupon.utils || {};
                     success: function(response) {
                         my_thoughts_collection.trigger('create', response);
                         writeThoughtView.remove()
-
-                        my_thoughts_collection.fetch({
-                            reset: true,
-                            data:  {
-                                stream_type: "my-thoughts"
-                            },
-                            success: function(collection) {
-                                // _.each(collection.models, function(model) {
-                                //     model.getAnnotations();
-                                // });
-                            }
-                        });
-                        
-                        thoughtsView    = new rv.ThoughtsView({
-                            collection:         my_thoughts_collection,
-                            user:               rupon.account_info,
-                            reply_collection:   rm.replyCollection,
-                            tags_collection:    tags_collection,
-
-                            // used for past posts
-                            thought_collection: rm.thoughtCollection
-                        });
-
-                        var paginationView = new rv.PaginationView({collection: my_thoughts_collection});
-                        mainView.$el.find(".thought-container").append(thoughtsView.$el)
-                        mainView.$el.find(".pagination-container").append(paginationView.$el);
                         rc.applyTooltipEvents(thoughtsView);
                     }
                 });
 
             });
 
-        $("#container").html(mainView.$el);
+        $("#container").append(sideView.$el);
+        $("#container").append(mainView.$el);
+
+        mainView.$el.find(".thought-container").append(thoughtsView.$el)
 
 		mainView.$el
             .find(".frequency-container").append(frequencyView.$el).end()
             //.find(".recommended-container").append(recThoughtsView.$el).end()
             .find(".thought-container").append(writeThoughtView.$el).end()
             //.find(".thought-container").append(thoughtsView.$el).end()
+            .find(".pagination-container").append(paginationView.$el);
 
         user_message_collection.on("reset", function() {
             if (user_message_collection.at(0)) {
@@ -173,6 +170,14 @@ window.rupon.utils = window.rupon.utils || {};
                     .find(".message-container").html(nagView.$el);
             }
         })
+
+        my_thoughts_collection.fetch({
+            reset: true, 
+            data: {
+                "stream_type":   "my-thoughts",
+                "reply_privacy": "AUTHOR_TO_PUBLIC"
+            }
+        });
 
         frequency_collection.fetch({reset:true});
         recommended_collection.fetch({reset:true, data: {stream_type: "recommended"}});

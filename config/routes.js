@@ -156,7 +156,7 @@ module.exports = function(app) {
                     };
 
                     if (per_page == 15) {
-                        limit1 = 1;
+                        limit1 = 15;
                         limit2 = 1;
                     }
 
