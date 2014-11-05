@@ -41,8 +41,8 @@ a img{border:0;}
 #container{margin:0 auto;position:relative;z-index:1;transition:margin .5s;}
 #container.with-replies{margin:0;}
 .side-view-container{height: 500px;}
-.side-view{background-color: #ccc;}
-.side-view li{padding:10px;list-style:none;}
+.side-view{background-color: #fff;box-shadow:0 1px 2px #ccc;opacity:.8;}
+.side-view li{padding:5px 10px;list-style:none;}
 .main-view-container.col-md-10{}
 
 .container{max-width:1170px;}
@@ -98,7 +98,10 @@ a img{border:0;}
 .recommended-view .thought-row .message{padding:0;background-color:#fff;}
 .recommended-view .thought-row.other-author .message{padding:0;background-color:#fff;}
 .recommended-view .header{display:none;}
-.pagination-container a{background-color:#E9E9E9;box-shadow: 0 1px 6px #ccc;text-align: center;font-size: 17px;display: block;text-decoration: none;color: #6078ad;padding:20px 0;}
+.pagination-container a{text-align: center;font-size: 17px;display: block;text-decoration: none;color: #6078ad;}
+.pagination-container a.more-recent{float:left;}
+.pagination-container a.less-recent{float:right;}
+.pagination-container .row{padding: 14px;background-color: #fff;box-shadow: 0 1px 2px #ccc;}
 .dropdown-container{position:relative;}
 .dropdown-container .dropdown-arrow{position:absolute;z-index:10;display:none;padding-top:12px;}
 .dropdown-container:hover .dropdown-arrow{display:block}
@@ -240,7 +243,7 @@ a img{border:0;}
 
 /* Dashboard */
 .section .description{margin-bottom:8px;}
-.post-frequency ul{width:300px;padding-top:18px;float:right;}
+.post-frequency ul{width:300px;padding-top:7px;float:right;margin-bottom:0;}
 .post-frequency li{list-style:none;}
 .post-frequency li div{height:20px;width:3.33%;float:left;box-sizing:border-box;-moz-box-sizing:border-box;border-right:1px solid #F4F9FD;background-color:#dcdcdc;}
 .post-frequency li div.filled{background-color:rgb(126, 176, 231);border-right:1px solid #ffffff;}
@@ -253,7 +256,6 @@ a img{border:0;}
 .stats-container .container{padding:14px;}
 .stats-container .header{}
 .stats-container .desc{color:#fff;background-color:#8d8d8d;padding:1px 10px;border-radius:4px;}
-.stats-container button{margin:10px 0;}
 
 .expanded-container{position:relative;padding: 6px 12px 2px;background-color:#F4F9FD;box-shadow: inset 0 2px 2px #DBDBDB;}
 .expanded-container:after, .expanded-container:before {

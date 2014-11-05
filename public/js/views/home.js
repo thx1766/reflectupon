@@ -88,7 +88,7 @@ window.rupon.views = window.rupon.views || {};
             $('body').animate({
                 scrollTop: $('.write-container').position().top
             }, 500);
-            $(".write-another").click();
+            this.trigger('write-reflection');
         }
 
     });
@@ -213,10 +213,12 @@ window.rupon.views = window.rupon.views || {};
 
     rv.PaginationView = Backbone.View.extend({
         tagName: "div",
+        className: "row",
         template: Handlebars.compile($("#pagination-template").html()),
 
         events: {
-            "click a": "getNextPage"
+            "click a.less-recent": "getNextPage",
+            "click a.more-recent": "getPreviousPage"
         },
 
         initialize: function() {
@@ -232,6 +234,10 @@ window.rupon.views = window.rupon.views || {};
         getNextPage: function() {
             this.trigger('get-next-entry');
             //this.collection.getNextPage({fetch:true});
+        },
+
+        getPreviousPage: function() {
+            this.trigger('get-previous-entry');
         }
     });
 

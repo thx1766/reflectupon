@@ -22,6 +22,74 @@ window.rupon.views = window.rupon.views || {};
         return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
     }
 
+    rv.WriteToThoughtsView = Backbone.View.extend({
+        className: "write-to-thought-view",
+
+        initialize: function(options) {
+            this.options = options;
+            this.render("write");
+
+            var self = this;
+            this.on('write-reflection', function() {
+                self.render("write");
+            })
+            this.on('go-to-entry', function(val) {
+                self.render("thoughts");
+                self.thoughtsView.trigger('go-to-entry', val);
+            });
+        },
+
+        render: function(view_type) {
+            if (this.writeView)    this.writeView.remove();
+            if (this.thoughtsView) this.thoughtsView.remove();
+
+            switch (view_type) {
+                case "write":
+                    this.writeView = this.renderWriteView()
+                    this.$el.html(this.writeView.$el);
+                    break;
+                case "thoughts":
+                    this.thoughtsView = this.renderThoughtsView();
+                    this.$el.html(this.thoughtsView.$el);
+            }
+        },
+
+        renderWriteView: function() {
+            var tags_collection = this.options.tags_collection,
+                success         = this.options.write_success;
+
+            view = new rv.WriteThoughtView({
+                tags_collection: tags_collection
+            });
+
+            var self = this;
+            view.on("create-reflection", function(attrs) {
+                success(attrs, function() {
+                    self.render("thoughts");
+                })
+            });
+
+            this.on('get-next-entry', function() {
+                view.trigger('get-next-entry');
+            });
+            this.on('get-previous-entry', function() {
+                view.trigger('get-previous-entry');
+            });
+            return view;
+        },
+
+        renderThoughtsView: function(params) {
+            view = new rv.ThoughtsView({
+                collection:         this.options.thoughts_collection,
+                user:               this.options.user,
+                reply_collection:   this.options.reply_collection,
+                tags_collection:    this.options.tags_collection
+            });
+            return view;
+        }
+
+    });
+
     rv.ThoughtsView = Backbone.View.extend({
 
         modelPosition: 0,
@@ -35,6 +103,7 @@ window.rupon.views = window.rupon.views || {};
 
             this.on('go-to-entry',    this.goToEntry);
             this.on('get-next-entry', this.getNextEntry);
+            this.on('get-previous-entry', this.getPreviousEntry);
 
             this.modelView = function(model) {
                 return new rv.ThoughtWrapperView({
@@ -110,10 +179,15 @@ window.rupon.views = window.rupon.views || {};
         },
 
         getNextEntry: function() {
-            console.log(this.current_thought);
             sorted_models = _.sortBy(this.collection.models, function(model){ return -new Date(model.attributes.date); });
             model_index = _.indexOf(sorted_models, this.current_thought);
             this.displayItem(sorted_models[model_index + 1]);
+        },
+
+        getPreviousEntry: function() {
+            sorted_models = _.sortBy(this.collection.models, function(model){ return -new Date(model.attributes.date); });
+            model_index = _.indexOf(sorted_models, this.current_thought);
+            this.displayItem(sorted_models[model_index - 1]);
         }
 
     });

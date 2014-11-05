@@ -16,9 +16,7 @@ window.rupon.utils = window.rupon.utils || {};
 
     var rc = window.rupon.controllers,
         rv = window.rupon.views,
-        rm = window.rupon.models,
-        thoughtsView, singleView, tooltipView, postboxView, elem, newThoughtsView, FrequencyView,
-        my_thoughts_collection, other_thoughts_collection;
+        rm = window.rupon.models;
 
     rc.startPage = function(options) {
 
@@ -98,62 +96,51 @@ window.rupon.utils = window.rupon.utils || {};
             frequency_collection    = new rupon.models.frequencyCollection({listen_collection: my_thoughts_collection}),
             tags_collection         = new rm.topicsCollection();
 
-        thoughtsView    = new rv.ThoughtsView({
-            collection:         my_thoughts_collection,
-            user:               rupon.account_info,
-            reply_collection:   rm.replyCollection,
-            tags_collection:    tags_collection,
-
-            // used for past posts
-            thought_collection: rm.thoughtCollection
-        });
-        
-        var paginationView = new rv.PaginationView({collection: my_thoughts_collection});
-        paginationView.on('get-next-entry', function() {
-            thoughtsView.trigger('get-next-entry');
-            writeThoughtView.remove()
-        });
-        
-        var mainView = new rv.MainView();
-        var sideView = new rv.SideView({collection: my_thoughts_collection});
-
-        sideView.on('go-to-entry', function(val) {
-            thoughtsView.trigger('go-to-entry', val);
-            writeThoughtView.remove()
-        });
-
-        frequencyView = new rv.FrequencyView({collection: frequency_collection});
-
-        //rc.applyTooltipEvents(recThoughtsView);
-
-        var writeThoughtView = new rv.WriteThoughtView({
-            tags_collection: tags_collection
-        });
-
-        writeThoughtView
-            .on("create-reflection", function(attrs) {
+        var writeToThoughtsView = new rv.WriteToThoughtsView({
+            tags_collection: tags_collection,
+            write_success:   function(attrs, changeView) {
                 my_thoughts_collection.create(attrs, {
                     wait:    true,
                     silent:  true,
                     success: function(response) {
+                        my_thoughts_collection.modelPosition = 0;
                         my_thoughts_collection.trigger('create', response);
-                        writeThoughtView.remove()
-                        rc.applyTooltipEvents(thoughtsView);
+                        changeView();
                     }
                 });
+            },
+            thoughts_collection: my_thoughts_collection,
+            reply_collection:    rm.replyCollection,
+            user:                rupon.account_info
+        });
 
+        var paginationView = new rv.PaginationView({collection: my_thoughts_collection});
+        paginationView
+            .on('get-next-entry', function() {
+                writeToThoughtsView.trigger('get-next-entry');
+            })
+            .on('get-previous-entry', function() {
+                writeToThoughtsView.trigger('get-previous-entry');
             });
+
+        frequencyView = new rv.FrequencyView({collection: frequency_collection});
+        frequencyView.on('write-reflection', function() {
+            writeToThoughtsView.trigger('write-reflection')
+        });
+
+        var mainView = new rv.MainView();
+        var sideView = new rv.SideView({collection: my_thoughts_collection});
+
+        sideView.on('go-to-entry', function(val) {
+            writeToThoughtsView.trigger('go-to-entry', val);
+        });
 
         $("#container").append(sideView.$el);
         $("#container").append(mainView.$el);
 
-        mainView.$el.find(".thought-container").append(thoughtsView.$el)
-
 		mainView.$el
             .find(".frequency-container").append(frequencyView.$el).end()
-            //.find(".recommended-container").append(recThoughtsView.$el).end()
-            .find(".thought-container").append(writeThoughtView.$el).end()
-            //.find(".thought-container").append(thoughtsView.$el).end()
+            .find(".thought-container").append(writeToThoughtsView.$el).end()
             .find(".pagination-container").append(paginationView.$el);
 
         user_message_collection.on("reset", function() {
