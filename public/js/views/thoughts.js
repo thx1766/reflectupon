@@ -212,7 +212,7 @@ window.rupon.views = window.rupon.views || {};
             'keypress .message textarea':     'submitEdit',
             'focusin input':                  'focusTextarea',
             'click .write-reply2':            'writeReply', 
-            'keypress .write-reply textarea': 'submitReply',
+            'keypress .popover-content input':'submitReply',
             'click .reply-summary':           'getReplySummary',
             'hover .perm':                    'viewReply'
         },
@@ -405,51 +405,40 @@ window.rupon.views = window.rupon.views || {};
                 return;
             }
 
-            var self = this;
+            var is_author = this.user && this.user.user_id == this.model.get('user_id')
 
-            var selectable_field = self.$el.find('.selectable-text');
+            if (is_author) {
+                var self = this;
+                $(document).one('mouseup', function() {
+                    self.setAnnotation();
+                });
+            }
+
+        },
+
+        setAnnotation: function() {
+
+            var selection = window.getSelection();
+
+            if (selection.baseOffset < selection.extentOffset) {
+                this.selected_start = selection.baseOffset;
+                this.selected_end   = selection.extentOffset;
+            } else {
+                this.selected_start = selection.extentOffset;
+                this.selected_end   = selection.baseOffset;
+            }
+
+            var selectable_field = this.$el.find('.selectable-text');
             selectable_field.text(selectable_field.text());
+            var description_text = selectable_field.text();
+            this.selected_text = description_text.substring(this.selected_start, this.selected_end);
+            selectable_field.html(description_text.replace(this.selected_text, '<span class="temp" data-placement="bottom" data-html="true" data-content="<input />">' + this.selected_text + '</span>'));
+            $('.temp').popover('show')
 
-            $(document).one('mouseup', function() {
-
-                var is_author = self.user && self.user.user_id == self.model.get('user_id');
-
-                /* if (is_author) {
-
-                    if (this.getSelection() != "") {
-                        $(".thoughts-list").addClass("select-text");
-                        self.$el.siblings().removeClass("selected")
-                        self.$el.addClass("selected");
-
-                        self.trigger("start-tooltip", self.$el);
-                    }
-
-                } else { */
-
-                if (!is_author) {
-
-                    var selection = this.getSelection();
-
-                    if (selection.baseOffset < selection.extentOffset) {
-                        self.selected_start = selection.baseOffset;
-                        self.selected_end   = selection.extentOffset;
-                    } else {
-                        self.selected_start = selection.extentOffset;
-                        self.selected_end   = selection.baseOffset;
-                    }
-                    
-
-                    self.selected_text = selectable_field.text().substring(self.selected_start, self.selected_end);
-
-                    var description_text = selectable_field.text();
-
-                    selectable_field.html(description_text.replace(self.selected_text, '<span class="temp">' + self.selected_text + '</span>'));
-                    self.writeReply();
-
-                }
-
-            });
-
+            popover_input = $('.popover-content').find('input');
+            $('.temp').on('shown.bs.popover', function () {
+              popover_input.focus()
+            })
         },
 
         changePrivacy: function() {
@@ -526,7 +515,7 @@ window.rupon.views = window.rupon.views || {};
 
             switch(e.which) {
                 case 13:
-                    var description = this.$el.find('.write-reply textarea').val()
+                    var description = this.$el.find('.popover-content').find('input').val()
 
                     if ($.trim(description) != "") {
 
@@ -575,7 +564,6 @@ window.rupon.views = window.rupon.views || {};
         }
 
         var overlapLater = function(pos, into_array, element) {
-
             old_reply_id = into_array[pos].reply_id;
 
             into_array[pos].end = element.end;
@@ -585,7 +573,6 @@ window.rupon.views = window.rupon.views || {};
         }
 
         var overlapEarlier = function(pos, into_array, element) {
-
             old_reply_id = into_array[pos].reply_id;
 
             into_array[pos].start = element.start;
@@ -595,7 +582,6 @@ window.rupon.views = window.rupon.views || {};
         }
 
         var overlapAround = function(pos, into_array, element) {
-
             old_reply_ids = into_array[pos].reply_id;
             old_reply_ids.push(element.reply_id[0]);
 
@@ -607,7 +593,6 @@ window.rupon.views = window.rupon.views || {};
         }
 
         var overlapWithin = function(pos, into_array, element) {
-
             old_reply_id = into_array[pos].reply_id;
             into_array[pos].reply_id = old_reply_id.push(element.reply_id);
 

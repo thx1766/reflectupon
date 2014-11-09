@@ -220,11 +220,8 @@ a img{border:0;}
 .link-box .title{font-size: 14px;}
 
 .popover-content{
-    border-radius: 2px;
     padding: 10px 30px;
-    background-color: #ffffff;
-    border: 2px solid #747474;
-    box-shadow: 0px 3px 6px #C9C9C9;}
+    background-color: #ffffff;}
 .popover-content button{
     padding: 6px 10px;
     background-color: #715FCF;

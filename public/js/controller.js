@@ -78,14 +78,10 @@ window.rupon.utils = window.rupon.utils || {};
         if (options.all_views || options.tooltip_view) {
             $(".thoughts-list").removeClass("select-text");
             $(".thought-row").removeClass("selected").trigger("tooltip-end");
-            if (tooltipView) tooltipView.remove();
-            if (postboxView) postboxView.remove();
         }
 
         if (options.all_views) {
             $("body").scrollTop(0);
-            if (singleView)    singleView.remove();
-            if (thoughtsView)   thoughtsView.remove();
         }
     };
 
@@ -163,6 +159,11 @@ window.rupon.utils = window.rupon.utils || {};
             data: {
                 "stream_type":   "my-thoughts",
                 "reply_privacy": "AUTHOR_TO_PUBLIC"
+            },
+            success: function(collection) {
+                _.each(collection.models, function(model) {
+                    model.getAnnotations();
+                });
             }
         });
 
