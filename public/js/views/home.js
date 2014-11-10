@@ -218,7 +218,9 @@ window.rupon.views = window.rupon.views || {};
 
         events: {
             "click a.less-recent": "getNextPage",
-            "click a.more-recent": "getPreviousPage"
+            "click a.more-recent": "getPreviousPage",
+            "click a.go-to-journal": "goToJournal",
+            "click a.go-to-write": "goToWrite"
         },
 
         initialize: function() {
@@ -229,15 +231,36 @@ window.rupon.views = window.rupon.views || {};
         render: function() {
             this.$el.toggle(this.collection.hasNextPage());
             this.$el.html(this.template());
+            this.$el.find('.more-recent').addClass('hidden');
         },
 
         getNextPage: function() {
             this.trigger('get-next-entry');
+            this.$el.find('.go-to-write').addClass('hidden');
+            this.$el.find('.more-recent').removeClass('hidden');
             //this.collection.getNextPage({fetch:true});
         },
 
         getPreviousPage: function() {
-            this.trigger('get-previous-entry');
+            var self = this;
+            this.trigger('get-previous-entry', function() {
+                self.$el.find('.go-to-write').removeClass('hidden');
+                self.$el.find('.more-recent').addClass('hidden');
+            });
+        },
+
+        goToJournal: function() {
+            this.trigger('go-to-entry');
+            this.$el.find('.go-to-journal').addClass('hidden');
+            this.$el.find('.go-to-write').removeClass('hidden');
+            this.$el.find('.less-recent').removeClass('hidden');
+        },
+
+        goToWrite: function() {
+            this.trigger('write-reflection');
+            this.$el.find('.go-to-journal').removeClass('hidden');
+            this.$el.find('.go-to-write').addClass('hidden');
+            this.$el.find('.less-recent').addClass('hidden');
         }
     });
 

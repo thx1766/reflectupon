@@ -101,6 +101,8 @@ a img{border:0;}
 .pagination-container a{text-align: center;font-size: 17px;display: block;text-decoration: none;color: #6078ad;}
 .pagination-container a.more-recent{float:left;}
 .pagination-container a.less-recent{float:right;}
+.pagination-container a.go-to-write{float:left;}
+.pagination-container a.go-to-journal{float:right;}
 .pagination-container .row{padding: 14px;background-color: #fff;box-shadow: 0 1px 2px #ccc;}
 .dropdown-container{position:relative;}
 .dropdown-container .dropdown-arrow{position:absolute;z-index:10;display:none;padding-top:12px;}

@@ -115,9 +115,15 @@ window.rupon.utils = window.rupon.utils || {};
             .on('get-next-entry', function() {
                 writeToThoughtsView.trigger('get-next-entry');
             })
-            .on('get-previous-entry', function() {
-                writeToThoughtsView.trigger('get-previous-entry');
-            });
+            .on('get-previous-entry', function(cb) {
+                writeToThoughtsView.trigger('get-previous-entry', cb);
+            })
+            .on('go-to-entry', function() {
+                writeToThoughtsView.trigger('go-to-entry', "most-recent");
+            })
+            .on('write-reflection', function() {
+                writeToThoughtsView.trigger('write-reflection')
+            })
 
         frequencyView = new rv.FrequencyView({collection: frequency_collection});
         frequencyView.on('write-reflection', function() {

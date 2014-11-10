@@ -68,13 +68,6 @@ window.rupon.views = window.rupon.views || {};
                     self.render("thoughts");
                 })
             });
-
-            this.on('get-next-entry', function() {
-                view.trigger('get-next-entry');
-            });
-            this.on('get-previous-entry', function() {
-                view.trigger('get-previous-entry');
-            });
             return view;
         },
 
@@ -84,6 +77,13 @@ window.rupon.views = window.rupon.views || {};
                 user:               this.options.user,
                 reply_collection:   this.options.reply_collection,
                 tags_collection:    this.options.tags_collection
+            });
+
+            this.on('get-next-entry', function() {
+                view.trigger('get-next-entry');
+            });
+            this.on('get-previous-entry', function(cb) {
+                view.trigger('get-previous-entry', cb);
             });
             return view;
         }
@@ -174,8 +174,13 @@ window.rupon.views = window.rupon.views || {};
         },
 
         goToEntry: function(val) {
-            var model = this.collection.where({_id: val});
-            this.displayItem(model[0], "append");
+            var model;
+            if (val == "most-recent") {
+                model = this.collection.first();
+            } else {
+                model = this.collection.where({_id: val})[0];
+            }
+            this.displayItem(model, "append");
         },
 
         getNextEntry: function() {
@@ -184,10 +189,11 @@ window.rupon.views = window.rupon.views || {};
             this.displayItem(sorted_models[model_index + 1]);
         },
 
-        getPreviousEntry: function() {
+        getPreviousEntry: function(cb) {
             sorted_models = _.sortBy(this.collection.models, function(model){ return -new Date(model.attributes.date); });
             model_index = _.indexOf(sorted_models, this.current_thought);
             this.displayItem(sorted_models[model_index - 1]);
+            if (model_index == 1) cb();
         }
 
     });
@@ -308,8 +314,8 @@ window.rupon.views = window.rupon.views || {};
             options = options || {};
             template_options.showMore = options.showMore || false;
 
-            if (!template_options.showMore && template_options.description.length >450) {
-                template_options.description = template_options.description.trim().substring(0,450).split(" ").slice(0, -1).join(" ") + "...";
+            if (!template_options.showMore && template_options.description.length >1100) {
+                template_options.description = template_options.description.trim().substring(0,1100).split(" ").slice(0, -1).join(" ") + "...";
                 template_options.read_more = true;
             }
 
