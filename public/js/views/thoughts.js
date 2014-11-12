@@ -208,7 +208,6 @@ window.rupon.views = window.rupon.views || {};
         can_reply: true,
 
         events: {
-            'click .past-posts-label':        'showPastPosts',
             'click .read-more':               'showSingle',
             'selectstart .selectable-text':   'takeAnnotation',
             'click .privacy-status':          'changePrivacy',
@@ -220,7 +219,8 @@ window.rupon.views = window.rupon.views || {};
             'click .write-reply2':            'writeReply', 
             'keypress .popover-content input':'submitReply',
             'click .reply-summary':           'getReplySummary',
-            'hover .perm':                    'viewReply'
+            'hover .perm':                    'viewReply',
+            'click .message-tabs li':         'selectTab'
         },
 
         initialize: function(options) {
@@ -289,7 +289,7 @@ window.rupon.views = window.rupon.views || {};
             var params = {
                 is_author:       this.user && this.user.user_id == this.model.get('user_id'),
                 can_edit:        (difference_ms/(1000*60*60*24)) <= 1,
-                duration:        moment(this.model.get("date")).fromNow(),
+                duration:        moment(this.model.get("date")).format('MMM Do'),
                 past_posts:      this.model.get('history') ? this.model.get('history').length : null,
                 num_annotations: annotations && annotations.models.length || 0,
                 num_replies:     attrReplies && attrReplies.models && attrReplies.models.length || 0,
@@ -545,6 +545,7 @@ window.rupon.views = window.rupon.views || {};
                             success: function() {
                                 self.$el.find('.write-reply').addClass('hidden');
                                 self.$el.find('.preempt-reply').addClass('hidden');
+                                $('.temp').popover('hide')
                                 self.$el.find('.temp').removeClass('temp').addClass('perm');
                             }
                         });
@@ -552,9 +553,52 @@ window.rupon.views = window.rupon.views || {};
 
             }
 
+        },
+
+        selectTab: function(e) {
+            $(".message-tabs li").removeClass("selected");
+            $(e.currentTarget).addClass("selected");
+            if ($(e.currentTarget).hasClass('entry')) {
+                $(".message").show();
+                $(".activity-container").hide();
+                $(".below-message").show();
+
+                _.each(this.annotationContextBoxes, function(box) {
+                    box.remove();
+                })
+
+            } else if ($(e.currentTarget).hasClass('activity')) {
+                $(".message").hide();
+                $(".activity-container").show();
+                $(".below-message").hide();
+
+                var annotation_models = this.model.attributes.annotations.models;
+                var thought_description = this.model.attributes.description;
+                var self = this;
+                _.each(annotation_models, function(model) {
+                    var background_text = thought_description.substring(Math.max(0,model.attributes.start-75), model.attributes.end+75);
+                    var description = background_text.replace(model.attributes.description, "<span class='highlight'>"+model.attributes.description+"</span>")
+                    
+                    var params = {
+                        description: description
+                    };
+
+                    annotationContextBox = new rv.AnnotationContextBox({
+                        model: new Backbone.Model(params)
+                    });
+
+                    self.annotationContextBoxes = [];
+                    self.annotationContextBoxes.push(annotationContextBox);
+                    $(".activity-container").append(annotationContextBox.$el)
+                })
+            }
         }
 
     });
+
+    rv.AnnotationContextBox = cv.SimpleModelView.extend({
+        template: Handlebars.compile($("#activity-context-template").html())
+    })
 
     // puts elements in order by letter position
     var condenseArray = function(input) {

@@ -67,15 +67,9 @@ window.rupon.views = window.rupon.views || {};
     rv.FrequencyView = cv.CollectionContainer.extend({
 
         tagName: "div",
-        className: "post-frequency clearfix",
-
-        container_ele: "ul",
+        className: "side-view clearfix",
 
         template: Handlebars.compile($("#frequency-template").html()),
-
-        events: {
-            'click .create': 'createReflection'
-        },
 
         initialize: function(options) {
             this.$el.html(this.template());
@@ -84,18 +78,23 @@ window.rupon.views = window.rupon.views || {};
             });
         },
 
-        createReflection: function() {
-            $('body').animate({
-                scrollTop: $('.write-container').position().top
-            }, 500);
-            this.trigger('write-reflection');
-        }
+        // createReflection: function() {
+        //     $('body').animate({
+        //         scrollTop: $('.write-container').position().top
+        //     }, 500);
+        //     this.trigger('write-reflection');
+        // }
 
     });
 
     rv.FrequencyItemView = cv.TemplateView.extend({
 
         tagName: "li",
+        template: Handlebars.compile($("#frequency-item-template").html()),
+
+        events: {
+            "click a": "goToEntry"
+        },
 
         initialize: function() {
             this.listenTo(this.model, "change", this.render);
@@ -104,11 +103,21 @@ window.rupon.views = window.rupon.views || {};
 
         render: function() {
             var options = {};
-            if (this.model.get("thoughts")) options.filled = this.model.get("thoughts").length;
+            if (this.model.get("thoughts")) this.$el.toggleClass("filled", this.model.get("thoughts").length >0);
+            options.date = moment(this.model.attributes.day).format('MMM Do')
             cv.TemplateView.prototype.render.call(this,options);
+            var self = this;
+            self.$el.append("<ul></ul>");
+            _.each(this.model.get("thoughts"), function(thought) {
+                description = thought.description.substring(0, 10);
+                self.$el.find('ul').append("<li><a href='javascript:;' data-model-id='"+thought._id+"'>"+description+"</a></li>")
+            })
         },
 
-        template: Handlebars.compile($("#frequency-item-template").html()),
+        goToEntry: function(e) {
+            var val = $(e.currentTarget).attr('data-model-id')
+            this.trigger('go-to-entry', val)
+        }
 
     });
 

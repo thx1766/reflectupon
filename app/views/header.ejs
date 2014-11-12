@@ -106,14 +106,6 @@
 
     </script>
     <script type="text/x-handlebars-template" id="home-template">
-        <div class="row">
-            <div>
-                <div class="section" style="margin-bottom:12px;">
-                    <div class="frequency-container"></div>
-                </div>
-            </div>
-            <!--<div class="message-container col-md-3"></div>-->
-        </div>
         <div class="write-container"></div>
         <div class="thought-container"></div>
         <div class="pagination-container"></div>
@@ -162,29 +154,12 @@
         <ul class="new-frequency clearfix"></ul>
     </script>
     <script type="text/x-handlebars-template" id="frequency-template">
-        <div class="stats-container clearfix">
-            <div>
-                <button type="button" class="btn btn-primary create"><i class="fa fa-plus-square" style="margin-right:6px"></i>Write a reflection</button>
-            </div><!--
-            <div class="container">
-                <span class="desc">5</span>
-                <span class="header">day streak</span>
-            </div>
-            <div class="container">
-                <span class="desc">5</span>
-                <span class="header">thanked you</span>
-            </div>
-            <div class="container">
-                <span class="desc">5</span>
-                <span class="header">replies</span>
-            </div>-->
-            <ul class="clearfix"></ul>
-        </div>
+        <!--<button type="button" class="btn btn-primary create"><i class="fa fa-plus-square" style="margin-right:6px"></i>Write a reflection</button>-->
     </script>
     <script type="text/x-handlebars-template" id="slider-template">
     </script>
     <script type="text/x-handlebars-template" id="frequency-item-template">
-        <div class="{{#if filled}}filled{{/if}}"></div>
+        {{date}}
     </script>
     <script type="text/x-handlebars-template" id="tooltip-template">
         <div class="heading">You just highlighted:</div>
@@ -242,6 +217,15 @@
             </div>
         </div>
     </script>
+    <script type="text/x-handlebars-template" id="activity-context-template">
+        <div class="activity-box">
+            <div class="overflow-container">
+                <div class="overflow-description">{{{description}}}
+                </div>
+            </div>
+            <a href="javascript:;"><i class="fa fa-tag"></i>Original post written Oct 26</a>
+        </div>
+    </script>
     <script type="text/x-handlebars-template" id="thought-item-template">
         <div class="row">
             <div>
@@ -266,12 +250,21 @@
                         <div class="annotation-desc"><span>Based on your snippet:</span> <span>{{ annotation }}</span></div>
                     </div>
                 {{/if}}
+                <div class="message-tabs">
+                    <ul class="clearfix">
+                        <li class="entry selected">Entry</li>
+                        <li class="activity">Activity</li>
+                    </ul>
+                </div>
                 <div class="message clearfix{{#equal privacy "Private"}} private{{/equal}}">
                     <div class="clearfix header">
-                        <div style="float: left;">
+                        <div class="timestamp">
+                            Written {{duration}} {{#equal privacy "Private"}} <i class="fa fa-lock" style="margin-left:5px;color:#dedede"></i>{{/equal}}
+                        </div>
+                        <div style="float: right;"><!--
                             {{#equal privacy "Private"}} 
                                 <span style="color: #C76F6F;padding-left:4px;"><i class="fa fa-lock" style="margin-right:5px"></i>PRIVATE</span>
-                            {{/equal}}
+                            {{/equal}}-->
                             {{#unless is_author}}
                                 <span style="color: #6E6E87;font-weight:400">
                                     <i class="fa fa-user" style="margin-right:1px;"></i>
@@ -296,7 +289,6 @@
                             </div>
                             {{#if can_edit }}<textarea>{{ description }}</textarea>{{/if}}
                         </div>
-
                         {{#if is_author}}
                         <div class="right-actions dropdown-container arrow-right">
                             <a href="javascript:;" class="options">
@@ -322,9 +314,6 @@
                             Select text in this entry to highlight
                         </div>
                     {{/if}}
-                    <div class="timestamp">
-                        <span>Written {{duration}}</span>
-                    </div>
 
                     <div class="left-actions dropdown-container arrow-left">
                         <div class="dropdown-arrow">
@@ -333,6 +322,13 @@
                         </div>
                     </div>
                     <div class="tooltip_description" style="display:none;" title="No worries"></div>
+                </div>
+                <div class="activity-container" style="display:none">
+                    <div class="header clearfix">
+                        <div class="timestamp">
+                            Activity for {{duration}}
+                        </div>
+                    </div>
                 </div>
                 {{#if enable_below_message}}
                     <div class="below-message">

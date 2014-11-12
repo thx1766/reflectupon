@@ -161,7 +161,7 @@ window.rupon.models = window.rupon.models || {};
             var freq_model = this.models[0],
                 thoughts   = _.clone(freq_model.get("thoughts"));
 
-            thoughts.push(model);
+            thoughts.push(model.toJSON());
             freq_model.set("thoughts",thoughts);
         }
     });

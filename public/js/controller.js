@@ -128,6 +128,9 @@ window.rupon.utils = window.rupon.utils || {};
         frequencyView = new rv.FrequencyView({collection: frequency_collection});
         frequencyView.on('write-reflection', function() {
             writeToThoughtsView.trigger('write-reflection')
+        })
+        .on('go-to-entry', function(val) {
+            writeToThoughtsView.trigger('go-to-entry', val);
         });
 
         var mainView = new rv.MainView();
@@ -137,11 +140,13 @@ window.rupon.utils = window.rupon.utils || {};
             writeToThoughtsView.trigger('go-to-entry', val);
         });
 
-        $("#container").append(sideView.$el);
+        $("#container").html("<div class='side-view-container col-md-2'></div>");
+        $(".side-view-container").append(frequencyView.$el);
+        //$("#container").append(frequencyView.$el);
         $("#container").append(mainView.$el);
 
 		mainView.$el
-            .find(".frequency-container").append(frequencyView.$el).end()
+            //.find(".frequency-container").append(frequencyView.$el).end()
             .find(".thought-container").append(writeToThoughtsView.$el).end()
             .find(".pagination-container").append(paginationView.$el);
 
