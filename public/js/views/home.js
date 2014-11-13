@@ -106,17 +106,10 @@ window.rupon.views = window.rupon.views || {};
             if (this.model.get("thoughts")) this.$el.toggleClass("filled", this.model.get("thoughts").length >0);
             options.date = moment(this.model.attributes.day).format('MMM Do')
             cv.TemplateView.prototype.render.call(this,options);
-            var self = this;
-            self.$el.append("<ul></ul>");
-            _.each(this.model.get("thoughts"), function(thought) {
-                description = thought.description.substring(0, 10);
-                self.$el.find('ul').append("<li><a href='javascript:;' data-model-id='"+thought._id+"'>"+description+"</a></li>")
-            })
         },
 
         goToEntry: function(e) {
-            var val = $(e.currentTarget).attr('data-model-id')
-            this.trigger('go-to-entry', val)
+            this.trigger('go-to-entry', this.model.attributes.day)
         }
 
     });

@@ -72,11 +72,11 @@ a img{border:0;}
 .thoughts-list.select-text .thought-row{opacity:0.1}
 .thoughts-list.select-text .thought-row.selected{opacity:1}
 .thought-row .title{font-size:22px;color:#898989;}
-.thought-row .message {border-radius:3px;padding:10px 80px 25px 30px;color:#626262;line-height: 24px;position: relative;box-shadow:0 1px 2px #d6d6d6;}
 .thought-row .message.reply-summary-activated{min-height:400px;}
 .show-replies.thought-row .message{float:left;}
-.thought-row .header{position:relative;font-size: 15px;font-family: 'Helvetica Neue';font-weight: 200;border-bottom: 1px solid #F5F5F5;margin-bottom: 14px;min-height:36px;padding:10px 0;}
-.thought-row .section{background-color:#fff;}
+.date-view .header{position:relative;font-size: 15px;font-family: 'Helvetica Neue';font-weight: 200;border-bottom: 1px solid #F5F5F5;margin-bottom: 14px;min-height:36px;padding:10px 0;}
+.date-view .section{background-color:#fff;border-radius:3px;padding:10px 80px 25px 30px;color:#626262;line-height: 24px;position: relative;box-shadow:0 1px 2px #d6d6d6;}
+.thoughts-list{min-height:400px;}
 
 .below-message{font-weight:200;height:30px;color:#A7A7A7;background-color:rgba(255,255,255,0.8);padding:4px 12px;font-size:16px;border-bottom-left-radius: 3px;border-bottom-right-radius: 3px;}
 .below-message i{margin-right:10px;}
@@ -94,7 +94,7 @@ a img{border:0;}
 .message-tabs li{padding:10px 30px;float:left;cursor:pointer;}
 .message-tabs li.selected{background-color:#fff;}
 
-.activity-container{float:left;padding:10px 80px 25px 30px;}
+.activity-container{float:left;}
 .activity-box{margin-bottom: 20px;}
 .thought-row .activity-box a{padding-top:2px;display:block;font-size:12px;font-weight:400;}
 .activity-box a i{padding-right:3px;}
@@ -188,7 +188,7 @@ a img{border:0;}
 .write-view .condensed{height:100%;width:100%;background-color:#8d8d8d;position:absolute;bottom:0;left:0;}
 .write-view .condensed .write-another{padding:16px;text-align:center;font-size:16px;color:#fafafa;position:absolute;bottom:0;left:0;width:100%;}
 .write-view .condensed .write-another:hover{text-decoration:underline;}
-.thought-row .description-container{min-height:400px;width:96%;float:left;}
+.thought-row .description-container{min-height:50px;width:96%;float:left;}
 .thought-row .description{margin-bottom:6px;width:100%;font-family: 'Merriweather';}
 .thought-row .message .description{font-size: 16px;font-weight: 400;line-height: 30px;color: #686868;}
 .thought-row .selectable-text span.temp{border-bottom:2px dotted rgb(107, 107, 107);}

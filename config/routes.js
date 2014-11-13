@@ -371,37 +371,50 @@ module.exports = function(app) {
 
         Thought.find(options).sort({date:-1}).exec(function(err, thoughts) {
 
-            var frequency = [];
+            Annotation.find(options).sort({date:-1}).exec(function(err, annotations) {
+                var frequency = [];
 
-            for (var i = 0; i < numDays; i++) {
+                for (var i = 0; i < numDays; i++) {
 
-                var endDate = new Date(new Date().setHours(0,0,0,0));
-                endDate.setDate(endDate.getDate()-(i-1));
+                    var endDate   = getDate(i, 1);
+                    var startDate = getDate(i);
 
-                var startDate = new Date(new Date().setHours(0,0,0,0));
-                startDate.setDate(startDate.getDate()-i);
-
-                frequency[i] = {
-                    day: startDate,
-                    thoughts: []
-                };
-
-                if (thoughts.length) thought_date = new Date(thoughts[0].date);
-
-                while (thoughts && thoughts.length && thought_date < endDate && thought_date >= startDate) {
-
-                    frequency[i].thoughts.push(thoughts.shift());
-
-                    if (thoughts.length) thought_date = new Date(thoughts[0].date);
+                    frequency[i] = {
+                        day:      startDate,
+                        thoughts: getItemsByDate(thoughts, startDate, endDate),
+                        activity: getItemsByDate(annotations, startDate, endDate)
+                    };
 
                 }
 
-            }
-
-            res.send(frequency);
+                res.send(frequency);
+            });
         });
 
     });
+
+    var getDate = function(num_day, end_day) {
+
+        if (typeof end_day == "undefined") {
+            end_day = 0;
+        }
+
+        var date = new Date(new Date().setHours(0,0,0,0));
+        date.setDate(date.getDate()-(num_day - end_day));
+        return date;
+    };
+
+    var getItemsByDate = function(thoughts, startDate, endDate) {
+        var output_thoughts = [];
+        if (thoughts.length) thought_date = new Date(thoughts[0].date);
+        while (thoughts && thoughts.length && thought_date < endDate && thought_date >= startDate) {
+            output_thoughts.push(thoughts.shift());
+            if (thoughts.length) thought_date = new Date(thoughts[0].date);
+        }
+
+        console.log(output_thoughts);
+        return output_thoughts;
+    };
 
     app.post('/api/thought', function(req, res) {
 

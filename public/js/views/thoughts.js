@@ -73,7 +73,7 @@ window.rupon.views = window.rupon.views || {};
 
         renderThoughtsView: function(params) {
             view = new rv.ThoughtsView({
-                collection:         this.options.thoughts_collection,
+                collection:         this.options.frequency_collection,
                 user:               this.options.user,
                 reply_collection:   this.options.reply_collection,
                 tags_collection:    this.options.tags_collection
@@ -94,7 +94,6 @@ window.rupon.views = window.rupon.views || {};
 
         modelPosition: 0,
         tagName: "div",
-        className: "thoughts-list",
 
         initialize: function(options) {
 
@@ -106,7 +105,7 @@ window.rupon.views = window.rupon.views || {};
             this.on('get-previous-entry', this.getPreviousEntry);
 
             this.modelView = function(model) {
-                return new rv.ThoughtWrapperView({
+                return new rv.DateView({
                     model:              model,
                     user:               options.user,
                     reply_collection:   options.reply_collection,
@@ -121,23 +120,6 @@ window.rupon.views = window.rupon.views || {};
             this.archived_count = 0;
             this.last_archived = false;
 
-        },
-
-        render: function(options) {
-
-            _.each( this.collection.models, function(thought) {
-                this.displayItem(thought, 'append')
-            }, this);
-
-            return this;
-        },
-
-        prependItem: function(thought) {
-            this.displayItem(thought, 'prepend');
-        },
-
-        appendItem: function(thought) {
-            this.displayItem(thought, 'append');
         },
 
         displayItem: function(thought, method) {
@@ -178,7 +160,7 @@ window.rupon.views = window.rupon.views || {};
             if (val == "most-recent") {
                 model = this.collection.first();
             } else {
-                model = this.collection.where({_id: val})[0];
+                model = this.collection.where({day: val})[0];
             }
             this.displayItem(model, "append");
         },
@@ -197,6 +179,74 @@ window.rupon.views = window.rupon.views || {};
         }
 
     });
+
+    rv.DateView = cv.TemplateView.extend({
+
+        className: "date-view row",
+
+        events: {
+            'click .message-tabs li': 'selectTab'
+        },
+
+        template: Handlebars.compile($("#date-view-template").html()),
+
+        render: function(options) {
+            options.day = moment(this.model.get("day")).format('MMM Do')
+            cv.TemplateView.prototype.render.call(this, options);
+
+            var thoughts = options.model.attributes.thoughts;
+
+            var self = this;
+            _.each(thoughts,function(thought) {
+                var thoughtWrapper = new rv.ThoughtWrapperView({
+                    model:              new Backbone.Model(thought),
+                    user:               options.user,
+                    reply_collection:   options.reply_collection,
+                    thought_collection: options.thought_collection,
+                    can_reply:          options.can_reply,
+                    tags_collection:    options.tags_collection
+                })
+                self.$el.find(".thoughts-list").append(thoughtWrapper.$el);
+            })
+        },
+
+        selectTab: function(e) {
+            $(".message-tabs li").removeClass("selected");
+            $(e.currentTarget).addClass("selected");
+            if ($(e.currentTarget).hasClass('entry')) {
+                $(".date-view .thought-container").show();
+                $(".activity-container").hide();
+
+                _.each(this.annotationContextBoxes, function(box) {
+                    box.remove();
+                })
+
+            } else if ($(e.currentTarget).hasClass('activity')) {
+                $(".date-view .thought-container").hide();
+                $(".activity-container").show();
+
+                var annotation_models = this.model.attributes.activity;
+                var thought_description = this.model.attributes.description;
+                var self = this;
+                self.annotationContextBoxes = [];
+                _.each(annotation_models, function(model) {
+                    //var background_text = thought_description.substring(Math.max(0,model.attributes.start-75), model.attributes.end+75);
+                    //var description = background_text.replace(model.attributes.description, "<span class='highlight'>"+model.attributes.description+"</span>")
+                    description =  "<span class='highlight'>"+model.description+"</span>"
+                    var params = {
+                        description: description
+                    };
+
+                    annotationContextBox = new rv.AnnotationContextBox({
+                        model: new Backbone.Model(params)
+                    });
+
+                    self.annotationContextBoxes.push(annotationContextBox);
+                    $(".activity-container").append(annotationContextBox.$el)
+                })
+            }
+        }
+    })
 
     rv.ThoughtWrapperView = cv.Container.extend({
 
@@ -219,8 +269,7 @@ window.rupon.views = window.rupon.views || {};
             'click .write-reply2':            'writeReply', 
             'keypress .popover-content input':'submitReply',
             'click .reply-summary':           'getReplySummary',
-            'hover .perm':                    'viewReply',
-            'click .message-tabs li':         'selectTab'
+            'hover .perm':                    'viewReply'
         },
 
         initialize: function(options) {
@@ -553,45 +602,6 @@ window.rupon.views = window.rupon.views || {};
 
             }
 
-        },
-
-        selectTab: function(e) {
-            $(".message-tabs li").removeClass("selected");
-            $(e.currentTarget).addClass("selected");
-            if ($(e.currentTarget).hasClass('entry')) {
-                $(".message").show();
-                $(".activity-container").hide();
-                $(".below-message").show();
-
-                _.each(this.annotationContextBoxes, function(box) {
-                    box.remove();
-                })
-
-            } else if ($(e.currentTarget).hasClass('activity')) {
-                $(".message").hide();
-                $(".activity-container").show();
-                $(".below-message").hide();
-
-                var annotation_models = this.model.attributes.annotations.models;
-                var thought_description = this.model.attributes.description;
-                var self = this;
-                _.each(annotation_models, function(model) {
-                    var background_text = thought_description.substring(Math.max(0,model.attributes.start-75), model.attributes.end+75);
-                    var description = background_text.replace(model.attributes.description, "<span class='highlight'>"+model.attributes.description+"</span>")
-                    
-                    var params = {
-                        description: description
-                    };
-
-                    annotationContextBox = new rv.AnnotationContextBox({
-                        model: new Backbone.Model(params)
-                    });
-
-                    self.annotationContextBoxes = [];
-                    self.annotationContextBoxes.push(annotationContextBox);
-                    $(".activity-container").append(annotationContextBox.$el)
-                })
-            }
         }
 
     });

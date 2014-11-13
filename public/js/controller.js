@@ -105,9 +105,9 @@ window.rupon.utils = window.rupon.utils || {};
                     }
                 });
             },
-            thoughts_collection: my_thoughts_collection,
-            reply_collection:    rm.replyCollection,
-            user:                rupon.account_info
+            frequency_collection: frequency_collection,
+            reply_collection:     rm.replyCollection,
+            user:                 rupon.account_info
         });
 
         var paginationView = new rv.PaginationView({collection: my_thoughts_collection});
