@@ -270,7 +270,8 @@ window.rupon.views = window.rupon.views || {};
             'click .write-reply2':            'writeReply', 
             'click .reply-summary':           'getReplySummary',
             'hover .perm':                    'viewReply',
-            'click .reply-popover button':    'submitReply'
+            'click .reply-popover button':    'submitReply',
+            'click .reply-popover .fa-times': 'removePopover'
         },
 
         initialize: function(options) {
@@ -518,7 +519,7 @@ window.rupon.views = window.rupon.views || {};
                 this.selected_end = this.selected_start + html_text.length;
             }
 
-            selectable_field.html(this.replaceText(selectable_text));
+            selectable_field.html(this.showTempText(true, selectable_text));
 
             $('.temp').popover({
                 content: Handlebars.compile($("#popover-template").html())
@@ -531,10 +532,19 @@ window.rupon.views = window.rupon.views || {};
             })
         },
 
-        replaceText: function(textBeforeEdit) {
-            this.selected_text = textBeforeEdit.substring(this.selected_start, this.selected_end);
-            console.log(textBeforeEdit);
-            return textBeforeEdit.replace(this.selected_text, this.highlightTemplate(this.selected_text));
+        showTempText: function(showPopover, textBeforeEdit) {
+            if (showPopover) {
+                this.selected_text = this.getSelectedText(textBeforeEdit, this.selected_start, this.selected_end);
+                return textBeforeEdit.replace(this.selected_text, this.highlightTemplate(this.selected_text));
+            } else {
+                var tempText = $(".temp").html();
+                var tempParent = $(".temp").parent();
+                $(".temp").replaceWith(tempText);
+            }
+        },
+
+        getSelectedText: function(full_text, start_pos, end_pos) {
+            return full_text.substring(start_pos, end_pos);
         },
 
         highlightTemplate: function(text) {
@@ -611,6 +621,12 @@ window.rupon.views = window.rupon.views || {};
 
         },
 
+        removePopover: function(e) {
+            $('.temp').popover('hide');
+            this.showTempText(false);
+            this.annotation_mode = false;
+        },
+
         submitReply: function(e) {
 
             var description = this.$el.find('.popover-content').find('textarea').val()
@@ -623,7 +639,7 @@ window.rupon.views = window.rupon.views || {};
                     thought_id:  this.model.get('_id')
                 };
 
-                if (this.selected_start && this.selected_end && this.selected_text) {
+                if (this.selected_start >= 0 && this.selected_end && this.selected_text) {
                     attr.annotations = [{
                         start: this.selected_start,
                         end:   this.selected_end,
