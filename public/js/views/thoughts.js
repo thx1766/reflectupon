@@ -256,6 +256,7 @@ window.rupon.views = window.rupon.views || {};
 
         user: null,
         can_reply: true,
+        annotation_mode: false,
 
         events: {
             'click .read-more':               'showSingle',
@@ -267,9 +268,9 @@ window.rupon.views = window.rupon.views || {};
             'keypress .message textarea':     'submitEdit',
             'focusin input':                  'focusTextarea',
             'click .write-reply2':            'writeReply', 
-            'keypress .popover-content input':'submitReply',
             'click .reply-summary':           'getReplySummary',
-            'hover .perm':                    'viewReply'
+            'hover .perm':                    'viewReply',
+            'click .reply-popover button':    'submitReply'
         },
 
         initialize: function(options) {
@@ -340,7 +341,7 @@ window.rupon.views = window.rupon.views || {};
                 can_edit:        (difference_ms/(1000*60*60*24)) <= 1,
                 duration:        moment(this.model.get("date")).format('MMM Do'),
                 past_posts:      this.model.get('history') ? this.model.get('history').length : null,
-                num_annotations: annotations && annotations.models.length || 0,
+                num_annotations: annotations && annotations.length || 0,
                 num_replies:     attrReplies && attrReplies.models && attrReplies.models.length || 0,
                 tags:            tags
             }
@@ -364,20 +365,20 @@ window.rupon.views = window.rupon.views || {};
             template_options.showMore = options.showMore || false;
 
             if (!template_options.showMore && template_options.description.length >1100) {
-                template_options.description = template_options.description.trim().substring(0,1100).split(" ").slice(0, -1).join(" ") + "...";
+                template_options.description = this.truncateDescription(template_options.description, 1100);
                 template_options.read_more = true;
             }
 
-            template_options.description = template_options.description.replace('\n', '<br><br>');
+            template_options.description = this.convertLineBreaks(template_options.description, 'n');
             template_options.annotation_notice = !!template_options.can_reply;
 
-            if (annotations && annotations.models.length) {
-                var output_annotation = _.map(annotations.models, function(model) {
+            if (annotations && annotations.length) {
+                var output_annotation = _.map(annotations, function(model) {
                     return {
-                        text:     model.get('description'),
-                        start:    model.get('start'),
-                        end:      model.get('end'),
-                        reply_id: [model.get('_reply_id')]
+                        text:     model.description,
+                        start:    model.start,
+                        end:      model.end,
+                        reply_id: [model._reply_id]
                     };
                 });
 
@@ -391,7 +392,7 @@ window.rupon.views = window.rupon.views || {};
                 if (template_options.privacy == privacy[0]) {
                     template_options.privacy_inverse = privacy[1];
                 } else if (template_options.privacy == privacy[1]){
-                    template_options.privacy_inverse = privacy[0];
+                    template_options.privacy_inverse = [0];
                 }
 
                 template_options.privacy = toTitleCase(template_options.privacy.toLowerCase());
@@ -404,8 +405,14 @@ window.rupon.views = window.rupon.views || {};
             this.$el.html(outputHtml);
             this.$el.find('.write-reply textarea').autosize();
 
-            if (annotations && annotations.models.length &&
-                attrReplies && attrReplies.models.length) {
+            this.renderAnnotations();
+            cv.Container.prototype.reattachChildren.call(this);
+        },
+
+        renderAnnotations: function(annotations, attrReplies) {
+
+            if (annotations && annotations.length &&
+                attrReplies && attrReplies.length) {
 
                 var highlights = this.$el.find('.perm');
                 _.each(highlights, function(highlight) {
@@ -432,7 +439,27 @@ window.rupon.views = window.rupon.views || {};
                 }, this);
 
             }
-            cv.Container.prototype.reattachChildren.call(this);
+        },
+
+        truncateDescription: function(description, length) {
+            return description.trim().substring(0,length).split(" ").slice(0, -1).join(" ") + "...";
+        },
+
+        convertLineBreaks: function(description, type) {
+            var before_type, after_type;
+
+            if (type == 'n') {
+                before_type = '\n';
+                after_type = '<br>';
+            } else if (type = 'br') {
+                before_type = '<br>';
+                after_type = '\n';
+            }
+
+            while (_.indexOf(description, '\n') != -1) {
+                description = description.replace(before_type, after_type);
+            }
+            return description;
         },
 
         showSingle: function() {
@@ -456,7 +483,7 @@ window.rupon.views = window.rupon.views || {};
 
         takeAnnotation: function() {
 
-            if (!this.can_reply) {
+            if (!this.can_reply || this.annotation_mode) {
                 return;
             }
 
@@ -473,27 +500,45 @@ window.rupon.views = window.rupon.views || {};
 
         setAnnotation: function() {
 
+            this.annotation_mode = true;
+
             var selection = window.getSelection();
+            var selectable_field = this.$el.find('.selectable-text')
+            var selectable_text = selectable_field.html();
 
             if (selection.baseOffset < selection.extentOffset) {
                 this.selected_start = selection.baseOffset;
                 this.selected_end   = selection.extentOffset;
-            } else {
+            } else if (selection.baseOffset > selection.extentOffset) {
                 this.selected_start = selection.extentOffset;
                 this.selected_end   = selection.baseOffset;
+            } else {
+                var html_text = this.convertLineBreaks(selection.toString(), 'n');
+                this.selected_start = selectable_text.indexOf(html_text)
+                this.selected_end = this.selected_start + html_text.length;
             }
 
-            var selectable_field = this.$el.find('.selectable-text');
-            selectable_field.text(selectable_field.text());
-            var description_text = selectable_field.text();
-            this.selected_text = description_text.substring(this.selected_start, this.selected_end);
-            selectable_field.html(description_text.replace(this.selected_text, '<span class="temp" data-placement="bottom" data-html="true" data-content="<input />">' + this.selected_text + '</span>'));
+            selectable_field.html(this.replaceText(selectable_text));
+
+            $('.temp').popover({
+                content: Handlebars.compile($("#popover-template").html())
+            });
             $('.temp').popover('show')
 
             popover_input = $('.popover-content').find('input');
             $('.temp').on('shown.bs.popover', function () {
               popover_input.focus()
             })
+        },
+
+        replaceText: function(textBeforeEdit) {
+            this.selected_text = textBeforeEdit.substring(this.selected_start, this.selected_end);
+            console.log(textBeforeEdit);
+            return textBeforeEdit.replace(this.selected_text, this.highlightTemplate(this.selected_text));
+        },
+
+        highlightTemplate: function(text) {
+            return '<span class="temp" data-placement="bottom" data-html="true">' + text + '</span>'
         },
 
         changePrivacy: function() {
@@ -568,38 +613,34 @@ window.rupon.views = window.rupon.views || {};
 
         submitReply: function(e) {
 
-            switch(e.which) {
-                case 13:
-                    var description = this.$el.find('.popover-content').find('input').val()
+            var description = this.$el.find('.popover-content').find('textarea').val()
 
-                    if ($.trim(description) != "") {
+            if ($.trim(description) != "") {
 
-                        var attr = {
-                            user_id:     this.user.user_id,
-                            description: description,
-                            thought_id:  this.model.get('_id')
-                        };
+                var attr = {
+                    user_id:     this.user.user_id,
+                    description: description,
+                    thought_id:  this.model.get('_id')
+                };
 
-                        if (this.selected_start && this.selected_end && this.selected_text) {
-                            attr.annotations = [{
-                                start: this.selected_start,
-                                end:   this.selected_end,
-                                description: this.selected_text
-                            }];
-                        }
+                if (this.selected_start && this.selected_end && this.selected_text) {
+                    attr.annotations = [{
+                        start: this.selected_start,
+                        end:   this.selected_end,
+                        description: this.selected_text
+                    }];
+                }
 
-                        var self = this;
-                        this.replyCollection.create(attr, { 
-                            wait: true,
-                            success: function() {
-                                self.$el.find('.write-reply').addClass('hidden');
-                                self.$el.find('.preempt-reply').addClass('hidden');
-                                $('.temp').popover('hide')
-                                self.$el.find('.temp').removeClass('temp').addClass('perm');
-                            }
-                        });
+                var self = this;
+                this.replyCollection.create(attr, { 
+                    wait: true,
+                    success: function() {
+                        self.$el.find('.write-reply').addClass('hidden');
+                        self.$el.find('.preempt-reply').addClass('hidden');
+                        $('.temp').popover('hide')
+                        self.$el.find('.temp').removeClass('temp').addClass('perm');
                     }
-
+                });
             }
 
         }

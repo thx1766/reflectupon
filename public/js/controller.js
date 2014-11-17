@@ -170,12 +170,12 @@ window.rupon.utils = window.rupon.utils || {};
             data: {
                 "stream_type":   "my-thoughts",
                 "reply_privacy": "AUTHOR_TO_PUBLIC"
-            },
-            success: function(collection) {
-                _.each(collection.models, function(model) {
-                    model.getAnnotations();
-                });
-            }
+            }//,
+            // success: function(collection) {
+            //     _.each(collection.models, function(model) {
+            //         model.getAnnotations();
+            //     });
+            // }
         });
 
         frequency_collection.fetch({reset:true});

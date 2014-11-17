@@ -359,39 +359,68 @@ module.exports = function(app) {
     });
 
     app.get('/api/frequency', function(req, res) {
-        var d = new Date();
-        var numDays = 30;
 
-        d.setDate(d.getDate()-numDays);
-
+        var num_days = 30;
         var options = {
-          date: { $lt: new Date(), $gt: d },
+          date:    getDateRange(30),
           user_id: req.user._id
         };
 
-        Thought.find(options).sort({date:-1}).exec(function(err, thoughts) {
+        getThoughtsWithAnnotation(options, function(thoughts) {
+            Annotation
+                .find(options)
+                .sort({date:-1})
+                .exec(function(err, annotations) {
+                    var frequency = [];
 
-            Annotation.find(options).sort({date:-1}).exec(function(err, annotations) {
-                var frequency = [];
+                    for (var i = 0; i < num_days; i++) {
 
-                for (var i = 0; i < numDays; i++) {
+                        var endDate   = getDate(i, 1);
+                        var startDate = getDate(i);
 
-                    var endDate   = getDate(i, 1);
-                    var startDate = getDate(i);
+                        frequency[i] = {
+                            day:      startDate,
+                            thoughts: getItemsByDate(thoughts, startDate, endDate),
+                            activity: getItemsByDate(annotations, startDate, endDate)
+                        };
 
-                    frequency[i] = {
-                        day:      startDate,
-                        thoughts: getItemsByDate(thoughts, startDate, endDate),
-                        activity: getItemsByDate(annotations, startDate, endDate)
-                    };
+                    }
 
-                }
-
-                res.send(frequency);
-            });
-        });
+                    res.send(frequency);
+                });  
+        })
 
     });
+
+    var getDateRange = function(num_days) {
+        var d = new Date();
+        d.setDate(d.getDate()-num_days);
+        return { $lt: new Date(), $gt: d }
+    };
+
+    var getThoughtsWithAnnotation = function(options, callback) {
+        Thought
+            .find(options)
+            .sort({date:-1})
+            .exec(function(err, thoughts) {
+                async.mapSeries(
+                    thoughts,
+                    getAnnotationByThought, 
+                    function(err, results) {
+                        callback(results);
+                    });
+            });
+
+    };
+
+    var getAnnotationByThought = function(thought, callback) {
+        formatted_thought = {};
+        formatted_thought = thought.toObject();
+        Annotation.find({thought_id: thought.id}, function(err, thought_annotations) {
+            formatted_thought.annotations = thought_annotations;
+            callback(err, formatted_thought);
+        })
+    }
 
     var getDate = function(num_day, end_day) {
 
@@ -411,8 +440,6 @@ module.exports = function(app) {
             output_thoughts.push(thoughts.shift());
             if (thoughts.length) thought_date = new Date(thoughts[0].date);
         }
-
-        console.log(output_thoughts);
         return output_thoughts;
     };
 
