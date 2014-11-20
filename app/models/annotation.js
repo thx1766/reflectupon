@@ -8,7 +8,13 @@ var annotationSchema = Schema({
     end:            Number,
     thought_id:     String,
     user_id:        String,
-    date:           Date
+    date:           Date,
+    replies:        [{
+        type: Schema.Types.ObjectId,
+        ref: 'Reply' }],
+    thoughts:       [{
+        type: Schema.Types.ObjectId,
+        ref: 'Thought' }]
 });
 
 mongoose.model('Annotation', annotationSchema);

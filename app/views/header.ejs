@@ -170,7 +170,12 @@
     <script type="text/x-handlebars-template" id="slider-template">
     </script>
     <script type="text/x-handlebars-template" id="frequency-item-template">
-        <a href="javascript:;">{{date}}</a>
+        {{#if filled}}
+            <a href="javascript:;">{{date}}</a>
+        {{else}}
+            {{date}}
+            <!--<i class="fa fa-plus"></i>-->
+        {{/if}}
     </script>
     <script type="text/x-handlebars-template" id="tooltip-template">
         <div class="heading">You just highlighted:</div>
@@ -194,6 +199,11 @@
                 <div>
                     <div class="section clearfix">
                         <div class="expanded">
+                            {{#if entry_date}}
+                                <div class="delayed-entry">
+                                    Entry for {{entry_date}}
+                                </div>
+                            {{/if}}
                             <div class="header clearfix">
                                 <div class="clearfix">
                                     <button type="button" class="btn btn-default privacy">
@@ -213,7 +223,7 @@
                             </div>
                             <div class="message">
                                 <div class="description">
-                                    <textarea placeholder="Write freely about how you feel. Posts are private by default."></textarea>
+                                    <textarea placeholder="Write freely about how you feel."></textarea>
                                 </div>
                             </div>
                             <div class="footer clearfix">
@@ -229,12 +239,19 @@
         </div>
     </script>
     <script type="text/x-handlebars-template" id="activity-context-template">
-        <div class="activity-box">
+        <div class="activity-box {{#if padded_box}}padded{{/if}}">
             <div class="overflow-container">
                 <div class="overflow-description">{{{description}}}
                 </div>
             </div>
-            <a href="javascript:;"><i class="fa fa-tag"></i>Original post written Oct 26</a>
+            {{#if reply_description}}
+            <div class="overflow-reply">
+                {{reply_description}}
+            </div>
+            {{/if}}
+            {{#if thought_date}}
+            <a href="javascript:;"><i class="fa fa-tag"></i>Original post written {{thought_date}}</a>
+            {{/if}}
         </div>
     </script>
     <script type="text/x-handlebars-template" id="date-view-template">
@@ -339,12 +356,6 @@
         </div>
         {{#if enable_below_message}}
             <div class="below-message">
-                {{#if num_annotations}}
-                    <div class="count-annotations">{{num_annotations}} <i class="fa fa-bookmark"></i></div>
-                {{/if}}
-                {{#if num_replies}}
-                    <div class="count-replies">{{num_replies}} <i class="fa fa-comment"></i></div>
-                {{/if}}
                 {{#if tags}}
                     <div class="tags-container">
                         <i class="fa fa-tag"></i>
@@ -492,6 +503,7 @@
         <div class="date">{{ date }}</div>
         <div class="delete"><a href="javascript:;">Delete</a></div>
     </script>
+    <script type="text/javascript" src="/js/helpers.js"></script>
     <script type="text/javascript" src="/js/models.js"></script>
     <script type="text/javascript" src="/js/views/common_views.js"></script>
     <script type="text/javascript" src="/js/views/views.js"></script>

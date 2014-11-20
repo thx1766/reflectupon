@@ -366,9 +366,15 @@ module.exports = function(app) {
           user_id: req.user._id
         };
 
+        populate = {
+            path: 'replies'
+        };
+
         getThoughtsWithAnnotation(options, function(thoughts) {
             Annotation
                 .find(options)
+                .populate(populate)
+                .populate({path: 'thoughts'})
                 .sort({date:-1})
                 .exec(function(err, annotations) {
                     var frequency = [];
@@ -399,8 +405,14 @@ module.exports = function(app) {
     };
 
     var getThoughtsWithAnnotation = function(options, callback) {
+
+        populate = {
+            path: 'replies'
+        };
+
         Thought
             .find(options)
+            .populate(populate)
             .sort({date:-1})
             .exec(function(err, thoughts) {
                 async.mapSeries(
@@ -595,18 +607,25 @@ module.exports = function(app) {
                         date:           new Date()
                     });
 
-                    annotation.save(function(err) {
+                    annotation.replies.push(reply);
 
-                        if (err) console.log(err);
+                    Thought.findById(req.body.thought_id, function(err, thought) {
+                        annotation.thoughts.push(thought);
 
-                        reply.annotations.push(annotation);
-                        reply.save(function(err){
+                        annotation.save(function(err) {
 
                             if (err) console.log(err);
 
+                            reply.annotations.push(annotation);
+                            reply.save(function(err){
+
+                                if (err) console.log(err);
+
+                            });
+
                         });
 
-                    });
+                    })
 
                 }
             }
@@ -640,13 +659,17 @@ module.exports = function(app) {
             date:           new Date()
         });
 
-        annotation.save(function(err) {
+        Reply.findById(req.body.reply_id, function(err, reply) {
+            annotation.replies.push(reply);
 
-            if (err) console.log(err);
+            annotation.save(function(err) {
 
-            res.send( req.body );
+                if (err) console.log(err);
 
-        });
+                res.send( req.body );
+
+            });
+        })
 
     });
 

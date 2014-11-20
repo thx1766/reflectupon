@@ -58,7 +58,8 @@ window.rupon.views = window.rupon.views || {};
         },
 
         render: function(options) {
-            cv.TemplateView.prototype.render.call(this);
+            delete options.entry_date;
+            cv.TemplateView.prototype.render.call(this, options);
 
             var writeTagsView = new rv.WriteTagsView({collection: options.tags_collection});
 
@@ -80,6 +81,7 @@ window.rupon.views = window.rupon.views || {};
 
             this.$el.find('.tags-container').html(writeTagsView.$el);
             this.$el.find('.fa').tooltip();
+            $('textarea').autosize();
         },
 
         showLink: function() {

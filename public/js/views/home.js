@@ -64,56 +64,6 @@ window.rupon.views = window.rupon.views || {};
         }
     });
 
-    rv.FrequencyView = cv.CollectionContainer.extend({
-
-        tagName: "div",
-        className: "side-view clearfix",
-
-        template: Handlebars.compile($("#frequency-template").html()),
-
-        initialize: function(options) {
-            this.$el.html(this.template());
-            cv.CollectionContainer.prototype.initialize.call(this, function(model) { 
-                return new rv.FrequencyItemView({model: model});
-            });
-        },
-
-        // createReflection: function() {
-        //     $('body').animate({
-        //         scrollTop: $('.write-container').position().top
-        //     }, 500);
-        //     this.trigger('write-reflection');
-        // }
-
-    });
-
-    rv.FrequencyItemView = cv.TemplateView.extend({
-
-        tagName: "li",
-        template: Handlebars.compile($("#frequency-item-template").html()),
-
-        events: {
-            "click a": "goToEntry"
-        },
-
-        initialize: function() {
-            this.listenTo(this.model, "change", this.render);
-            cv.TemplateView.prototype.initialize.call(this);
-        },
-
-        render: function() {
-            var options = {};
-            if (this.model.get("thoughts")) this.$el.toggleClass("filled", this.model.get("thoughts").length >0);
-            options.date = moment(this.model.attributes.day).format('MMM Do')
-            cv.TemplateView.prototype.render.call(this,options);
-        },
-
-        goToEntry: function(e) {
-            this.trigger('go-to-entry', this.model.attributes.day)
-        }
-
-    });
-
     rv.ArchivedItemView = Backbone.View.extend({
         tagName: "div",
         className: "thought-row tooltipbottom clearfix",
@@ -166,52 +116,7 @@ window.rupon.views = window.rupon.views || {};
             e.preventDefault();
             this.trigger("dismiss-message");
         }
-    }) /*
-
-    rv.RecommendedView = cv.CollectionContainer.extend({
-        tagName: "div",
-        className: "recommended-view",
-
-        template: Handlebars.compile($("#recommended-template").html()),
-
-        initialize: function(options) {
-            cv.CollectionContainer.prototype.initialize.call(this, function(model) {
-                return new rv.ThoughtWrapperView({
-                    model: model,
-                    user:  options.user
-                });
-            });
-        }
-
     });
-
-    rv.RecommendedItemView = Backbone.View.extend({
-        tagName: "div",
-        template: Handlebars.compile($("#recommended-item-template").html()),
-
-        initialize: function() {
-            this.render();
-
-        },
-
-        render: function() {
-            var template_options = {
-                duration: moment(this.model.get("date")).fromNow()
-            };
-            
-            this.$el.html(this.template(template_options));
-
-            var thoughtView = new rv.ThoughtWrapperView({model:this.model});
-
-            var self = this;
-            
-            this.listenTo(thoughtView, 'all', function() {
-                self.trigger.apply(this, arguments);
-            });
-
-            this.$el.find(".rec-thought-container").html(thoughtView.$el);
-        }
-    }); */
 
     rv.PaginationView = Backbone.View.extend({
         tagName: "div",
@@ -231,7 +136,6 @@ window.rupon.views = window.rupon.views || {};
         },
 
         render: function() {
-            this.$el.toggle(this.collection.hasNextPage());
             this.$el.html(this.template());
             this.$el.find('.more-recent').addClass('hidden');
         },
@@ -240,7 +144,6 @@ window.rupon.views = window.rupon.views || {};
             this.trigger('get-next-entry');
             this.$el.find('.go-to-write').addClass('hidden');
             this.$el.find('.more-recent').removeClass('hidden');
-            //this.collection.getNextPage({fetch:true});
         },
 
         getPreviousPage: function() {

@@ -5,7 +5,8 @@ window.rupon.models = window.rupon.models || {};
 
     Backbone.Model.prototype.idAttribute = "_id";
 
-    var rm = window.rupon.models;
+    var rm = window.rupon.models,
+        rh = window.rupon.helpers;
 
     rm.user = Backbone.Model.extend({
         urlRoot: '/api/users'
@@ -24,7 +25,8 @@ window.rupon.models = window.rupon.models || {};
         defaults: {
             "title":        "Untitled",
             "description":  "test",
-            "privacy":      "PRIVATE"
+            "privacy":      "PRIVATE",
+            "replies":      []
         },
         urlRoot: "/api/thought",
 
@@ -144,19 +146,20 @@ window.rupon.models = window.rupon.models || {};
     });
 
     rm.frequency = Backbone.Model.extend({
-
+        parse: function(response) {
+            response.day = rh.dateForFrequencyItem(response.day);
+            response.thoughts = _.map(response.thoughts, function(thought) {
+                return new rm.thought(thought);
+            });
+            return response;
+        }
     });
 
     rm.frequencyCollection = Backbone.Collection.extend({
         model: rm.frequency,
         url: '/api/frequency',
 
-        initialize: function(options) {
-            this.listen_collection = options.listen_collection;
-            this.listenTo(this.listen_collection, 'create', this.addToLastModel);
-        },
-
-        addToLastModel: function(model) {
+        addToDate: function(model) {
 
             var freq_model = this.models[0],
                 thoughts   = _.clone(freq_model.get("thoughts"));

@@ -42,9 +42,11 @@ a img{border:0;}
 #container.with-replies{margin:0;}
 .side-view-container{height: 500px;}
 .side-view{background-color: #EFEFEF;box-shadow:0 1px 2px #ccc;overflow:hidden;}
-.side-view li{padding:5px 10px;list-style:none;}
+.side-view li{padding:5px 10px;list-style:none;color:#9C9C9C;}
 .side-view li.filled{background-color:#fff;box-shadow:0 2px 4px #ccc}
 .side-view li ul{margin-bottom:0;}
+.side-view li .fa-plus{display:none;}
+.side-view li:hover .fa-plus{display:block;cursor:pointer;float: right;border: 1px solid #DEDEDE;padding: 2px 4px;border-radius: 4px;background-color: #fff;box-shadow: 0px 1px 1px;}
 .main-view-container.col-md-10{}
 
 .container{max-width:1170px;}
@@ -78,10 +80,7 @@ a img{border:0;}
 .date-view .section{background-color:#fff;border-radius:3px;padding:10px 80px 25px 30px;color:#626262;line-height: 24px;position: relative;box-shadow:0 1px 2px #d6d6d6;}
 .thoughts-list{min-height:400px;}
 
-.below-message{font-weight:200;height:30px;color:#A7A7A7;background-color:rgba(255,255,255,0.8);padding:4px 12px;font-size:16px;border-bottom-left-radius: 3px;border-bottom-right-radius: 3px;}
-.below-message i{margin-right:10px;}
-.below-message .count-annotations{float:left;}
-.below-message .count-replies{float:left;}
+.below-message{font-weight:200;height:30px;color:#A7A7A7;padding:4px 12px;font-size:16px;border-bottom-left-radius: 3px;border-bottom-right-radius: 3px;}
 .below-message .tags-container{float:right;white-space:nowrap;}
 .below-message .tags-container i{display:inline-block;margin-right:0;}
 .below-message ul{list-style:none;display:inline-block;margin-bottom:0;}
@@ -98,9 +97,11 @@ a img{border:0;}
 .activity-box{margin-bottom: 20px;}
 .thought-row .activity-box a{padding-top:2px;display:block;font-size:12px;font-weight:400;}
 .activity-box a i{padding-right:3px;}
-.overflow-container{border:1px solid #CBCBCB;width: 600px;font-family: 'Merriweather';font-size: 18px;overflow: hidden;background-color: #f9f9f9;color:#d8d8d8;box-shadow:inset 0 2px 3px #E4E4E4;}
+.overflow-container{border:1px solid #CBCBCB;font-family: 'Merriweather';font-size: 18px;overflow: hidden;background-color: #f9f9f9;color:#d8d8d8;box-shadow:inset 0 2px 3px #E4E4E4;}
 .overflow-description{margin: -7px 10px;}
 .overflow-description .highlight{color:#747474;}
+.activity-box.padded .overflow-description {margin: 6px 10px;}
+.overflow-reply{border: 1px solid #CBCBCB;padding: 6px 10px;border-top: 0;}
 .recommended-container .thoughts-list>div .date{
     background-color: #D4EAF7;
     font-size: 18px;
@@ -183,6 +184,7 @@ a img{border:0;}
 .write-view .footer{border-top:1px solid #F5F5F5;margin:0 12px;padding:8px 0;}
 .write-view .footer .privacy{outline:none;}
 .write-view .footer .create{float:right;padding-left:20px;padding-right:20px;}
+.write-view .delayed-entry{padding: 10px 15px;font-size: 18px;font-weight: 200;background-color: #E5FDFF;}
 .write-view .expanded{-webkit-transition:all .5s;transition:all .5s;max-height:750px;position:relative;z-index:2;background-color:#fff;}
 .write-view .expanded.no-opacity{overflow:hidden;opacity:0;max-height:54px;pointer-events:none;}
 .write-view .condensed{height:100%;width:100%;background-color:#8d8d8d;position:absolute;bottom:0;left:0;}
@@ -382,11 +384,7 @@ div.jquery-gdakram-tooltip h1{display:none}
 @media all and (min-width:992px) {
     .thought-row .reply-collection-container{max-height:400px;overflow:auto;}
     .thought-row .reply-collection{margin-bottom:12px;}
-    .side-action-container{position:absolute;top: 8px;right: -114px;width:100px;}
-    a.side-action{padding: 5px 8px;background-color: #909090;border-radius: 4px;font-size: 16px;float:left;color:#FFFFFF;display:block;box-shadow:0 2px 1px #797979;}
-    a.side-action:hover{background-color:#999;}
 
-    .reply-summary{}
     .reply-summary i{margin-left: 6px;}
     .write-reply2 i{margin-right:4px;}
 
@@ -394,6 +392,5 @@ div.jquery-gdakram-tooltip h1{display:none}
 }
 
 @media all and (max-width:991px) {
-    a.side-action{display:none;}
     .thought-row .reply-collection li{border:0;background-color:#fdfdfd;}
 }

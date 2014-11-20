@@ -16,7 +16,8 @@ window.rupon.utils = window.rupon.utils || {};
 
     var rc = window.rupon.controllers,
         rv = window.rupon.views,
-        rm = window.rupon.models;
+        rm = window.rupon.models,
+        rh = window.rupon.helpers;
 
     rc.startPage = function(options) {
 
@@ -89,28 +90,31 @@ window.rupon.utils = window.rupon.utils || {};
 
         var recommended_collection  = new rupon.models.thoughtCollection(),
             user_message_collection = new rupon.models.userMessageCollection(),
-            frequency_collection    = new rupon.models.frequencyCollection({listen_collection: my_thoughts_collection}),
+            frequency_collection    = new rupon.models.frequencyCollection(),
             tags_collection         = new rm.topicsCollection();
 
         var writeToThoughtsView = new rv.WriteToThoughtsView({
-            tags_collection: tags_collection,
-            write_success:   function(attrs, changeView) {
-                my_thoughts_collection.create(attrs, {
-                    wait:    true,
-                    silent:  true,
-                    success: function(response) {
-                        my_thoughts_collection.modelPosition = 0;
-                        my_thoughts_collection.trigger('create', response);
-                        changeView();
-                    }
-                });
-            },
+            tags_collection:      tags_collection,
             frequency_collection: frequency_collection,
             reply_collection:     rm.replyCollection,
             user:                 rupon.account_info
         });
 
-        var paginationView = new rv.PaginationView({collection: my_thoughts_collection});
+        writeToThoughtsView.on("create-reflection", function(attrs) {
+            var format_date = rh.dateForFrequencyItem(attrs.date);
+            var freq_item   = frequency_collection.where({day: format_date})[0];
+
+            var thought = new rm.thought(attrs);
+            thought.save();
+
+            var thoughts = freq_item.get('thoughts')
+            thoughts.unshift(thought);
+            freq_item.set('thoughts', thoughts);
+
+            writeToThoughtsView.trigger('go-to-entry', "most-recent");
+        });
+
+        var paginationView = new rv.PaginationView({collection: frequency_collection});
         paginationView
             .on('get-next-entry', function() {
                 writeToThoughtsView.trigger('get-next-entry');
@@ -119,19 +123,23 @@ window.rupon.utils = window.rupon.utils || {};
                 writeToThoughtsView.trigger('get-previous-entry', cb);
             })
             .on('go-to-entry', function() {
-                writeToThoughtsView.trigger('go-to-entry', "most-recent");
+                writeToThoughtsView.trigger('go-to-entry', 'most-recent');
             })
             .on('write-reflection', function() {
                 writeToThoughtsView.trigger('write-reflection')
             })
 
         frequencyView = new rv.FrequencyView({collection: frequency_collection});
-        frequencyView.on('write-reflection', function() {
-            writeToThoughtsView.trigger('write-reflection')
-        })
-        .on('go-to-entry', function(val) {
-            writeToThoughtsView.trigger('go-to-entry', val);
-        });
+        frequencyView
+            .on('write-reflection', function() {
+                writeToThoughtsView.trigger('write-reflection')
+            })
+            .on('go-to-entry', function(val) {
+                writeToThoughtsView.trigger('go-to-entry', val);
+            })
+            .on('write-entry', function(val) {
+                writeToThoughtsView.trigger('write-entry', val);
+            })
 
         var mainView = new rv.MainView();
         var sideView = new rv.SideView({collection: my_thoughts_collection});
@@ -146,7 +154,6 @@ window.rupon.utils = window.rupon.utils || {};
         $("#container").append(mainView.$el);
 
 		mainView.$el
-            //.find(".frequency-container").append(frequencyView.$el).end()
             .find(".thought-container").append(writeToThoughtsView.$el).end()
             .find(".pagination-container").append(paginationView.$el);
 
@@ -170,21 +177,13 @@ window.rupon.utils = window.rupon.utils || {};
             data: {
                 "stream_type":   "my-thoughts",
                 "reply_privacy": "AUTHOR_TO_PUBLIC"
-            }//,
-            // success: function(collection) {
-            //     _.each(collection.models, function(model) {
-            //         model.getAnnotations();
-            //     });
-            // }
+            }
         });
 
         frequency_collection.fetch({reset:true});
         recommended_collection.fetch({reset:true, data: {stream_type: "recommended"}});
-        user_message_collection.fetch({reset:true, data: {user_id:rupon.account_info.user_id},
-            success: function() {
-            }});
+        user_message_collection.fetch({reset:true, data: {user_id:rupon.account_info.user_id}});
         tags_collection.fetch();
-        $('textarea').autosize();
 	};
 
     rc.setSingle = function(model) {

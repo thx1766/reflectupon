@@ -32,10 +32,13 @@ window.rupon.views = window.rupon.views || {};
             var self = this;
             this.on('write-reflection', function() {
                 self.render("write");
-            })
+            });
             this.on('go-to-entry', function(val) {
                 self.render("thoughts");
                 self.thoughtsView.trigger('go-to-entry', val);
+            });
+            this.on('write-entry', function() {
+                self.render("write");
             });
         },
 
@@ -55,18 +58,16 @@ window.rupon.views = window.rupon.views || {};
         },
 
         renderWriteView: function() {
-            var tags_collection = this.options.tags_collection,
-                success         = this.options.write_success;
+            var tags_collection = this.options.tags_collection;
 
             view = new rv.WriteThoughtView({
-                tags_collection: tags_collection
+                tags_collection: tags_collection,
+                entry_date:      "Nov 29th"
             });
 
             var self = this;
             view.on("create-reflection", function(attrs) {
-                success(attrs, function() {
-                    self.render("thoughts");
-                })
+                self.trigger("create-reflection", attrs);
             });
             return view;
         },
@@ -122,10 +123,10 @@ window.rupon.views = window.rupon.views || {};
 
         },
 
-        displayItem: function(thought, method) {
-            this.current_thought = _.findWhere(this.collection.models, {id: thought.id});
+        displayItem: function(date) {
+            this.current_date = _.findWhere(this.collection.models, {cid: date.cid});
 
-            if (thought.get("archived")) {
+            if (date.get("archived")) {
                 this.archived_count = this.last_archived ? (this.archived_count+1) : 1;
                 this.last_archived = true;
             } else {
@@ -136,17 +137,12 @@ window.rupon.views = window.rupon.views || {};
             var formatThought;
 
             if (!this.archived_count || (this.archived_count && this.archived_count == 1)) {
-                formatThought = this.modelView(thought);
+                formatThought = this.modelView(date);
             } else {
-                formatThought = new rv.ArchivedItemView({ model: thought });
+                formatThought = new rv.ArchivedItemView({ model: date });
             }
 
-            method = method || "append";
-            if (method == "append") {
-                this.$el.html(formatThought.$el)
-            } else {
-                this.$el[method](formatThought.$el);
-            }
+            this.$el.html(formatThought.$el)
 
             var self = this;
             this.listenTo(formatThought, 'all', function() {
@@ -167,13 +163,13 @@ window.rupon.views = window.rupon.views || {};
 
         getNextEntry: function() {
             sorted_models = _.sortBy(this.collection.models, function(model){ return -new Date(model.attributes.date); });
-            model_index = _.indexOf(sorted_models, this.current_thought);
+            model_index = _.indexOf(sorted_models, this.current_date);
             this.displayItem(sorted_models[model_index + 1]);
         },
 
         getPreviousEntry: function(cb) {
             sorted_models = _.sortBy(this.collection.models, function(model){ return -new Date(model.attributes.date); });
-            model_index = _.indexOf(sorted_models, this.current_thought);
+            model_index = _.indexOf(sorted_models, this.current_date);
             this.displayItem(sorted_models[model_index - 1]);
             if (model_index == 1) cb();
         }
@@ -190,6 +186,11 @@ window.rupon.views = window.rupon.views || {};
 
         template: Handlebars.compile($("#date-view-template").html()),
 
+        initialize: function(options) {
+            this.listenTo(this.model, 'set', this.render);
+            this.render(options);
+        },
+
         render: function(options) {
             options.day = moment(this.model.get("day")).format('MMM Do')
             cv.TemplateView.prototype.render.call(this, options);
@@ -199,7 +200,7 @@ window.rupon.views = window.rupon.views || {};
             var self = this;
             _.each(thoughts,function(thought) {
                 var thoughtWrapper = new rv.ThoughtWrapperView({
-                    model:              new Backbone.Model(thought),
+                    model:              thought,
                     user:               options.user,
                     reply_collection:   options.reply_collection,
                     thought_collection: options.thought_collection,
@@ -230,11 +231,15 @@ window.rupon.views = window.rupon.views || {};
                 var self = this;
                 self.annotationContextBoxes = [];
                 _.each(annotation_models, function(model) {
-                    //var background_text = thought_description.substring(Math.max(0,model.attributes.start-75), model.attributes.end+75);
-                    //var description = background_text.replace(model.attributes.description, "<span class='highlight'>"+model.attributes.description+"</span>")
-                    description =  "<span class='highlight'>"+model.description+"</span>"
+                    thought_description = this.getThoughtDescription(model);
+                    description = this.presentThoughtAnnotation(thought_description, model);
+
+
                     var params = {
-                        description: description
+                        description:       description,
+                        reply_description: this.getReplyDescription(model),
+                        padded_box:        description.length < 50,
+                        thought_date:      this.getThoughtDate(model)
                     };
 
                     annotationContextBox = new rv.AnnotationContextBox({
@@ -243,7 +248,44 @@ window.rupon.views = window.rupon.views || {};
 
                     self.annotationContextBoxes.push(annotationContextBox);
                     $(".activity-container").append(annotationContextBox.$el)
-                })
+                }, this)
+            }
+        },
+
+        presentThoughtAnnotation: function(thought_description, model) {
+            if (thought_description.length) {
+                var background_text = thought_description.substring(Math.max(0,model.start-75), model.end+75);
+                return background_text.replace(model.description, this.highlightTemplate(model.description))
+            } else {
+                return this.highlightTemplate(model.description);
+            }
+        },
+
+        highlightTemplate: function(description) {
+            return "<span class='highlight'>"+description+"</span>"
+        },
+
+        getThoughtDate: function(model) {
+            if (model && model.thoughts && model.thoughts.length) {
+                return moment(model.thoughts[0].date).format('MMM Do');
+            } else {
+                return "";
+            }
+        },
+
+        getReplyDescription: function(model) {
+            if (model && model.replies && model.replies.length) {
+                return model.replies[0].description;
+            } else {
+                return ""
+            }
+        },
+
+        getThoughtDescription: function(model) {
+            if (model && model.thoughts && model.thoughts.length) {
+                return model.thoughts[0].description;
+            } else {
+                return ""
             }
         }
     })
@@ -269,7 +311,6 @@ window.rupon.views = window.rupon.views || {};
             'focusin input':                  'focusTextarea',
             'click .write-reply2':            'writeReply', 
             'click .reply-summary':           'getReplySummary',
-            'hover .perm':                    'viewReply',
             'click .reply-popover button':    'submitReply',
             'click .reply-popover .fa-times': 'removePopover'
         },
@@ -281,7 +322,7 @@ window.rupon.views = window.rupon.views || {};
             this.listenTo(this.model, "change", this.render);
             this.listenTo(this.model, "destroy", this.remove);
 
-            this.activateTooltip();
+            //this.activateTooltip();
             this.render(options);
 
             this.user      = options.user;
@@ -290,7 +331,7 @@ window.rupon.views = window.rupon.views || {};
             this.replyCollection = new options.reply_collection(this.model.get("replies").models);
             this.thought_collection = options.thought_collection;
 
-            this.replyCollectionContainer = new rv.RepliesView({collection: this.replyCollection, user: options.user});
+            //this.replyCollectionContainer = new rv.RepliesView({collection: this.replyCollection, user: options.user});
             this.tags_collection = options.tags_collection;
 
             var self = this;
@@ -299,21 +340,21 @@ window.rupon.views = window.rupon.views || {};
                 patch: true
             };
 
-            this.replyCollectionContainer
-                .on('thank-reply', function(attr) {
-                    var reply = self.replyCollection.findWhere(attr);
-                    reply.save({
-                        'thanked': !reply.get('thanked')
-                    }, patch_options);
-                })
-                .on('make-reply-public', function(attr) {
-                    var reply = self.replyCollection.findWhere(attr);
-                    reply.save({
-                        'privacy': 'AUTHOR_TO_PUBLIC'
-                    }, patch_options);
-                })
+            // this.replyCollectionContainer
+            //     .on('thank-reply', function(attr) {
+            //         var reply = self.replyCollection.findWhere(attr);
+            //         reply.save({
+            //             'thanked': !reply.get('thanked')
+            //         }, patch_options);
+            //     })
+            //     .on('make-reply-public', function(attr) {
+            //         var reply = self.replyCollection.findWhere(attr);
+            //         reply.save({
+            //             'privacy': 'AUTHOR_TO_PUBLIC'
+            //         }, patch_options);
+            //     })
 
-            if (this.user) this.addChild(this.replyCollectionContainer, ".reply-collection-container");
+            // if (this.user) this.addChild(this.replyCollectionContainer, ".reply-collection-container");
         },
 
         render: function(options) {
@@ -327,8 +368,6 @@ window.rupon.views = window.rupon.views || {};
             var difference_ms = today - created_at;
 
             this.user = (options && options.user) ? options.user : this.user;
-            var annotations = this.model.get('annotations');
-            var attrReplies = this.model.get('replies');
             var tags = [];
 
             if (this.model.get('tag_ids').length && this.tags_collection) {
@@ -342,17 +381,13 @@ window.rupon.views = window.rupon.views || {};
                 can_edit:        (difference_ms/(1000*60*60*24)) <= 1,
                 duration:        moment(this.model.get("date")).format('MMM Do'),
                 past_posts:      this.model.get('history') ? this.model.get('history').length : null,
-                num_annotations: annotations && annotations.length || 0,
-                num_replies:     attrReplies && attrReplies.models && attrReplies.models.length || 0,
                 tags:            tags
             }
-
-            params.enable_below_message = !!params.num_annotations || !!params.num_replies || params.tags.length;
 
             if (this.can_reply) {
                 //show "write reply" for all posts on index page
                 params.can_reply = (!this.model.get('replies').length && !params.is_author) || !this.user;
-                params.show_replies = true;
+                //params.show_replies = true;
             } else {
                 params.can_reply = false;
                 params.show_replies = false;
@@ -373,20 +408,18 @@ window.rupon.views = window.rupon.views || {};
             template_options.description = this.convertLineBreaks(template_options.description, 'n');
             template_options.annotation_notice = !!template_options.can_reply;
 
+            var annotations = this.model.get('annotations');
             if (annotations && annotations.length) {
-                var output_annotation = _.map(annotations, function(model) {
-                    return {
-                        text:     model.description,
-                        start:    model.start,
-                        end:      model.end,
-                        reply_id: [model._reply_id]
-                    };
-                });
-
-                // Start from the last of array, better with text injection
-                annotations_object = condenseArray(output_annotation).reverse();
-                template_options.description = replaceWithAnnotations(annotations_object, template_options.description);
+                template_options.description = this.renderAnnotations(template_options.description, annotations, replies);
+                template_options.num_annotations = annotations.length;
             }
+
+            var replies = this.model.get('replies').models;
+            if (replies && replies.length) {
+                template_options.num_replies = replies.length;
+            }
+
+            template_options.enable_below_message = !!template_options.num_annotations || !!template_options.num_replies || template_options.tags.length;
 
             if (_.indexOf(privacy, template_options.privacy) != -1) {
 
@@ -404,42 +437,78 @@ window.rupon.views = window.rupon.views || {};
 
             cv.Container.prototype.detachChildren.call(this);
             this.$el.html(outputHtml);
-            this.$el.find('.write-reply textarea').autosize();
-
-            this.renderAnnotations();
             cv.Container.prototype.reattachChildren.call(this);
+
+            this.$el.find('.write-reply textarea').autosize();
+            if (annotations && annotations.length && replies && replies.length) {
+                this.renderRepliesForAnnotation(this.$el.find('.perm'), replies);
+            }
         },
 
-        renderAnnotations: function(annotations, attrReplies) {
+        renderAnnotations: function(description, annotations, replies) {
+            var output_annotation = this.formatAnnotationsForDisplay(annotations);
 
-            if (annotations && annotations.length &&
-                attrReplies && attrReplies.length) {
+            // Start from the last of array, better with text injection
+            var annotations_object = condenseArray(output_annotation).reverse();
 
-                var highlights = this.$el.find('.perm');
-                _.each(highlights, function(highlight) {
+            return this.replaceWithAnnotations(annotations_object, description);
+        },
 
-                    var filteredReplies = _.filter(attrReplies.models, function(reply) {
-                        var reply_ids = $(highlight).attr('data-reply-id').split(',');
-                        return _.contains(reply_ids, reply.id)
-                    }, this);
+        formatAnnotationsForDisplay: function(annotations) {
+            return _.map(annotations, function(model) {
+                return {
+                    text:     model.description,
+                    start:    model.start,
+                    end:      model.end,
+                    reply_id: [model._reply_id]
+                };
+            });
+        },
 
-                    if (filteredReplies.length) {
-                        var list = _.map(filteredReplies, function(reply) {
-                            return "<li>" + reply.get('description') + "</li>";
-                        });
+        renderRepliesForAnnotation: function(highlights, replies) {
+            _.each(highlights, function(highlight) {
 
-                        list = "<ul>" + list.join("") + "</ul>";
+                var filteredReplies = this.getRepliesForAnnotation(highlight, replies);
 
-                        $(highlight).tooltip({
-                            title:     list,
-                            placement: 'bottom',
-                            html:      true
-                        });
-                    }
+                if (filteredReplies.length) {
+                    var list = _.map(filteredReplies, function(reply) {
+                        return "<li>" + reply.get('description') + "</li>";
+                    });
 
-                }, this);
+                    list = "<ul>" + list.join("") + "</ul>";
 
-            }
+                    this.renderRepliesPopover(highlight, list);
+                }
+
+            }, this);
+        },
+
+        renderRepliesPopover: function(highlight, content) {
+            this.$el.find(highlight).popover({
+                content:   content,
+                html:      true,
+                trigger:   "hover",
+                placement: "bottom"
+            });
+        },
+
+        getRepliesForAnnotation: function(annotation, replies) {
+            var reply_ids = $(annotation).attr('data-reply-id').split(',');
+            return _.filter(replies, function(reply) {
+                return _.contains(reply_ids, reply.id)
+            }, this);
+        },
+
+        replaceWithAnnotations: function (annotations, str) {
+
+            _.each(annotations, function(annotation) {
+                end_tag   = "</span>";
+                start_tag = "<span class='perm' data-reply-id='"+annotation.reply_id+"'>";
+                str = [str.slice(0, annotation.end), end_tag, str.slice(annotation.end)].join('');
+                str = [str.slice(0, annotation.start), start_tag, str.slice(annotation.start)].join('');
+            });
+
+            return str;
         },
 
         truncateDescription: function(description, length) {
@@ -500,36 +569,29 @@ window.rupon.views = window.rupon.views || {};
         },
 
         setAnnotation: function() {
+            var selected_text = window.getSelection().toString();
 
-            this.annotation_mode = true;
+            if (selected_text.length) {
+                this.annotation_mode = true;
+                var selectable_field = this.$el.find('.selectable-text')
+                var selectable_text = selectable_field.html();
 
-            var selection = window.getSelection();
-            var selectable_field = this.$el.find('.selectable-text')
-            var selectable_text = selectable_field.html();
-
-            if (selection.baseOffset < selection.extentOffset) {
-                this.selected_start = selection.baseOffset;
-                this.selected_end   = selection.extentOffset;
-            } else if (selection.baseOffset > selection.extentOffset) {
-                this.selected_start = selection.extentOffset;
-                this.selected_end   = selection.baseOffset;
-            } else {
-                var html_text = this.convertLineBreaks(selection.toString(), 'n');
+                var html_text = this.convertLineBreaks(selected_text, 'n');
                 this.selected_start = selectable_text.indexOf(html_text)
                 this.selected_end = this.selected_start + html_text.length;
+
+                selectable_field.html(this.showTempText(true, selectable_text));
+
+                $('.temp').popover({
+                    content: Handlebars.compile($("#popover-template").html())
+                });
+                $('.temp').popover('show')
+
+                popover_input = $('.popover-content').find('input');
+                $('.temp').on('shown.bs.popover', function () {
+                  popover_input.focus()
+                })
             }
-
-            selectable_field.html(this.showTempText(true, selectable_text));
-
-            $('.temp').popover({
-                content: Handlebars.compile($("#popover-template").html())
-            });
-            $('.temp').popover('show')
-
-            popover_input = $('.popover-content').find('input');
-            $('.temp').on('shown.bs.popover', function () {
-              popover_input.focus()
-            })
         },
 
         showTempText: function(showPopover, textBeforeEdit) {
@@ -564,20 +626,20 @@ window.rupon.views = window.rupon.views || {};
             this.trigger("change-privacy", model_privacy, this.model);
         },
 
-        activateTooltip: function() {
-            var self = this;
+        // activateTooltip: function() {
+        //     var self = this;
 
-            this.$el.tooltip({
-                event_in:          "tooltip-start",
-                event_out:         "tooltip-end",
-                opacity:           1,
-                on_complete:       function() {
-                    self.trigger("tooltip-initialized");
-                },
-                arrow_left_offset: 280,
-                tooltip_class:     "thought-tooltip"
-            });
-        },
+        //     this.$el.tooltip({
+        //         event_in:          "tooltip-start",
+        //         event_out:         "tooltip-end",
+        //         opacity:           1,
+        //         on_complete:       function() {
+        //             self.trigger("tooltip-initialized");
+        //         },
+        //         arrow_left_offset: 280,
+        //         tooltip_class:     "thought-tooltip"
+        //     });
+        // },
 
         editThought: function() {
             this.$el.addClass("editing");
@@ -741,18 +803,6 @@ window.rupon.views = window.rupon.views || {};
 
         return output;
 
-    };
-
-    var replaceWithAnnotations = function (annotations, str) {
-
-        _.each(annotations, function(annotation) {
-            end_tag   = "</span>";
-            start_tag = "<span class='perm' data-reply-id='"+annotation.reply_id+"'>";
-            str = [str.slice(0, annotation.end), end_tag, str.slice(annotation.end)].join('');
-            str = [str.slice(0, annotation.start), start_tag, str.slice(annotation.start)].join('');
-        });
-
-        return str;
     };
 
 })();
