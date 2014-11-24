@@ -110,6 +110,7 @@ window.rupon.utils = window.rupon.utils || {};
             var thoughts = freq_item.get('thoughts')
             thoughts.unshift(thought);
             freq_item.set('thoughts', thoughts);
+            freq_item.trigger('thought-change');
 
             writeToThoughtsView.trigger('go-to-entry', "most-recent");
         });
@@ -180,6 +181,7 @@ window.rupon.utils = window.rupon.utils || {};
             }
         });
 
+        tags_collection.fetch();
         frequency_collection.fetch({reset:true});
         recommended_collection.fetch({reset:true, data: {stream_type: "recommended"}});
         user_message_collection.fetch({reset:true, data: {user_id:rupon.account_info.user_id}});

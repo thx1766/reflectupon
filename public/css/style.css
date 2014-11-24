@@ -80,11 +80,11 @@ a img{border:0;}
 .date-view .section{background-color:#fff;border-radius:3px;padding:10px 80px 25px 30px;color:#626262;line-height: 24px;position: relative;box-shadow:0 1px 2px #d6d6d6;}
 .thoughts-list{min-height:400px;}
 
-.below-message{font-weight:200;height:30px;color:#A7A7A7;padding:4px 12px;font-size:16px;border-bottom-left-radius: 3px;border-bottom-right-radius: 3px;}
-.below-message .tags-container{float:right;white-space:nowrap;}
-.below-message .tags-container i{display:inline-block;margin-right:0;}
+.below-message{font-weight:200;height:30px;font-size:16px;color:#C76F6F;border-bottom-left-radius: 3px;border-bottom-right-radius: 3px;}
+.below-message .tags-container{float:left;white-space:nowrap;font-size:14px;}
+.below-message .tags-container i{display:inline-block;margin-right:3px;}
 .below-message ul{list-style:none;display:inline-block;margin-bottom:0;}
-.below-message li{display:inline-block;cursor:pointer;}
+.below-message span{display:inline-block;cursor:pointer;color:#A7A7A7;}
 
 .message-container .header{background-color: #8F8F8F;padding:2px 6px;}
 .message-container .header .close{float:right;color:#ffffff;}
@@ -248,7 +248,7 @@ a img{border:0;}
 .my-dashboard .section{background-color: #fff;box-shadow: 0 2px 8px rgb(214,214,214);}
 
 /* Dashboard */
-.section .description{margin-bottom:8px;}
+.section .description{margin-bottom:0px;}
 
 .new-frequency li {list-style: none;background-color: #ccc;float: left;width: 9.6%;margin: 10px 6px;text-align: center;height: 40px;font-size: 35px;padding: 10px;border-radius: 2px;-webkit-transition: all .25s;transition: all .25s;}
 .new-frequency li.small {width: 1.7%;color: #ccc;height: 11px;overflow: hidden;margin: 25px 33px;}

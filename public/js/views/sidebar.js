@@ -83,7 +83,7 @@ window.rupon.views = window.rupon.views || {};
         },
 
         initialize: function() {
-            this.listenTo(this.model, "change", this.render);
+            this.listenTo(this.model, "thought-change", this.render);
             cv.TemplateView.prototype.initialize.call(this);
         },
 

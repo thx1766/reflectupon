@@ -206,7 +206,7 @@
                             {{/if}}
                             <div class="header clearfix">
                                 <div class="clearfix">
-                                    <button type="button" class="btn btn-default privacy">
+                                    <button type="button" class="btn btn-default privacy is_private">
                                         <i class='fa fa-lock fa-lg' title='Make Anonymous'></i>
                                         <i class='fa fa-unlock-alt fa-lg' title='Make Private'></i>
                                     </button>
@@ -223,7 +223,7 @@
                             </div>
                             <div class="message">
                                 <div class="description">
-                                    <textarea placeholder="Write freely about how you feel."></textarea>
+                                    <textarea data-autosize="1" placeholder="Write freely about how you feel."></textarea>
                                 </div>
                             </div>
                             <div class="footer clearfix">
@@ -335,11 +335,6 @@
                 </div>
             </div>
             {{/if}}
-            <div style="float: left;">
-                {{#equal privacy "Private"}} 
-                    <span style="color: #C76F6F;padding-left:4px;"><i class="fa fa-lock" style="margin-right:5px"></i>PRIVATE</span>
-                {{/equal}}
-            </div>
             {{#if annotation_notice}}
                 <div class="annotation-notice">
                     Select text in this entry to highlight
@@ -354,16 +349,19 @@
             </div>
             <div class="tooltip_description" style="display:none;" title="No worries"></div>
         </div>
+        <div style="float: left;">
+            {{#equal privacy "Private"}} 
+                <span style="color: #C76F6F;padding-left:1px;"><i class="fa fa-lock" style="margin-right:5px" title='Private Entry'></i></span>
+            {{/equal}}
+        </div>
         {{#if enable_below_message}}
             <div class="below-message">
                 {{#if tags}}
                     <div class="tags-container">
-                        <i class="fa fa-tag"></i>
-                        <ul class="tags">
-                            {{#each tags}}
-                                <li>{{name}}</li>
-                            {{/each}}
-                        </ul>
+                        Tags included:
+                        {{#each tags}}
+                            <span><i class="fa fa-tag"></i>{{name}}</span>
+                        {{/each}}
                     </div>
                 {{/if}}
             </div>

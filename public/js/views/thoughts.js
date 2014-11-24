@@ -80,6 +80,9 @@ window.rupon.views = window.rupon.views || {};
                 tags_collection:    this.options.tags_collection
             });
 
+            this.off('get-next-entry');
+            this.off('get-previous-entry');
+
             this.on('get-next-entry', function() {
                 view.trigger('get-next-entry');
             });
@@ -317,6 +320,7 @@ window.rupon.views = window.rupon.views || {};
 
         initialize: function(options) {
 
+            this.tags_collection = options.tags_collection;
             cv.Container.prototype.initialize.call(this);
 
             this.listenTo(this.model, "change", this.render);
@@ -332,7 +336,6 @@ window.rupon.views = window.rupon.views || {};
             this.thought_collection = options.thought_collection;
 
             //this.replyCollectionContainer = new rv.RepliesView({collection: this.replyCollection, user: options.user});
-            this.tags_collection = options.tags_collection;
 
             var self = this;
             var patch_options = {
@@ -438,6 +441,8 @@ window.rupon.views = window.rupon.views || {};
             cv.Container.prototype.detachChildren.call(this);
             this.$el.html(outputHtml);
             cv.Container.prototype.reattachChildren.call(this);
+
+            this.$el.find('.fa').tooltip();
 
             this.$el.find('.write-reply textarea').autosize();
             if (annotations && annotations.length && replies && replies.length) {
