@@ -1,10 +1,15 @@
-var mongoose = require('mongoose')
-  , async = require('async')
+var mongoose        = require('mongoose')
+  , async           = require('async')
+  , auth            = require('./middlewares/authorization')
+  , _               = require('underscore')
+  , emails          = require('../app/utils/emails')
+
   , user_routes     = require('../app/controllers/user')
   , thought_routes  = require('../app/controllers/thought')
-  , auth = require('./middlewares/authorization')
-  , _ = require('underscore')
-  , emails           = require('../app/utils/emails');
+  , superuser       = require('../app/controllers/superuser')
+  , dates           = require('../app/controllers/api/dates')
+  , thoughts        = require('../app/controllers/api/thoughts')
+  , reports         = require('../app/controllers/api/reports')
 
 var Thought     = mongoose.model('Thought'),
     Reply       = mongoose.model('Reply'),
@@ -15,15 +20,26 @@ var Thought     = mongoose.model('Thought'),
 
 module.exports = function(app) {
 
-    app.get( '/',                               user_routes.getIndex);
-    app.get( '/home',   auth.ensureAuthenticated,    user_routes.home);
-    app.get( '/new-ux', auth.ensureAuthenticated,    user_routes.newUser);
-    app.post('/login',                          user_routes.postlogin);
-    app.get( '/logout',                         user_routes.logout);
-    app.post('/register',                       user_routes.postregister);
-    app.post('/forgot',                         user_routes.postForgot);
-    app.post('/reset',                          user_routes.postReset);
-    app.get( '/twiml',                          thought_routes.getTwiml);
+    app.get( '/',                                 user_routes.getIndex);
+    app.get( '/home',   auth.ensureAuthenticated, user_routes.home);
+    app.get( '/reports',auth.ensureAuthenticated, user_routes.reports);
+    app.get( '/new-ux', auth.ensureAuthenticated, user_routes.newUser);
+    app.post('/login',                            user_routes.postlogin);
+    app.get( '/logout',                           user_routes.logout);
+    app.post('/register',                         user_routes.postregister);
+    app.post('/forgot',                           user_routes.postForgot);
+    app.post('/reset',                            user_routes.postReset);
+    app.get( '/twiml',                            thought_routes.getTwiml);
+    app.get( '/superuser', auth.ensureAuthenticated, superuser.get);
+
+    app.get('/api/frequency', dates.get);
+
+    app.get('/api/thought',        thoughts.get);
+    app.post('/api/thought',       thoughts.post);
+    app.put('/api/thought/:id',    thoughts.put);
+    app.delete('/api/thought/:id', thoughts.delete);
+
+    app.get('/api/reports',        reports.get);
 
     app.post('/api/send_email', function(req,res) {
 
@@ -116,390 +132,6 @@ module.exports = function(app) {
         );
 
     })
-
-    app.get('/api/thought', function(req, res) {
-
-        var params = {}, params2 = {}, array1 = null,
-            limit  = 0,
-            date_sort = null;
-            more_limit = 0,
-            where = null,
-            populate = 'replies';
-
-        var stream_type   = req.query.stream_type   || null,
-            thought_id    = req.query.thought_id    || null,
-            per_page      = req.query.per_page      || null,
-            page          = req.query.page          || null,
-            reply_privacy = req.query.reply_privacy || null;
-
-            if (thought_id) params._id = thought_id;
-
-        if (req.user) {
-
-            switch (stream_type) {
-                case "my-thoughts":
-
-                    if (per_page == 0) {
-                        res.links({
-                            next: '/api/thought/?stream_type='+stream_type+'&page='+(Number(page)+1)+'&per_page=15&sort=updated&direction=desc'
-                        });
-                        res.send([])
-                    }
-
-                    params = {
-                        user_id: req.user._id
-                    };
-
-                    params1 = {
-                        privacy: "ANONYMOUS",
-                        user_id: { $ne: req.user._id }
-                    };
-
-                    if (per_page == 15) {
-                        limit1 = 15;
-                        limit2 = 1;
-                    }
-
-                    date_sort = {date: -1};
-                    populate = {
-                        path: 'replies',
-                        match: { user_id: req.user._id }
-                    };
-
-                    async.parallel([
-
-                        function(cb) {
-                            if (params.user_id) {
-                                Thought.find( params )
-                                    .populate('replies')
-                                    .limit(limit1)
-                                    .skip(limit1 * (page - 1))
-                                    .sort(date_sort)
-                                    .exec(cb)
-                            }
-                        },
-
-                        function(cb) {
-                            Thought.find( params1 )
-                                .populate(populate)
-                                .limit(limit2)
-                                .skip(limit2 * (page - 1))
-                                .sort(date_sort)
-                                .exec(cb)
-                        }
-                        
-                    ], function(err, results) {
-
-                        var thoughts = results[0]
-
-                        function compare(a,b) {
-                            if (a.date < b.date) return 1;
-                            if (a.date > b.date) return -1;
-                            return 0;
-                        }
-
-                        if (err) console.log(err);
-
-                        var options = {
-                            path: 'replies.annotations',
-                            model: 'Annotation'
-                        }
-
-                        // Get annotations for all thoughts being outputted
-                        Thought.populate(thoughts, options, function(err, thoughts2) {
-
-                            Thought.find( params).count().exec(function(err, count) {
-
-                                if (err) console.log(err);
-
-                                var send_thoughts = [];
-
-                                async.each(thoughts2, function(thought, callback) {
-
-                                    var send_thought = thought.toObject();
-                                    if (req.user._id != send_thought.user_id) {
-
-                                        var params = {
-                                            user_id: send_thought.user_id,
-                                            privacy: "ANONYMOUS"
-                                        };
-
-                                        Thought.find(params)
-                                            .populate('replies').exec(function(err, related) {
-
-                                            send_thought.history = [];
-
-                                            _.each(related, function(thought) {
-                                                if (thought.replies && thought.replies.length) {
-                                                    _.each(thought.replies, function(reply) {
-                                                        if (reply.user_id == req.user._id) {
-
-                                                            send_thought.history.push(thought);
-                                                        }
-                                                    })
-                                                }
-                                            })
-
-                                            send_thoughts.push(send_thought);
-                                            callback();
-                                        })
-
-                                    } else {
-
-                                        send_thoughts.push(send_thought);
-                                        callback();
-
-                                    }
-
-
-                                }, function(err) {
-
-                                    if ((per_page * page) < count) { 
-                                        res.links({
-                                            next: '/api/thought/?stream_type='+stream_type+'&page='+(Number(page)+1)+'&per_page=15&sort=updated&direction=desc'
-                                        });
-                                    }
-
-                                    if (thoughts) {
-                                        if (thoughts.length == 1) {
-                                            res.send(send_thoughts[0])
-                                        } else {
-
-                                            send_thoughts = send_thoughts.sort(compare);
-                                            res.send(send_thoughts);
-                                        }
-                                    }
-
-                                });
-
-                            })
-                        })
-
-                    });
-
-                    break;
-                case "other-thoughts":
-
-                    var startDate = new Date(new Date().setHours(0,0,0,0));
-                    startDate.setDate(startDate.getDate()-14);
-
-                    params.date = {
-                        $gte: startDate,
-                        $lte: new Date() 
-                    };
-
-                    date_sort = {date: -1};
-                    params.privacy = "ANONYMOUS";
-                    
-                    Thought.find( params )
-                        .sort(date_sort)
-                        .exec(function(err, thoughts) {
-
-                            if (err) console.log(err);
-
-                            res.send(thoughts);
-
-                        });
-                    break;
-                case "recommended":
-                    params.user_id = req.user._id;
-                    limit = 15;
-                    date_sort = {date: -1};
-
-                    Thought.find( params )
-                        .limit(limit)
-                        .skip(per_page * (page - 1))
-                        .sort(date_sort)
-                        .exec(function(err, thoughts) {
-
-                            if (err) console.log(err);
-
-                            // Array that will be sent back that picks from data taken from database
-                            var send_thoughts = [];
-
-                            // Send reflections from different intervals of time, so user may reflect back on them
-                            if (thoughts && thoughts[5])  send_thoughts.push(thoughts[5]);
-
-                            res.send(send_thoughts[0])
-                        });
-                    break;
-            }
-        } else {
-
-            var startDate = new Date(new Date().setHours(0,0,0,0));
-            startDate.setDate(startDate.getDate()-14);
-
-            params.date = {
-                $gte: startDate,
-                $lte: new Date() 
-            };
-
-            date_sort = {date: -1};
-            params.privacy = "ANONYMOUS";
-
-            populate = {
-                path: 'replies',
-                match: { privacy: reply_privacy }
-            };
-
-            Thought.find( params )
-                .sort(date_sort)
-                .populate(populate)
-                .limit(6)
-                .exec(function(err, thoughts) {
-
-                    if (err) console.log(err);
-
-                    res.send(thoughts);
-
-                });
-
-        }
-
-    });
-
-    app.get('/api/frequency', function(req, res) {
-
-        var num_days = 30;
-        var options = {
-          date:    getDateRange(30),
-          user_id: req.user._id
-        };
-
-        populate = {
-            path: 'replies'
-        };
-
-        getThoughtsWithAnnotation(options, function(thoughts) {
-            Annotation
-                .find(options)
-                .populate(populate)
-                .populate({path: 'thoughts'})
-                .sort({date:-1})
-                .exec(function(err, annotations) {
-                    var frequency = [];
-
-                    for (var i = 0; i < num_days; i++) {
-
-                        var endDate   = getDate(i, 1);
-                        var startDate = getDate(i);
-
-                        frequency[i] = {
-                            day:      startDate,
-                            thoughts: getItemsByDate(thoughts, startDate, endDate),
-                            activity: getItemsByDate(annotations, startDate, endDate)
-                        };
-
-                    }
-
-                    res.send(frequency);
-                });  
-        })
-
-    });
-
-    var getDateRange = function(num_days) {
-        var d = new Date();
-        d.setDate(d.getDate()-num_days);
-        return { $lt: new Date(), $gt: d }
-    };
-
-    var getThoughtsWithAnnotation = function(options, callback) {
-
-        populate = {
-            path: 'replies'
-        };
-
-        Thought
-            .find(options)
-            .populate(populate)
-            .sort({date:-1})
-            .exec(function(err, thoughts) {
-                async.mapSeries(
-                    thoughts,
-                    getAnnotationByThought, 
-                    function(err, results) {
-                        callback(results);
-                    });
-            });
-
-    };
-
-    var getAnnotationByThought = function(thought, callback) {
-        formatted_thought = {};
-        formatted_thought = thought.toObject();
-        Annotation.find({thought_id: thought.id}, function(err, thought_annotations) {
-            formatted_thought.annotations = thought_annotations;
-            callback(err, formatted_thought);
-        })
-    }
-
-    var getDate = function(num_day, end_day) {
-
-        if (typeof end_day == "undefined") {
-            end_day = 0;
-        }
-
-        var date = new Date(new Date().setHours(0,0,0,0));
-        date.setDate(date.getDate()-(num_day - end_day));
-        return date;
-    };
-
-    var getItemsByDate = function(thoughts, startDate, endDate) {
-        var output_thoughts = [];
-        if (thoughts.length) thought_date = new Date(thoughts[0].date);
-        while (thoughts && thoughts.length && thought_date < endDate && thought_date >= startDate) {
-            output_thoughts.push(thoughts.shift());
-            if (thoughts.length) thought_date = new Date(thoughts[0].date);
-        }
-        return output_thoughts;
-    };
-
-    app.post('/api/thought', function(req, res) {
-
-        var thought = new Thought({
-            title:          req.body.title,
-            description:    req.body.description,
-            expression:     req.body.expression,
-            annotation:     req.body.annotation,
-            privacy:        req.body.privacy,
-            user_id:        req.user._id,
-            link:           req.body.link,
-            tag_ids:        req.body.tag_ids,
-            date:           new Date()
-        });
-
-        thought.save(function(err) {
-
-            if (err) console.log(err);
-
-            res.send( thought );
-
-        });
-
-    });
-
-    app.put('/api/thought/:id', function(req,res) {
-        Thought.findById(req.params.id, function(err,thought) {
-            if (req.body.privacy)     thought.privacy     = req.body.privacy;
-            if (req.body.description) thought.description = req.body.description;
-            if (req.body.archived)    thought.archived    = req.body.archived;
-
-            thought.save(function(err) {
-                if (err) console.log(err);
-                res.send(thought);
-            })
-        });
-    });
-
-    app.delete('/api/thought/:id', function(req,res) {
-        Thought.findById(req.params.id, function(err,thought) {
-            thought.remove(function(err) {
-                if (err) console.log(err);
-                res.send(thought);
-            })
-        });
-    });
 
     app.get('/api/users', function(req,res) {
 

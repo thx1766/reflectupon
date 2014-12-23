@@ -10,7 +10,7 @@ a img{border:0;}
 #topbar-wrapper{width:100%;background-color:#ffffff;box-shadow:0 2px 3px #B7B7B7;position:fixed;z-index:10;}
 #topbar-wrapper .navbar{margin-bottom:0;}
 #topbar a{display:inline-block;color:#494949;text-decoration:none;letter-spacing:1px;}
-#topbar .navbar-nav a:hover{background-color: transparent;color: #FFF943;}
+#topbar .navbar-nav a:hover{background-color: transparent;color: #837DC2;}
 #topbar .navbar-brand{font-family:'Merriweather';font-size:22px;}
 
 .fa-sign-out{margin-top:5px;}
@@ -40,7 +40,7 @@ a img{border:0;}
 #sidebar{position:relative;z-index:10;}
 #container{margin:0 auto;position:relative;z-index:1;transition:margin .5s;}
 #container.with-replies{margin:0;}
-.side-view-container{height: 500px;}
+.side-view-container{height: 500px;overflow:auto;margin-bottom:20px;}
 .side-view{background-color: #EFEFEF;box-shadow:0 1px 2px #ccc;overflow:hidden;}
 .side-view li{padding:5px 10px;list-style:none;color:#9C9C9C;}
 .side-view li.filled{background-color:#fff;box-shadow:0 2px 4px #ccc}

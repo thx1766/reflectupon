@@ -52,7 +52,7 @@ window.rupon.views = window.rupon.views || {};
 
     rv.MainView = Backbone.View.extend({
         tagName: "div",
-        className: "main-view-container col-md-10",
+        className: "main-view",
         template: Handlebars.compile($("#home-template").html()),
 
         initialize: function() {

@@ -16,9 +16,7 @@ var config          = require('../../config'),
     Q = require('q');
     SALT_WORK_FACTOR = 10;
 
-
 exports.home = function(req, res) {
-
     Thought
         .where('user_id').ne(req.user._id)
         .where('description').ne("")
@@ -34,15 +32,23 @@ exports.home = function(req, res) {
                     }
                 }
 
-                res.render('home', { user: req.user, topBar: true, signout: true, thoughts: thoughts, landing_page: false });
+                res.render('home', { user: req.user, topBar: true, signout: true, thoughts: thoughts, landing_page: false, is_admin: req.user.username == 'andrew' });
             }
 
     })
 
 };
 
+exports.journal = function(req, res) {
+    res.render('journal', { user: req.user, topBar: true, signout: true, landing_page: false, is_admin: req.user.username == 'andrew' });
+};
+
+exports.reports = function(req, res) {
+    res.render('reports', { user: req.user, topBar: true, signout: true, landing_page: false, is_admin: req.user.username == 'andrew' });
+};
+
 exports.newUser = function(req, res) {
-    res.render('new-user', {topBar: false, body: true, landing_page: false });
+    res.render('new-user', {topBar: false, body: true, landing_page: false, is_admin: req.user.username == 'andrew' });
 };
 
 exports.getIndex = function(req, res) {

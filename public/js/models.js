@@ -180,7 +180,14 @@ window.rupon.models = window.rupon.models || {};
 
     rm.topicsCollection = Backbone.Collection.extend({
         model: rm.topic,
-        url: '/api/topics'
+        url:   '/api/topics'
+    });
+
+    rm.report = Backbone.Model.extend({});
+
+    rm.reportsCollection = Backbone.Collection.extend({
+        model: rm.report,
+        url:   '/api/reports'
     })
 
 })();

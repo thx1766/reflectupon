@@ -116,6 +116,11 @@
         </div>
 
     </script>
+    <script type="text/x-handlebars-template" id="report-template">
+        <span>Journey Report of the Day</span>
+        <span>Curated August 29th</span>
+        <div class="report-items-container"></div>
+    </script>
     <script type="text/x-handlebars-template" id="home-template">
         <div class="write-container"></div>
         <div class="thought-container"></div>
@@ -474,15 +479,6 @@
             </div>
         </div>
     </script>
-    <script type="text/template" id="sidebar-template">
-        {{#if showSuperUser }}
-            <li class="show-super-user">
-                <a href="#">
-                    Superuser
-                </a>
-            </li>
-        {{/if}}
-    </script>
     <script type="text/x-handlebars-template" id="active-user-ranges-template">
         {{start_date}}
         {{end_date}}
@@ -501,6 +497,9 @@
         <div class="date">{{ date }}</div>
         <div class="delete"><a href="javascript:;">Delete</a></div>
     </script>
+    <script type="text/x-handlebars-template" id="report-item">
+        description
+    </script>
     <script type="text/javascript" src="/js/helpers.js"></script>
     <script type="text/javascript" src="/js/models.js"></script>
     <script type="text/javascript" src="/js/views/common_views.js"></script>
@@ -510,8 +509,14 @@
     <script type="text/javascript" src="/js/views/single.js"></script>
     <script type="text/javascript" src="/js/views/index.js"></script>
     <script type="text/javascript" src="/js/views/thoughts.js"></script>
+    <script type="text/javascript" src="/js/views/common/thoughts.js"></script>
     <script type="text/javascript" src="/js/views/replies.js"></script>
-    <script type="text/javascript" src="/js/controller.js"></script>
+    <script type="text/javascript" src="/js/views/reports/reports.js"></script>
+    <script type="text/javascript" src="/js/views/superuser/superuser.js"></script>
+    <script type="text/javascript" src="/js/controllers/journal.js"></script>
+    <script type="text/javascript" src="/js/controllers/reports.js"></script>
+    <script type="text/javascript" src="/js/controllers/superuser.js"></script>
+    <script type="text/javascript" src="/js/controllers/controller.js"></script>
     <script type="text/javascript">
     $(document).ready(function(){
         $('.dropdown-toggle').dropdown();
