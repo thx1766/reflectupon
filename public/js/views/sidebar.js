@@ -11,7 +11,7 @@ window.rupon.views = window.rupon.views || {};
     rv.FrequencyView = cv.CollectionContainer.extend({
 
         tagName: "div",
-        className: "side-view clearfix row",
+        className: "side-view clearfix",
 
         template: Handlebars.compile($("#frequency-template").html()),
 

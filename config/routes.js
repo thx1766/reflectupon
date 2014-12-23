@@ -4,12 +4,13 @@ var mongoose        = require('mongoose')
   , _               = require('underscore')
   , emails          = require('../app/utils/emails')
 
-  , user_routes     = require('../app/controllers/user')
-  , thought_routes  = require('../app/controllers/thought')
-  , superuser       = require('../app/controllers/superuser')
-  , dates           = require('../app/controllers/api/dates')
-  , thoughts        = require('../app/controllers/api/thoughts')
-  , reports         = require('../app/controllers/api/reports')
+  , user_routes      = require('../app/controllers/user')
+  , thought_routes   = require('../app/controllers/thought')
+  , superuser_routes = require('../app/controllers/superuser')
+  , dates            = require('../app/controllers/api/dates')
+  , thoughts         = require('../app/controllers/api/thoughts')
+  , reports          = require('../app/controllers/api/reports')
+  , superuser        = require('../app/controllers/api/superuser')
 
 var Thought     = mongoose.model('Thought'),
     Reply       = mongoose.model('Reply'),
@@ -20,17 +21,17 @@ var Thought     = mongoose.model('Thought'),
 
 module.exports = function(app) {
 
-    app.get( '/',                                 user_routes.getIndex);
-    app.get( '/home',   auth.ensureAuthenticated, user_routes.home);
-    app.get( '/reports',auth.ensureAuthenticated, user_routes.reports);
-    app.get( '/new-ux', auth.ensureAuthenticated, user_routes.newUser);
-    app.post('/login',                            user_routes.postlogin);
-    app.get( '/logout',                           user_routes.logout);
-    app.post('/register',                         user_routes.postregister);
-    app.post('/forgot',                           user_routes.postForgot);
-    app.post('/reset',                            user_routes.postReset);
-    app.get( '/twiml',                            thought_routes.getTwiml);
-    app.get( '/superuser', auth.ensureAuthenticated, superuser.get);
+    app.get( '/',                                    user_routes.getIndex);
+    app.get( '/home',   auth.ensureAuthenticated,    user_routes.home);
+    app.get( '/reports',auth.ensureAuthenticated,    user_routes.reports);
+    app.get( '/new-ux', auth.ensureAuthenticated,    user_routes.newUser);
+    app.post('/login',                               user_routes.postlogin);
+    app.get( '/logout',                              user_routes.logout);
+    app.post('/register',                            user_routes.postregister);
+    app.post('/forgot',                              user_routes.postForgot);
+    app.post('/reset',                               user_routes.postReset);
+    app.get( '/twiml',                               thought_routes.getTwiml);
+    app.get( '/superuser', auth.ensureAuthenticated, superuser_routes.get);
 
     app.get('/api/frequency', dates.get);
 
@@ -81,57 +82,7 @@ module.exports = function(app) {
             });
     });
 
-    app.get('/api/active_users', function(req, res) {
-
-        var i = 0 + (new Date().getDay());
-        var results = [];
-
-        async.whilst(
-            function() { return i < 100; },
-            function(callback) {
-
-                var result = {};
-
-                var startDate = new Date(new Date().setHours(0,0,0,0));
-                startDate.setDate(startDate.getDate()-i);
-
-                var endDate = new Date(new Date().setHours(0,0,0,0));
-                endDate.setDate(endDate.getDate()-(i-7));
-
-                result.start_date = startDate;
-                result.end_date = endDate;
-
-                var params = {
-                    date: {
-                        $gte: startDate,
-                        $lte: endDate
-                    }
-                };
-
-                Thought.find(params, function(err, thoughts) {
-
-                    if (err) console.log(err);
-
-                    var unique_users = _.reduce(thoughts, function(unique_users, thought) {
-                        if (unique_users.indexOf(thought.user_id) == -1) {
-                            unique_users.push(thought.user_id);
-                        }
-                        return unique_users;
-                    }, []);
-
-                    result.active_user_count = unique_users.length;
-                    results.push(result);
-                    i = i+7;
-                    callback();
-
-                });
-            },
-            function() {
-                res.send(results);
-            }
-        );
-
-    })
+    app.get('/api/active_users', superuser.active_users.get)
 
     app.get('/api/users', function(req,res) {
 

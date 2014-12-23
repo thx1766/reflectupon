@@ -12,6 +12,7 @@
     <link type="text/css" href="/css/style.css" rel="stylesheet" />
     <link type="text/css" href="/css/index.css" rel="stylesheet" />
     <link type="text/css" href="/css/single.css" rel="stylesheet" />
+    <link type="text/css" href="/css/superuser.css" rel="stylesheet" />
     <script type="text/javascript" src="/js/third-party/jquery.min.js"></script>
     <script type="text/javascript" src="/js/third-party/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/third-party/underscore.min.js"></script>
@@ -480,9 +481,15 @@
         </div>
     </script>
     <script type="text/x-handlebars-template" id="active-user-ranges-template">
-        {{start_date}}
-        {{end_date}}
-        {{active_user_count}}
+        <div class="start">Week of {{start_date}}</div>
+        <div class="count">{{active_user_count}}</div>
+        {{#if active_users}}
+            <ul>
+            {{#each active_users}}
+                <li>{{this}}</li>
+            {{/each}}
+            </ul>
+        {{/if}}
     </script>
     <script type="text/x-handlebars-template" id="super-user-template">
         <div class="tags-container"></div>

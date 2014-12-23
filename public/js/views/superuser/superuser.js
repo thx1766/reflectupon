@@ -113,7 +113,7 @@ window.rupon.views = window.rupon.views || {};
     });
 
     rv.ActiveUserRangeView = cv.TemplateView.extend({
-
+        className: "active-user-range clearfix",
         template: Handlebars.compile($("#active-user-ranges-template").html()),
 
         render: function(options) {

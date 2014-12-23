@@ -1,0 +1,5 @@
+.active-user-ranges-view{color:#747474;margin-top:10px;width:300px;}
+.active-user-range{padding:10px 14px;background-color:#fff;border-bottom:1px solid #EBEBEB;}
+.active-user-range .start{float:left;width:150px;color:#83C1DE;font-weight:500;}
+.active-user-range .count{float:left;width:30px;}
+.active-user-range ul{float: left;padding-left: 30px;padding-top: 3px;}
