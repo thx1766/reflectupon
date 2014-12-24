@@ -53,7 +53,7 @@ var getDate = function(num_day, end_day) {
         end_day = 0;
     }
 
-    var date = new Date(new Date().setHours(0,0,0,0));
+    var date = new Date();
     date.setDate(date.getDate()-(num_day - end_day));
     return date;
 };

@@ -360,11 +360,12 @@
             </div>
             <div class="tooltip_description" style="display:none;" title="No worries"></div>
         </div>
-        <div style="float: left;">
-            {{#equal privacy "Private"}} 
-                <span style="color: #C76F6F;padding-left:1px;"><i class="fa fa-lock" style="margin-right:5px" title='Private Entry'></i></span>
-            {{/equal}}
-        </div>
+        {{#equal privacy "Private"}}
+            <div class="private-entry-label">
+                <i class="fa fa-lock" title='Private Entry'></i>
+                Private Entry
+            </div>
+        {{/equal}}
         {{#if enable_below_message}}
             <div class="below-message">
                 {{#if tags}}

@@ -88,6 +88,9 @@ a img{border:0;}
 .date-view .section{background-color:#fff;border-radius:3px;padding:10px 80px 25px 30px;color:#626262;line-height: 24px;position: relative;box-shadow:0 1px 2px #d6d6d6;}
 .thoughts-list{min-height:400px;}
 
+.private-entry-label{color:#DA9C9C;padding-left:1px;}
+.private-entry-label i{margin-right:2px;font-size: 16px;vertical-align: -1px;}
+
 .below-message{font-weight:200;height:30px;font-size:16px;color:#C76F6F;border-bottom-left-radius: 3px;border-bottom-right-radius: 3px;}
 .below-message .tags-container{float:left;white-space:nowrap;font-size:14px;}
 .below-message .tags-container i{display:inline-block;margin-right:3px;}
@@ -226,7 +229,7 @@ a img{border:0;}
 .message-feed .description{padding:5px;}
 .message-feed .action-text{padding:5px;display:none;}
 .section.other-author{0 1px 5px rgb(166, 158, 202)}
-.thought-row{transition:margin .25s; -webkit-transition:margin .25s;padding-bottom:12px;position:relative;}
+.thought-row{transition:margin .25s; -webkit-transition:margin .25s;padding-bottom:18px;position:relative;}
 .thought-row .col-md-3{position:absolute;top:0;right:-210px;width:200px;}
 /*.thought-row.show-replies{margin-left:-130px;margin-right:130px;}*/
 
