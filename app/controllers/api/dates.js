@@ -1,4 +1,5 @@
 var mongoose   = require('mongoose')
+  , _          = require('underscore')
   , async      = require('async')
   , User       = mongoose.model('User')
   , Annotation = mongoose.model('Annotation')
@@ -29,11 +30,13 @@ exports.get = function(req, res) {
 
                     var endDate   = getDate(i, 1);
                     var startDate = getDate(i);
+                    var filtered_thoughts = getItemsByDate(thoughts, startDate, endDate);
 
                     frequency[i] = {
                         day:      startDate,
-                        thoughts: getItemsByDate(thoughts, startDate, endDate),
-                        activity: getItemsByDate(annotations, startDate, endDate)
+                        thoughts: filtered_thoughts,
+                        activity: getItemsByDate(annotations, startDate, endDate),
+                        tags:     getTagsFromAllThoughts(filtered_thoughts)
                     };
 
                 }
@@ -63,4 +66,11 @@ var getItemsByDate = function(thoughts, startDate, endDate) {
         if (thoughts.length) thought_date = new Date(thoughts[0].date);
     }
     return output_thoughts;
+};
+
+var getTagsFromAllThoughts = function(thoughts) {
+    var tag_ids = _.map(thoughts, function(thought) {
+        return thought.tag_ids;
+    })
+    return _.uniq(_.flatten(tag_ids));
 };

@@ -42,8 +42,16 @@ a img{border:0;}
 #container.with-replies{margin:0;}
 .side-view-container{margin-bottom:20px;}
 .side-view{background-color: #EFEFEF;box-shadow:0 1px 2px #ccc;overflow:hidden;}
-.side-view li{padding:5px 10px;list-style:none;color:#9C9C9C;}
+.side-view li{padding:8px 10px;list-style:none;color:#DBDBDB;position:relative;}
 .side-view li.filled{background-color:#fff;box-shadow:0 2px 4px #ccc}
+.colored-tabs{position: absolute;top: 0;right: 0;}
+.colored-tabs > div{width: 5px;height: 36px;float:right;}
+.colored-tabs .tab0{background-color:yellow;}
+.colored-tabs .tab1{background-color:#FF7575;}
+.colored-tabs .tab2{background-color:#FC97FF;}
+.colored-tabs .tab3{background-color:#ccc;}
+.colored-tabs .tab4{background-color:#000;}
+
 .side-view li ul{margin-bottom:0;}
 .side-view li .fa-plus{display:none;}
 .side-view li:hover .fa-plus{display:block;cursor:pointer;float: right;border: 1px solid #DEDEDE;padding: 2px 4px;border-radius: 4px;background-color: #fff;box-shadow: 0px 1px 1px;}

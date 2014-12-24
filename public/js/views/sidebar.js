@@ -44,7 +44,8 @@ window.rupon.views = window.rupon.views || {};
 
             var options = {
                 date:   moment(this.model.attributes.day).format('MMM Do'),
-                filled: filled
+                filled: filled,
+                colored_tabs: getUserTabs(this.model.attributes.tags)
             } 
             cv.TemplateView.prototype.render.call(this,options);
 
@@ -60,5 +61,21 @@ window.rupon.views = window.rupon.views || {};
         }
 
     });
+
+    var getUserTabs = function(tags) {
+        return _.map(tags, function(tag) {
+            return getUserTabFromDictionary(tag);
+        })
+    };
+
+    var getUserTabFromDictionary = function(tag) {
+        rupon.colored_tabs = rupon.colored_tabs || [];
+        tab_index = _.indexOf(rupon.colored_tabs, tag);
+        if (tab_index == -1) {
+            rupon.colored_tabs.push(tag);
+            tab_index = _.indexOf(rupon.colored_tabs, tag);
+        }
+        return tab_index;
+    }
 
 })();

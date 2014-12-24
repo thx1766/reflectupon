@@ -252,7 +252,7 @@ exports.post = function(req, res) {
         user_id:        req.user._id,
         link:           req.body.link,
         tag_ids:        req.body.tag_ids,
-        date:           new Date()
+        date:           req.body.date
     });
 
     thought.save(function(err) {

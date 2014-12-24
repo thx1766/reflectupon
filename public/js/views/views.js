@@ -125,12 +125,15 @@ window.rupon.views = window.rupon.views || {};
             if (!this.clickedOnce && $.trim(textarea_ele.val()) != "") {
                 this.clickedOnce = true;
 
+                var date = new Date();
+                // date.setDate(date.getDate()-(5));
+
                 var params = {
                     description:    textarea_ele.val(),
                     //title:          '',
                     //expression:     '',
                     privacy:        'PRIVATE', //privacy_ele.hasClass('is_private') ? 'PRIVATE' : 'ANONYMOUS',
-                    date:           new Date(),
+                    date:           date,
                     tag_ids:        self.tags
                 }
 
