@@ -3,7 +3,8 @@ var mongoose   = require('mongoose')
   , async      = require('async')
   , User       = mongoose.model('User')
   , Annotation = mongoose.model('Annotation')
-  , helpers    = require('../../helpers');
+  , helpers    = require('../../helpers')
+  , moment_tz  = require('moment-timezone')
 
 exports.get = function(req, res) {
 
@@ -31,7 +32,6 @@ exports.get = function(req, res) {
                     var endDate   = getDate(i, 1);
                     var startDate = getDate(i);
                     var filtered_thoughts = getItemsByDate(thoughts, startDate, endDate);
-
                     frequency[i] = {
                         day:      startDate,
                         thoughts: filtered_thoughts,
@@ -55,17 +55,13 @@ var getDate = function(num_day, end_day) {
 
     var date = new Date();
     date.setDate(date.getDate()-(num_day - end_day));
-    return date;
+    return getDateByTimeZone(date);
 };
 
 var getItemsByDate = function(thoughts, startDate, endDate) {
-    var output_thoughts = [];
-    if (thoughts.length) thought_date = new Date(thoughts[0].date);
-    while (thoughts && thoughts.length && thought_date < endDate && thought_date >= startDate) {
-        output_thoughts.push(thoughts.shift());
-        if (thoughts.length) thought_date = new Date(thoughts[0].date);
-    }
-    return output_thoughts;
+    return _.filter(thoughts, function(thought) {
+        return getDateByTimeZone(thought.date) == startDate;
+    });
 };
 
 var getTagsFromAllThoughts = function(thoughts) {
@@ -74,3 +70,7 @@ var getTagsFromAllThoughts = function(thoughts) {
     })
     return _.uniq(_.flatten(tag_ids));
 };
+
+var getDateByTimeZone = function(date) {
+    return moment_tz(date).tz('America/Los_Angeles').format("YYYY-MM-DD")
+}

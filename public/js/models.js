@@ -147,7 +147,6 @@ window.rupon.models = window.rupon.models || {};
 
     rm.frequency = Backbone.Model.extend({
         parse: function(response) {
-            response.day = rh.dateForFrequencyItem(response.day);
             response.thoughts = _.map(response.thoughts, function(thought) {
                 return new rm.thought(thought);
             });
