@@ -323,4 +323,21 @@ module.exports = function(app) {
         });
     });
 
+    app.post('/api/email', function(req, res) {
+        var thought = new Thought({
+            description:    req.body.plain,
+            privacy:        "PRIVATE",
+            user_id:        "522ebb4ee553960200000001",
+            date:           new Date()
+        });
+
+        thought.save(function(err) {
+
+            if (err) console.log(err);
+
+            res.send( thought );
+
+        });
+    })
+
 }
