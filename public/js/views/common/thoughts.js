@@ -56,7 +56,6 @@ window.rupon.views = window.rupon.views || {};
             this.can_reply = (options.can_reply == false) ? false : true;
 
             this.replyCollection = new options.reply_collection(this.model.get("replies"));
-            this.thought_collection = options.thought_collection;
 
             //this.replyCollectionContainer = new rv.RepliesView({collection: this.replyCollection, user: options.user});
 

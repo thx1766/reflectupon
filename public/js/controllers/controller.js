@@ -71,14 +71,6 @@ window.rupon.utils = window.rupon.utils || {};
         var thoughts_collection = new rupon.models.thoughtCollection(),
             tags_collection     = new rm.topicsCollection();
 
-        var thoughtsView = new rv.ThoughtsView({
-            collection:       thoughts_collection,
-            user:             rupon.account_info,
-            reply_collection: rm.replyCollection,
-            can_reply:        false,
-            tags_collection:  tags_collection,
-        });
-
         thoughts_collection.fetch({ 
             data: {
                 "stream_type":   "my-thoughts",
@@ -93,7 +85,6 @@ window.rupon.utils = window.rupon.utils || {};
 
         tags_collection.fetch();
 
-        $(".index-container").find(".feed-content").html(thoughtsView.$el);
         $('.index-container').find('.btn').click(function() {
             $('#myModal').modal();
         });
@@ -145,9 +136,6 @@ window.rupon.utils = window.rupon.utils || {};
             })
             .on("edit-thought", function(new_text, model) {
                 model.save({description: new_text});
-            })
-            .on("delete-thought", function(model) {
-                model.destroy();
             })
             .on("archive-thought", function(model) {
                 model.save({archived: true});

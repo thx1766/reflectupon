@@ -73,7 +73,7 @@ window.rupon.views = window.rupon.views || {};
         },
 
         renderThoughtsView: function(params) {
-            view = new rv.ThoughtsView({
+            view = new rv.DatesView({
                 collection:         this.options.frequency_collection,
                 user:               this.options.user,
                 reply_collection:   this.options.reply_collection,
@@ -94,7 +94,7 @@ window.rupon.views = window.rupon.views || {};
 
     });
 
-    rv.ThoughtsView = Backbone.View.extend({
+    rv.DatesView = Backbone.View.extend({
 
         modelPosition: 0,
         tagName: "div",
@@ -198,20 +198,15 @@ window.rupon.views = window.rupon.views || {};
             options.day = moment(this.model.get("day")).format('MMM Do')
             cv.TemplateView.prototype.render.call(this, options);
 
-            var thoughts = options.model.attributes.thoughts;
-
-            var self = this;
-            _.each(thoughts,function(thought) {
-                var thoughtWrapper = new rv.ThoughtWrapperView({
-                    model:              thought,
-                    user:               options.user,
-                    reply_collection:   options.reply_collection,
-                    thought_collection: options.thought_collection,
-                    can_reply:          options.can_reply,
-                    tags_collection:    options.tags_collection
-                })
-                self.$el.find(".thoughts-list").append(thoughtWrapper.$el);
+            var thoughtsView = new rv.ThoughtsView({
+                collection:         this.model.attributes.thoughts,
+                user:               options.user,
+                reply_collection:   options.reply_collection,
+                can_reply:          options.can_reply,
+                tags_collection:    options.tags_collection
             })
+
+            this.$el.find(".thoughts-list").append(thoughtsView.$el);
         },
 
         selectTab: function(e) {
@@ -291,6 +286,29 @@ window.rupon.views = window.rupon.views || {};
                 return ""
             }
         }
+    });
+
+    rv.ThoughtsView = cv.CollectionContainer.extend({
+        initialize: function(options) {
+            var self = this;
+            cv.CollectionContainer.prototype.initialize.call(this, function(model) {
+                var view = new rv.ThoughtWrapperView({
+                    model:              model,
+                    user:               options.user,
+                    reply_collection:   options.reply_collection,
+                    can_reply:          options.can_reply,
+                    tags_collection:    options.tags_collection
+                })
+
+                view
+                    .on("delete-thought", function(model) {
+                        model.destroy();
+                    });
+
+                return view
+            });
+        }
+
     });
 
     rv.AnnotationContextBox = cv.SimpleModelView.extend({

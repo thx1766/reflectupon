@@ -147,9 +147,7 @@ window.rupon.models = window.rupon.models || {};
 
     rm.frequency = Backbone.Model.extend({
         parse: function(response) {
-            response.thoughts = _.map(response.thoughts, function(thought) {
-                return new rm.thought(thought);
-            });
+            response.thoughts = new rm.thoughtCollection(response.thoughts);
             return response;
         }
     });
