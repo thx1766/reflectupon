@@ -53,7 +53,7 @@ exports.newUser = function(req, res) {
 
 exports.getIndex = function(req, res) {
 
-    var options = { user: req.user, signout: false, topBar: false, landing_page: true };
+    var options = { user: req.user, signout: false, topBar: true, is_admin: false, landing_page: true };
 
     if (req.session.messages) {
         options.message = req.session.messages.message;

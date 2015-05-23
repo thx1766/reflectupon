@@ -82,6 +82,7 @@ window.rupon.views = window.rupon.views || {};
 
             this.$el.find('.tags-container').html(writeTagsView.$el);
             this.$el.find('.fa').tooltip();
+            this.$el.find('textarea').autosize();
         },
 
         showLink: function() {
@@ -94,7 +95,8 @@ window.rupon.views = window.rupon.views || {};
         },
 
         openTagsMenu: function() {
-            this.$el.find('.tags-content').removeClass('hidden');
+            //this.$el.find('.tags-content').removeClass('hidden');
+            $('#myModal').modal();
         },
 
         changePrivacy: function() {

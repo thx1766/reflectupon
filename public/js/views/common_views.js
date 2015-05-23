@@ -5,10 +5,17 @@ window.rupon.common_views = window.rupon.common_views || {};
 
     var CommonViews = window.rupon.common_views;
 
+    CommonViews.BaseView = Backbone.View.extend({
+        showModal: function() {
+            var template = Handlebars.compile($("#modal-template").html())
+            return template();
+        }
+    });
+
     /**
      * A simple Backbone view rendered from a template.
      */
-    CommonViews.TemplateView = Backbone.View.extend({
+    CommonViews.TemplateView = CommonViews.BaseView.extend({
 
         initialize: function(options) {
             /* if (options.template) this.template = Handlebars.compile(options.template); */
@@ -38,7 +45,7 @@ window.rupon.common_views = window.rupon.common_views || {};
      * views can also be dettached and reattached to the container, which helps
      * when re-rendering the container from a template.
      */
-    CommonViews.Container = Backbone.View.extend({
+    CommonViews.Container = CommonViews.BaseView.extend({
         initialize: function() {
             Backbone.View.prototype.initialize.apply(this, arguments);
             this._children = [];

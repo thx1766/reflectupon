@@ -35,11 +35,20 @@
               <% } %>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li>
-                <a class="icon" href="/logout">
-                    <i class="fa fa-lg fa-sign-out"></i>
-                </a>
-            </li>
+            <% if (signout) { %>
+              <li>
+                  <a class="icon" href="/logout">
+                      <i class="fa fa-lg fa-sign-out"></i>
+                  </a>
+              </li>
+            <% } else { %>
+              <li>
+                  <a href="javascript:;" class="sign-up-btn">Sign up</a>
+              </li>
+              <li>
+                  <a href="javascript:;" class="log-in-btn">Log in</a>
+              </li>
+            <% } %>
           </ul>
         </nav>
         <a class="icon" style="display:none" href="/dashboard"><i class="fa fa-video-camera"></i></a>

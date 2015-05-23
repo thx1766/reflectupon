@@ -37,23 +37,19 @@
         </div>
     </script>
     <script type="text/x-handlebars-template" id="index-template">
-        <div class="background"></div>
-        <div class="background-overlay"></div>
         <div class="head-container">
             <div class="container">
-                <div class="description-band">
-                    <div class="title">reflectupon</div>
-                    <div class="description">An interactive journal for recording and analyzing your thoughts and experiences.
-                    </div>
+                <div class="description">Reflect on the important experiences in your life
                 </div>
+                <div class="subdescription">Write journal entries. Highlight pieces. Have better moments.</div>
                 <div>
-                    <a href="javascript:;" class="btn">Get started</a>
+                    <a href="javascript:;" class="btn">Learn More</a>
                 </div>
             </div>
         </div>
         <div class="body-container">
             <div class="container">
-                <img src="/images/entry-example.png" style="width:400px; float:left;" />
+                <img src="/images/entry-example.png" style="width:300px; float:left;" />
                 <div class="description-container">
                     <div class="title">
                         Write journal entries privately
@@ -80,77 +76,16 @@
                         Get a summary of all the annotations you've created over your past journal entries. See what new insights or perspectives you contribute.
                     </div>
                 </div>
-                <img src="/images/annotation-example.png" style="float:left;width:450px;" />
+                <img src="/images/annotation-example.png" style="float:left;width:400px;" />
+            </div>
+        </div>
+        <div class="body-container">
+            <div class="button-container">
+                <a href="javascript:;" class="btn">Sign up now</a>
             </div>
         </div>
         <div class="footer-container">
         </div>
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Log In</h4>
-              </div>
-              <div class="modal-body">
-                {{#if message}}
-                    <div class="special-msg">{{ message }}</div>
-                {{/if}}
-                <div class="form-container login-form">
-                    <form id="login-form" action="/login" method="post" role="form">
-                    <form role="form">
-                        <div class="form-group">
-                            <label>E-mail or Username</label>
-                            <input class="form-control" type="text" name="username"/>
-                        </div>
-                        <div class="form-group">
-                            <label>Password</label>
-                            <input class="form-control" type="password" name="password"/>
-                        </div>
-                        <div class="submit-box">
-                            <input type="submit" value="Log in"/>
-                        </div>
-                        <div class="forgot-password-container">
-                            <a href="javascript:;" class="forgot-password">Forgot your password?</a>
-                        </div>
-                    </form>
-                    <div class="or-register">or <a href="javascript:;">Register</a></div>
-                    <form id="register-form" action="/register" method="post">
-                        <div class="form-group">
-                            <label>Username</label>
-                            <input class="form-control" type="text" name="username"/>
-                        </div>
-                        <div class="form-group">
-                            <label>Password</label>
-                            <input class="form-control" type="password" name="password"/>
-                        </div>
-                        <div class="form-group">
-                            <label>E-mail</label>
-                            <input class="form-control" type="text" name="email"/><br/>
-                        </div>
-                        <div class="submit-box clearfix">
-                            <input type="submit" value="Register"/>
-                        </div>
-                    </form>
-                    <div class="or-login">or <a href="javascript:;">Log In</a></div>
-                    <form id="forgot-password" action="/forgot" method="post">
-                        <div class="row-container clearfix">
-                            Forgot your password?
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input class="form-control" type="text" name="email" />
-                        </div>
-                        <div class="submit-box clearfix">
-                            <input type="submit" value="Retrieve"/>
-                        </div>
-                    </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
     </script>
     <script type="text/x-handlebars-template" id="report-template">
         <span>Journey Report of the Day</span>
@@ -239,6 +174,140 @@
             </div>
         </div>
     </script>
+    <script type="text/x-handlebars-template" id="modal-template">
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Log In</h4>
+              </div>
+              <div class="modal-body">
+                {{#if message}}
+                    <div class="special-msg">{{ message }}</div>
+                {{/if}}
+                <div class="form-container login-form">
+                    <form id="login-form" action="/login" method="post" role="form">
+                    <form role="form">
+                        <div class="form-group">
+                            <label>E-mail or Username</label>
+                            <input class="form-control" type="text" name="username"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input class="form-control" type="password" name="password"/>
+                        </div>
+                        <div class="submit-box">
+                            <input type="submit" value="Log in"/>
+                        </div>
+                        <div class="forgot-password-container">
+                            <a href="javascript:;" class="forgot-password">Forgot your password?</a>
+                        </div>
+                    </form>
+                    <div class="or-register">or <a href="javascript:;">Register</a></div>
+                    <form id="register-form" action="/register" method="post">
+                        <div class="form-group">
+                            <label>Username</label>
+                            <input class="form-control" type="text" name="username"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input class="form-control" type="password" name="password"/>
+                        </div>
+                        <div class="form-group">
+                            <label>E-mail</label>
+                            <input class="form-control" type="text" name="email"/><br/>
+                        </div>
+                        <div class="submit-box clearfix">
+                            <input type="submit" value="Register"/>
+                        </div>
+                    </form>
+                    <div class="or-login">or <a href="javascript:;">Log In</a></div>
+                    <form id="forgot-password" action="/forgot" method="post">
+                        <div class="row-container clearfix">
+                            Forgot your password?
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input class="form-control" type="text" name="email" />
+                        </div>
+                        <div class="submit-box clearfix">
+                            <input type="submit" value="Retrieve"/>
+                        </div>
+                    </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </script>
+    <script type="text/x-handlebars-template" id="modal-template">
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Log In</h4>
+              </div>
+              <div class="modal-body">
+                {{#if message}}
+                    <div class="special-msg">{{ message }}</div>
+                {{/if}}
+                <div class="form-container login-form">
+                    <form id="login-form" action="/login" method="post" role="form">
+                    <form role="form">
+                        <div class="form-group">
+                            <label>E-mail or Username</label>
+                            <input class="form-control" type="text" name="username"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input class="form-control" type="password" name="password"/>
+                        </div>
+                        <div class="submit-box">
+                            <input type="submit" value="Log in"/>
+                        </div>
+                        <div class="forgot-password-container">
+                            <a href="javascript:;" class="forgot-password">Forgot your password?</a>
+                        </div>
+                    </form>
+                    <div class="or-register">or <a href="javascript:;">Register</a></div>
+                    <form id="register-form" action="/register" method="post">
+                        <div class="form-group">
+                            <label>Username</label>
+                            <input class="form-control" type="text" name="username"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input class="form-control" type="password" name="password"/>
+                        </div>
+                        <div class="form-group">
+                            <label>E-mail</label>
+                            <input class="form-control" type="text" name="email"/><br/>
+                        </div>
+                        <div class="submit-box clearfix">
+                            <input type="submit" value="Register"/>
+                        </div>
+                    </form>
+                    <div class="or-login">or <a href="javascript:;">Log In</a></div>
+                    <form id="forgot-password" action="/forgot" method="post">
+                        <div class="row-container clearfix">
+                            Forgot your password?
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input class="form-control" type="text" name="email" />
+                        </div>
+                        <div class="submit-box clearfix">
+                            <input type="submit" value="Retrieve"/>
+                        </div>
+                    </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </script>
     <script type="text/x-handlebars-template" id="write-template">
         <div class="thought-row">
             <div class="row">
@@ -269,7 +338,7 @@
                             </div>
                             <div class="message">
                                 <div class="description">
-                                    <textarea data-autosize="1" placeholder="Write freely about how you feel."></textarea>
+                                    <textarea placeholder="Write freely about how you feel."></textarea>
                                 </div>
                             </div>
                             <div class="footer clearfix">
@@ -359,9 +428,6 @@
                     <a href="javascript:;" class="read-more">Read more</a>
                 {{/if}}
             </div>
-            {{#if can_edit }}
-                <textarea class="edit">{{ description }}</textarea>
-            {{/if}}
             {{#if is_author}}
             <div class="right-actions dropdown-container arrow-right">
                 <a href="javascript:;" class="options">

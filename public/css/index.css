@@ -1,18 +1,19 @@
 body{position:relative;}
-body.landing-page{}
+body.landing-page{background: url("/images/journal-reflectupon_v1.png") no-repeat center center fixed;background-size: cover;}
 .landing-page .wrapper{width:100%;padding:0;}
-.index-container .head-container{position:relative;background-color:#8A7070;}
-.index-container .head-container .description-band{background-color:rgba(255,255,255,0.9)}
-.index-container .head-container .title{font-size:56px;font-weight:600;font-family:'Merriweather' !important;padding-top:10px;}
-.index-container .head-container .description{padding-bottom:10px;font-size: 22px;padding-top: 0px;font-weight: 200;line-height:32px;max-width:580px;margin:0 auto;}
-.index-container .head-container .container{height:600px;padding:0;padding-top:100px;padding-bottom:36px;margin:0 auto;text-align:center;color: #4E4E4E;background-image: url("/images/journal-reflectupon_v1.jpg");background-size: 1200px;background-position: 0px -60px;opacity: 0.9;}
-.index-container .head-container .btn{display: inline-block;padding: 12px 22px;background-color: #EDEDED;margin-top: 50px;text-shadow: none;border-radius: 6px;color: #6E4F4F;box-shadow: 0 1px 4px #8D8D8D;font-size: 18px;font-weight: 600;margin-bottom: 40px;}
+.landing-page #topbar-wrapper{background-color:transparent;box-shadow:0 0 0;position:absolute;}
+.landing-page #topbar a{color:#f2f2f2;}
+.landing-page #topbar a:focus{background-color:transparent;}
+.index-container .btn{display: inline-block;padding: 12px 22px;background-color: #EDEDED;margin-top: 50px;text-shadow: none;border-radius: 6px;color: #6E4F4F;box-shadow: 0 1px 4px #8D8D8D;font-size: 18px;font-weight: 600;margin-bottom: 40px;}
+.index-container .head-container{position:relative;}
+.index-container .head-container .description{font-family:"Merriweather";font-size: 36px;padding-bottom:10px;padding-top: 0px;line-height:54px;max-width:580px;margin:0 auto;}
+.index-container .head-container .container{font-weight: 200;font-size:24px;color:#f2f2f2;height:550px;padding:0;padding-top:120px;padding-bottom:36px;margin:0 auto;text-align:center;}
 .index-container .body-container{background-color:#fff;}
 .index-container .body-container .container{padding:40px 20px;}
 .index-container .body-container .title{font-family:'Merriweather' !important;font-size:22px;padding-bottom:10px;}
-.index-container .body-container .description-container{font-size:18px;float: left;width: 600px;margin-top: 20px;margin-left: 20px;}
+.index-container .body-container .description-container{font-size:16px;float: left;width: 700px;margin-top: 20px;margin-left: 20px;}
 .index-container .body-container .description{padding-bottom:40px;}
-.index-container .footer-container{background-color:#AAA;height:200px;}
+.index-container .body-container .button-container{text-align:center;padding-bottom:100px;}
 .index-container .thoughts-list{margin:0 auto;padding:10px 0;}
 .main-content{position:relative;background-color:#f5f5f5;}
 .logo-name{text-shadow: 0px 2px #5A5656;font-size: 40px;letter-spacing: 1px;margin-bottom:15px;}

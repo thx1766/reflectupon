@@ -133,6 +133,9 @@ window.rupon.views = window.rupon.views || {};
             template_options.description = this.convertLineBreaks(template_options.description, 'n');
             template_options.annotation_notice = !!template_options.can_reply;
 
+            // Description used when editing - without all the annotations
+            this.editable_description = template_options.description;
+
             var annotations = this.model.get('annotations');
             if (annotations && annotations.length) {
                 template_options.description = this.renderAnnotations(template_options.description, annotations, replies);
@@ -370,13 +373,15 @@ window.rupon.views = window.rupon.views || {};
 
         editThought: function() {
             this.$el.addClass("editing");
+            this.$el.find('.message').append('<textarea class="editable">'+this.editable_description+'</textarea>');
+            this.$el.find('textarea.editable').autosize();
         },
 
         submitEdit: function(e) {
             if (e.which == 13){
                 var value = this.$el.find("textarea").val();
                 this.$el.removeClass("editing");
-                this.trigger("edit-thought", value, this.model);
+                this.trigger("edit-thought", this.model, value);
             }
         },
 

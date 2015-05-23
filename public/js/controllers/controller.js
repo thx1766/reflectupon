@@ -85,9 +85,17 @@ window.rupon.utils = window.rupon.utils || {};
 
         tags_collection.fetch();
 
-        $('.index-container').find('.btn').click(function() {
-            $('#myModal').modal();
-        });
+        $('.index-container')
+            .on('click', '.head-container .btn', function() {
+                $("html, body").animate({ scrollTop: "550px" });
+            })
+            .on('click', '.body-container .btn', function() {
+                new rv.ModalView({view: "signup"});
+            });
+        $('#topbar')
+            .on('click', '.log-in-btn', function() {
+                new rv.ModalView({view: "login"});
+            });
 
         if (login == "1") {
             $('.index-container').find('.btn').click()

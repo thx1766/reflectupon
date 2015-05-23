@@ -303,6 +303,11 @@ window.rupon.views = window.rupon.views || {};
                 view
                     .on("delete-thought", function(model) {
                         model.destroy();
+                    })
+                    .on("edit-thought", function(model, value) {
+                        model.save({
+                            description: value
+                        })
                     });
 
                 return view

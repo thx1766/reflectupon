@@ -191,7 +191,7 @@ a img{border:0;}
 .write-view .tags-container li i{margin-right:2px;}
 .write-view .tags-container li.activated,.write-view .tags-container li:hover{color:#9FFF7C;}
 
-.write-view .thought-row textarea{outline:none;display:block;font-family:'Merriweather';font-size:18px;border:0;min-height:300px;width:100%;max-height:500px;}
+.write-view .thought-row textarea{outline:none;display:block;font-family:'Merriweather';font-size:18px;border:0;min-height:300px;width:100%;}
 .write-view .thought-row .message{padding:12px;}
 .write-view .footer{border-top:1px solid #F5F5F5;margin:0 12px;padding:8px 0;}
 .write-view .footer .privacy{outline:none;}
@@ -208,7 +208,7 @@ a img{border:0;}
 .thought-row .selectable-text span.perm, .overflow-description .highlight{background-color:#F9FFD1;border-radius:2px;padding:1px 0;transition:background-color .25s;-webkit-transition:background-color .25s;}
 .thought-row .selectable-text span.perm:hover{background-color:#F2FF68}
 .thought-row.editing .description{display:none;}
-.thought-row textarea.edit{display:none;resize: none;border: 1px solid #ccc;background-color:#ffffff;font-size: 20px;font-family: "Times New Roman";color: rgb(107, 107, 107);outline: none;width: 571px;border-radius:3px;padding:0 4px;margin-left:-5px;margin-bottom:8px;}
+.thought-row textarea.editable{display:none;resize: none;border: 1px solid #ccc;background-color:#ffffff;font-size: 20px;font-family: "Times New Roman";color: rgb(107, 107, 107);outline: none;width: 720px;border-radius:3px;padding:0 4px;margin-left:-5px;margin-bottom:8px;}
 .thought-row.editing textarea{display:block}
 .thought-row .options{display:none}
 .thought-row:hover .options{display:block}
