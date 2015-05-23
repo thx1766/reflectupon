@@ -7,12 +7,20 @@ window.rupon.views = window.rupon.views || {};
     var cv = window.rupon.common_views;
 
     rv.ModalView = cv.BaseView.extend({
-        initialize: function() {
-            this.render();
+        initialize: function(opts) {
+            if (opts.view == 'login') {
+                this.renderLogin();
+            } else if (opts.view == 'signup') {
+                this.renderSignup();
+            }
         },
 
-        render: function() {
-            $('#myModal').modal();
+        renderLogin: function() {
+            $('#myModalLogin').modal();
+        },
+
+        renderSignup: function() {
+            $('#myModalSignup').modal();
         }
 
     });
@@ -23,8 +31,6 @@ window.rupon.views = window.rupon.views || {};
         template: Handlebars.compile($("#index-template").html()),
 
         events: {
-            'click .or-register':     'showRegister',
-            'click .or-login':        'showLogin',
             'click .forgot-password': 'showForgotPassword'
         },
 
@@ -35,7 +41,9 @@ window.rupon.views = window.rupon.views || {};
 
         render: function() {
 
-            this.$el.html(this.showModal());
+            var loginModal  = this.showLoginModal();
+            var signupModal = this.showSignupModal();
+            this.$el.html(loginModal + signupModal);
 
             var template_options = {};
 
@@ -44,22 +52,6 @@ window.rupon.views = window.rupon.views || {};
             }
 
             this.$el.append(this.template(template_options))
-        },
-
-        showRegister: function() {
-            $("#register-form").fadeIn();
-            $(".or-register").fadeOut();
-            $("#login-form").slideUp(500, function() {
-                $(".or-login").fadeIn();
-            });
-        },
-
-        showLogin: function() {
-            $("#login-form").slideDown();
-            $(".or-login").fadeOut();
-            $("#register-form").fadeOut(500, function() {
-                $(".or-register").fadeIn();
-            });
         },
 
         showForgotPassword: function() {

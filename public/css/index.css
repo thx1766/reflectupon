@@ -42,7 +42,7 @@ body.landing-page{background: url("/images/journal-reflectupon_v1.png") no-repea
 .index-container .or-register,.index-container .or-login{text-align:center;}
 .index-container .or-login{display:none;}
 .index-container .message a{text-decoration:none;color:#636CDB}
-.index-container #register-form, .index-container #forgot-password{display:none;}
+.index-container #forgot-password{display:none;}
 
 @media all and (max-width:991px) {
     .preempt-reply{display:none !important;}
