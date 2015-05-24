@@ -98,6 +98,7 @@ window.rupon.views = window.rupon.views || {};
 
         modelPosition: 0,
         tagName: "div",
+        className: "dates-view",
 
         initialize: function(options) {
 
@@ -207,6 +208,16 @@ window.rupon.views = window.rupon.views || {};
             })
 
             this.$el.find(".thoughts-list").append(thoughtsView.$el);
+
+            var random_thought_model = new window.rupon.models.thought();
+            var randomThoughtView = new rv.RandomThoughtView({model: random_thought_model});
+            this.$el.find(".section").append(randomThoughtView.$el);
+
+            random_thought_model.fetch({
+                data: {
+                    'random': 1
+                }
+            });
         },
 
         selectTab: function(e) {
@@ -395,5 +406,18 @@ window.rupon.views = window.rupon.views || {};
         return output;
 
     };
+
+    rv.RandomThoughtView = Backbone.View.extend({
+
+        initialize: function() {
+            this.listenTo(this.model, 'sync', this.render);
+            this.render();
+        },
+
+        render: function() {
+            var template = Handlebars.compile($("#anon-thought-item-template").html())
+            this.$el.html(template(this.model.attributes));
+        }
+    })
 
 })();

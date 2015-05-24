@@ -14,10 +14,23 @@ exports.get = function(req, res) {
         thought_id    = req.query.thought_id    || null,
         per_page      = req.query.per_page      || null,
         page          = req.query.page          || null,
-        reply_privacy = req.query.reply_privacy || null;
+        reply_privacy = req.query.reply_privacy || null,
+        random        = req.query.random        || null;
 
-        if (thought_id) params._id = thought_id;
+    if (thought_id) params._id = thought_id;
 
+    if (random) {
+        Thought
+            .find({
+                privacy: "ANONYMOUS",
+                user_id: { $ne: req.user._id } })
+            .limit(1)
+            .sort("-date")
+            .skip(Math.floor(Math.random() * 10))
+            .exec(function(err, thought) {
+                res.send(thought[0]);
+            })
+    }
     if (req.user) {
 
         switch (stream_type) {

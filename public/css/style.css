@@ -85,8 +85,7 @@ a img{border:0;}
 .thought-row .message.reply-summary-activated{min-height:400px;}
 .show-replies.thought-row .message{float:left;}
 .date-view .header{position:relative;font-size: 15px;font-family: 'Helvetica Neue';font-weight: 200;border-bottom: 1px solid #F5F5F5;margin-bottom: 14px;min-height:36px;padding:10px 0;}
-.date-view .section{background-color:#fff;border-radius:3px;padding:10px 80px 25px 30px;color:#626262;line-height: 24px;position: relative;box-shadow:0 1px 2px #d6d6d6;}
-.thoughts-list{min-height:400px;}
+.date-view .section{background-color:#fff;border-radius:3px;padding:10px 80px 25px 30px;color:#626262;line-height: 24px;position: relative;box-shadow:0 1px 2px #d6d6d6;min-height: 400px;}
 
 .private-entry-label{color:#DA9C9C;padding-left:1px;}
 .private-entry-label i{margin-right:2px;font-size: 16px;vertical-align: -1px;}
