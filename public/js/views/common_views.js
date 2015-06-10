@@ -7,12 +7,12 @@ window.rupon.common_views = window.rupon.common_views || {};
 
     CommonViews.BaseView = Backbone.View.extend({
         showLoginModal: function() {
-            var template = Handlebars.compile($("#login-modal-template").html())
+            var template = Handlebars.templates['login-modal'];
             return template();
         },
 
         showSignupModal: function() {
-            var template = Handlebars.compile($("#signup-modal-template").html())
+            var template = Handlebars.templates['signup-modal'];
             return template();
         }
     });

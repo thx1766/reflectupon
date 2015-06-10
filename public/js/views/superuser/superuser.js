@@ -10,7 +10,7 @@ window.rupon.views = window.rupon.views || {};
         tagName: 'div',
         className: 'super-user',
 
-        template: Handlebars.compile($("#super-user-template").html()),
+        template: Handlebars.templates['super-user'],
 
         initialize: function(options) {
             cv.Container.prototype.initialize.call(this);
@@ -114,7 +114,7 @@ window.rupon.views = window.rupon.views || {};
 
     rv.ActiveUserRangeView = cv.TemplateView.extend({
         className: "active-user-range clearfix",
-        template: Handlebars.compile($("#active-user-ranges-template").html()),
+        template: Handlebars.templates['active-user-ranges'],
 
         render: function(options) {
             var template_options = _.clone(this.model.attributes);
@@ -140,7 +140,7 @@ window.rupon.views = window.rupon.views || {};
     rv.UserView = Backbone.View.extend({
         tagName: 'li',
         className: 'clearfix',
-        template: Handlebars.compile($("#user-template").html()),
+        template: Handlebars.templates['user'],
 
         events: {
             'click .delete a': 'deleteUser',
@@ -181,7 +181,7 @@ window.rupon.views = window.rupon.views || {};
 
     rv.VetThoughtView = cv.SimpleModelView.extend({
         tagName: 'li',
-        template: Handlebars.compile($("#vet-thought-template").html()),
+        template: Handlebars.templates['vet-thought'],
 
         events: {
             'click .delete': 'deleteThought',

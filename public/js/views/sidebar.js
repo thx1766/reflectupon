@@ -13,7 +13,7 @@ window.rupon.views = window.rupon.views || {};
         tagName: "div",
         className: "side-view clearfix",
 
-        template: Handlebars.compile($("#frequency-template").html()),
+        template: Handlebars.templates['frequency'],
 
         initialize: function(options) {
             this.$el.html(this.template());
@@ -27,7 +27,7 @@ window.rupon.views = window.rupon.views || {};
     rv.FrequencyItemView = cv.TemplateView.extend({
 
         tagName: "li",
-        template: Handlebars.compile($("#frequency-item-template").html()),
+        template: Handlebars.templates['frequency-item'],
 
         events: {
             "click a":        "goToEntry",

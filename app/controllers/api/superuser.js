@@ -69,8 +69,8 @@ var getUniqueUserEmails = function(unique_users_ids, callback) {
   async.eachSeries(unique_users_ids, function(unique_user_id, callback) {
 
     User.findById(unique_user_id, function(err, user) {
-      unique_emails.push(user.email);
-      callback()
+      if (user && user.email) unique_emails.push(user.email);
+      callback();
     });
   }, function(err) {
     callback(unique_emails);
