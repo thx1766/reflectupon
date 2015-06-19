@@ -139,12 +139,6 @@ window.rupon.utils = window.rupon.utils || {};
                 }
                 })
             })
-            .on("change-privacy", function(privacy, model) {
-                model.save({privacy: privacy},{wait:true})
-            })
-            .on("edit-thought", function(new_text, model) {
-                model.save({description: new_text});
-            })
             .on("archive-thought", function(model) {
                 model.save({archived: true});
             })

@@ -1,6 +1,7 @@
 var mongoose   = require('mongoose')
   , async      = require('async')
-  , Thought    = mongoose.model('Thought');
+  , Thought    = mongoose.model('Thought')
+  , helpers    = require('../../helpers')
 
 exports.get = function(req, res) {
     var params = {}, params2 = {}, array1 = null,
@@ -176,27 +177,19 @@ exports.get = function(req, res) {
 
                 break;
             case "other-thoughts":
+                helpers.getOnlyAnonThoughts(params, function(thoughts) {
+                    res.send(thoughts);
+                });
+                break;
+            case "featured":
 
-                var startDate = new Date(new Date().setHours(0,0,0,0));
-                startDate.setDate(startDate.getDate()-14);
-
-                params.date = {
-                    $gte: startDate,
-                    $lte: new Date() 
+                var options = {
+                    feature: true
                 };
 
-                date_sort = {date: -1};
-                params.privacy = "ANONYMOUS";
-                
-                Thought.find( params )
-                    .sort(date_sort)
-                    .exec(function(err, thoughts) {
-
-                        if (err) console.log(err);
-
-                        res.send(thoughts);
-
-                    });
+                helpers.getOnlyAnonThoughts(params, function(thoughts) {
+                    res.send(thoughts);
+                }, options);
                 break;
             case "recommended":
                 params.user_id = req.user._id;
@@ -283,6 +276,7 @@ exports.put = function(req,res) {
         if (req.body.privacy)     thought.privacy     = req.body.privacy;
         if (req.body.description) thought.description = req.body.description;
         if (req.body.archived)    thought.archived    = req.body.archived;
+        if (typeof req.body.feature == "boolean")     thought.feature     = req.body.feature;
 
         thought.save(function(err) {
             if (err) console.log(err);

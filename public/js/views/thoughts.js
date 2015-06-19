@@ -319,7 +319,11 @@ window.rupon.views = window.rupon.views || {};
                         model.save({
                             description: value
                         })
-                    });
+                    })
+                    .on("change-privacy", function(privacy, model) {
+                        model.save({privacy: privacy},{wait:true})
+                    })
+
 
                 return view
             });
