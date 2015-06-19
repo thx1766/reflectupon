@@ -60,6 +60,15 @@ app.configure( function() {
     app.use( app.router );
     app.use( express.errorHandler({ dumpExceptions: true, showStack: true }));
     app.use( forgot.forgot.middleware);
+
+    app.configure('development', function(){
+    hbsPrecompiler = require('handlebars-precompiler');
+    hbsPrecompiler.watchDir(
+      __dirname + "/public/js/templates",
+      __dirname + "/public/js/templates.js",
+      ['handlebars', 'hbs']
+    );
+});
 });
 
 mongoose.connect(process.env.MONGOHQ_URL || 'mongodb://127.0.0.1:27017/reflectupon');

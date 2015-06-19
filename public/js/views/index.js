@@ -28,7 +28,7 @@ window.rupon.views = window.rupon.views || {};
     rv.IndexView = cv.BaseView.extend({
 
         tagName: "div",
-        template: Handlebars.compile($("#index-template").html()),
+        template: Handlebars.templates['index'],
 
         events: {
             'click .forgot-password': 'showForgotPassword'

@@ -20,7 +20,7 @@ window.rupon.views = window.rupon.views || {};
 
         tagName:   "div",
         className: "thought-row tooltipbottom clearfix",
-        template: Handlebars.compile($("#thought-item-template").html()),
+        template: Handlebars.templates['thought-item'],
 
         user: null,
         can_reply: true,
@@ -313,7 +313,7 @@ window.rupon.views = window.rupon.views || {};
                 selectable_field.html(this.showTempText(true, selectable_text));
 
                 $('.temp').popover({
-                    content: Handlebars.compile($("#popover-template").html())
+                    content: Handlebars.templates['popover']
                 });
                 $('.temp').popover('show')
 

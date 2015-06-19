@@ -10,7 +10,7 @@ window.rupon.views = window.rupon.views || {};
         tagName: 'div',
         className: 'super-user',
 
-        template: Handlebars.compile($("#super-user-template").html()),
+        template: Handlebars.templates['super-user'],
 
         initialize: function(options) {
             cv.Container.prototype.initialize.call(this);
@@ -22,26 +22,64 @@ window.rupon.views = window.rupon.views || {};
 
             this.$el.html(this.template());
 
-            this.addChild(new rv.TopicsView({
-                collection: options.topics_collection
-            }), '.tags-container');
+            var nav_types = ['actives', 'featured', 'tags', 'users', 'vet'];
 
-            this.addChild(new rv.EmailsView({
-                model: options.email
-            }), '.email-container');
+            var leftView = new rv.SuperUserLeftView({nav_types: nav_types});
+            this.addChild(leftView, '.left-container');
 
-            this.addChild(new rv.ActiveUserRangesView({
-                collection: options.user_ranges_collection
-            }), '.active-user-ranges-view-container');
+            this.renderOnTrigger(leftView, nav_types, options);
+            this.renderRightView(options,'actives');
 
-            this.addChild(new rv.UsersView({
-                collection: options.user_collection
-            }), '.user-view-container');
+        },
 
-            this.addChild(new rv.VetThoughtsView({
-                collection: options.other_thoughts_collection
-            }), '.thought-view-container');
+        renderOnTrigger: function(view, trigger_types, options) {
+            var self = this;
+            _.each(trigger_types, function(type) {
+                view.on('click-'+ type, function() {
+                    self.renderRightView(options, type);
+                })
+            })
+        },
 
+        renderRightView: function(options, type) {
+
+            this.removeChild(this.superUserRight);
+
+            var types = {
+                'actives': ['ActiveUserRangesView', 'user_ranges_collection'],
+                'tags':    ['TopicsView', 'topics_collection'],
+                'users':   ['UsersView', 'user_collection'],
+                'vet':     ['SuperUserThoughtsView', 'other_thoughts_collection'],
+                'featured':['SuperUserThoughtsView', 'featured_collection']
+            };
+
+            this.superUserRight = new rv[types[type][0]]({
+                collection: options[types[type][1]]
+            });
+
+            this.addChild(this.superUserRight, '.right-container');
+        }
+
+    });
+
+    rv.SuperUserLeftView = cv.TemplateView.extend({
+        template: Handlebars.templates['super-user-left'],
+
+        events: {
+            'click li': 'clickNav'
+        },
+
+        initialize: function(options) {
+            this.render(options);
+            this.navTypes = options.nav_types;
+        },
+
+        clickNav: function(e) {
+            var navOption = $(e.currentTarget).attr('class');
+
+            if (_.contains(this.navTypes, navOption)) {
+                this.trigger('click-' + navOption);
+            }
         }
 
     });
@@ -114,7 +152,7 @@ window.rupon.views = window.rupon.views || {};
 
     rv.ActiveUserRangeView = cv.TemplateView.extend({
         className: "active-user-range clearfix",
-        template: Handlebars.compile($("#active-user-ranges-template").html()),
+        template: Handlebars.templates['active-user-ranges'],
 
         render: function(options) {
             var template_options = _.clone(this.model.attributes);
@@ -140,7 +178,7 @@ window.rupon.views = window.rupon.views || {};
     rv.UserView = Backbone.View.extend({
         tagName: 'li',
         className: 'clearfix',
-        template: Handlebars.compile($("#user-template").html()),
+        template: Handlebars.templates['user'],
 
         events: {
             'click .delete a': 'deleteUser',
@@ -168,24 +206,25 @@ window.rupon.views = window.rupon.views || {};
         }
     });
 
-    rv.VetThoughtsView = cv.CollectionContainer.extend({
+    rv.SuperUserThoughtsView = cv.CollectionContainer.extend({
         tagName: 'ul',
-        className: 'thought-view',
+        className: 'vet-thought-view',
 
         initialize: function() {
             cv.CollectionContainer.prototype.initialize.call(this, function(model) {
-                return new rv.VetThoughtView({model: model})
+                return new rv.SuperUserThoughtView({model: model})
             })
         }
     });
 
-    rv.VetThoughtView = cv.SimpleModelView.extend({
+    rv.SuperUserThoughtView = cv.SimpleModelView.extend({
         tagName: 'li',
-        template: Handlebars.compile($("#vet-thought-template").html()),
+        template: Handlebars.templates['vet-thought'],
 
         events: {
             'click .delete': 'deleteThought',
-            'click .set-private': 'setPrivate'
+            'click .set-private': 'setPrivate',
+            'click .feature': 'setFeature'
         },
 
         deleteThought: function() {
@@ -194,6 +233,10 @@ window.rupon.views = window.rupon.views || {};
 
         setPrivate: function() {
             this.model.save({privacy: 'PRIVATE'});
+        },
+
+        setFeature: function() {
+            this.model.save({feature: !this.model.get('feature')});
         }
 
     });

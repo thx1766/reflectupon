@@ -14,7 +14,7 @@ window.rupon.views = window.rupon.views || {};
             'click .show-thought': 'showThought'
         },
 
-        template: Handlebars.compile($("#single-thought-template").html()),
+        template: Handlebars.templates['single-thought'],
 
         initialize: function() {
 
@@ -76,7 +76,7 @@ window.rupon.views = window.rupon.views || {};
 
     rv.Single.ReplyView = Backbone.View.extend({
 
-        template:  Handlebars.compile($("#reply-template").html()),
+        template:  Handlebars.templates['reply-item'],
 
         tagName:   "div",
         className: "reply-row",

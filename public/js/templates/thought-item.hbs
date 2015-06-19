@@ -1,0 +1,94 @@
+<div class="side-action-container">
+    {{#if show_replies}}
+        {{#if num_replies}}
+            <a href="javascript:;" class="side-action reply-summary">
+                {{num_replies}}
+                <i class="fa fa-comment"></i>
+            </a>
+        {{/if}}
+    {{/if}}
+    {{#if can_reply}}
+        <a href="javascript:;" class="side-action write-reply2">
+            <i class="fa fa-plus"></i><span>Reply</span>
+        </a>
+    {{/if}}
+</div>
+{{#if annotation }}
+    <div class="annotation">
+        <div class="annotation-desc"><span>Based on your snippet:</span> <span>{{ annotation }}</span></div>
+    </div>
+{{/if}}
+<div class="message clearfix{{#equal privacy "Private"}} private{{/equal}}">
+    {{#if link}}
+        <div class="link-box">
+            <span class="title">With a reflection to this link:</span>
+            <a href="{{ link }}" target="_blank">{{ link }}</a>
+        </div>
+    {{/if}}
+    <div class="description">
+        <span class="selectable-text">{{{ description }}}</span>
+        {{#if read_more}} 
+            <a href="javascript:;" class="read-more">Read more</a>
+        {{/if}}
+    </div>
+    {{#if is_author}}
+    <div class="right-actions dropdown-container arrow-right">
+        <a href="javascript:;" class="options">
+            <i class="fa fa-angle-down fa-2x"></i>
+        </a>
+        <div class="dropdown-arrow clearfix">
+            <div class="arrow">
+            </div>
+            <div class="dropdown">
+                <ul>
+                    <li><a href="javascript:;" class="privacy-status">Set as {{privacy_inverse}}</a></li>
+                    {{#if can_edit }}<li><a href="javascript:;" class="edit">Edit</a></li>{{/if}}
+                    <li><a href="javascript:;" class="delete">Delete</a></li>
+                    <li><a href="javascript:;" class="archive">Archive</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    {{/if}}
+    {{#if annotation_notice}}
+        <div class="annotation-notice">
+            Select text in this entry to highlight
+        </div>
+    {{/if}}
+
+    <div class="left-actions dropdown-container arrow-left">
+        <div class="dropdown-arrow">
+            <div class="arrow"></div>
+            <div class="dropdown"><button class="privacy-status">Set as anonymous</button></div>
+        </div>
+    </div>
+    <div class="tooltip_description" style="display:none;" title="No worries"></div>
+</div>
+{{#equal privacy "Private"}}
+    <div class="private-entry-label">
+        <i class="fa fa-lock" title='Private Entry'></i>
+        Private Entry
+    </div>
+{{/equal}}
+{{#if enable_below_message}}
+    <div class="below-message">
+        {{#if tags}}
+            <div class="tags-container">
+                Tags included:
+                {{#each tags}}
+                    <span><i class="fa fa-tag"></i>{{name}}</span>
+                {{/each}}
+            </div>
+        {{/if}}
+    </div>
+{{/if}}
+<div class="col-md-3">
+    <div class="reply-collection-container hidden"></div>
+{{#unless is_author }}
+    {{#if can_reply}}
+        <div class="write-reply section">
+            <textarea placeholder="Write a reply"></textarea>
+        </div>
+    {{/if}}
+{{/unless}}
+</div>

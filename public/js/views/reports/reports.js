@@ -7,7 +7,7 @@ window.rupon.views = window.rupon.views || {};
         cv = window.rupon.common_views;
 
     rv.ReportsView = cv.CollectionContainer.extend({
-        template: Handlebars.compile($("#report-template").html()),
+        template: Handlebars.templates['report'],
         container_ele: ".report-items-container",
 
         initialize: function(options) {
@@ -22,7 +22,7 @@ window.rupon.views = window.rupon.views || {};
     });
 
     rv.ReportItemView = cv.Container.extend({
-        template: Handlebars.compile($("#report-item").html()),
+        template: Handlebars.templates['report-item'],
 
         initialize: function(options) {
             this.render(options)

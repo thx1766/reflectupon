@@ -188,7 +188,7 @@ window.rupon.views = window.rupon.views || {};
             'click .message-tabs li': 'selectTab'
         },
 
-        template: Handlebars.compile($("#date-view-template").html()),
+        template: Handlebars.templates['date-view'],
 
         initialize: function(options) {
             this.listenTo(this.model, 'set', this.render);
@@ -319,7 +319,11 @@ window.rupon.views = window.rupon.views || {};
                         model.save({
                             description: value
                         })
-                    });
+                    })
+                    .on("change-privacy", function(privacy, model) {
+                        model.save({privacy: privacy},{wait:true})
+                    })
+
 
                 return view
             });
@@ -328,7 +332,7 @@ window.rupon.views = window.rupon.views || {};
     });
 
     rv.AnnotationContextBox = cv.SimpleModelView.extend({
-        template: Handlebars.compile($("#activity-context-template").html())
+        template: Handlebars.templates['activity-context']
     });
 
     // puts elements in order by letter position
@@ -415,7 +419,7 @@ window.rupon.views = window.rupon.views || {};
         },
 
         render: function() {
-            var template = Handlebars.compile($("#anon-thought-item-template").html())
+            var template = Handlebars.templates['anon-thought-item'];
             this.$el.html(template(this.model.attributes));
         }
     })

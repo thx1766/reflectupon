@@ -1,5 +1,52 @@
-.active-user-ranges-view{color:#747474;margin-top:10px;width:300px;}
+.super-user .left-container {
+  height: 500px;
+  float: left;
+}
+
+.super-user .left-container ul {
+  list-style: none;
+  background-color: #ffffff;
+}
+
+.super-user .left-container li {
+  padding: 15px;
+  border-bottom: 1px solid #ccc;
+}
+
+.super-user .right-container {
+  min-height: 500px;
+  float: left;
+}
+
+.active-user-ranges-view{color:#747474;width:300px;}
 .active-user-range{padding:10px 14px;background-color:#fff;border-bottom:1px solid #EBEBEB;}
 .active-user-range .start{float:left;width:150px;color:#83C1DE;font-weight:500;}
 .active-user-range .count{float:left;width:30px;}
 .active-user-range ul{float: left;padding-left: 30px;padding-top: 3px;}
+
+.vet-thought-view {
+  list-style:none;
+}
+
+.vet-thought-view li {
+  padding:15px;
+  background-color: #ffffff;
+  margin-bottom: 10px;
+}
+
+.vet-thought-view .description {
+  padding-bottom: 5px;
+}
+
+.vet-thought-view .options {
+  border-top: 1px solid #ccc;
+  padding-top: 3px;
+}
+
+.vet-thought-view .options .date {
+  margin-right:10px;
+}
+
+.vet-thought-view .options a {
+  margin-right: 10px;
+}

@@ -34,7 +34,7 @@ window.rupon.views = window.rupon.views || {};
     rv.ReplyView = cv.TemplateView.extend({
         tagName: "li",
         className: "clearfix",
-        template: Handlebars.compile($("#reply-template").html()),
+        template: Handlebars.templates['reply-item'],
 
         initialize: function(options) {
             this.listenTo(this.model, "change", this.render);

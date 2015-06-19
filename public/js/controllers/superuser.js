@@ -13,13 +13,15 @@ window.rupon.utils = window.rupon.utils || {};
         var topics_collection         = new rm.topicsCollection(),
             user_collection           = new rm.userCollection(),
             user_ranges_collection    = new rm.userRangesCollection(),
-            other_thoughts_collection = new rm.thoughtCollection([],{type: "other-posts"}),
+            other_thoughts_collection = new rm.thoughtCollection(),
+            featured_collection       = new rm.thoughtCollection(),
             email                     = new rm.email();
 
         var superUserView = new rupon.views.SuperUserView({
             topics_collection:         topics_collection,
             user_collection:           user_collection,
             other_thoughts_collection: other_thoughts_collection,
+            featured_collection:       featured_collection,
             user_ranges_collection:    user_ranges_collection,
             email:                     email
         });
@@ -30,6 +32,7 @@ window.rupon.utils = window.rupon.utils || {};
         user_collection.fetch();
         user_ranges_collection.fetch();
         other_thoughts_collection.fetch({reset: true, data: {"stream_type": "other-thoughts"}});
+        featured_collection.fetch({reset: true, data: {"stream_type": "featured"}});
     }
 
 })();

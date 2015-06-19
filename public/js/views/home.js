@@ -53,7 +53,7 @@ window.rupon.views = window.rupon.views || {};
     rv.MainView = Backbone.View.extend({
         tagName: "div",
         className: "main-view",
-        template: Handlebars.compile($("#home-template").html()),
+        template: Handlebars.templates['home'],
 
         initialize: function() {
             this.render();
@@ -67,7 +67,7 @@ window.rupon.views = window.rupon.views || {};
     rv.ArchivedItemView = Backbone.View.extend({
         tagName: "div",
         className: "thought-row tooltipbottom clearfix",
-        template: Handlebars.compile($("#archived-item-template").html()),
+        template: Handlebars.templates['archived-item'],
 
         initialize: function() {
             this.render();
@@ -80,7 +80,7 @@ window.rupon.views = window.rupon.views || {};
 
     rv.nagView = Backbone.View.extend({
         tagName: "div",
-        template: Handlebars.compile($("#nag-template").html()),
+        template: Handlebars.templates['nag'],
 
         events: {
             'click .close': 'close'
@@ -121,7 +121,7 @@ window.rupon.views = window.rupon.views || {};
     rv.PaginationView = Backbone.View.extend({
         tagName: "div",
         className: "row",
-        template: Handlebars.compile($("#pagination-template").html()),
+        template: Handlebars.templates['pagination'],
 
         events: {
             "click a.less-recent": "getNextPage",

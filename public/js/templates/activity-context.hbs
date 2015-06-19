@@ -1,0 +1,14 @@
+<div class="activity-box {{#if padded_box}}padded{{/if}}">
+    <div class="overflow-container">
+        <div class="overflow-description">{{{description}}}
+        </div>
+    </div>
+    {{#if reply_description}}
+    <div class="overflow-reply">
+        {{reply_description}}
+    </div>
+    {{/if}}
+    {{#if thought_date}}
+    <a href="javascript:;"><i class="fa fa-tag"></i>Original post written {{thought_date}}</a>
+    {{/if}}
+</div>

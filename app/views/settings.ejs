@@ -1,0 +1,10 @@
+<% include header %>
+    <div id="container" class="container"></div>
+
+    <script type="text/javascript">
+    $(document).ready(function(){
+        rupon.controllers.startSettingsPage({ user_id: "<%= user._id %>", email: "<%= user.email %>" });
+    })
+    </script>
+
+<% include footer %>

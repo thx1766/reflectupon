@@ -13,7 +13,7 @@ window.rupon.views = window.rupon.views || {};
     rv.TooltipView = Backbone.View.extend({
         tagName:   "div",
         className: "tooltip-view",
-        template:  Handlebars.compile($("#tooltip-template").html()),
+        template:  Handlebars.templates['tooltip'],
 
         events: {
             'click button': 'createReflection'
@@ -45,7 +45,7 @@ window.rupon.views = window.rupon.views || {};
     rv.WriteThoughtView = cv.TemplateView.extend({
         tagName: "div",
         className: "write-view",
-        template: Handlebars.compile($("#write-template").html()),
+        template: Handlebars.templates['write'],
 
         tags: [],
 
@@ -197,7 +197,7 @@ window.rupon.views = window.rupon.views || {};
     rv.PostboxView = Backbone.View.extend({
         tagName:   "div",
         className: "postbox",
-        template:  Handlebars.compile($("#postbox-template").html()),
+        template:  Handlebars.templates['postbox'],
 
         events: {
 
