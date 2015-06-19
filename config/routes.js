@@ -3,6 +3,7 @@ var mongoose        = require('mongoose')
   , auth            = require('./middlewares/authorization')
   , _               = require('underscore')
   , emails          = require('../app/utils/emails')
+  , moment          = require('moment-timezone')
 
   , user_routes      = require('../app/controllers/user')
   , thought_routes   = require('../app/controllers/thought')
@@ -11,6 +12,7 @@ var mongoose        = require('mongoose')
   , thoughts         = require('../app/controllers/api/thoughts')
   , reports          = require('../app/controllers/api/reports')
   , superuser        = require('../app/controllers/api/superuser')
+  , settings_routes  = require('../app/controllers/settings')
 
 var Thought     = mongoose.model('Thought'),
     Reply       = mongoose.model('Reply'),
@@ -32,6 +34,7 @@ module.exports = function(app) {
     app.post('/reset',                               user_routes.postReset);
     app.get( '/twiml',                               thought_routes.getTwiml);
     app.get( '/superuser', auth.ensureAuthenticated, superuser_routes.get);
+    app.get( '/settings',  auth.ensureAuthenticated, settings_routes.get);
 
     app.get('/api/frequency', dates.get);
 
@@ -325,15 +328,18 @@ module.exports = function(app) {
 
     app.post('/api/email', function(req, res) {
         var thought = new Thought({
-            description:    req.body.plain,
+            description:    req.body.text,
             privacy:        "PRIVATE",
-            user_id:        "522ebb4ee553960200000001",
+            user_id:        "52ba09950dd0fa143b000001", //"522ebb4ee553960200000001",
             date:           new Date()
         });
 
-        thought.save(function(err) {
+        thought.save(function(err, thought) {
 
             if (err) console.log(err);
+
+            thought = thought.toJSON();
+            thought.date = moment.tz(thought.date, "America/Los_Angeles").format();
 
             res.send( thought );
 
