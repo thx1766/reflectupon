@@ -1,43 +1,39 @@
 <div class="thought-row">
-    <div class="row">
-        <div>
-            <div class="section clearfix">
-                <div class="expanded">
-                    {{#if entry_date}}
-                        <div class="delayed-entry">
-                            Entry for {{entry_date}}
-                        </div>
-                    {{/if}}
-                    <div class="header clearfix">
-                        <div class="clearfix">
-                            <button type="button" class="btn btn-default privacy is_private">
-                                <i class='fa fa-lock fa-lg' title='Make Anonymous'></i>
-                                <i class='fa fa-unlock-alt fa-lg' title='Make Private'></i>
-                            </button>
-                            <button type="button" class="btn btn-default link">
-                                <i class='fa fa-link fa-lg' title='Add Link'></i>
-                            </button>
-                            <button type="button" class="btn btn-default tag">
-                                <i class='fa fa-tag fa-lg' title='Add Tags'></i>
-                            </button>
-                            <input class='add-link hidden' placeholder="Given a URL you include here... (add 'http')" />
-                            <span style="padding:0 5px"></span>
-                        </div>
-                        <div class="tags-container"></div>
-                    </div>
-                    <div class="message clearfix">
-                        <div class="description">
-                            <textarea placeholder="Write freely about how you feel."></textarea>
-                        </div>
-                    </div>
-                    <div class="footer clearfix">
-                        <button type="button" class="btn btn-primary create">Create entry</button>
-                    </div>
+    <div class="section clearfix">
+        <div class="expanded">
+            {{#if entry_date}}
+                <div class="delayed-entry">
+                    Entry for {{entry_date}}
                 </div>
-                <div class="condensed">
-                    <a href="javascript:;" class="write-another">Write another reflection</a>
+            {{/if}}
+            <div class="header clearfix">
+                <div class="clearfix">
+                    <button type="button" class="btn btn-default privacy is_private">
+                        <i class='fa fa-lock fa-lg' title='Make Anonymous'></i>
+                        <i class='fa fa-unlock-alt fa-lg' title='Make Private'></i>
+                    </button>
+                    <button type="button" class="btn btn-default link">
+                        <i class='fa fa-link fa-lg' title='Add Link'></i>
+                    </button>
+                    <button type="button" class="btn btn-default tag">
+                        <i class='fa fa-tag fa-lg' title='Add Tags'></i>
+                    </button>
+                    <input class='add-link hidden' placeholder="Given a URL you include here... (add 'http')" />
+                    <span style="padding:0 5px"></span>
+                </div>
+                <div class="tags-container"></div>
+            </div>
+            <div class="message clearfix">
+                <div class="description">
+                    <textarea placeholder="Write freely about how you feel."></textarea>
                 </div>
             </div>
+            <div class="footer clearfix">
+                <button type="button" class="btn btn-primary create">Create entry</button>
+            </div>
+        </div>
+        <div class="condensed">
+            <a href="javascript:;" class="write-another">Write another reflection</a>
         </div>
     </div>
 </div>

@@ -14,7 +14,7 @@ a img{border:0;}
 #topbar .navbar-brand{font-family:'Merriweather';font-size:22px;}
 
 .fa-sign-out{margin-top:5px;}
-.wrapper{margin:0 auto;clear:both;display:block;padding-top:70px;}
+.wrapper{margin:0 auto;clear:both;display:block;padding-top:70px;padding-left:15px;padding-right:15px;}
 .sidebar a{display:block}
 
 .new-reflections li{list-style:none;margin:0 10px;padding:8px 6px 8px 10px;text-decoration:none;display:block;}
@@ -85,10 +85,10 @@ a img{border:0;}
 .thought-row .message.reply-summary-activated{min-height:400px;}
 .show-replies.thought-row .message{float:left;}
 .date-view .header{position:relative;font-size: 15px;font-family: 'Helvetica Neue';font-weight: 200;border-bottom: 1px solid #F5F5F5;margin-bottom: 14px;min-height:36px;padding:10px 0;}
-.date-view .section{background-color:#fff;border-radius:3px;padding:10px 80px 25px 30px;color:#626262;line-height: 24px;position: relative;box-shadow:0 1px 2px #d6d6d6;min-height: 400px;}
+.date-view .section{background-color:#fff;border-radius:3px;padding:10px 30px 25px;color:#626262;line-height: 24px;position: relative;box-shadow:0 1px 2px #d6d6d6;min-height: 400px;}
 
-.private-entry-label{color:#DA9C9C;padding-left:1px;}
-.private-entry-label i{margin-right:2px;font-size: 16px;vertical-align: -1px;}
+.private-entry-label{color:#DA9C9C;padding-left:1px;float:left;line-height:14px;}
+.private-entry-label i{margin-right:2px;vertical-align: -1px;}
 
 .below-message{font-weight:200;height:30px;font-size:16px;color:#C76F6F;border-bottom-left-radius: 3px;border-bottom-right-radius: 3px;}
 .below-message .tags-container{float:left;white-space:nowrap;font-size:14px;}
@@ -127,7 +127,7 @@ a img{border:0;}
 .pagination-container a.less-recent{float:right;}
 .pagination-container a.go-to-write{float:left;}
 .pagination-container a.go-to-journal{float:right;}
-.pagination-container .row{padding: 14px;background-color: #fff;box-shadow: 0 1px 2px #ccc;}
+.pagination-container >div{padding: 14px;background-color: #fff;box-shadow: 0 1px 2px #ccc;}
 .dropdown-container{position:relative;}
 .dropdown-container .dropdown-arrow{position:absolute;z-index:10;display:none;padding-top:12px;}
 .dropdown-container:hover .dropdown-arrow{display:block}
@@ -156,7 +156,7 @@ a img{border:0;}
 }
 .dropdown-container .dropdown{background-color: #ffffff;border-radius: 2px;box-shadow: 0px 2px 5px #9C9C9C;font-size:16px;font-family:arial;border:2px solid #949494;}
 
-.dropdown-container.arrow-right{float:right;margin-top:-8px;}
+.dropdown-container.arrow-right{float:right;}
 .dropdown-container.arrow-right .arrow:after,.dropdown-container.arrow-right .arrow:before {left:101%;}
 .dropdown-container.arrow-right .dropdown-arrow{right:-12px}
 .dropdown-container.arrow-left{float:left}
@@ -209,8 +209,6 @@ a img{border:0;}
 .thought-row.editing .description{display:none;}
 .thought-row textarea.editable{display:none;resize: none;border: 1px solid #ccc;background-color:#ffffff;font-size: 20px;font-family: "Times New Roman";color: rgb(107, 107, 107);outline: none;width: 720px;border-radius:3px;padding:0 4px;margin-left:-5px;margin-bottom:8px;}
 .thought-row.editing textarea{display:block}
-.thought-row .options{display:none}
-.thought-row:hover .options{display:block}
 .thought-row .dropdown{overflow:hidden;z-index:10;padding: 10px;right: -12px;width:120px;}
 .thought-row .dropdown li{border-bottom:1px solid #ccc;}
 .thought-row .dropdown li:last-child{border-bottom:0}
@@ -243,6 +241,12 @@ a img{border:0;}
 .write-reply {background-color: #e6d6d6;padding: 6px 10px;border:1px solid #ccc}
 .thought-row .write-reply textarea {line-height:1.4 !important;display: block;width: 100%;margin-left: 0;padding: 0;border:0;font-family:"Helvetica Neue", arial;font-weight:200;font-size:16px;}
 
+.message-summary{
+  border-radius: 2px;
+  background-color: #f5f5f5;
+  margin-bottom: 8px;
+  padding: 8px;
+}
 .link-box{margin-bottom: 6px;}
 .link-box .title{font-size: 14px;}
 
@@ -404,4 +408,22 @@ div.jquery-gdakram-tooltip h1{display:none}
 
 @media all and (max-width:991px) {
     .thought-row .reply-collection li{border:0;background-color:#fdfdfd;}
+}
+
+@media all and (min-width:600px) {
+    .side-view-container {
+        width: 18%;
+        float: left;
+    }
+
+    .main-view-container {
+        width: 80%;
+        float: right;
+    }
+}
+
+@media all and (min-width:940px) {
+    .wrapper {
+        width: 940px;
+    }
 }

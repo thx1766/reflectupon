@@ -9,8 +9,13 @@ var mongoose   = require('mongoose')
 exports.get = function(req, res) {
 
     var num_days = 30;
+
+    if (req.query.mobile) {
+        num_days = 3;
+    }
+
     var options = {
-      date:    helpers.getDateRange(30),
+      date:    helpers.getDateRange(num_days),
       user_id: req.user._id
     };
 

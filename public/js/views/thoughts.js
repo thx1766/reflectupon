@@ -182,7 +182,7 @@ window.rupon.views = window.rupon.views || {};
 
     rv.DateView = cv.TemplateView.extend({
 
-        className: "date-view row",
+        className: "date-view",
 
         events: {
             'click .message-tabs li': 'selectTab'

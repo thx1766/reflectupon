@@ -167,8 +167,6 @@ window.rupon.views = window.rupon.views || {};
             this.$el.html(outputHtml);
             cv.Container.prototype.reattachChildren.call(this);
 
-            this.$el.find('.fa').tooltip();
-
             this.$el.find('.write-reply textarea').autosize();
             if (annotations && annotations.length && replies && replies.length) {
                 this.renderRepliesForAnnotation(this.$el.find('.perm'), replies);

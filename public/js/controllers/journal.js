@@ -72,7 +72,7 @@ window.rupon.utils = window.rupon.utils || {};
             writeToThoughtsView.trigger('go-to-entry', val);
         });
 
-        $("#container").html("<div class='side-view-container col-md-2'></div><div class='main-view-container col-md-10'></div>");
+        $("#container").html("<div class='side-view-container'></div><div class='main-view-container'></div>");
         $(".side-view-container").append(frequencyView.$el);
         $(".main-view-container").append(mainView.$el);
 
@@ -104,7 +104,14 @@ window.rupon.utils = window.rupon.utils || {};
         });
 
         tags_collection.fetch();
-        frequency_collection.fetch({reset:true});
+
+        var frequency_data_options = {};
+
+        if ($(window).width() < 450) {
+            frequency_data_options.mobile = true;
+        };
+
+        frequency_collection.fetch({reset:true, data: frequency_data_options});
         recommended_collection.fetch({reset:true, data: {stream_type: "recommended"}});
         user_message_collection.fetch({reset:true, data: {user_id:rupon.account_info.user_id}});
         tags_collection.fetch();

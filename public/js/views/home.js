@@ -15,7 +15,7 @@ window.rupon.views = window.rupon.views || {};
 
     rv.SideView = Backbone.View.extend({
         tagName: "div",
-        className: "side-view-container col-md-2",
+        className: "side-view-container",
 
         events: {
             "click a": "goToEntry"
@@ -120,7 +120,7 @@ window.rupon.views = window.rupon.views || {};
 
     rv.PaginationView = Backbone.View.extend({
         tagName: "div",
-        className: "row",
+        className: "clearfix",
         template: Handlebars.templates['pagination'],
 
         events: {
