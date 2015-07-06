@@ -2,6 +2,7 @@ var mongoose   = require('mongoose')
   , _          = require('underscore')
   , async      = require('async')
   , User       = mongoose.model('User')
+  , Thought    = mongoose.model('Thought')
   , Annotation = mongoose.model('Annotation')
   , helpers    = require('../../helpers')
   , moment_tz  = require('moment-timezone')
@@ -19,37 +20,49 @@ exports.get = function(req, res) {
       user_id: req.user._id
     };
 
-    populate = {
-        path: 'replies'
-    };
-
     helpers.getThoughtsWithAnnotation(options, function(thoughts) {
-        Annotation
-            .find(options)
-            .populate(populate)
-            .populate({path: 'thoughts'})
-            .sort({date:-1})
-            .exec(function(err, annotations) {
-                var frequency = [];
 
-                for (var i = 0; i < num_days; i++) {
+        getAnnotations(options, function(annotations) {
 
-                    var endDate   = getDate(i, 1);
-                    var startDate = getDate(i);
-                    var filtered_thoughts = getItemsByDate(thoughts, startDate, endDate);
-                    frequency[i] = {
-                        day:      startDate,
-                        thoughts: filtered_thoughts,
-                        activity: getItemsByDate(annotations, startDate, endDate),
-                        tags:     getTagsFromAllThoughts(filtered_thoughts)
-                    };
+            var frequency = [];
 
-                }
+            for (var i = 0; i < num_days; i++) {
 
-                res.send(frequency);
-            });  
+                var endDate   = getDate(i, 1);
+                var startDate = getDate(i);
+                var filtered_thoughts = getItemsByDate(thoughts, startDate, endDate);
+                frequency[i] = {
+                    day:         startDate,
+                    thoughts:    filtered_thoughts,
+                    activity:    getItemsByDate(annotations, startDate, endDate),
+                    tags:        getTagsFromAllThoughts(filtered_thoughts)
+                };
+
+            }
+
+            res.send(frequency);
+
+        });
+
     })
 
+};
+
+var formatRecommended = function(thoughts) {
+    async.mapSeries(thoughts, formatRecommendedThought, function(err, thoughts) {
+        console.log(thoughts);
+    });
+};
+
+var getAnnotations = function(options, callback) {
+    Annotation
+        .find(options)
+        .populate({path: 'replies' })
+        .populate({path: 'thoughts'})
+        .sort({date:-1})
+        .exec(function(err, annotations) {
+            callback(annotations);
+        });
 };
 
 var getDate = function(num_day, end_day) {

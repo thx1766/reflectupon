@@ -12,7 +12,7 @@ exports.getThoughtsWithAnnotation = function(options, callback) {
     limit = options.limit || null;
 
     populate = {
-        path: 'replies'
+        path: 'recommended'
     };
 
     Thought
@@ -32,7 +32,7 @@ exports.getThoughtsWithAnnotation = function(options, callback) {
 };
 
 var getAnnotationByThought = function(thought, callback) {
-    formatted_thought = {};
+    var formatted_thought = {};
     formatted_thought = thought.toObject();
     Annotation.find({thought_id: thought.id}, function(err, thought_annotations) {
         formatted_thought.annotations = thought_annotations;
@@ -68,6 +68,7 @@ exports.getOnlyAnonThoughts = function(params, callback, options) {
         });
 }
 
+/* Get date range from start to end */
 exports.getDateRange = function(num_days) {
     var d = new Date();
     d.setDate(d.getDate()-num_days);

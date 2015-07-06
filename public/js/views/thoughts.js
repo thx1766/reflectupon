@@ -27,40 +27,47 @@ window.rupon.views = window.rupon.views || {};
 
         initialize: function(options) {
             this.options = options;
-            this.render("write");
+
+            this.listenTo(this.options.frequency_collection, 'sync', this.render)
 
             var self = this;
             this.on('write-reflection', function() {
                 self.render("write");
             });
-            this.on('go-to-entry', function(val) {
-                self.render("thoughts");
-                self.thoughtsView.trigger('go-to-entry', val);
-            });
-            this.on('write-entry', function() {
-                self.render("write");
-            });
         },
 
-        render: function(view_type) {
-            if (this.writeView)    this.writeView.remove();
-            if (this.thoughtsView) this.thoughtsView.remove();
+        render: function(view_type, model) {
+
+            view_type = (typeof view_type != "string") ? "recommended" : view_type;
+
+            // show write view instead
+            if (view_type == "recommended" && !this.options.frequency_collection.models[0].get('thoughts').length) {
+                view_type = "write";
+            }
+
+            if (this.subView) {
+                this.subView.remove();
+            }
 
             switch (view_type) {
                 case "write":
-                    this.writeView = this.renderWriteView()
-                    this.$el.html(this.writeView.$el);
+                    this.subView = this.renderWriteView();
                     break;
-                case "thoughts":
-                    this.thoughtsView = this.renderThoughtsView();
-                    this.$el.html(this.thoughtsView.$el);
+                case "day":
+                    this.subView = this.renderDayView(model);
+                    break;
+                case "recommended":
+                    this.subView = this.renderRecommendedView();
+                    break;
             }
+
+            this.$el.html(this.subView.$el);
         },
 
         renderWriteView: function() {
             var tags_collection = this.options.tags_collection;
 
-            view = new rv.WriteThoughtView({
+            var view = new rv.WriteThoughtView({
                 tags_collection: tags_collection,
                 entry_date:      "Nov 29th"
             });
@@ -72,230 +79,31 @@ window.rupon.views = window.rupon.views || {};
             return view;
         },
 
-        renderThoughtsView: function(params) {
-            view = new rv.DatesView({
-                collection:         this.options.frequency_collection,
+        renderDayView: function(model) {
+
+            var view = new rv.DayView({
+                model:              model,
                 user:               this.options.user,
                 reply_collection:   this.options.reply_collection,
                 tags_collection:    this.options.tags_collection
             });
+            return view;
+        },
 
-            this.off('get-next-entry');
-            this.off('get-previous-entry');
-
-            this.on('get-next-entry', function() {
-                view.trigger('get-next-entry');
-            });
-            this.on('get-previous-entry', function(cb) {
-                view.trigger('get-previous-entry', cb);
-            });
+        renderRecommendedView: function() {
+            var view = new rv.RecommendedView();
             return view;
         }
 
     });
 
-    rv.DatesView = Backbone.View.extend({
-
-        modelPosition: 0,
-        tagName: "div",
-        className: "dates-view",
-
-        initialize: function(options) {
-
-            //this.listenTo(this.collection.fullCollection,'add', this.appendItem);
-            this.listenTo(this.collection, 'create', this.prependItem);
-
-            this.on('go-to-entry',    this.goToEntry);
-            this.on('get-next-entry', this.getNextEntry);
-            this.on('get-previous-entry', this.getPreviousEntry);
-
-            this.modelView = function(model) {
-                return new rv.DateView({
-                    model:              model,
-                    user:               options.user,
-                    reply_collection:   options.reply_collection,
-                    thought_collection: options.thought_collection,
-                    can_reply:          options.can_reply,
-                    tags_collection:    options.tags_collection
-                })
-            };
-
-            this.render(options);
-
-            this.archived_count = 0;
-            this.last_archived = false;
-
+    rv.RecommendedView = Backbone.View.extend({
+        initialize: function() {
+            this.render();
         },
 
-        displayItem: function(date) {
-            this.current_date = _.findWhere(this.collection.models, {cid: date.cid});
-
-            if (date.get("archived")) {
-                this.archived_count = this.last_archived ? (this.archived_count+1) : 1;
-                this.last_archived = true;
-            } else {
-                this.archived_count = 0;
-                this.last_archived = false;
-            }
-
-            var formatThought;
-
-            if (!this.archived_count || (this.archived_count && this.archived_count == 1)) {
-                formatThought = this.modelView(date);
-            } else {
-                formatThought = new rv.ArchivedItemView({ model: date });
-            }
-
-            this.$el.html(formatThought.$el)
-
-            var self = this;
-            this.listenTo(formatThought, 'all', function() {
-                self.trigger.apply(this, arguments);
-            });
-
-        },
-
-        goToEntry: function(val) {
-            var model;
-            if (val == "most-recent") {
-                model = this.collection.first();
-            } else {
-                model = this.collection.where({day: val})[0];
-            }
-            this.displayItem(model, "append");
-        },
-
-        getNextEntry: function() {
-            sorted_models = _.sortBy(this.collection.models, function(model){ return -new Date(model.attributes.date); });
-            model_index = _.indexOf(sorted_models, this.current_date);
-            this.displayItem(sorted_models[model_index + 1]);
-        },
-
-        getPreviousEntry: function(cb) {
-            sorted_models = _.sortBy(this.collection.models, function(model){ return -new Date(model.attributes.date); });
-            model_index = _.indexOf(sorted_models, this.current_date);
-            this.displayItem(sorted_models[model_index - 1]);
-            if (model_index == 1) cb();
-        }
-
-    });
-
-    rv.DateView = cv.TemplateView.extend({
-
-        className: "date-view",
-
-        events: {
-            'click .message-tabs li': 'selectTab'
-        },
-
-        template: Handlebars.templates['date-view'],
-
-        initialize: function(options) {
-            this.listenTo(this.model, 'set', this.render);
-            this.render(options);
-        },
-
-        render: function(options) {
-            options.day = moment(this.model.get("day")).format('MMM Do')
-            cv.TemplateView.prototype.render.call(this, options);
-
-            var thoughtsView = new rv.ThoughtsView({
-                collection:         this.model.attributes.thoughts,
-                user:               options.user,
-                reply_collection:   options.reply_collection,
-                can_reply:          options.can_reply,
-                tags_collection:    options.tags_collection
-            })
-
-            this.$el.find(".thoughts-list").append(thoughtsView.$el);
-
-            var random_thought_model = new window.rupon.models.thought();
-            var randomThoughtView = new rv.RandomThoughtView({model: random_thought_model});
-            this.$el.find(".section").append(randomThoughtView.$el);
-
-            random_thought_model.fetch({
-                data: {
-                    'random': 1
-                }
-            });
-        },
-
-        selectTab: function(e) {
-            $(".message-tabs li").removeClass("selected");
-            $(e.currentTarget).addClass("selected");
-            if ($(e.currentTarget).hasClass('entry')) {
-                $(".date-view .thought-container").show();
-                $(".activity-container").hide();
-
-                _.each(this.annotationContextBoxes, function(box) {
-                    box.remove();
-                })
-
-            } else if ($(e.currentTarget).hasClass('activity')) {
-                $(".date-view .thought-container").hide();
-                $(".activity-container").show();
-
-                var annotation_models = this.model.attributes.activity;
-                var thought_description = this.model.attributes.description;
-                var self = this;
-                self.annotationContextBoxes = [];
-                _.each(annotation_models, function(model) {
-                    thought_description = this.getThoughtDescription(model);
-                    description = this.presentThoughtAnnotation(thought_description, model);
-
-
-                    var params = {
-                        description:       description,
-                        reply_description: this.getReplyDescription(model),
-                        padded_box:        description.length < 50,
-                        thought_date:      this.getThoughtDate(model)
-                    };
-
-                    annotationContextBox = new rv.AnnotationContextBox({
-                        model: new Backbone.Model(params)
-                    });
-
-                    self.annotationContextBoxes.push(annotationContextBox);
-                    $(".activity-container").append(annotationContextBox.$el)
-                }, this)
-            }
-        },
-
-        presentThoughtAnnotation: function(thought_description, model) {
-            if (thought_description.length) {
-                var background_text = thought_description.substring(Math.max(0,model.start-75), model.end+75);
-                return background_text.replace(model.description, this.highlightTemplate(model.description))
-            } else {
-                return this.highlightTemplate(model.description);
-            }
-        },
-
-        highlightTemplate: function(description) {
-            return "<span class='highlight'>"+description+"</span>"
-        },
-
-        getThoughtDate: function(model) {
-            if (model && model.thoughts && model.thoughts.length) {
-                return moment(model.thoughts[0].date).format('MMM Do');
-            } else {
-                return "";
-            }
-        },
-
-        getReplyDescription: function(model) {
-            if (model && model.replies && model.replies.length) {
-                return model.replies[0].description;
-            } else {
-                return ""
-            }
-        },
-
-        getThoughtDescription: function(model) {
-            if (model && model.thoughts && model.thoughts.length) {
-                return model.thoughts[0].description;
-            } else {
-                return ""
-            }
+        render: function() {
+            this.$el.html('derp');
         }
     });
 

@@ -248,24 +248,47 @@ exports.get = function(req, res) {
 
 }
 
-exports.post = function(req, res) {
-    var thought = new Thought({
-        title:          req.body.title,
-        description:    req.body.description,
-        expression:     req.body.expression,
-        annotation:     req.body.annotation,
-        privacy:        req.body.privacy,
-        user_id:        req.user._id,
-        link:           req.body.link,
-        tag_ids:        req.body.tag_ids,
-        date:           req.body.date
+var getRecommended = function(user_id, callback) {
+
+    var startDate = new Date(new Date().setHours(0,0,0,0));
+    startDate.setDate(startDate.getDate()-3);
+
+    var params = {
+        user_id: user_id,
+        date: {
+            $lte: startDate
+        }
+    }
+
+    Thought.findOne(params, {}, {sort: {'date': -1 }}, function(err, thought) {
+        callback(thought);
     });
+}
 
-    thought.save(function(err) {
+exports.post = function(req, res) {
 
-        if (err) console.log(err);
+    getRecommended(req.user._id, function(recommended) {
 
-        res.send( thought );
+        var thought = new Thought({
+            title:          req.body.title,
+            description:    req.body.description,
+            expression:     req.body.expression,
+            annotation:     req.body.annotation,
+            privacy:        req.body.privacy,
+            user_id:        req.user._id,
+            link:           req.body.link,
+            tag_ids:        req.body.tag_ids,
+            date:           req.body.date,
+            recommended:    recommended
+        });
+
+        thought.save(function(err) {
+
+            if (err) console.log(err);
+
+            res.send( thought );
+
+        });
 
     });
 
