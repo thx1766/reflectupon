@@ -37,7 +37,11 @@ window.rupon.utils = window.rupon.utils || {};
             freq_item.set('thoughts', thoughts);
             freq_item.trigger('thought-change');
 
-            writeToThoughtsView.trigger('go-to-entry', "most-recent");
+            renderRightColumnView("most-recent", {
+                collection:          frequency_collection,
+                writeToThoughtsView: writeToThoughtsView,
+                paginationView:      paginationView
+            })
         });
 
         var paginationView = new rv.PaginationView({collection: frequency_collection});
