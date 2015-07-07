@@ -23,7 +23,7 @@ window.rupon.views = window.rupon.views || {};
     }
 
     rv.WriteToThoughtsView = Backbone.View.extend({
-        className: "write-to-thought-view",
+        className: "dashboard-view",
 
         initialize: function(options) {
             this.options = options;
@@ -91,19 +91,27 @@ window.rupon.views = window.rupon.views || {};
         },
 
         renderRecommendedView: function() {
-            var view = new rv.RecommendedView();
+            var todayModel = this.options.frequency_collection.models[0];
+            var todayModelThought = todayModel.get('thoughts').models[0];
+            var recommendedThought = todayModelThought.get('recommended')[0];
+
+            var view = new rv.RecommendedView({
+                model: new Backbone.Model(recommendedThought)
+            });
             return view;
         }
 
     });
 
     rv.RecommendedView = Backbone.View.extend({
+        className: 'recommended-view',
+        template: Handlebars.templates['recommended'],
         initialize: function() {
             this.render();
         },
 
         render: function() {
-            this.$el.html('derp');
+            this.$el.html(this.template(this.model.toJSON()));
         }
     });
 
@@ -218,18 +226,5 @@ window.rupon.views = window.rupon.views || {};
         return output;
 
     };
-
-    rv.RandomThoughtView = Backbone.View.extend({
-
-        initialize: function() {
-            this.listenTo(this.model, 'sync', this.render);
-            this.render();
-        },
-
-        render: function() {
-            var template = Handlebars.templates['anon-thought-item'];
-            this.$el.html(template(this.model.attributes));
-        }
-    })
 
 })();

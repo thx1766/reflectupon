@@ -118,10 +118,26 @@ a img{border:0;}
     padding-bottom: 10px
 }
 
-.recommended-view .section{margin:0;border-radius:0;box-shadow:0 0 0;}
-.recommended-view .thought-row .message{padding:0;background-color:#fff;}
-.recommended-view .thought-row.other-author .message{padding:0;background-color:#fff;}
-.recommended-view .header{display:none;}
+.recommended-view .notice {
+    background-color: #BBDBF2;
+    padding: 12px 20px;
+    font-size: 16px;
+}
+.recommended-view .body-container{
+    padding:25px 20px;
+    background-color:#fff;
+}
+.recommended-view .header{
+    font-size:22px;
+    font-weight: 200;
+    padding: 10px 0;
+    border-bottom: 1px solid #F5F5F5;
+    margin-bottom: 14px;
+}
+.recommended-view .description{
+  font-family: 'Merriweather';
+  font-size: 16px;
+}
 .pagination-container{margin-top: 15px;}
 .pagination-container a{text-align: center;font-size: 17px;display: block;text-decoration: none;color: #6078ad;}
 .pagination-container a.more-recent{float:left;}

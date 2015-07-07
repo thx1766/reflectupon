@@ -97,7 +97,7 @@ window.rupon.utils = window.rupon.utils || {};
         $(".main-view-container").append(mainView.$el);
 
         mainView.$el
-            .find(".thought-container").append(writeToThoughtsView.$el).end()
+            .find(".dashboard-container").append(writeToThoughtsView.$el).end()
             .find(".pagination-container").append(paginationView.$el);
 
         user_message_collection.on("reset", function() {
