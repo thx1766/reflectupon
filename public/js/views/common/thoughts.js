@@ -256,12 +256,12 @@ window.rupon.views = window.rupon.views || {};
             if (type == 'n') {
                 before_type = '\n';
                 after_type = '<br>';
-            } else if (type = 'br') {
+            } else if (type == 'br') {
                 before_type = '<br>';
                 after_type = '\n';
             }
 
-            while (_.indexOf(description, '\n') != -1) {
+            while (description.indexOf(before_type) != -1) {
                 description = description.replace(before_type, after_type);
             }
             return description;

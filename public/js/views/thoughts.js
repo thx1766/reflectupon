@@ -119,8 +119,8 @@ window.rupon.views = window.rupon.views || {};
 
             var template_options = this.model.toJSON();
 
-            if (!options.read_more && template_options.description.length > 300) {
-                template_options.description = template_options.description.substring(0, 300) + "...";
+            if (!options.read_more && template_options.description.length > 400) {
+                template_options.description = template_options.description.substring(0, 400) + "...";
                 template_options.read_more_button = true;
             }
 

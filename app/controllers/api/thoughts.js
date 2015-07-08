@@ -286,7 +286,9 @@ exports.post = function(req, res) {
 
             if (err) console.log(err);
 
-            res.send( thought );
+            Thought.populate(thought, {path:"recommended"}, function(err,thought) {
+                res.send( thought );
+            })
 
         });
 
