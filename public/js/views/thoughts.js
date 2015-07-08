@@ -110,8 +110,25 @@ window.rupon.views = window.rupon.views || {};
             this.render();
         },
 
-        render: function() {
-            this.$el.html(this.template(this.model.toJSON()));
+        events: {
+            'click .read-more': 'readMore'
+        },
+
+        render: function(options) {
+            options = options || {};
+
+            var template_options = this.model.toJSON();
+
+            if (!options.read_more && template_options.description.length > 300) {
+                template_options.description = template_options.description.substring(0, 300) + "...";
+                template_options.read_more_button = true;
+            }
+
+            this.$el.html(this.template(template_options));
+        },
+
+        readMore: function() {
+            this.render({read_more: true});
         }
     });
 

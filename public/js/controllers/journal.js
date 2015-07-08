@@ -30,18 +30,18 @@ window.rupon.utils = window.rupon.utils || {};
             var freq_item   = frequency_collection.where({day: format_date})[0];
 
             var thought = new rm.thought(attrs);
-            thought.save();
+            thought.save({},{success: function() {
+                renderRightColumnView("recommended", {
+                    collection:          frequency_collection,
+                    writeToThoughtsView: writeToThoughtsView,
+                    paginationView:      paginationView
+                })
+            }});
 
             var thoughts = freq_item.get('thoughts')
             thoughts.unshift(thought);
             freq_item.set('thoughts', thoughts);
             freq_item.trigger('thought-change');
-
-            renderRightColumnView("most-recent", {
-                collection:          frequency_collection,
-                writeToThoughtsView: writeToThoughtsView,
-                paginationView:      paginationView
-            })
         });
 
         var paginationView = new rv.PaginationView({collection: frequency_collection});
@@ -178,21 +178,28 @@ window.rupon.utils = window.rupon.utils || {};
         var writeToThoughtsView = options.writeToThoughtsView;
         var paginationView      = options.paginationView;
 
-        var model = getModelByDate(modelType, collection, dayModelIndex);
-        dayModelIndex = collection.indexOf(model);
+        if (modelType == "recommended") {
+            writeToThoughtsView.render("recommended");
+            paginationView.render({
+                type:              "recommended"
+            })
+        } else {
+            var model = getModelByDate(modelType, collection, dayModelIndex);
+            dayModelIndex = collection.indexOf(model);
 
-        var firstModel = getModelByDate("most-recent", collection);
-        var firstModelIndex = collection.indexOf(firstModel);
+            var firstModel = getModelByDate("most-recent", collection);
+            var firstModelIndex = collection.indexOf(firstModel);
 
-        var lastModel = getModelByDate("least-recent", collection);
-        var lastModelIndex = collection.indexOf(lastModel);
+            var lastModel = getModelByDate("least-recent", collection);
+            var lastModelIndex = collection.indexOf(lastModel);
 
-        writeToThoughtsView.render("day", model);
-        paginationView.render({
-            model_index:       dayModelIndex,
-            first_model_index: firstModelIndex,
-            last_model_index:  lastModelIndex
-        })
+            writeToThoughtsView.render("day", model);
+            paginationView.render({
+                model_index:       dayModelIndex,
+                first_model_index: firstModelIndex,
+                last_model_index:  lastModelIndex
+            })
+        }
     }
 
 })();

@@ -35,9 +35,16 @@ window.rupon.views = window.rupon.views || {};
 
             var model_index       = options.model_index,
                 first_model_index = options.first_model_index,
-                last_model_index  = options.last_model_index;
+                last_model_index  = options.last_model_index,
+                type              = options.type;
 
-            if (typeof model_index == "undefined") {
+            if (options instanceof Backbone.Collection) {
+                type = "recommended";
+            }
+
+            if (type == "recommended") {
+                var types = ['write-reflection', 'see-entries'];
+            } else if (typeof model_index == "undefined") {
                 var types = ['see-entries'];
             } else {
                 if (model_index == first_model_index) {
