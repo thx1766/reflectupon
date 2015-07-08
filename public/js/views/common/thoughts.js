@@ -9,6 +9,7 @@ window.rupon.views = window.rupon.views || {};
 
     var rv = window.rupon.views;
     var cv = window.rupon.common_views;
+    var rh = window.rupon.helpers;
 
     var privacy = ["PRIVATE", "ANONYMOUS"];
 
@@ -137,7 +138,7 @@ window.rupon.views = window.rupon.views || {};
                 template_options.read_more = true;
             }
 
-            template_options.description = this.convertLineBreaks(template_options.description, 'n');
+            template_options.description = rh.convertLineBreaks(template_options.description, 'n');
             template_options.annotation_notice = !!template_options.can_reply;
 
             // Description used when editing - without all the annotations
@@ -250,23 +251,6 @@ window.rupon.views = window.rupon.views || {};
             return description.trim().substring(0,length).split(" ").slice(0, -1).join(" ") + "...";
         },
 
-        convertLineBreaks: function(description, type) {
-            var before_type, after_type;
-
-            if (type == 'n') {
-                before_type = '\n';
-                after_type = '<br>';
-            } else if (type == 'br') {
-                before_type = '<br>';
-                after_type = '\n';
-            }
-
-            while (description.indexOf(before_type) != -1) {
-                description = description.replace(before_type, after_type);
-            }
-            return description;
-        },
-
         showSingle: function() {
             var attrs = {
                 showMore: true
@@ -311,7 +295,7 @@ window.rupon.views = window.rupon.views || {};
                 var selectable_field = this.$el.find('.selectable-text')
                 var selectable_text = selectable_field.html();
 
-                var html_text = this.convertLineBreaks(selected_text, 'n');
+                var html_text = rh.convertLineBreaks(selected_text, 'n');
                 this.selected_start = selectable_text.indexOf(html_text)
                 this.selected_end = this.selected_start + html_text.length;
 

@@ -6,6 +6,7 @@ window.rupon.views = window.rupon.views || {};
     var rv = window.rupon.views;
     var rm = window.rupon.models;
     var cv = window.rupon.common_views;
+    var rh = window.rupon.helpers;
 
     rv.DayView = cv.TemplateView.extend({
 
@@ -79,6 +80,7 @@ window.rupon.views = window.rupon.views || {};
         },
 
         presentThoughtAnnotation: function(thought_description, model) {
+            thought_description = rh.convertLineBreaks(thought_description, 'n');
             if (thought_description.length) {
                 var background_text = thought_description.substring(Math.max(0,model.start-75), model.end+75);
                 return background_text.replace(model.description, this.highlightTemplate(model.description))
