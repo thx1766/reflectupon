@@ -5,10 +5,12 @@ var config          = require('../../config'),
     LocalStrategy   = require('passport-local').Strategy,
     forgot          = require('../../forgot'),
     fs              = require('fs'),
+    helpers         = require('../helpers'),
     sendgrid        = require('sendgrid')(
         config.sg_username,
         config.sg_password
     ),
+    moment          = require('moment')
     User    = mongoose.model('User'),
     Thought = mongoose.model('Thought'),
     UserMessage = mongoose.model('UserMessage'),
@@ -41,6 +43,27 @@ exports.home = function(req, res) {
 
 exports.journal = function(req, res) {
     res.render('journal', { user: req.user, topBar: true, signout: true, landing_page: false, is_admin: req.user.username == 'andrew' });
+};
+
+exports.entry = function(req, res) {
+    var params = {};
+    if (req.params.id) {
+        params._id = req.params.id;
+    }
+    helpers.getOnlyAnonThoughts(params, function(thoughts) {
+        if (thoughts.length) {
+            var thought = thoughts[0].toJSON();
+            thought.date = moment().format("MMM DD");
+
+            res.render('entry', {
+                topBar: true,
+                signout: false,
+                landing_page: false,
+                is_admin: false,
+                thought: thought
+            });
+        }
+    });
 };
 
 exports.reports = function(req, res) {

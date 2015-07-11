@@ -24,6 +24,7 @@ module.exports = function(app) {
     app.get( '/',                                    user_routes.getIndex);
     app.get( '/home',   auth.ensureAuthenticated,    user_routes.home);
     app.get( '/reports',auth.ensureAuthenticated,    user_routes.reports);
+    app.get( '/entry/:id',                           user_routes.entry);
     app.get( '/new-ux', auth.ensureAuthenticated,    user_routes.newUser);
     app.post('/login',                               user_routes.postlogin);
     app.get( '/logout',                              user_routes.logout);

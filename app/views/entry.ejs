@@ -1,0 +1,20 @@
+<% include header %>
+  <div class="recommended-view">
+    <div class="side-view-container">
+      <div class="sign-up-module">
+        Write your own private journal entries and share with your friends.
+        <button class="btn btn-primary">Sign Up</button>
+      </div>
+    </div>
+    <div class="main-view-container">
+      <div class="body-container">
+        <div class="header">
+          Written <%= thought.date %>
+        </div>
+        <div class="description">
+          <%= thought.description %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% include footer %>

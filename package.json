@@ -34,6 +34,7 @@
     "cron":           "1.0.4",
     "q":              "2.0.2",
     "connect-redis":  "1.4.7",
+    "moment":         "2.10.3",
     "moment-timezone":"0.2.5",
     "handlebars-precompiler": "2.1.0"
   },
