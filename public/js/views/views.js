@@ -58,7 +58,6 @@ window.rupon.views = window.rupon.views || {};
         },
 
         render: function(options) {
-            delete options.entry_date;
             cv.TemplateView.prototype.render.call(this, options);
             this.$el.find('textarea').autosize();
 
@@ -122,7 +121,7 @@ window.rupon.views = window.rupon.views || {};
             var expanded = this.$el.find('.expanded');
             var textarea_ele = this.$el.find("textarea");
             var addlink_shown = this.$el.find('input.add-link').hasClass('revealed');
-            var privacy_ele = this.$el.find('.privacy');
+            var privacy_ele = this.$el.find('.anon-input input');
 
             if (!this.clickedOnce && $.trim(textarea_ele.val()) != "") {
                 this.clickedOnce = true;
@@ -134,7 +133,7 @@ window.rupon.views = window.rupon.views || {};
                     description:    textarea_ele.val(),
                     //title:          '',
                     //expression:     '',
-                    privacy:        'PRIVATE', //privacy_ele.hasClass('is_private') ? 'PRIVATE' : 'ANONYMOUS',
+                    privacy:        privacy_ele.prop("checked") ? 'ANONYMOUS' : 'PRIVATE',
                     date:           date,
                     tag_ids:        self.tags
                 }

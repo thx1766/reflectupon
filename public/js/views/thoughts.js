@@ -69,7 +69,7 @@ window.rupon.views = window.rupon.views || {};
 
             var view = new rv.WriteThoughtView({
                 tags_collection: tags_collection,
-                entry_date:      "Nov 29th"
+                entry_date:      moment().format("MMM DD")
             });
 
             var self = this;
