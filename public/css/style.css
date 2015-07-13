@@ -443,6 +443,16 @@ div.jquery-gdakram-tooltip h1{display:none}
     .thought-row .reply-collection li{border:0;background-color:#fdfdfd;}
 }
 
+@media all and (max-width:599px) {
+    #topbar-wrapper {
+      position: relative;
+    }
+
+    .wrapper {
+      padding-top: 18px;
+    }
+}
+
 @media all and (min-width:600px) {
     .side-view-container {
         width: 18%;
