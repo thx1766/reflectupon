@@ -57,7 +57,7 @@ a img{border:0;}
 .side-view li:hover .fa-plus{display:block;cursor:pointer;float: right;border: 1px solid #DEDEDE;padding: 2px 4px;border-radius: 4px;background-color: #fff;box-shadow: 0px 1px 1px;}
 .main-view-container.col-md-10{}
 
-.container{max-width:1170px;}
+#topbar{max-width:940px;margin: 0 auto;}
 
 .annotations-list{background-color:#ccc;width:230px;height:500px;position:fixed;right:148px;}
 

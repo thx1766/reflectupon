@@ -53,7 +53,7 @@ exports.entry = function(req, res) {
     helpers.getOnlyAnonThoughts(params, function(thoughts) {
         if (thoughts.length) {
             var thought = thoughts[0].toJSON();
-            thought.date = moment().format("MMM DD");
+            thought.date = moment().format("MMM Do");
 
             res.render('entry', {
                 topBar: true,

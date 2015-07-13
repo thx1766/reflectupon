@@ -39,7 +39,13 @@ window.rupon.views = window.rupon.views || {};
         },
 
         selectTab: function(e) {
+
+            if ($(e.currentTarget).hasClass('selected')) {
+                return;
+            }
+
             $(".message-tabs li").removeClass("selected");
+
             $(e.currentTarget).addClass("selected");
             if ($(e.currentTarget).hasClass('entry')) {
                 $(".date-view .thought-container").show();
@@ -82,8 +88,10 @@ window.rupon.views = window.rupon.views || {};
         presentThoughtAnnotation: function(thought_description, model) {
             thought_description = rh.convertLineBreaks(thought_description, 'n');
             if (thought_description.length) {
-                var background_text = thought_description.substring(Math.max(0,model.start-75), model.end+75);
-                return background_text.replace(model.description, this.highlightTemplate(model.description))
+                var after_word = thought_description.substr(model.end+75).indexOf(" ");
+
+                var background_text = thought_description.substring(Math.max(0,model.start-75), model.end + 75 + after_word);
+                return background_text.replace(model.description, this.highlightTemplate(model.description));
             } else {
                 return this.highlightTemplate(model.description);
             }
