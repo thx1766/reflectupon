@@ -97,22 +97,22 @@ window.rupon.views = window.rupon.views || {};
             var difference_ms = today - created_at;
 
             this.user = (options && options.user) ? options.user : this.user;
-            // var tags = [];
+            var tags = [];
 
-            // if (typeof this.tags_collection != "undefined") {
-            //     if (this.model.get('tags').length && this.tags_collection) {
-            //         tags = _.filter(_.pluck(this.tags_collection.models, 'attributes'), function (model) {
-            //             return _.contains(this.model.get('tag_ids'), model._id)
-            //         }.bind(this));
-            //     }
-            // }
+            if (typeof this.tags_collection != "undefined") {
+                if (this.model.get('tag_ids').length && this.tags_collection) {
+                    tags = _.filter(_.pluck(this.tags_collection.models, 'attributes'), function (model) {
+                        return _.contains(this.model.get('tag_ids'), model._id)
+                    }.bind(this));
+                }
+            }
 
             var params = {
                 is_author:       this.user && this.user.user_id == this.model.get('user_id'),
                 can_edit:        (difference_ms/(1000*60*60*24)) <= 1,
                 duration:        moment(this.model.get("date")).format('MMM Do'),
                 past_posts:      this.model.get('history') ? this.model.get('history').length : null,
-                //tags:            tags
+                tags:            tags
             }
 
             if (typeof this.reply_collection != "undefined") {
@@ -155,7 +155,7 @@ window.rupon.views = window.rupon.views || {};
                 template_options.num_replies = replies.length;
             }
 
-            //template_options.enable_below_message = !!template_options.num_annotations || !!template_options.num_replies || template_options.tags.length;
+            template_options.enable_below_message = !!template_options.num_annotations || !!template_options.num_replies || template_options.tags.length;
 
             if (_.indexOf(privacy, template_options.privacy) != -1) {
 

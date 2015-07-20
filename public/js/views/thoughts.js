@@ -15,6 +15,7 @@ window.rupon.views = window.rupon.views || {};
 
     var rv = window.rupon.views;
     var cv = window.rupon.common_views;
+    var rh = window.rupon.helpers;
 
     var privacy = ["PRIVATE", "ANONYMOUS"];
 
@@ -123,6 +124,8 @@ window.rupon.views = window.rupon.views || {};
                 template_options.description = template_options.description.substring(0, 400) + "...";
                 template_options.read_more_button = true;
             }
+
+            template_options.description = rh.convertLineBreaks(template_options.description, 'n');
 
             this.$el.html(this.template(template_options));
         },

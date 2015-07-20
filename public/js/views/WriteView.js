@@ -58,7 +58,7 @@ window.rupon.views = window.rupon.views || {};
         },
 
         openTagsMenu: function() {
-            //this.$el.find('.tags-content').removeClass('hidden');
+            this.$el.find('.tags-content').removeClass('hidden');
             $('#myModal').modal();
         },
 
