@@ -54,6 +54,7 @@ exports.entry = function(req, res) {
         if (thoughts.length) {
             var thought = thoughts[0].toJSON();
             thought.date = moment().format("MMM Do");
+            thought.description = helpers.convertLineBreaks(thought.description, 'n');
 
             res.render('entry', {
                 topBar: true,

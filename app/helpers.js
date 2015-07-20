@@ -74,3 +74,20 @@ exports.getDateRange = function(num_days) {
     d.setDate(d.getDate()-num_days);
     return { $lt: new Date(), $gt: d }
 };
+
+exports.convertLineBreaks = function(description, type) {
+    var before_type, after_type;
+
+    if (type == 'n') {
+        before_type = '\n';
+        after_type = '<br>';
+    } else if (type == 'br') {
+        before_type = '<br>';
+        after_type = '\n';
+    }
+
+    while (description.indexOf(before_type) != -1) {
+        description = description.replace(before_type, after_type);
+    }
+    return description;
+}

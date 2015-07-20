@@ -67,7 +67,7 @@ window.rupon.views = window.rupon.views || {};
         renderWriteView: function() {
             var tags_collection = this.options.tags_collection;
 
-            var view = new rv.WriteThoughtView({
+            var view = new rv.WriteView({
                 tags_collection: tags_collection,
                 entry_date:      moment().format("MMM DD")
             });

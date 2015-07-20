@@ -37,12 +37,11 @@ body.landing-page{background: url("/images/journal-reflectupon_v1.png") no-repea
 .row-container label{display:block;float:left;margin-top:8px;text-align:right;}
 .row-container .input{float:right;font-size:17px;padding:4px;width:178px;}
 .index-container hr{margin-bottom:20px;}
-.index-container .forgot-password-container{text-align:center;padding-bottom:20px;}
-.index-container form input[type=submit]{font-size:16px;padding: 10px 46px;background-color: #F0EEEE;border-radius: 3px;border: 0;box-shadow: 1px 1px 1px #ccc;}
-.index-container .or-register,.index-container .or-login{text-align:center;}
-.index-container .or-login{display:none;}
-.index-container .message a{text-decoration:none;color:#636CDB}
-.index-container #forgot-password{display:none;}
+.modal.login form input[type=submit]{font-size:16px;padding: 10px 46px;background-color: #F0EEEE;border-radius: 3px;border: 0;box-shadow: 1px 1px 1px #ccc;}
+.modal.login .or-register,.index-container .or-login{text-align:center;}
+.modal.login .or-login{display:none;}
+.modal.login .message a{text-decoration:none;color:#636CDB}
+.modal.login #forgot-password{display:none;}
 
 @media all and (max-width:991px) {
     .preempt-reply{display:none !important;}

@@ -204,6 +204,7 @@ a img{border:0;}
 
 .past-posts-label{float:right;color:#999999;}
 
+.write-view{-webkit-transition:all .5s;transition:all .5s;max-height:750px;position:relative;z-index:2;background-color:#fff;border-radius:inherit;}
 .write-view .footer .options{float: left;width:560px;}
 .write-view .footer .anon-input{
   float: left;
@@ -232,13 +233,12 @@ a img{border:0;}
 .write-view .tags-container li i{margin-right:2px;}
 .write-view .tags-container li.activated,.write-view .tags-container li:hover{color:#9FFF7C;}
 
-.write-view .thought-row textarea{resize:none;outline:none;display:block;font-family:'Merriweather';font-size:18px;border:0;min-height:300px;width:100%;}
-.write-view .thought-row .message{padding:12px;}
+.write-view textarea{resize:none;outline:none;display:block;font-family:'Merriweather';font-size:18px;border:0;min-height:300px;width:100%;}
+.write-view .message{padding:20px 12px 12px;}
 .write-view .footer{border-top:1px solid #F5F5F5;margin:0 12px;padding:8px 0;}
 .write-view .footer .privacy{outline:none;}
 .write-view .footer .create{float:right;padding-left:20px;padding-right:20px;}
 .write-view .delayed-entry{padding: 10px 15px;font-size: 18px;font-weight: 200;background-color: #E5FDFF;}
-.write-view .expanded{-webkit-transition:all .5s;transition:all .5s;max-height:750px;position:relative;z-index:2;background-color:#fff;border-radius:inherit;}
 .write-view .expanded.no-opacity{overflow:hidden;opacity:0;max-height:54px;pointer-events:none;}
 .thought-row .description{width:96%;float:left;margin-bottom:6px;width:96%;font-family: 'Merriweather';}
 .thought-row .message .description{font-size: 16px;font-weight: 400;line-height: 30px;color: #686868;}

@@ -3,7 +3,7 @@
     <div class="side-view-container">
       <div class="sign-up-module">
         Write your own private journal entries and share with your friends.
-        <button class="btn btn-primary">Sign Up</button>
+        <button class="btn btn-primary sign-up-btn">Sign Up</button>
       </div>
     </div>
     <div class="main-view-container">
@@ -12,9 +12,15 @@
           Written <%= thought.date %>
         </div>
         <div class="description">
-          <%= thought.description %>
+          <%- thought.description %>
         </div>
       </div>
     </div>
   </div>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      var message = "<%= typeof message != 'undefined' ? message : '' %>";
+      rupon.controllers.startEntryPage(message);
+    })
+  </script>
 <% include footer %>
