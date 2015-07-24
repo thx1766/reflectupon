@@ -16,6 +16,7 @@ window.rupon.views = window.rupon.views || {};
     var rv = window.rupon.views;
     var cv = window.rupon.common_views;
     var rh = window.rupon.helpers;
+    var rmixins = window.rupon.mixins;
 
     var privacy = ["PRIVATE", "ANONYMOUS"];
 
@@ -97,7 +98,8 @@ window.rupon.views = window.rupon.views || {};
             var recommendedThought = todayModelThought.get('recommended')[0];
 
             var view = new rv.RecommendedView({
-                model: new Backbone.Model(recommendedThought)
+                model: new Backbone.Model(recommendedThought),
+                user:  this.options.user
             });
             return view;
         }
@@ -117,6 +119,7 @@ window.rupon.views = window.rupon.views || {};
 
         render: function(options) {
             options = options || {};
+            this.user = (options && options.user) ? options.user : this.user;
 
             var template_options = this.model.toJSON();
 
@@ -128,12 +131,15 @@ window.rupon.views = window.rupon.views || {};
             template_options.description = rh.convertLineBreaks(template_options.description, 'n');
 
             this.$el.html(this.template(template_options));
+            this.setupAnnotations(template_options.description, this.model.get('annotations'), this.model.get('replies'));
         },
 
         readMore: function() {
             this.render({read_more: true});
         }
     });
+
+    rh.extendWithEvents(rv.RecommendedView.prototype, rmixins.AnnotationMixin);
 
     rv.ThoughtsView = cv.CollectionContainer.extend({
         initialize: function(options) {
@@ -143,7 +149,6 @@ window.rupon.views = window.rupon.views || {};
                     model:              model,
                     user:               options.user,
                     reply_collection:   options.reply_collection,
-                    can_reply:          options.can_reply,
                     tags_collection:    options.tags_collection
                 })
 
