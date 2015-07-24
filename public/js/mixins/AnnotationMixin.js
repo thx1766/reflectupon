@@ -63,22 +63,26 @@ window.rupon.mixins = window.rupon.mixins || {};
 
         submitReply: function(e) {
 
-            var description = this.$el.find('.popover-content').find('textarea').val()
+            var description, newAnnotation, attr, annotations;
+
+            description = this.$el.find('.popover-content').find('textarea').val()
 
             if ($.trim(description) != "") {
 
-                var attr = {
+                attr = {
                     user_id:     this.user.user_id,
                     description: description,
                     thought_id:  this.model.get('_id')
                 };
 
                 if (this.selected_start >= 0 && this.selected_end && this.selected_text) {
-                    attr.annotations = [{
+                    newAnnotation = {
                         start: this.selected_start,
                         end:   this.selected_end,
                         description: this.selected_text
-                    }];
+                    };
+
+                    attr.annotations = [newAnnotation];
                 }
 
                 var self = this;
@@ -87,8 +91,18 @@ window.rupon.mixins = window.rupon.mixins || {};
                     success: function() {
                         self.$el.find('.write-reply').addClass('hidden');
                         self.$el.find('.preempt-reply').addClass('hidden');
-                        $('.temp').popover('hide')
-                        self.$el.find('.temp').removeClass('temp').addClass('perm');
+                        $('.temp').popover('hide');
+
+                        annotations = self.model.get('annotations');
+
+                        if (typeof annotations == "undefined") {
+                            annotations = [newAnnotation];
+                        } else {
+                            annotations.push(newAnnotation);
+                        }
+                        self.model.set('annotations', annotations);
+
+                        self.renderAnnotations(self.nonHighlightedEntry, self.model.get('annotations'), self.model.get('replies'));
                     }
                 });
             }
@@ -210,7 +224,11 @@ window.rupon.mixins = window.rupon.mixins || {};
 
             _.each(annotations, function(annotation) {
                 end_tag   = "</span>";
-                start_tag = "<span class='perm' data-reply-id='"+annotation.reply_id+"'>";
+                if (annotation.reply_id) {
+                    start_tag = "<span class='perm' data-reply-id='"+annotation.reply_id+"'>";
+                } else {
+                    start_tag = "<span class='perm'>";
+                }
                 str = [str.slice(0, annotation.end), end_tag, str.slice(annotation.end)].join('');
                 str = [str.slice(0, annotation.start), start_tag, str.slice(annotation.start)].join('');
             });
