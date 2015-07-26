@@ -144,80 +144,41 @@ window.rupon.mixins = window.rupon.mixins || {};
             });
         },
 
-    // puts elements in order by letter position
-        condenseArray: function(input) {
+        condenseArray: function(inputs) {
 
-            var injectAfter = function(pos, into_array, element) {
-                into_array.splice(pos+1, 0, element);
-                return into_array;
-            }
+            inputs = _.sortBy(inputs, function(input) {
+                return input.start;
+            });
 
-            var injectBefore = function(pos, into_array, element) {
-                into_array.splice(pos, 0, element);
-                return into_array;
-            }
+            var output = [inputs.shift()];
 
-            var overlapLater = function(pos, into_array, element) {
-                old_reply_id = into_array[pos].reply_id;
-
-                into_array[pos].end = element.end;
-                into_array[pos].reply_id = old_reply_id.push(element.reply_id);
-
-                return into_array;
-            }
-
-            var overlapEarlier = function(pos, into_array, element) {
-                old_reply_id = into_array[pos].reply_id;
-
-                into_array[pos].start = element.start;
-                into_array[pos].reply_id = old_reply_id.push(element.reply_id);
-
-                return into_array;
-            }
-
-            var overlapAround = function(pos, into_array, element) {
-                old_reply_ids = into_array[pos].reply_id;
-                old_reply_ids.push(element.reply_id[0]);
-
-                into_array[pos].start = element.start;
-                into_array[pos].end   = element.end;
-                into_array[pos].reply_id = old_reply_ids;
-
-                return into_array;
-            }
-
-            var overlapWithin = function(pos, into_array, element) {
-                old_reply_id = into_array[pos].reply_id;
-                into_array[pos].reply_id = old_reply_id.push(element.reply_id);
-
-                return into_array;
-            }
-
-            var output = [input.shift()];
-
-            _(input.length).times( function(n) {
-                if (output[0].end < input[0].start) {
-                    output = injectAfter(0, output, input.shift());
-
-                } else if (input[0].end < output[0].start) {
-                    output = injectBefore(0, output, input.shift());
-
-                } else if (input[0].start > output[0].start && input[0].end > output[0].end) {
-                    output = overlapLater(0, output, input.shift());
-
-                } else if (output[0].start > input[0].start && output[0].end > input[0].end) {
-                    output = overlapEarlier(0, output, input.shift());
-
-                } else if (input[0].start < output[0].start && output[0].end < input[0].end) {
-                    output = overlapAround(0, output, input.shift());
-
-                } else if (output[0].start < input[0].start && input[0].end < output[0].end) {
-                    output = overlapWithin(0, output, input.shift());
+            _.each(inputs, function(input) {
+                if (output[output.length - 1].end < input.start) {
+                    output.push(input);
+                } else {
+                    output.push(this.transformAnnotation(output.pop(), input));
                 }
-            })
+            }, this);
 
             return output;
+        },
 
+        transformAnnotation: function(output, input) {
+            if (input.end > output.end) {
+                return this.overlapLater(output, input);
+            } else if (input.end < output.end) {
+                return this.overlapWithin(output, input);
+            }
+        },
+
+        overlapLater: function(into_array, element) {
+            into_array.end = element.end;
+            return into_array;
+        },
+
+        overlapWithin: function(into_array, element) {
+            //todo - fix reply
+            return into_array;
         },
 
         replaceWithAnnotations: function (annotations, str) {
