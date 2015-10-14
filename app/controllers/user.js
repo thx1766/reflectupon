@@ -237,7 +237,7 @@ passport.use(new LocalStrategy(function(email, password, done) {
 
     User.findOne(params, '+password', function(err, user) {
         if (err) { return done(err); }
-        if (!user) { return done(null, false, { message: 'Unknown user ' + username }); }
+        if (!user) { return done(null, false, { message: 'Unknown user ' + email }); }
         user.comparePassword(password, function(err, isMatch) {
             if (err) return done(err);
             if(isMatch) {
