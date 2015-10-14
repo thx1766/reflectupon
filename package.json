@@ -36,7 +36,8 @@
     "connect-redis":  "1.4.7",
     "moment":         "2.10.3",
     "moment-timezone":"0.2.5",
-    "handlebars-precompiler": "2.1.0"
+    "handlebars-precompiler": "2.1.0",
+    "are-we-there-yet": "1.0.4"
   },
   "engines": {
     "node": "0.10.17",
