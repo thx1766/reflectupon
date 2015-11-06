@@ -16,7 +16,7 @@
   "author": "Andrew Casal",
   "license": "BSD",
   "dependencies": {
-    "mongoose":       "3.x.x",
+    "mongoose":       "4.2.4",
     "express":        "3.4.0",
     "passport":       "0.2.0",
     "passport-local": "0.1.6",
