@@ -42,7 +42,7 @@ body.landing-page{background: url("/images/journal-reflectupon_v1.png") no-repea
 
 .submit-box input, .modal.login form input[type=submit]{
 	font-size:16px;
-	padding: 10px 46px;
+	padding: 10px 45px;
 	background-color: #F0EEEE;
 	border-radius: 3px;
 	border: 0;
