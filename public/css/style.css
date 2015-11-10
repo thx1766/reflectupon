@@ -212,6 +212,11 @@ a img{border:0;}
   margin-right: 10px;
 }
 .write-view .footer .anon-input input{vertical-align:1px;margin-right:6px;}
+
+.write-view .footer .anon-input label, .write-view .footer .anon-input input {
+  cursor:pointer;
+}
+
 .write-view .footer .options button{vertical-align:top;color: #517DEB;padding: 10px 0 7px;border: 1px solid #C9D7FC;background-color: #FEFFFF;height:34px;width: 34px;margin-right:8px;}
 .write-view .footer .options button:hover {background-color:#eee;}
 .write-view .footer .link{float:left;}

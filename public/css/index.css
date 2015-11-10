@@ -31,13 +31,23 @@ body.landing-page{background: url("/images/journal-reflectupon_v1.png") no-repea
 .login-form .row-container label{width:85px;}
 .reset-password-form{width:320px;}
 .reset-password-form .row-container label{width:132px;}
+
 .submit-box{text-align:center;margin-bottom:20px;}
+
 
 .row-container{margin-bottom:8px;text-align:center;}
 .row-container label{display:block;float:left;margin-top:8px;text-align:right;}
 .row-container .input{float:right;font-size:17px;padding:4px;width:178px;}
 .index-container hr{margin-bottom:20px;}
-.modal.login form input[type=submit]{font-size:16px;padding: 10px 46px;background-color: #F0EEEE;border-radius: 3px;border: 0;box-shadow: 1px 1px 1px #ccc;}
+
+.submit-box input, .modal.login form input[type=submit]{
+	font-size:16px;
+	padding: 10px 46px;
+	background-color: #F0EEEE;
+	border-radius: 3px;
+	border: 0;
+	box-shadow: 1px 1px 1px #ccc;
+}
 .modal.login .or-register,.index-container .or-login{text-align:center;}
 .modal.login .or-login{display:none;}
 .modal.login .message a{text-decoration:none;color:#636CDB}

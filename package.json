@@ -16,7 +16,7 @@
   "author": "Andrew Casal",
   "license": "BSD",
   "dependencies": {
-    "mongoose":       "3.x.x",
+    "mongoose":       "*",
     "express":        "3.4.0",
     "passport":       "0.2.0",
     "passport-local": "0.1.6",
@@ -32,7 +32,7 @@
     "underscore":     "1.6.0",
     "redis":          "0.10.3",
     "cron":           "1.0.4",
-    "q":              "2.0.2",
+    "q":              "1.0.1",
     "connect-redis":  "1.4.7",
     "moment":         "2.10.3",
     "moment-timezone":"0.2.5",
