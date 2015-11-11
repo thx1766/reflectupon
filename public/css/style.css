@@ -215,6 +215,7 @@ a img{border:0;}
 
 .write-view .footer .anon-input label, .write-view .footer .anon-input input {
   cursor:pointer;
+  font-weight: normal;
 }
 
 .write-view .footer .options button{vertical-align:top;color: #517DEB;padding: 10px 0 7px;border: 1px solid #C9D7FC;background-color: #FEFFFF;height:34px;width: 34px;margin-right:8px;}
