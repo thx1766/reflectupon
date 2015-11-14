@@ -77,6 +77,12 @@
     </div>
     <div class="tooltip_description" style="display:none;" title="No worries"></div>
 </div>
+<div class="replies">
+    {{#each replies.models}}
+        <div class="reply-desc">{{attributes.description}}</div>
+    {{/each}}
+</div>
+
 {{#if enable_below_message}}
     <div class="below-message">
         {{#if tags}}

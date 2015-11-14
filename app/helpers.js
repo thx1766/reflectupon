@@ -18,6 +18,7 @@ exports.getThoughtsWithAnnotation = function(options, callback) {
     Thought
         .find(params)
         .populate(populate)
+        .populate('replies')
         .sort({date:-1})
         .limit(limit)
         .exec(function(err, thoughts) {
