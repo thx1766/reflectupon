@@ -62,7 +62,9 @@ window.rupon.views = window.rupon.views || {};
                     break;
             }
 
-            this.$el.html(this.subView.$el);
+            if (this.subView && this.subView.$el) {
+                this.$el.html(this.subView.$el);
+            }
         },
 
         renderWriteView: function() {
@@ -94,11 +96,14 @@ window.rupon.views = window.rupon.views || {};
         renderRecommendedView: function() {
             var todayModel = this.options.frequency_collection.models[0];
             var todayModelThought = todayModel.get('thoughts').models[0];
-            var recommendedThought = todayModelThought.get('recommended')[0];
 
-            var view = new rv.RecommendedView({
-                model: new Backbone.Model(recommendedThought)
-            });
+            if (todayModelThought.get('recommended') && todayModelThought.get('recommended').length) {
+                var recommendedThought = todayModelThought.get('recommended')[0];
+
+                var view = new rv.RecommendedView({
+                    model: new Backbone.Model(recommendedThought)
+                });
+            }
             return view;
         }
 

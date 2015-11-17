@@ -13,6 +13,8 @@ window.rupon.utils = window.rupon.utils || {};
 
     rc.setAllThoughts = function() {
 
+        var getStartedView;
+
         var recommended_collection  = new rupon.models.thoughtCollection(),
             user_message_collection = new rupon.models.userMessageCollection(),
             frequency_collection    = new rupon.models.frequencyCollection(),
@@ -42,6 +44,8 @@ window.rupon.utils = window.rupon.utils || {};
             thoughts.unshift(thought);
             freq_item.set('thoughts', thoughts);
             freq_item.trigger('thought-change');
+
+            getStartedView.trigger('write-done')
         });
 
         var paginationView = new rv.PaginationView({collection: frequency_collection});
@@ -74,6 +78,15 @@ window.rupon.utils = window.rupon.utils || {};
                 })
             });
 
+        getStartedView = new rv.GetStartedView({
+            my_thoughts_collection: my_thoughts_collection
+        });
+
+        getStartedView
+            .on('write-done', function() {
+                getStartedView.render('write-done');
+            });
+
         frequencyView = new rv.FrequencyView({collection: frequency_collection});
         frequencyView
             .on('write-reflection', function() {
@@ -93,6 +106,7 @@ window.rupon.utils = window.rupon.utils || {};
         var mainView = new rv.MainView();
 
         $("#container").html("<div class='side-view-container'></div><div class='main-view-container'></div>");
+        $(".side-view-container").append(getStartedView.$el);
         $(".side-view-container").append(frequencyView.$el);
         $(".main-view-container").append(mainView.$el);
 

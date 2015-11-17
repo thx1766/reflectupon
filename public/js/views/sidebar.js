@@ -8,6 +8,33 @@ window.rupon.views = window.rupon.views || {};
 
     var getMonth = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
+    rv.GetStartedView = cv.TemplateView.extend({
+        template: Handlebars.templates['get-started'],
+
+        initialize: function(options) {
+            this.listenTo(options.my_thoughts_collection, "sync", this.render);
+
+            this.render();
+        },
+
+        render: function() {
+            var write_done = false;
+
+            // Written an entry before
+            if (arguments[0] instanceof Backbone.Collection) {
+                write_done = arguments[0].length;
+            }
+
+            if (typeof arguments[0] == "string" && arguments[0] == "write-done") {
+                write_done = true;
+            }
+
+            cv.TemplateView.prototype.render.call(this, {
+                write_done: write_done
+            });
+        }
+    });
+
     rv.FrequencyView = cv.CollectionContainer.extend({
 
         tagName: "div",

@@ -1,5 +1,5 @@
 * {padding:0; margin:0}
-body{color:#444;background-color:#DBDBDB;}
+body{color:#444}
 body.new-ux{background-color:rgb(190,111,111)}
 body.new-ux .wrapper{width:600px;padding:20px;background-color:#fff;margin-top:30px;border-radius:2px;box-shadow:0 2px 6px #5e5e5e}
 body.new-ux textarea{margin-bottom:15px;}
@@ -7,7 +7,8 @@ a img{border:0;}
 .tooltip-view textarea{border:1px solid #ccc;border-radius:3px;padding:4px;font-size:16px;line-height:22px;resize: none;width:100%;height:100px;margin-bottom:15px;}
 .hidden{display:none}
 
-#topbar-wrapper{width:100%;background-color:#ffffff;box-shadow:0 2px 3px #B7B7B7;position:fixed;z-index:10;}
+#topbar-wrapper{width:100%;background-color:#ffffff;
+    box-shadow: 0 0px 3px #9F9F9F;position:fixed;z-index:10;}
 #topbar-wrapper .navbar{margin-bottom:0;}
 #topbar a{display:inline-block;color:#494949;text-decoration:none;letter-spacing:1px;}
 #topbar .navbar-nav a:hover{background-color: transparent;color: #837DC2;}
@@ -56,6 +57,41 @@ a img{border:0;}
 .side-view li .fa-plus{display:none;}
 .side-view li:hover .fa-plus{display:block;cursor:pointer;float: right;border: 1px solid #DEDEDE;padding: 2px 4px;border-radius: 4px;background-color: #fff;box-shadow: 0px 1px 1px;}
 .main-view-container.col-md-10{}
+
+ul.get-started {
+    background-color: #fff;
+    margin-bottom: 30px;
+    border-radius: 2px;
+}
+
+ul.get-started li {
+    list-style: none;
+    margin-bottom: 10px;
+}
+
+ul.get-started li.done .number {
+    background: #4BEF4B;
+    color: #fff;
+}
+
+ul.get-started li.done .desc {
+    color: #50D950;
+}
+
+ul.get-started .number {
+    float:left;
+    height: 25px;
+    width: 25px;
+    text-align: center;
+    background: #C7C7C7;
+    border-radius: 20px;
+    margin-right: 10px;
+    line-height: 24px;
+}
+
+ul.get-started .desc {
+    padding-left: 34px;
+}
 
 #topbar{max-width:940px;margin: 0 auto;}
 
@@ -164,7 +200,8 @@ a img{border:0;}
 .pagination-container a.less-recent{float:right;}
 .pagination-container a.go-to-write{float:left;}
 .pagination-container a.go-to-journal{float:right;}
-.pagination-container >div{padding: 14px;background-color: #fff;box-shadow: 0 1px 2px #ccc;}
+.pagination-container >div{padding: 14px;background-color: #fff;
+    border-top: 1px solid #ccc;}
 .dropdown-container{position:relative;}
 .dropdown-container .dropdown-arrow{position:absolute;z-index:10;display:none;padding-top:12px;}
 .dropdown-container:hover .dropdown-arrow{display:block}
@@ -315,7 +352,8 @@ a img{border:0;}
 
 .archived-container{padding: 18px 10px;text-align:center;font-weight:200;font-size:18px;background-color:#EBFAFF;}
 
-.section{border-radius: 3px;position: relative;box-shadow: 0 2px 3px #A4A4A4;}
+.section{border-radius: 3px;position: relative;
+    box-shadow: 0 0px 3px #6C6C6C;}
 .section-title{font-size:24px;margin-bottom:20px;font-family:arial;}
 .my-dashboard .section{background-color: #fff;box-shadow: 0 2px 8px rgb(214,214,214);}
 
