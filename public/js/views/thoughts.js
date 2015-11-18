@@ -95,29 +95,34 @@ window.rupon.views = window.rupon.views || {};
         },
 
         renderRecommendedView: function() {
-            var todayModel = this.options.frequency_collection.models[0];
-            var todayModelThought = todayModel.get('thoughts').models[0];
+            var todayModel        = this.options.frequency_collection.models[0],
+                todayModelThought = todayModel.get('thoughts').models[0],
+                replyCollection   = new this.options.reply_collection();
 
             if (todayModelThought.get('recommended') && todayModelThought.get('recommended').length) {
                 var recommendedThought = todayModelThought.get('recommended')[0];
 
                 var view = new rv.RecommendedView({
-                    model: new Backbone.Model(recommendedThought),
-                    user:  this.options.user
+                    model:            new Backbone.Model(recommendedThought),
+                    user:             this.options.user,
+                    reply_collection: replyCollection
                 });
             }
+
+            var self = this;
+            replyCollection
+                .on('add', function() {
+                    self.trigger('highlight-else-done');
+                })
 
             return view;
         }
 
     });
 
-    rv.RecommendedView = Backbone.View.extend({
+    rv.RecommendedView = cv.TemplateView.extend({
         className: 'recommended-view',
         template: Handlebars.templates['recommended'],
-        initialize: function() {
-            this.render();
-        },
 
         events: {
             'click .read-more': 'readMore'
@@ -126,6 +131,7 @@ window.rupon.views = window.rupon.views || {};
         render: function(options) {
             options = options || {};
             this.user = (options && options.user) ? options.user : this.user;
+            this.replyCollection = options.reply_collection;
 
             var template_options = this.model.toJSON();
 

@@ -11,26 +11,51 @@ window.rupon.views = window.rupon.views || {};
     rv.GetStartedView = cv.TemplateView.extend({
         template: Handlebars.templates['get-started'],
 
+        writeDone: false,
+        highlightElseDone: false,
+
         initialize: function(options) {
-            this.listenTo(options.my_thoughts_collection, "sync", this.render);
+            this.listenTo(options.myThoughtsCollection, "sync", this.render);
+            this.listenTo(options.frequencyCollection, "sync", this.render);
 
             this.render();
         },
 
         render: function() {
-            var write_done = false;
 
             // Written an entry before
-            if (arguments[0] instanceof Backbone.Collection) {
-                write_done = arguments[0].length;
+            if (arguments[0] instanceof rupon.models.thoughtCollection) {
+                this.writeDone = arguments[0].length;
             }
 
-            if (typeof arguments[0] == "string" && arguments[0] == "write-done") {
-                write_done = true;
+            if (arguments[0] instanceof rupon.models.frequencyCollection) {
+                this.highlightElseDone = _.chain(arguments[1])
+                    .pluck('activity')
+                    .flatten()
+                    .pluck('thoughts')
+                    .flatten()
+                    .pluck('user_id')
+                    .reject(function(id){
+                        return id == rupon.account_info.user_id
+                    })
+                    .value()
+                    .length
+            }
+
+            if (typeof arguments[0] == "string") {
+                switch (arguments[0]) {
+                    case "write-done":
+                        this.writeDone = true;
+                        break;
+                    case "highlight-else-done":
+                        this.highlightElseDone = true;
+                        break;
+                }
             }
 
             cv.TemplateView.prototype.render.call(this, {
-                write_done: write_done
+                write_done:          this.writeDone,
+                highlight_else_done: this.highlightElseDone
             });
         }
     });
