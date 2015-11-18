@@ -248,8 +248,12 @@ exports.get = function(req, res) {
 
 }
 
+/**
+ * Get an anonymous entry from someone else for ALL recommendations
+ * - TODO: To include an algorithm, which would include your entries as well soon.
+ */
 var getRecommended = function(user_id, callback) {
-    // Get an anonymous entry from someone else
+
     var params = {
         user_id: {
             $ne: user_id
