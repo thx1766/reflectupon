@@ -36,4 +36,11 @@ window.rupon.helpers = window.rupon.helpers || {};
         }
         return description;
     }
+
+    rh.extendWithEvents = function(destination, source) {
+        var events = destination.events;
+        _.extend(destination, source);
+        _.extend(destination.events, events);
+    }
+
 })();

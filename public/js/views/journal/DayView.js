@@ -31,7 +31,6 @@ window.rupon.views = window.rupon.views || {};
                 collection:         this.model.attributes.thoughts,
                 user:               options.user,
                 reply_collection:   options.reply_collection,
-                can_reply:          options.can_reply,
                 tags_collection:    options.tags_collection
             })
 

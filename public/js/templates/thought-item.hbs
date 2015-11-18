@@ -57,12 +57,12 @@
         </div>
     </div>
     {{/if}}
-    <div class="description">
-        <span class="selectable-text">{{{ description }}}</span>
-        {{#if read_more}} 
+    <div class="description selectable">{{{ description }}}</div>
+    {{#if read_more}} 
+        <div class="read-more-container">
             <a href="javascript:;" class="read-more">Read more</a>
-        {{/if}}
-    </div>
+        </div>
+    {{/if}}
     {{#if annotation_notice}}
         <div class="annotation-notice">
             Select text in this entry to highlight

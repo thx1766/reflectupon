@@ -10,6 +10,7 @@ window.rupon.views = window.rupon.views || {};
     var rv = window.rupon.views;
     var cv = window.rupon.common_views;
     var rh = window.rupon.helpers;
+    var rmixins = window.rupon.mixins;
 
     var privacy = ["PRIVATE", "ANONYMOUS"];
 
@@ -24,22 +25,16 @@ window.rupon.views = window.rupon.views || {};
         template: Handlebars.templates['thought-item'],
 
         user: null,
-        can_reply: true,
-        annotation_mode: false,
 
         events: {
             'click .read-more':               'showSingle',
-            'selectstart .selectable-text':   'takeAnnotation',
             'click .privacy-status':          'changePrivacy',
             'click .edit':                    'editThought',
             'click .delete':                  'deleteThought',
             'click .archive':                 'archiveThought',
             'keypress .message textarea':     'submitEdit',
-            'focusin input':                  'focusTextarea',
             'click .write-reply2':            'writeReply', 
-            'click .reply-summary':           'getReplySummary',
-            'click .reply-popover button':    'submitReply',
-            'click .reply-popover .fa-times': 'removePopover'
+            'click .reply-summary':           'getReplySummary'
         },
 
         initialize: function(options) {
@@ -59,7 +54,6 @@ window.rupon.views = window.rupon.views || {};
             this.render(options);
 
             this.user      = options.user;
-            this.can_reply = (options.can_reply == false) ? false : true;
 
             //this.replyCollectionContainer = new rv.RepliesView({collection: this.replyCollection, user: options.user});
 
@@ -116,14 +110,8 @@ window.rupon.views = window.rupon.views || {};
             }
 
             if (typeof this.reply_collection != "undefined") {
-                if (this.can_reply) {
-                    //show "write reply" for all posts on index page
-                    params.can_reply = (!this.model.get('replies').length && !params.is_author) || !this.user;
-                    //params.show_replies = true;
-                } else {
-                    params.can_reply = false;
-                    params.show_replies = false;
-                }
+                params.can_reply = (!this.model.get('replies').length && !params.is_author) || !this.user;
+                //params.show_replies = true;
             }
 
             template_options = _.extend(template_options, params);
@@ -139,16 +127,9 @@ window.rupon.views = window.rupon.views || {};
             }
 
             template_options.description = rh.convertLineBreaks(template_options.description, 'n');
-            template_options.annotation_notice = !!template_options.can_reply;
 
             // Description used when editing - without all the annotations
             this.editable_description = template_options.description;
-
-            var annotations = this.model.get('annotations');
-            if (annotations && annotations.length) {
-                template_options.description = this.renderAnnotations(template_options.description, annotations, replies);
-                template_options.num_annotations = annotations.length;
-            }
 
             var replies = this.model.get('replies').models;
             if (replies && replies.length) {
@@ -175,30 +156,9 @@ window.rupon.views = window.rupon.views || {};
             this.$el.html(outputHtml);
             cv.Container.prototype.reattachChildren.call(this);
 
+            this.setupAnnotations(template_options.description, this.model.get('annotations'), replies);
+
             this.$el.find('.write-reply textarea').autosize();
-            if (annotations && annotations.length && replies && replies.length) {
-                this.renderRepliesForAnnotation(this.$el.find('.perm'), replies);
-            }
-        },
-
-        renderAnnotations: function(description, annotations, replies) {
-            var output_annotation = this.formatAnnotationsForDisplay(annotations);
-
-            // Start from the last of array, better with text injection
-            var annotations_object = condenseArray(output_annotation).reverse();
-
-            return this.replaceWithAnnotations(annotations_object, description);
-        },
-
-        formatAnnotationsForDisplay: function(annotations) {
-            return _.map(annotations, function(model) {
-                return {
-                    text:     model.description,
-                    start:    model.start,
-                    end:      model.end,
-                    reply_id: [model._reply_id]
-                };
-            });
         },
 
         renderRepliesForAnnotation: function(highlights, replies) {
@@ -235,18 +195,6 @@ window.rupon.views = window.rupon.views || {};
             }, this);
         },
 
-        replaceWithAnnotations: function (annotations, str) {
-
-            _.each(annotations, function(annotation) {
-                end_tag   = "</span>";
-                start_tag = "<span class='perm' data-reply-id='"+annotation.reply_id+"'>";
-                str = [str.slice(0, annotation.end), end_tag, str.slice(annotation.end)].join('');
-                str = [str.slice(0, annotation.start), start_tag, str.slice(annotation.start)].join('');
-            });
-
-            return str;
-        },
-
         truncateDescription: function(description, length) {
             return description.trim().substring(0,length).split(" ").slice(0, -1).join(" ") + "...";
         },
@@ -268,68 +216,6 @@ window.rupon.views = window.rupon.views || {};
             this.$el.find('.reply-summary').addClass('hidden');
             this.$el.find('.message').addClass('reply-summary-activated');
 
-        },
-
-        takeAnnotation: function() {
-
-            if (!this.can_reply || this.annotation_mode) {
-                return;
-            }
-
-            var is_author = this.user && this.user.user_id == this.model.get('user_id')
-
-            if (is_author) {
-                var self = this;
-                $(document).one('mouseup', function() {
-                    self.setAnnotation();
-                });
-            }
-
-        },
-
-        setAnnotation: function() {
-            var selected_text = window.getSelection().toString();
-
-            if (selected_text.length) {
-                this.annotation_mode = true;
-                var selectable_field = this.$el.find('.selectable-text')
-                var selectable_text = selectable_field.html();
-
-                var html_text = rh.convertLineBreaks(selected_text, 'n');
-                this.selected_start = selectable_text.indexOf(html_text)
-                this.selected_end = this.selected_start + html_text.length;
-
-                selectable_field.html(this.showTempText(true, selectable_text));
-
-                $('.temp').popover({
-                    content: Handlebars.templates['popover']
-                });
-                $('.temp').popover('show')
-
-                popover_input = $('.popover-content').find('input');
-                $('.temp').on('shown.bs.popover', function () {
-                  popover_input.focus()
-                })
-            }
-        },
-
-        showTempText: function(showPopover, textBeforeEdit) {
-            if (showPopover) {
-                this.selected_text = this.getSelectedText(textBeforeEdit, this.selected_start, this.selected_end);
-                return textBeforeEdit.replace(this.selected_text, this.highlightTemplate(this.selected_text));
-            } else {
-                var tempText = $(".temp").html();
-                var tempParent = $(".temp").parent();
-                $(".temp").replaceWith(tempText);
-            }
-        },
-
-        getSelectedText: function(full_text, start_pos, end_pos) {
-            return full_text.substring(start_pos, end_pos);
-        },
-
-        highlightTemplate: function(text) {
-            return '<span class="temp" data-placement="bottom" data-html="true">' + text + '</span>'
         },
 
         changePrivacy: function() {
@@ -394,132 +280,10 @@ window.rupon.views = window.rupon.views || {};
                     .find('.write-reply2').addClass('hidden').end()
                     .find('.write-reply').css('display','block').find('textarea').focus();
             }
-        },
-
-        focusTextarea: function() {
-
-            if (typeof this.user == "undefined") {
-                $('#myModal').modal();
-            }
-
-        },
-
-        removePopover: function(e) {
-            $('.temp').popover('hide');
-            this.showTempText(false);
-            this.annotation_mode = false;
-        },
-
-        submitReply: function(e) {
-
-            var description = this.$el.find('.popover-content').find('textarea').val()
-
-            if ($.trim(description) != "") {
-
-                var attr = {
-                    user_id:     this.user.user_id,
-                    description: description,
-                    thought_id:  this.model.get('_id')
-                };
-
-                if (this.selected_start >= 0 && this.selected_end && this.selected_text) {
-                    attr.annotations = [{
-                        start: this.selected_start,
-                        end:   this.selected_end,
-                        description: this.selected_text
-                    }];
-                }
-
-                var self = this;
-                this.replyCollection.create(attr, { 
-                    wait: true,
-                    success: function() {
-                        self.$el.find('.write-reply').addClass('hidden');
-                        self.$el.find('.preempt-reply').addClass('hidden');
-                        $('.temp').popover('hide')
-                        self.$el.find('.temp').removeClass('temp').addClass('perm');
-                    }
-                });
-            }
-
         }
 
     });
 
-    // puts elements in order by letter position
-    var condenseArray = function(input) {
-
-        var injectAfter = function(pos, into_array, element) {
-            into_array.splice(pos+1, 0, element);
-            return into_array;
-        }
-
-        var injectBefore = function(pos, into_array, element) {
-            into_array.splice(pos, 0, element);
-            return into_array;
-        }
-
-        var overlapLater = function(pos, into_array, element) {
-            old_reply_id = into_array[pos].reply_id;
-
-            into_array[pos].end = element.end;
-            into_array[pos].reply_id = old_reply_id.push(element.reply_id);
-
-            return into_array;
-        }
-
-        var overlapEarlier = function(pos, into_array, element) {
-            old_reply_id = into_array[pos].reply_id;
-
-            into_array[pos].start = element.start;
-            into_array[pos].reply_id = old_reply_id.push(element.reply_id);
-
-            return into_array;
-        }
-
-        var overlapAround = function(pos, into_array, element) {
-            old_reply_ids = into_array[pos].reply_id;
-            old_reply_ids.push(element.reply_id[0]);
-
-            into_array[pos].start = element.start;
-            into_array[pos].end   = element.end;
-            into_array[pos].reply_id = old_reply_ids;
-
-            return into_array;
-        }
-
-        var overlapWithin = function(pos, into_array, element) {
-            old_reply_id = into_array[pos].reply_id;
-            into_array[pos].reply_id = old_reply_id.push(element.reply_id);
-
-            return into_array;
-        }
-
-        var output = [input.shift()];
-
-        _(input.length).times( function(n) {
-            if (output[0].end < input[0].start) {
-                output = injectAfter(0, output, input.shift());
-
-            } else if (input[0].end < output[0].start) {
-                output = injectBefore(0, output, input.shift());
-
-            } else if (input[0].start > output[0].start && input[0].end > output[0].end) {
-                output = overlapLater(0, output, input.shift());
-
-            } else if (output[0].start > input[0].start && output[0].end > input[0].end) {
-                output = overlapEarlier(0, output, input.shift());
-
-            } else if (input[0].start < output[0].start && output[0].end < input[0].end) {
-                output = overlapAround(0, output, input.shift());
-
-            } else if (output[0].start < input[0].start && input[0].end < output[0].end) {
-                output = overlapWithin(0, output, input.shift());
-            }
-        })
-
-        return output;
-
-    };
+    rh.extendWithEvents(rv.ThoughtWrapperView.prototype, rmixins.AnnotationMixin);
 
 })();
