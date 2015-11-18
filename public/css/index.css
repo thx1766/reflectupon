@@ -1,7 +1,7 @@
 body{position:relative;}
 body.landing-page{background: url("/images/journal-reflectupon_v1.png") no-repeat center center fixed;background-size: cover;}
 .landing-page .wrapper{width:100%;padding:0;}
-.landing-page #topbar-wrapper{background-color:transparent;box-shadow:0 0 0;position:absolute;}
+.landing-page #topbar-wrapper{background-color:transparent;box-shadow:0 0 0;}
 .landing-page #topbar a{color:#f2f2f2;}
 .landing-page #topbar a:focus{background-color:transparent;}
 .index-container .btn{display: inline-block;padding: 12px 22px;background-color: #EDEDED;margin-top: 50px;text-shadow: none;border-radius: 6px;color: #6E4F4F;box-shadow: 0 1px 4px #8D8D8D;font-size: 18px;font-weight: 600;margin-bottom: 40px;}

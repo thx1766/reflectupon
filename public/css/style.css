@@ -30,7 +30,8 @@ a img{border:0;}
     padding-left: 3px;
 }
 
-.navbar-toggle .icon-bar{background-color:#ffffff;}
+.navbar-toggle .icon-bar{background-color:#494949;}
+.landing-page .navbar-toggle .icon-bar{background-color:#ffffff;}
 .navbar-nav div {height: 30px;padding: 13px 12px;display:inline-block;vertical-align:top;cursor:pointer;color:#fff;}
 
 .other-thoughts{position:relative;}
@@ -189,7 +190,7 @@ ul.get-started .desc {
   font-weight: 400;
   line-height: 30px;
 }
-.recommended-view .read-more-container{
+.read-more-container{
     text-align: center;
     padding-top: 10px;
     font-size: 14px;
@@ -243,9 +244,9 @@ ul.get-started .desc {
 .past-posts-label{float:right;color:#999999;}
 
 .write-view{-webkit-transition:all .5s;transition:all .5s;max-height:750px;position:relative;z-index:2;background-color:#fff;border-radius:inherit;}
-.write-view .footer .options{float: left;width:560px;}
+.write-view .footer .options{float: left;}
 .write-view .footer .anon-input{
-  float: left;
+  display: inline-block;
   margin-top: 6px;
   margin-right: 10px;
 }
@@ -258,7 +259,7 @@ ul.get-started .desc {
 
 .write-view .footer .options button{vertical-align:top;color: #517DEB;padding: 10px 0 7px;border: 1px solid #C9D7FC;background-color: #FEFFFF;height:34px;width: 34px;margin-right:8px;}
 .write-view .footer .options button:hover {background-color:#eee;}
-.write-view .footer .link{float:left;}
+.write-view .footer .link{display:inline-block;}
 .write-view .footer .privacy{float:left;}
 .write-view .footer .privacy .fa-lock{display:none;}
 .write-view .footer .privacy .fa-unlock-alt{display:block;}
@@ -282,6 +283,11 @@ ul.get-started .desc {
 .write-view .footer{border-top:1px solid #F5F5F5;margin:0 12px;padding:8px 0;}
 .write-view .footer .privacy{outline:none;}
 .write-view .footer .create{float:right;padding-left:20px;padding-right:20px;}
+
+@media all and (max-width:430px) {
+  .write-view .footer .create{float:left;}
+}
+
 .write-view .delayed-entry{padding: 10px 15px;font-size: 18px;font-weight: 200;background-color: #E5FDFF;}
 .write-view .expanded.no-opacity{overflow:hidden;opacity:0;max-height:54px;pointer-events:none;}
 .thought-row .description{width:96%;float:left;margin-bottom:6px;width:96%;font-family: 'Merriweather';}
@@ -297,9 +303,9 @@ ul.get-started .desc {
   margin-bottom: 8px;
 }
 .thought-row .message .description{font-size: 16px;font-weight: 400;line-height: 30px;color: #686868;}
-.thought-row .selectable-text span.temp{border-bottom:2px dotted rgb(107, 107, 107);}
-.thought-row .selectable-text span.perm, .overflow-description .highlight{background-color:#F9FFD1;border-radius:2px;padding:1px 0;transition:background-color .25s;-webkit-transition:background-color .25s;}
-.thought-row .selectable-text span.perm:hover{background-color:#F2FF68}
+.thought-row .selectable span.temp{border-bottom:2px dotted rgb(107, 107, 107);}
+.thought-row .selectable span.perm, .overflow-description .highlight{background-color:#F9FFD1;border-radius:2px;padding:1px 0;transition:background-color .25s;-webkit-transition:background-color .25s;}
+.thought-row .selectable span.perm:hover{background-color:#F2FF68}
 .thought-row.editing .description{display:none;}
 .thought-row textarea.editable{display:none;resize: none;border: 1px solid #ccc;background-color:#ffffff;font-size: 20px;font-family: "Times New Roman";color: rgb(107, 107, 107);outline: none;width: 720px;border-radius:3px;padding:0 4px;margin-left:-5px;margin-bottom:8px;}
 .thought-row.editing textarea{display:block}

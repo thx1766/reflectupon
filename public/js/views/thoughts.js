@@ -16,6 +16,7 @@ window.rupon.views = window.rupon.views || {};
     var rv = window.rupon.views;
     var cv = window.rupon.common_views;
     var rh = window.rupon.helpers;
+    var rmixins = window.rupon.mixins;
 
     var privacy = ["PRIVATE", "ANONYMOUS"];
 
@@ -101,9 +102,11 @@ window.rupon.views = window.rupon.views || {};
                 var recommendedThought = todayModelThought.get('recommended')[0];
 
                 var view = new rv.RecommendedView({
-                    model: new Backbone.Model(recommendedThought)
+                    model: new Backbone.Model(recommendedThought),
+                    user:  this.options.user
                 });
             }
+
             return view;
         }
 
@@ -122,6 +125,7 @@ window.rupon.views = window.rupon.views || {};
 
         render: function(options) {
             options = options || {};
+            this.user = (options && options.user) ? options.user : this.user;
 
             var template_options = this.model.toJSON();
 
@@ -133,12 +137,15 @@ window.rupon.views = window.rupon.views || {};
             template_options.description = rh.convertLineBreaks(template_options.description, 'n');
 
             this.$el.html(this.template(template_options));
+            this.setupAnnotations(template_options.description, this.model.get('annotations'), this.model.get('replies'));
         },
 
         readMore: function() {
             this.render({read_more: true});
         }
     });
+
+    rh.extendWithEvents(rv.RecommendedView.prototype, rmixins.AnnotationMixin);
 
     rv.ThoughtsView = cv.CollectionContainer.extend({
         initialize: function(options) {
@@ -148,7 +155,6 @@ window.rupon.views = window.rupon.views || {};
                     model:              model,
                     user:               options.user,
                     reply_collection:   options.reply_collection,
-                    can_reply:          options.can_reply,
                     tags_collection:    options.tags_collection
                 })
 
@@ -175,81 +181,5 @@ window.rupon.views = window.rupon.views || {};
     rv.AnnotationContextBox = cv.SimpleModelView.extend({
         template: Handlebars.templates['activity-context']
     });
-
-    // puts elements in order by letter position
-    var condenseArray = function(input) {
-
-        var injectAfter = function(pos, into_array, element) {
-            into_array.splice(pos+1, 0, element);
-            return into_array;
-        }
-
-        var injectBefore = function(pos, into_array, element) {
-            into_array.splice(pos, 0, element);
-            return into_array;
-        }
-
-        var overlapLater = function(pos, into_array, element) {
-            old_reply_id = into_array[pos].reply_id;
-
-            into_array[pos].end = element.end;
-            into_array[pos].reply_id = old_reply_id.push(element.reply_id);
-
-            return into_array;
-        }
-
-        var overlapEarlier = function(pos, into_array, element) {
-            old_reply_id = into_array[pos].reply_id;
-
-            into_array[pos].start = element.start;
-            into_array[pos].reply_id = old_reply_id.push(element.reply_id);
-
-            return into_array;
-        }
-
-        var overlapAround = function(pos, into_array, element) {
-            old_reply_ids = into_array[pos].reply_id;
-            old_reply_ids.push(element.reply_id[0]);
-
-            into_array[pos].start = element.start;
-            into_array[pos].end   = element.end;
-            into_array[pos].reply_id = old_reply_ids;
-
-            return into_array;
-        }
-
-        var overlapWithin = function(pos, into_array, element) {
-            old_reply_id = into_array[pos].reply_id;
-            into_array[pos].reply_id = old_reply_id.push(element.reply_id);
-
-            return into_array;
-        }
-
-        var output = [input.shift()];
-
-        _(input.length).times( function(n) {
-            if (output[0].end < input[0].start) {
-                output = injectAfter(0, output, input.shift());
-
-            } else if (input[0].end < output[0].start) {
-                output = injectBefore(0, output, input.shift());
-
-            } else if (input[0].start > output[0].start && input[0].end > output[0].end) {
-                output = overlapLater(0, output, input.shift());
-
-            } else if (output[0].start > input[0].start && output[0].end > input[0].end) {
-                output = overlapEarlier(0, output, input.shift());
-
-            } else if (input[0].start < output[0].start && output[0].end < input[0].end) {
-                output = overlapAround(0, output, input.shift());
-
-            } else if (output[0].start < input[0].start && input[0].end < output[0].end) {
-                output = overlapWithin(0, output, input.shift());
-            }
-        })
-
-        return output;
-
-    };
 
 })();
