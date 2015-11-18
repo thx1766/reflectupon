@@ -249,18 +249,21 @@ exports.get = function(req, res) {
 }
 
 var getRecommended = function(user_id, callback) {
-
-    var startDate = new Date(new Date().setHours(0,0,0,0));
-    startDate.setDate(startDate.getDate()-3);
-
+    // Get an anonymous entry from someone else
     var params = {
-        user_id: user_id,
-        date: {
-            $lte: startDate
-        }
+        user_id: {
+            $ne: user_id
+        },
+        privacy: "ANONYMOUS"
     }
 
-    Thought.findOne(params, {}, {sort: {'date': -1 }}, function(err, thought) {
+    findThought(params, function(thought) {
+        callback(thought);
+    });
+}
+
+var findThought = function(params, callback) {
+    Thought.findOne(params).sort({date: -1 }).exec(function(err, thought) {
         callback(thought);
     });
 }
