@@ -8,6 +8,58 @@ window.rupon.views = window.rupon.views || {};
 
     var getMonth = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
+    rv.GetStartedView = cv.TemplateView.extend({
+        template: Handlebars.templates['get-started'],
+
+        writeDone: false,
+        highlightElseDone: false,
+
+        initialize: function(options) {
+            this.listenTo(options.myThoughtsCollection, "sync", this.render);
+            this.listenTo(options.frequencyCollection, "sync", this.render);
+
+            this.render();
+        },
+
+        render: function() {
+
+            // Written an entry before
+            if (arguments[0] instanceof rupon.models.thoughtCollection) {
+                this.writeDone = arguments[0].length;
+            }
+
+            if (arguments[0] instanceof rupon.models.frequencyCollection) {
+                this.highlightElseDone = _.chain(arguments[1])
+                    .pluck('activity')
+                    .flatten()
+                    .pluck('thoughts')
+                    .flatten()
+                    .pluck('user_id')
+                    .reject(function(id){
+                        return id == rupon.account_info.user_id
+                    })
+                    .value()
+                    .length
+            }
+
+            if (typeof arguments[0] == "string") {
+                switch (arguments[0]) {
+                    case "write-done":
+                        this.writeDone = true;
+                        break;
+                    case "highlight-else-done":
+                        this.highlightElseDone = true;
+                        break;
+                }
+            }
+
+            cv.TemplateView.prototype.render.call(this, {
+                write_done:          this.writeDone,
+                highlight_else_done: this.highlightElseDone
+            });
+        }
+    });
+
     rv.FrequencyView = cv.CollectionContainer.extend({
 
         tagName: "div",
