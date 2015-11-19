@@ -168,6 +168,8 @@ window.rupon.mixins = window.rupon.mixins || {};
                 return this.overlapLater(output, input);
             } else if (input.end < output.end) {
                 return this.overlapWithin(output, input);
+            } else {
+                return output;
             }
         },
 

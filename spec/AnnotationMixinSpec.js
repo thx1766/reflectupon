@@ -121,6 +121,22 @@ describe("AnnotationMixin", function() {
     expect(actual[1].end).toBe(262);
   });
 
+
+  it ("should start with first annotation, and ignore second annotation", function() {
+    var inputs = [{
+      end: 83,
+      start: 4
+    }, {
+      end: 83,
+      start: 10
+    }];
+
+    var actual = mixin.condenseArray(inputs);
+    expect(actual.length).toBe(1);
+    expect(actual[0].start).toBe(4);
+    expect(actual[0].end).toBe(83);
+  });
+
   it ("should make three separate annotations, then a merged fourth", function() {
     var inputs = [{
       end: 83,
