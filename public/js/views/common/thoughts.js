@@ -161,40 +161,6 @@ window.rupon.views = window.rupon.views || {};
             this.$el.find('.write-reply textarea').autosize();
         },
 
-        renderRepliesForAnnotation: function(highlights, replies) {
-            _.each(highlights, function(highlight) {
-
-                var filteredReplies = this.getRepliesForAnnotation(highlight, replies);
-
-                if (filteredReplies.length) {
-                    var list = _.map(filteredReplies, function(reply) {
-                        return "<li>" + reply.get('description') + "</li>";
-                    });
-
-                    list = "<ul>" + list.join("") + "</ul>";
-
-                    this.renderRepliesPopover(highlight, list);
-                }
-
-            }, this);
-        },
-
-        renderRepliesPopover: function(highlight, content) {
-            this.$el.find(highlight).popover({
-                content:   content,
-                html:      true,
-                trigger:   "hover",
-                placement: "bottom"
-            });
-        },
-
-        getRepliesForAnnotation: function(annotation, replies) {
-            var reply_ids = $(annotation).attr('data-reply-id').split(',');
-            return _.filter(replies, function(reply) {
-                return _.contains(reply_ids, reply.id)
-            }, this);
-        },
-
         truncateDescription: function(description, length) {
             return description.trim().substring(0,length).split(" ").slice(0, -1).join(" ") + "...";
         },

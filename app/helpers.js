@@ -22,12 +22,20 @@ exports.getThoughtsWithAnnotation = function(options, callback) {
         .sort({date:-1})
         .limit(limit)
         .exec(function(err, thoughts) {
-            async.mapSeries(
-                thoughts,
-                getAnnotationByThought, 
-                function(err, results) {
-                    callback(results);
-                });
+
+            var params = {
+                path: 'recommended.replies',
+                model: 'Reply'
+            };
+
+            Thought.populate(thoughts, params, function(err, thoughtsWithRecs) {
+                async.mapSeries(
+                    thoughtsWithRecs,
+                    getAnnotationByThought, 
+                    function(err, results) {
+                        callback(results);
+                    });
+            });
         });
 
 };
@@ -37,7 +45,15 @@ var getAnnotationByThought = function(thought, callback) {
     formatted_thought = thought.toObject();
     Annotation.find({thought_id: thought.id}, function(err, thought_annotations) {
         formatted_thought.annotations = thought_annotations;
-        callback(err, formatted_thought);
+
+        var formatted_recommended_thought = thought.recommended[0].toObject();
+        Annotation.find({thought_id: formatted_recommended_thought._id}, function(err, thought_annotations2) {
+            formatted_recommended_thought.annotations = thought_annotations2;
+            formatted_thought.recommended = [formatted_recommended_thought];
+            console.log(formatted_thought);
+
+            callback(err, formatted_thought);
+        })
     })
 }
 
