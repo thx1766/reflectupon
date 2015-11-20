@@ -2,6 +2,11 @@
 <div class="body-container">
   <div class="header">Recommended for You Today</div>
   <div class="description selectable">{{{description}}}</div>
+  <div class="replies">
+      {{#each replies}}
+          <div class="reply-desc">{{description}}</div>
+      {{/each}}
+  </div>
   {{#if read_more_button}}
     <div class="read-more-container">
       <a href="javascript:;" class="read-more">Read More</a>

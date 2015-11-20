@@ -209,6 +209,40 @@ window.rupon.mixins = window.rupon.mixins || {};
             if (annotations && annotations.length && replies && replies.length) {
                 this.renderRepliesForAnnotation(this.$el.find('.perm'), replies);
             }
+        },
+
+        renderRepliesForAnnotation: function(highlights, replies) {
+            _.each(highlights, function(highlight) {
+
+                var filteredReplies = this.getRepliesForAnnotation(highlight, replies);
+
+                if (filteredReplies.length) {
+                    var list = _.map(filteredReplies, function(reply) {
+                        return "<li>" + reply.get('description') + "</li>";
+                    });
+
+                    list = "<ul>" + list.join("") + "</ul>";
+
+                    this.renderRepliesPopover(highlight, list);
+                }
+
+            }, this);
+        },
+
+        getRepliesForAnnotation: function(annotation, replies) {
+            var reply_ids = $(annotation).attr('data-reply-id').split(',');
+            return _.filter(replies, function(reply) {
+                return _.contains(reply_ids, reply.id)
+            }, this);
+        },
+
+        renderRepliesPopover: function(highlight, content) {
+            this.$el.find(highlight).popover({
+                content:   content,
+                html:      true,
+                trigger:   "hover",
+                placement: "bottom"
+            });
         }
     }
 })();
