@@ -13,6 +13,7 @@ window.rupon.views = window.rupon.views || {};
 
         writeDone: false,
         highlightElseDone: false,
+        highlightMineDone: false,
 
         initialize: function(options) {
             this.listenTo(options.myThoughtsCollection, "sync", this.render);
@@ -29,17 +30,21 @@ window.rupon.views = window.rupon.views || {};
             }
 
             if (arguments[0] instanceof rupon.models.frequencyCollection) {
-                this.highlightElseDone = _.chain(arguments[1])
+                var userActivities = _.chain(arguments[1])
                     .pluck('activity')
                     .flatten()
                     .pluck('thoughts')
                     .flatten()
                     .pluck('user_id')
-                    .reject(function(id){
-                        return id == rupon.account_info.user_id
-                    })
-                    .value()
-                    .length
+                    .value();
+
+                this.highlightElseDone = !!_.reject(userActivities, function(id){
+                    return id == rupon.account_info.user_id
+                }).length;
+
+                this.highlightMineDone = !!_.reject(userActivities, function(id){
+                    return id != rupon.account_info.user_id
+                }).length;
             }
 
             if (typeof arguments[0] == "string") {
@@ -50,12 +55,16 @@ window.rupon.views = window.rupon.views || {};
                     case "highlight-else-done":
                         this.highlightElseDone = true;
                         break;
+                    case "highlight-mine-done":
+                        this.highlightMineDone = true;
+                        break;
                 }
             }
 
             cv.TemplateView.prototype.render.call(this, {
                 write_done:          this.writeDone,
-                highlight_else_done: this.highlightElseDone
+                highlight_else_done: this.highlightElseDone,
+                highlight_mine_done: this.highlightMineDone
             });
         }
     });

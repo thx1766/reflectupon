@@ -91,6 +91,13 @@ window.rupon.views = window.rupon.views || {};
                 reply_collection:   this.options.reply_collection,
                 tags_collection:    this.options.tags_collection
             });
+
+            var self = this;
+            view
+                .on('highlight-mine-done', function() {
+                    self.trigger('highlight-mine-done');
+                });
+
             return view;
         },
 
@@ -178,6 +185,9 @@ window.rupon.views = window.rupon.views || {};
                     })
                     .on("change-privacy", function(privacy, model) {
                         model.save({privacy: privacy},{wait:true})
+                    })
+                    .on("highlight-mine-done", function() {
+                        self.trigger('highlight-mine-done');
                     })
 
 
