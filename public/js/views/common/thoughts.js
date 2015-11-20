@@ -39,10 +39,15 @@ window.rupon.views = window.rupon.views || {};
 
         initialize: function(options) {
             options = options || {};
-
+            var self = this;
             this.tags_collection = options.tags_collection;
             if (typeof options.reply_collection != "undefined") {
                 this.replyCollection = new options.reply_collection(this.model.get("replies"));
+
+                this.replyCollection
+                    .on('add', function() {
+                        self.trigger('highlight-mine-done');
+                    })
             }
 
             cv.Container.prototype.initialize.call(this);
@@ -57,7 +62,6 @@ window.rupon.views = window.rupon.views || {};
 
             //this.replyCollectionContainer = new rv.RepliesView({collection: this.replyCollection, user: options.user});
 
-            var self = this;
             var patch_options = {
                 wait: true,
                 patch: true

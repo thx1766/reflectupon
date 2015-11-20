@@ -34,6 +34,12 @@ window.rupon.views = window.rupon.views || {};
                 tags_collection:    options.tags_collection
             })
 
+            var self = this;
+            thoughtsView
+                .on('highlight-mine-done', function() {
+                    self.trigger('highlight-mine-done');
+                });
+
             this.$el.find(".thoughts-list").append(thoughtsView.$el);
         },
 

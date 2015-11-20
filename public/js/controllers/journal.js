@@ -51,7 +51,10 @@ window.rupon.utils = window.rupon.utils || {};
             })
             .on('highlight-else-done', function() {
                 getStartedView.render('highlight-else-done');
-            });
+            })
+            .on('highlight-mine-done', function() {
+                getStartedView.render('highlight-mine-done');
+            })
 
         var paginationView = new rv.PaginationView({collection: frequency_collection});
         paginationView
