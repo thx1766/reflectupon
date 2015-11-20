@@ -25,13 +25,20 @@ exports.getThoughtsWithAnnotation = function(options, callback) {
 
             var params = {
                 path: 'recommended.replies',
+                match: {user_id: options.user_id},
                 model: 'Reply'
             };
 
             Thought.populate(thoughts, params, function(err, thoughtsWithRecs) {
                 async.mapSeries(
-                    thoughtsWithRecs,
-                    getAnnotationByThought, 
+                    thoughtsWithRecs, function(thought, callback) {
+                        getAnnotationByThought(thought, function(err, thought) {
+                            getAnnotationsForUserRecommendation(thought.recommended[0], options.user_id, function(formatted_rec_thought) {
+                                thought.recommended = [formatted_rec_thought];
+                                callback(err, thought);
+                            });
+                        })
+                    },
                     function(err, results) {
                         callback(results);
                     });
@@ -45,15 +52,22 @@ var getAnnotationByThought = function(thought, callback) {
     formatted_thought = thought.toObject();
     Annotation.find({thought_id: thought.id}, function(err, thought_annotations) {
         formatted_thought.annotations = thought_annotations;
+        callback(err, formatted_thought);
+    })
+}
 
-        var formatted_recommended_thought = thought.recommended[0].toObject();
-        Annotation.find({thought_id: formatted_recommended_thought._id}, function(err, thought_annotations2) {
-            formatted_recommended_thought.annotations = thought_annotations2;
-            formatted_thought.recommended = [formatted_recommended_thought];
-            console.log(formatted_thought);
-
-            callback(err, formatted_thought);
-        })
+/**
+ * Params:
+ *   - rec_thought: the recommended entry
+ *   - user_id: get annotations only that the user has made to the recommended entry
+ */
+var getAnnotationsForUserRecommendation = function(formatted_recommended_thought, user_id, callback) {
+    Annotation.find({
+        thought_id: formatted_recommended_thought._id,
+        user_id:    user_id
+    }, function(err, thought_annotations2) {
+        formatted_recommended_thought.annotations = thought_annotations2;
+        callback(formatted_recommended_thought);
     })
 }
 
