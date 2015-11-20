@@ -7,7 +7,7 @@ body.landing-page{background: url("/images/journal-reflectupon_v1.png") no-repea
 .index-container .btn{display: inline-block;padding: 12px 22px;background-color: #EDEDED;margin-top: 50px;text-shadow: none;border-radius: 6px;color: #6E4F4F;box-shadow: 0 1px 4px #8D8D8D;font-size: 18px;font-weight: 600;margin-bottom: 40px;}
 .index-container .head-container{position:relative;}
 .index-container .head-container .description{font-family:"Merriweather";font-size: 36px;padding-bottom:10px;padding-top: 0px;line-height:54px;max-width:580px;margin:0 auto;}
-.index-container .head-container .container{font-weight: 200;font-size:24px;color:#f2f2f2;height:550px;padding:0;padding-top:120px;padding-bottom:36px;margin:0 auto;text-align:center;}
+.index-container .head-container .container{font-weight: 200;font-size:24px;color:#f2f2f2;height:550px;max-width:500px;padding:0;padding-top:120px;padding-bottom:36px;margin:0 auto;text-align:center;}
 .index-container .body-container{background-color:#fff;}
 .index-container .body-container .container{padding:40px 20px;}
 .index-container .body-container .title{font-family:'Merriweather' !important;font-size:22px;padding-bottom:10px;}
