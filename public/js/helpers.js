@@ -38,9 +38,8 @@ window.rupon.helpers = window.rupon.helpers || {};
     }
 
     rh.extendWithEvents = function(destination, source) {
-        var events = destination.events;
-        _.extend(destination, source);
-        _.extend(destination.events, events);
+        _.defaults(destination, source);
+        _.defaults(destination.events, source.events);
     }
 
 })();

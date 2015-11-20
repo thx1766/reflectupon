@@ -131,7 +131,10 @@ window.rupon.views = window.rupon.views || {};
         render: function(options) {
             options = options || {};
             this.user = (options && options.user) ? options.user : this.user;
-            this.replyCollection = options.reply_collection;
+
+            if (options && options.reply_collection) {
+                this.replyCollection =  options.reply_collection;
+            }
 
             var template_options = this.model.toJSON();
 

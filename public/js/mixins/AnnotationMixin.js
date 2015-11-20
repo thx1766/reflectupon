@@ -125,10 +125,11 @@ window.rupon.mixins = window.rupon.mixins || {};
         },
 
         renderAnnotations: function(description, annotations, replies) {
-            var output_annotation = this.formatAnnotationsForDisplay(annotations);
+            var annotations_object = this.formatAnnotationsForDisplay(annotations);
 
             // Start from the last of array, better with text injection
-            var annotations_object = this.condenseArray(output_annotation).reverse();
+            annotations_object = this.condenseArray(annotations_object).reverse();
+            annotations_object = this.filterAnnotationsForTrimmedEntry(annotations_object, description);
 
             this.$el.find('.selectable').html(this.replaceWithAnnotations(annotations_object, description));
         },
@@ -161,6 +162,22 @@ window.rupon.mixins = window.rupon.mixins || {};
             }, this);
 
             return output;
+        },
+
+        filterAnnotationsForTrimmedEntry: function(annotations_object, description) {
+            annotations_object = _.reject(annotations_object, function(annotation){
+                return annotation.start > description.length;
+            });
+
+            annotations_object = _.sortBy(annotations_object, function(annotation) {
+                return annotation.start;
+            }).reverse();
+
+            if (annotations_object.length && annotations_object[0].end > description.length) {
+                annotations_object[0].end = description.length;
+            }
+
+            return annotations_object;
         },
 
         transformAnnotation: function(output, input) {
