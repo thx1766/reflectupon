@@ -289,6 +289,18 @@ ul.get-started .desc {
 
 @media all and (max-width:430px) {
   .write-view .footer .create{float:left;}
+
+  .recommended-view .notice {
+    border-bottom: 2px solid #BBDBF2;
+    background-color: transparent;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .recommended-view .body-container {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 
 .write-view .delayed-entry{padding: 10px 15px;font-size: 18px;font-weight: 200;background-color: #E5FDFF;}
