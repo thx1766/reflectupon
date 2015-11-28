@@ -23,7 +23,7 @@ window.rupon.views = window.rupon.views || {};
 
         render: function(options) {
             cv.TemplateView.prototype.render.call(this, options);
-            this.$el.find('textarea').autosize();
+            //this.$el.find('textarea').autosize();
 
             var writeTagsView = new rv.WriteTagsView({collection: options.tags_collection});
 
@@ -45,7 +45,7 @@ window.rupon.views = window.rupon.views || {};
 
             this.$el.find('.tags-container').html(writeTagsView.$el);
             this.$el.find('.fa').tooltip();
-            this.$el.find('textarea').autosize();
+            //this.$el.find('textarea').autosize();
         },
 
         showLink: function() {

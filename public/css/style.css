@@ -281,7 +281,7 @@ ul.get-started .desc {
 .write-view .tags-container li i{margin-right:2px;}
 .write-view .tags-container li.activated,.write-view .tags-container li:hover{color:#9FFF7C;}
 
-.write-view textarea{resize:none;outline:none;display:block;font-family:'Merriweather';font-size:18px;border:0;min-height:300px;width:100%;}
+.write-view textarea{max-height:630px;resize:none;outline:none;display:block;font-family:'Merriweather';font-size:18px;border:0;min-height:300px;width:100%;}
 .write-view .message{padding:20px 12px 12px;}
 .write-view .footer{border-top:1px solid #F5F5F5;margin:0 12px;padding:8px 0;}
 .write-view .footer .privacy{outline:none;}
