@@ -5,11 +5,9 @@ var config   = process.env.PORT ? require('../../config') : require('../../confi
     )
   , Q        = require('q');
 
-exports.sendEmail = function(params) {
+exports.sendEmail = function(params, callback) {
 
-  var deferred = Q.defer();
-
-  email_params = {
+  var email_params = {
       to:       params.recipients,
       from:     'andrewjcasal@gmail.com',
       subject:  params.subject,
@@ -17,10 +15,13 @@ exports.sendEmail = function(params) {
   }
 
   sendgrid.send(email_params, function(err, json) {
-      if (err) { return console.error(err); }
-      deferred.resolve(json)
-  });
+      if (err) {
+        return console.error(err);
+      }
 
-  return deferred.promise;
+      if (callback && typeof callback == "function") {
+        callback();
+      }
+  });
 
 }

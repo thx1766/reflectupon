@@ -3,7 +3,6 @@ var mongoose        = require('mongoose')
   , auth            = require('./middlewares/authorization')
   , _               = require('underscore')
   , emails          = require('../app/utils/emails')
-
   , user_routes      = require('../app/controllers/user')
   , thought_routes   = require('../app/controllers/thought')
   , superuser_routes = require('../app/controllers/superuser')
@@ -61,36 +60,36 @@ module.exports = function(app) {
         var endDate = new Date();
         endDate.setDate(endDate.getDate());
 
-        thought_routes.getAllByTimePeriod(startDate, endDate)
-            .then( function(thoughts) {
+        // thought_routes.getAllByTimePeriod(startDate, endDate)
+        //     .then( function(thoughts) {
 
-                thoughts     = _.first(thoughts, 3);
-                descriptions = _.pluck(thoughts, 'description');
-                descriptions = _.map(descriptions, function(description) { 
-                    if (description.length > 300) {
-                        return description.substr(0,300) + "...";
-                    } else {
-                        return description;
-                    }
-                })
+        //         thoughts     = _.first(thoughts, 3);
+        //         descriptions = _.pluck(thoughts, 'description');
+        //         descriptions = _.map(descriptions, function(description) { 
+        //             if (description.length > 300) {
+        //                 return description.substr(0,300) + "...";
+        //             } else {
+        //                 return description;
+        //             }
+        //         })
 
-                user_routes.getUserEmailList()
-                    .then(function(recipients) {
-                        app.render('weekly_email', {descriptions: descriptions}, function(err, html) {
+        //         user_routes.getUserEmailList()
+        //             .then(function(recipients) {
+        //                 app.render('weekly_email', {descriptions: descriptions}, function(err, html) {
 
-                            params = {
-                                html_template: html,
-                                subject:       "Weekly Postings on Reflect Upon",
-                                recipients:    recipients
-                            }
+        //                     params = {
+        //                         html_template: html,
+        //                         subject:       "Weekly Postings on Reflect Upon",
+        //                         recipients:    recipients
+        //                     }
 
-                            return emails.sendEmail(params)
-                        })
-                    })
-            })
-            .then( function(json) {
-                res.send({success: 1});
-            });
+        //                     return emails.sendEmail(params)
+        //                 })
+        //             })
+        //     })
+        //     .then( function(json) {
+        //         res.send({success: 1});
+        //     });
     });
 
     app.get('/api/active_users', superuser.active_users.get)
@@ -187,6 +186,22 @@ module.exports = function(app) {
         reply.save(function(err) {
 
             if (err) console.log(err);
+
+            // Send e-mail notification if you're getting a reply from someone else
+            Thought.findById(req.body.thought_id, function(err, thought) {
+                User.findById(thought.user_id, function(err, user) {
+
+                    if (req.user.id != user.id) {
+                        var params = {
+                            recipients:    user.email,
+                            subject:       'Someone replied to your entry!',
+                            html_template: 'Someone just replied to one of your entries. Take a look at your entries to see their reply!<br /><br/>Thanks!<br />reflectupon team'
+                        }
+
+                        emails.sendEmail(params);
+                    }
+                })
+            })
 
             if (req.body.annotations){
                 for (var i = 0; i < req.body.annotations.length; i++) {
