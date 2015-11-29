@@ -37,11 +37,11 @@
   padding-top: 3px;
 }
 
-.vet-thought-view .options .date {
-  margin-right:10px;
+.vet-thought-view .options .num-replies {
+  color: red;
 }
 
-.vet-thought-view .options a {
+.vet-thought-view .options > * {
   margin-right: 10px;
 }
 
