@@ -2,6 +2,7 @@ var mongoose   = require('mongoose')
   , async      = require('async')
   , Thought    = mongoose.model('Thought')
   , helpers    = require('../../helpers')
+  , _          = require('underscore');
 
 exports.get = function(req, res) {
     var params = {}, params2 = {}, array1 = null,
@@ -258,6 +259,7 @@ var getRecommended = function(user_id, callback) {
         user_id: {
             $ne: user_id
         },
+        date: helpers.getDateRange(7),
         privacy: "ANONYMOUS"
     }
 
@@ -267,8 +269,16 @@ var getRecommended = function(user_id, callback) {
 }
 
 var findThought = function(params, callback) {
-    Thought.findOne(params).sort({date: -1 }).exec(function(err, thought) {
-        callback(thought);
+    Thought.find(params).sort({date: -1 }).exec(function(err, thoughts) {
+        if (thoughts.length) {
+            thoughts = _.sortBy(thoughts, function(thought) {
+                return thought.replies.length;
+            })
+
+            callback(thoughts[0]);
+        } else {
+            console.log('No thoughts in the last 7 days.');
+        }
     });
 }
 
