@@ -115,8 +115,13 @@ window.rupon.models = window.rupon.models || {};
         initialize: function(options) {
         },
 
-        url: function() {
-            return '/api/thought/'+this.thought_id+'/reply'
+        sync: function(method, model, options) {
+            if (method == 'read') {
+                options.url = '/api/reply';
+            }else{
+                options.url = '/api/thought/'+this.thought_id+'/reply';
+            }
+            return Backbone.sync(method, model, options);
         }
     });
 

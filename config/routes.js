@@ -8,6 +8,7 @@ var mongoose        = require('mongoose')
   , superuser_routes = require('../app/controllers/superuser')
   , dates            = require('../app/controllers/api/dates')
   , thoughts         = require('../app/controllers/api/thoughts')
+  , replies          = require('../app/controllers/api/replies')
   , reports          = require('../app/controllers/api/reports')
   , superuser        = require('../app/controllers/api/superuser')
 
@@ -172,6 +173,7 @@ module.exports = function(app) {
         });
     });
 
+
     app.post('/api/thought/:thought/reply',function(req, res) {
 
         var reply = new Reply({
@@ -293,6 +295,10 @@ module.exports = function(app) {
     app.get('/account', auth.ensureAuthenticated, function(req,res) {
         res.send( req.user );
     });
+
+    app.get('/api/reply', auth.ensureAuthenticated, replies.get);
+
+    app.delete('/api/reply/:id', replies.delete);
 
     app.patch('/api/reply/:reply_id', function(req, res) {
         

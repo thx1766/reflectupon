@@ -44,3 +44,26 @@
 .vet-thought-view .options a {
   margin-right: 10px;
 }
+
+.vet-reply-view {
+  list-style:none;
+}
+
+.vet-reply-view li {
+  padding:15px;
+  background-color: #ffffff;
+  margin-bottom: 10px;
+}
+
+.vet-reply-view .description {
+  padding-bottom: 5px;
+}
+
+.vet-reply-view .options {
+  border-top: 1px solid #ccc;
+  padding-top: 3px;
+}
+
+.vet-reply-view .options .date {
+  margin-right:10px;
+}

@@ -22,7 +22,7 @@ window.rupon.views = window.rupon.views || {};
 
             this.$el.html(this.template());
 
-            var nav_types = ['actives', 'featured', 'tags', 'users', 'vet'];
+            var nav_types = ['actives', 'featured', 'tags', 'users', 'vet', 'vet-replies'];
 
             var leftView = new rv.SuperUserLeftView({nav_types: nav_types});
             this.addChild(leftView, '.left-container');
@@ -50,6 +50,7 @@ window.rupon.views = window.rupon.views || {};
                 'tags':    ['TopicsView', 'topics_collection'],
                 'users':   ['UsersView', 'user_collection'],
                 'vet':     ['SuperUserThoughtsView', 'other_thoughts_collection'],
+                'vet-replies': ['SuperUserRepliesView', 'other_replies_collection'],
                 'featured':['SuperUserThoughtsView', 'featured_collection']
             };
 
@@ -239,5 +240,29 @@ window.rupon.views = window.rupon.views || {};
             this.model.save({feature: !this.model.get('feature')});
         }
 
+    });
+
+    rv.SuperUserRepliesView = cv.CollectionContainer.extend({
+        tagName: 'ul',
+        className: 'vet-reply-view',
+
+        initialize: function() {
+            cv.CollectionContainer.prototype.initialize.call(this, function(model) {
+                return new rv.SuperUserReplyView({model: model})
+            })
+        }
+    });
+
+    rv.SuperUserReplyView = cv.SimpleModelView.extend({
+        tagName: 'li',
+        template: Handlebars.templates['vet-reply'],
+
+        events: {
+            'click .delete': 'deleteReply',
+        },
+
+        deleteReply: function() {
+            this.model.destroy();
+        },
     });
 })();
