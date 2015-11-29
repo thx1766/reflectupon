@@ -28,7 +28,7 @@ window.rupon.views = window.rupon.views || {};
             cv.TemplateView.prototype.render.call(this, options);
 
             var thoughtsView = new rv.ThoughtsView({
-                collection:         this.model.attributes.thoughts,
+                collection:         new rupon.models.thoughtCollection(this.model.attributes.thoughts),
                 user:               options.user,
                 reply_collection:   options.reply_collection,
                 tags_collection:    options.tags_collection

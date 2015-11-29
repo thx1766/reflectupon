@@ -10,15 +10,16 @@ var config          = require('../../config'),
         config.sg_username,
         config.sg_password
     ),
-    moment          = require('moment')
-    User    = mongoose.model('User'),
-    Thought = mongoose.model('Thought'),
+    moment          = require('moment'),
+
+    User        = mongoose.model('User'),
+    Thought     = mongoose.model('Thought'),
     UserMessage = mongoose.model('UserMessage'),
     _ = require('underscore'),
     Q = require('q');
     SALT_WORK_FACTOR = 10;
 
-exports.home = function(req, res) {
+exports.home = function(req, res, dates) {
     Thought
         .where('user_id').ne(req.user._id)
         .where('description').ne("")
@@ -34,7 +35,21 @@ exports.home = function(req, res) {
                     }
                 }
 
-                res.render('home', { user: req.user, topBar: true, signout: true, thoughts: thoughts, landing_page: false, is_admin: req.user.username == 'andrew' });
+                var is_mobile = false,
+                    user_id   = req.user._id;
+
+                dates.get(is_mobile, user_id, function(frequency) {
+
+                    res.render('home', {
+                        user:         req.user,
+                        topBar:       true,
+                        signout:      true,
+                        thoughts:     thoughts,
+                        landing_page: false,
+                        is_admin:     req.user.username == 'andrew',
+                        frequency:    JSON.stringify(frequency)
+                    });
+                });
             }
 
     })

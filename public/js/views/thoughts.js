@@ -36,6 +36,8 @@ window.rupon.views = window.rupon.views || {};
             this.on('write-reflection', function() {
                 self.render("write");
             });
+
+            this.render();
         },
 
         render: function(view_type, model) {
@@ -102,9 +104,9 @@ window.rupon.views = window.rupon.views || {};
         },
 
         renderRecommendedView: function() {
-            var todayModel        = this.options.frequency_collection.models[0],
-                todayModelThought = todayModel.get('thoughts').models[0],
-                replyCollection   = new this.options.reply_collection();
+            var todayModelThoughts = new rupon.models.thoughtCollection(this.options.frequency_collection.models[0].get('thoughts')),
+                todayModelThought  = todayModelThoughts.models[0],
+                replyCollection    = new this.options.reply_collection();
 
             if (todayModelThought.get('recommended') && todayModelThought.get('recommended').length) {
                 var recommendedThought = todayModelThought.get('recommended')[0];

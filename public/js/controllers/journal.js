@@ -11,13 +11,13 @@ window.rupon.utils = window.rupon.utils || {};
 
         dayModelIndex;
 
-    rc.setAllThoughts = function() {
+    rc.setAllThoughts = function(frequency) {
 
         var getStartedView;
 
         var recommended_collection  = new rupon.models.thoughtCollection(),
             user_message_collection = new rupon.models.userMessageCollection(),
-            frequency_collection    = new rupon.models.frequencyCollection(),
+            frequency_collection    = new rupon.models.frequencyCollection(frequency),
             tags_collection         = new rm.topicsCollection();
 
         // Only pass reference to reply_collection - since each thought handles its own replies
@@ -87,8 +87,7 @@ window.rupon.utils = window.rupon.utils || {};
             });
 
         getStartedView = new rv.GetStartedView({
-            myThoughtsCollection: my_thoughts_collection,
-            frequencyCollection:  frequency_collection
+            collection:  frequency_collection
         });
 
         getStartedView
@@ -148,13 +147,6 @@ window.rupon.utils = window.rupon.utils || {};
 
         tags_collection.fetch();
 
-        var frequency_data_options = {};
-
-        if ($(window).width() < 450) {
-            frequency_data_options.mobile = true;
-        };
-
-        frequency_collection.fetch({reset:true, data: frequency_data_options});
         recommended_collection.fetch({reset:true, data: {stream_type: "recommended"}});
         user_message_collection.fetch({reset:true, data: {user_id:rupon.account_info.user_id}});
         tags_collection.fetch();

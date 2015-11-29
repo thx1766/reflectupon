@@ -22,7 +22,9 @@ var Thought     = mongoose.model('Thought'),
 module.exports = function(app) {
 
     app.get( '/',                                    user_routes.getIndex);
-    app.get( '/home',   auth.ensureAuthenticated,    user_routes.home);
+    app.get( '/home',   auth.ensureAuthenticated,    function(req, res) {
+        user_routes.home(req, res, dates);
+    });
     app.get( '/reports',auth.ensureAuthenticated,    user_routes.reports);
     app.get( '/entry/:id',                           user_routes.entry);
     app.get( '/new-ux', auth.ensureAuthenticated,    user_routes.newUser);
@@ -34,7 +36,15 @@ module.exports = function(app) {
     app.get( '/twiml',                               thought_routes.getTwiml);
     app.get( '/superuser', auth.ensureAuthenticated, superuser_routes.get);
 
-    app.get('/api/frequency', dates.get);
+    app.get('/api/frequency', function(req, res) {
+
+        var is_mobile = req.query.mobile,
+            user_id   = req.user._id;
+
+        dates.get(is_mobile, user_id, function(frequency) {
+            res.send(frequency);
+        });
+    });
 
     app.get('/api/thought',        thoughts.get);
     app.post('/api/thought',       thoughts.post);

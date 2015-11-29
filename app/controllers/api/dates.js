@@ -7,17 +7,17 @@ var mongoose   = require('mongoose')
   , helpers    = require('../../helpers')
   , moment_tz  = require('moment-timezone')
 
-exports.get = function(req, res) {
+exports.get = function(is_mobile, user_id, callback) {
 
     var num_days = 30;
 
-    if (req.query.mobile) {
+    if (is_mobile) {
         num_days = 3;
     }
 
     var options = {
       date:    helpers.getDateRange(num_days),
-      user_id: req.user._id
+      user_id: user_id
     };
 
     helpers.getThoughtsWithAnnotation(options, function(thoughts) {
@@ -40,7 +40,7 @@ exports.get = function(req, res) {
 
             }
 
-            res.send(frequency);
+            callback(frequency);
 
         });
 

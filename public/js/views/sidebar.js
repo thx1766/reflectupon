@@ -15,37 +15,32 @@ window.rupon.views = window.rupon.views || {};
         highlightElseDone: false,
         highlightMineDone: false,
 
-        initialize: function(options) {
-            this.listenTo(options.myThoughtsCollection, "sync", this.render);
-            this.listenTo(options.frequencyCollection, "sync", this.render);
-
-            this.render();
-        },
-
         render: function() {
 
             // Written an entry before
-            if (arguments[0] instanceof rupon.models.thoughtCollection) {
-                this.writeDone = arguments[0].length;
-            }
+            this.writeDone = _.chain(this.collection.models)
+                .pluck("attributes")
+                .pluck("thoughts")
+                .flatten()
+                .value()
+                .length
 
-            if (arguments[0] instanceof rupon.models.frequencyCollection) {
-                var userActivities = _.chain(arguments[1])
-                    .pluck('activity')
-                    .flatten()
-                    .pluck('thoughts')
-                    .flatten()
-                    .pluck('user_id')
-                    .value();
+            var userActivities = _.chain(this.collection.models)
+                .pluck('attributes')
+                .pluck('activity')
+                .flatten()
+                .pluck('thoughts')
+                .flatten()
+                .pluck('user_id')
+                .value();
 
-                this.highlightElseDone = !!_.reject(userActivities, function(id){
-                    return id == rupon.account_info.user_id
-                }).length;
+            this.highlightElseDone = !!_.reject(userActivities, function(id){
+                return id == rupon.account_info.user_id
+            }).length;
 
-                this.highlightMineDone = !!_.reject(userActivities, function(id){
-                    return id != rupon.account_info.user_id
-                }).length;
-            }
+            this.highlightMineDone = !!_.reject(userActivities, function(id){
+                return id != rupon.account_info.user_id
+            }).length;
 
             if (typeof arguments[0] == "string") {
                 switch (arguments[0]) {

@@ -36,21 +36,28 @@ window.rupon.views = window.rupon.views || {};
             var model_index       = options.model_index,
                 first_model_index = options.first_model_index,
                 last_model_index  = options.last_model_index,
-                type              = options.type;
+                type              = options.type,
+                types = [];
 
             if (options instanceof Backbone.Collection) {
                 type = "recommended";
             }
 
-            if (type == "recommended") {
-                var types = ['write-reflection', 'see-entries'];
-            } else if (typeof model_index == "undefined") {
-                var types = ['see-entries'];
+            if (typeof model_index == "undefined") {
+                if (this.collection.models[0].get('thoughts').length) {
+                    types = ['write-reflection'];
+                }
+
+                types.push('see-entries');
             } else {
                 if (model_index == first_model_index) {
-                    types = ['write-reflection','less-recent'];
-                } else if (model_index > first_model_index && model_index < last_model_index) {
-                    types = ['more-recent','less-recent'];
+                    types = ['write-reflection'];
+                } else if (model_index > first_model_index && model_index <= last_model_index) {
+                    types = ['more-recent'];
+                }
+
+                if (model_index != last_model_index) {
+                    types.push('less-recent');
                 }
             }
 
