@@ -33,10 +33,13 @@ exports.getThoughtsWithAnnotation = function(options, callback) {
                 async.mapSeries(
                     thoughtsWithRecs, function(thought, callback) {
                         getAnnotationByThought(thought, function(err, thought) {
-                            getAnnotationsForUserRecommendation(thought.recommended[0], options.user_id, function(formatted_rec_thought) {
-                                thought.recommended = [formatted_rec_thought];
-                                callback(err, thought);
-                            });
+
+                            if (thought.recommended && thought.recommended.length) {
+                                getAnnotationsForUserRecommendation(thought.recommended[0], options.user_id, function(formatted_rec_thought) {
+                                    thought.recommended = [formatted_rec_thought];
+                                    callback(err, thought);
+                                });
+                            }
                         })
                     },
                     function(err, results) {
