@@ -32,11 +32,14 @@ exports.getThoughtsWithAnnotation = function(options, callback) {
             Thought.populate(thoughts, params, function(err, thoughtsWithRecs) {
                 async.mapSeries(
                     thoughtsWithRecs, function(thought, callback) {
-                        getAnnotationByThought(thought, function(err, thought) {
+
+                        thought = thought.toObject();
+                        exports.getAnnotationsForThought(thought, null, function(annotations) {
+                            thought.annotations = annotations;
 
                             if (thought.recommended && thought.recommended.length) {
-                                getAnnotationsForUserRecommendation(thought.recommended[0], options.user_id, function(formatted_rec_thought) {
-                                    thought.recommended = [formatted_rec_thought];
+                                exports.getAnnotationsForThought(thought.recommended[0], options.user_id, function(annotations) {
+                                    thought.recommended[0].annotations = annotations;
                                     callback(err, thought);
                                 });
                             }
@@ -50,27 +53,23 @@ exports.getThoughtsWithAnnotation = function(options, callback) {
 
 };
 
-var getAnnotationByThought = function(thought, callback) {
-    var formatted_thought = {};
-    formatted_thought = thought.toObject();
-    Annotation.find({thought_id: thought.id}, function(err, thought_annotations) {
-        formatted_thought.annotations = thought_annotations;
-        callback(err, formatted_thought);
-    })
-}
-
 /**
  * Params:
- *   - rec_thought: the recommended entry
+ *   - thought: the entry to get annotations for
  *   - user_id: get annotations only that the user has made to the recommended entry
  */
-var getAnnotationsForUserRecommendation = function(formatted_recommended_thought, user_id, callback) {
-    Annotation.find({
-        thought_id: formatted_recommended_thought._id,
-        user_id:    user_id
-    }, function(err, thought_annotations2) {
-        formatted_recommended_thought.annotations = thought_annotations2;
-        callback(formatted_recommended_thought);
+exports.getAnnotationsForThought = function(thought, user_id, callback) {
+
+    var params = {
+        thought_id: thought._id
+    };
+
+    if (user_id) {
+        params.user_id = user_id;
+    }
+
+    Annotation.find(params, function(err, annotations) {
+        callback(annotations);
     })
 }
 

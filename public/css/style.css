@@ -529,6 +529,28 @@ div.jquery-gdakram-tooltip h1{display:none}
     .thought-row .reply-collection li{border:0;background-color:#fdfdfd;}
 }
 
+@media all and (max-width:939px) {
+
+    .recommended-view .description {
+      float: none;
+    }
+
+    .thought-row .message {
+      width: auto;
+      float: none;
+    }
+
+    .replies {
+      float: none;
+      margin-left: 0;
+      margin-top: 20px;
+    }
+
+    .replies .reply-desc {
+      width: auto;
+    }
+}
+
 @media all and (max-width:599px) {
     #topbar-wrapper {
       position: relative;

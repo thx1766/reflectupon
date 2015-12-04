@@ -264,7 +264,9 @@ var getRecommended = function(user_id, callback) {
     }
 
     findThought(params, function(thought) {
+
         callback(thought);
+
     });
 }
 
@@ -304,12 +306,40 @@ exports.post = function(req, res) {
             if (err) console.log(err);
 
             Thought.populate(thought, {path:"recommended"}, function(err,thought) {
-                res.send( thought );
+
+                populateRepliesForThought(thought.recommended, req.user._id, function(recommended) {
+
+                    thought.recommended = recommended;
+                    thought = thought.toObject();
+
+                    if (thought.recommended && thought.recommended[0]) {
+                        helpers.getAnnotationsForThought(thought.recommended[0], req.user._id, function(annotations)  {
+                            thought.recommended[0].annotations = annotations;
+                            res.send(thought);
+                        });
+                    }
+
+                })
             })
 
         });
 
     });
+
+}
+
+var populateRepliesForThought = function(thought, user_id, callback) {
+
+    var populateOptions = {
+        path: 'replies',
+        match: {
+            user_id: user_id
+        }
+    };
+
+    Thought.populate(thought, populateOptions, function(err,recommended) {
+        callback(recommended);
+    })
 
 }
 
