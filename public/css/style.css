@@ -370,9 +370,18 @@ ul.get-started .desc {
 
 .popover-content{
     padding: 6px;
-    background-color: #ffffff;}
+    background-color: #ffffff;
+}
+
+.popover-content textarea {
+  width: 400px;
+  height: 150px;
+}
 .popover{
-    z-index:10}
+  max-width:416px;
+  width: 416px;
+  z-index:10;
+}
 
 .archived-container{padding: 18px 10px;text-align:center;font-weight:200;font-size:18px;background-color:#EBFAFF;}
 
