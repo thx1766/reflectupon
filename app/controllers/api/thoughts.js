@@ -279,7 +279,13 @@ var findThought = function(params, callback) {
 
             callback(thoughts[0]);
         } else {
-            console.log('No thoughts in the last 7 days.');
+
+            delete params.date;
+
+            Thought.find(params).sort({date: -1 }).exec(function(err, thoughts) {
+                console.log('No thoughts in the last 7 days.');
+                callback(thoughts[0]);
+            });
         }
     });
 }
