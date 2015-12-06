@@ -40,6 +40,11 @@ window.rupon.views = window.rupon.views || {};
                     self.trigger('highlight-mine-done');
                 });
 
+            this
+                .on('content-loaded', function() {
+                    thoughtsView.trigger('content-loaded');
+                })
+
             this.$el.find(".thoughts-list").append(thoughtsView.$el);
         },
 

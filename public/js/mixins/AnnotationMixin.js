@@ -192,11 +192,12 @@ window.rupon.mixins = window.rupon.mixins || {};
 
         overlapLater: function(into_array, element) {
             into_array.end = element.end;
+            into_array.reply_id.push(element.reply_id[0]);
             return into_array;
         },
 
         overlapWithin: function(into_array, element) {
-            //todo - fix reply
+            into_array.reply_id.push(element.reply_id[0]);
             return into_array;
         },
 

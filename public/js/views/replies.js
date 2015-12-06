@@ -11,10 +11,14 @@ window.rupon.views = window.rupon.views || {};
     };
 
     rv.RepliesView = cv.CollectionContainer.extend({
-        tagName: "ul",
-        className: "reply-collection section",
+        tagName: "div",
+        className: "replies-list",
 
         initialize: function(options) {
+
+            this.hiddenEle = _.some(options.replyDict, function(reply) {
+                return !reply;
+            })
 
             cv.CollectionContainer.prototype.initialize.call(this, function(model) { 
                 options.model = model;
@@ -23,6 +27,10 @@ window.rupon.views = window.rupon.views || {};
         },
 
         render: function(){
+
+            if (this.hiddenEle) {
+                this.$el.html('<div class="note">'+this.collection.models.length+' total replies, click "Read more" to see more</div>');
+            }
 
             //this.$el.toggleClass('hidden', this.collection.models.length == 0);
             cv.CollectionContainer.prototype.render.call(this);
@@ -33,12 +41,13 @@ window.rupon.views = window.rupon.views || {};
 
     rv.ReplyView = cv.TemplateView.extend({
         tagName: "li",
-        className: "clearfix",
+        className: "reply-desc clearfix",
         template: Handlebars.templates['reply-item'],
 
         initialize: function(options) {
             this.listenTo(this.model, "change", this.render);
-            this.user = options.user;
+            this.user     = options.user;
+            this.replyPos = options.replyDict[this.model.id];
 
             cv.TemplateView.prototype.initialize.call(this, options);
         },
@@ -57,8 +66,14 @@ window.rupon.views = window.rupon.views || {};
                 is_public: this.model.get('privacy') == "AUTHOR_TO_PUBLIC"
             }
 
-            template_options = _.extend(template_options, params);
-            this.$el.html(this.template(template_options));
+            if (this.replyPos) {
+                this.$el.css('top', this.replyPos.pos + 'px');
+                template_options = _.extend(template_options, params);
+                this.$el.html(this.template(template_options));
+            } else {
+                this.$el.addClass('hidden');
+            }
+
         },
 
         thankReply: function() {

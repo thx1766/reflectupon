@@ -67,6 +67,8 @@ window.rupon.views = window.rupon.views || {};
 
             if (this.subView && this.subView.$el) {
                 this.$el.html(this.subView.$el);
+
+                this.subView.trigger('content-loaded');
             }
         },
 
@@ -97,8 +99,7 @@ window.rupon.views = window.rupon.views || {};
             var self = this;
             view
                 .on('highlight-mine-done', function() {
-                    self.trigger('highlight-mine-done');
-                });
+                    self.trigger('highlight-mine-done'); });
 
             return view;
         },
@@ -190,8 +191,12 @@ window.rupon.views = window.rupon.views || {};
                     })
                     .on("highlight-mine-done", function() {
                         self.trigger('highlight-mine-done');
-                    })
+                    });
 
+                self
+                    .on('content-loaded', function() {
+                        view.renderOnContentLoad();
+                    })
 
                 return view
             });

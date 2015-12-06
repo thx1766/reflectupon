@@ -118,7 +118,6 @@ ul.get-started .desc {
 .thoughts-list{position:relative;}
 .thoughts-list.select-text .thought-row{opacity:0.1}
 .thoughts-list.select-text .thought-row.selected{opacity:1}
-.thought-row .title{font-size:22px;color:#898989;}
 .thought-row .message{width:500px;float: left;max-width:100%;}
 .thought-row .message.reply-summary-activated{min-height:400px;}
 .show-replies.thought-row .message{float:left;}
@@ -307,10 +306,13 @@ ul.get-started .desc {
 
 .write-view .delayed-entry{padding: 10px 15px;font-size: 18px;font-weight: 200;background-color: #E5FDFF;}
 .write-view .expanded.no-opacity{overflow:hidden;opacity:0;max-height:54px;pointer-events:none;}
-.thought-row .description{width:96%;float:left;margin-bottom:6px;width:96%;font-family: 'Merriweather';}
+.thought-row .message .description{width:96%;float:left;margin-bottom:6px;width:96%;font-family: 'Merriweather';}
 .replies{
   float:left;
   margin-left: 15px;
+}
+.replies .note {
+  width: 212px;
 }
 .replies .reply-desc{
   width: 212px;
@@ -318,8 +320,23 @@ ul.get-started .desc {
   padding: 10px;
   border-radius: 2px;
   margin-bottom: 8px;
+  list-style: none;
+
 }
-.thought-row .message .description{font-size: 16px;font-weight: 400;line-height: 30px;color: #686868;}
+
+.replies .reply-desc p.title {
+  margin-bottom: 0;
+}
+
+.replies .reply-desc p.description {
+  margin-bottom: 0;
+  overflow: auto;
+  height: 60px;
+}
+.thought-row .replies .reply-desc {
+  position: absolute;
+}
+.thought-row .message .description{font-size: 16px;font-weight: 400;line-height: 30px;color: #686868;min-height:150px;}
 .thought-row.editing .description{display:none;}
 .thought-row textarea.editable{display:none;resize: none;border: 1px solid #ccc;background-color:#ffffff;font-size: 20px;font-family: "Times New Roman";color: rgb(107, 107, 107);outline: none;width: 720px;border-radius:3px;padding:0 4px;margin-left:-5px;margin-bottom:8px;}
 .thought-row.editing textarea{display:block}
@@ -333,11 +350,9 @@ ul.get-started .desc {
 .selectable span.perm:hover{background-color:#F2FF68}
 
 .thought-row a{text-decoration:none;font-family: helvetica neue;font-weight: 200;}
-.thought-row .annotation, .thought-row .reply-collection li{color:#878787;font-size: 14px;font-family:"Helvetica Neue";font-weight:200;letter-spacing:.04em;padding:10px;}
+.thought-row .annotation{color:#878787;font-size: 14px;font-family:"Helvetica Neue";font-weight:200;letter-spacing:.04em;padding:10px;}
 .thought-row .annotation{background-color:#ececec;font-size:14px;color:#aeaeae;}
-.thought-row .reply-collection{margin-bottom:0;}
-.thought-row .reply-collection li{list-style:none;border-radius:2px;border:1px solid #ccc;border-top-width:0;background-color:#fff;}
-.thought-row .reply-collection>li:first-child{border-top-width:1px;}
+
 /* Message Feed */
 .message-feed .message{border-bottom:1px solid #ccc;padding:10px 0}
 .message-feed .heading{padding:5px;}
@@ -347,13 +362,6 @@ ul.get-started .desc {
 .thought-row{transition:margin .25s; -webkit-transition:margin .25s;position:relative;margin-bottom:12px;}
 .thought-row .col-md-3{position:absolute;top:0;right:-210px;width:200px;}
 /*.thought-row.show-replies{margin-left:-130px;margin-right:130px;}*/
-
-.reply-collection li{padding:5px 0;}
-.reply-collection .label, .annotation .label{float:left;margin-right:8px;}
-.reply-collection .label{color:#A2A2A2;}
-.reply-collection .reply-description{float:left;width:405px;}
-.reply-collection .action{margin-right:10px;color:#B4656B;}
-.reply-collection .action span + i{margin-left:5px;}
 
 .trigger{border-top: 1px solid #ccc;padding: 4px 8px;font-weight: 200;background-color: #EDEDED;display:block;}
 .write-reply {background-color: #e6d6d6;padding: 6px 10px;border:1px solid #ccc}
@@ -544,7 +552,7 @@ div.jquery-gdakram-tooltip h1{display:none}
       float: none;
     }
 
-    .thought-row .message {
+    .thought-row .message, .show-replies.thought-row .message {
       width: auto;
       float: none;
     }
@@ -555,8 +563,21 @@ div.jquery-gdakram-tooltip h1{display:none}
       margin-top: 20px;
     }
 
-    .replies .reply-desc {
+    .thought-row {
+      height: auto !important;
+    }
+    .thought-row .message .description {
+      min-height: auto;
+    }
+
+    .thought-row .replies .reply-desc, .recommended-view .replies .reply-desc {
+      position: relative;
       width: auto;
+      top: auto !important;
+    }
+
+    .thought-row .replies .reply-desc p.description {
+      height: auto;
     }
 }
 

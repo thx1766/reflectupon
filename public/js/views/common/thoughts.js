@@ -42,7 +42,7 @@ window.rupon.views = window.rupon.views || {};
             var self = this;
             this.tags_collection = options.tags_collection;
             if (typeof options.reply_collection != "undefined") {
-                this.replyCollection = new options.reply_collection(this.model.get("replies"));
+                this.replyCollection = new options.reply_collection(this.model.get("replies").models);
 
                 this.replyCollection
                     .on('add', function() {
@@ -58,9 +58,7 @@ window.rupon.views = window.rupon.views || {};
             //this.activateTooltip();
             this.render(options);
 
-            this.user      = options.user;
-
-            //this.replyCollectionContainer = new rv.RepliesView({collection: this.replyCollection, user: options.user});
+            this.user = options.user;
 
             var patch_options = {
                 wait: true,
@@ -81,7 +79,6 @@ window.rupon.views = window.rupon.views || {};
             //         }, patch_options);
             //     })
 
-            // if (this.user) this.addChild(this.replyCollectionContainer, ".reply-collection-container");
         },
 
         render: function(options) {
@@ -165,6 +162,49 @@ window.rupon.views = window.rupon.views || {};
             this.$el.find('.write-reply textarea').autosize();
         },
 
+        renderOnContentLoad: function() {
+            var replyIds = _.pluck(this.replyCollection.models, "id");
+
+            var dataReplyIds = this.$el.find('[data-reply-id]').map(function() { return $(this).attr('data-reply-id') });
+
+            var replyPos = [];
+            for (var i = 0; i < replyIds.length; i++) {
+                for (var j = 0; j < dataReplyIds.length; j++) {
+                    if (dataReplyIds[j].indexOf(replyIds[i]) != -1) {
+                        replyPos.push({
+                            id:  replyIds[i],
+                            pos: $(this.$el.find('[data-reply-id]')[j]).position().top || {}
+                        });
+                        break;
+                    }
+                }
+            }
+
+            replyPos = _.sortBy(replyPos, "pos");
+
+            for (var x = 0; x < replyPos.length; x++) {
+                if (x != 0 && replyPos[x].pos <= replyPos[x-1].pos + 120) {
+                    replyPos[x].pos = replyPos[x-1].pos + 120;
+                }
+            }
+
+            if (replyPos.length && this.$el.height() < replyPos[replyPos.length-1].pos + 120) {
+                this.$el.height(replyPos[replyPos.length-1].pos + 120)
+            }
+
+            replyIds = _.map(replyPos, function(obj) { return obj.id});
+
+            var replyDict = _.object(replyIds, replyPos);
+
+            this.removeChild(this.replyCollectionContainer);
+            this.replyCollectionContainer = new rv.RepliesView({
+                collection: this.replyCollection,
+                user:       this.user,
+                replyDict:  replyDict
+            });
+            this.addChild(this.replyCollectionContainer, ".replies");
+        },
+
         truncateDescription: function(description, length) {
             return description.trim().substring(0,length).split(" ").slice(0, -1).join(" ") + "...";
         },
@@ -176,6 +216,7 @@ window.rupon.views = window.rupon.views || {};
 
             this.$el.addClass('show-replies');
             this.render(attrs);
+            this.renderOnContentLoad();
         },
 
         getReplySummary: function() {
