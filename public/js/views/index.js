@@ -14,6 +14,16 @@ window.rupon.views = window.rupon.views || {};
         initialize: function(options){
             this.message = options.message;
             this.render();
+
+            $(window).scroll(function() {
+                var scrollTop = $(document).scrollTop();
+
+                if (scrollTop > 50) {
+                    $('.navbar').addClass('scrolled');
+                } else {
+                    $('.navbar').removeClass('scrolled');
+                }
+            })
         },
 
         render: function() {

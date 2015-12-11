@@ -1,32 +1,95 @@
 body{position:relative;}
 body.landing-page{background: url("/images/journal-reflectupon_v1.png") no-repeat center center fixed;background-size: cover;}
+ul{margin:0;}
+
+.landing-page #topbar-wrapper .navbar {
+  min-height: 65px;
+  padding-top: 8px;
+}
+.landing-page #topbar-wrapper .navbar.scrolled{
+  background-color: #fff;
+  border-bottom: 1px solid #494949;
+}
 .landing-page .wrapper{width:100%;padding:0;}
 .landing-page #topbar-wrapper{background-color:transparent;box-shadow:0 0 0;}
 .landing-page #topbar a{color:#f2f2f2;}
+.landing-page .scrolled #topbar a {
+  color: inherit;
+}
 .landing-page #topbar a:focus{background-color:transparent;}
+.index-container .title {
+  font-family:'Merriweather' !important;
+}
 .index-container .btn{display: inline-block;padding: 12px 22px;background-color: #EDEDED;margin-top: 50px;text-shadow: none;border-radius: 6px;color: #6E4F4F;box-shadow: 0 1px 4px #8D8D8D;font-size: 18px;font-weight: 600;margin-bottom: 40px;}
 .index-container .head-container{position:relative;}
 .index-container .head-container .description{font-family:"Merriweather";font-size: 36px;padding-bottom:10px;padding-top: 0px;line-height:54px;max-width:416px;margin:0 auto;}
 .index-container .head-container .container{font-weight: 200;font-size:24px;color:#f2f2f2;height:550px;max-width:500px;padding:0;padding-top:120px;padding-bottom:36px;margin:0 auto;text-align:center;}
+
+.index-container .mission-container {
+  background-color: #53A264;
+  padding-top: 40px;
+  padding-bottom: 30px;
+  color: #fff;
+}
+
+.index-container .mission-container .title {
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+.index-container .mission-container .container {
+  max-width: 940px;
+}
+
+.index-container .mission-container ul {
+  list-style: none;
+}
+
+.index-container .mission-container li {
+  margin-bottom: 30px;
+  width: 46%;
+}
+
+.index-container .mission-container li:first-child{
+  margin-right: 40px;
+  float: left;
+}
+
+.index-container .mission-container li:last-child{
+  float: right;
+}
+
 .index-container .body-container{
   background-color:#fff;
   padding-top: 40px;
 }
 .index-container .body-container .container{
-  padding:0 20px 30px;
+  padding-bottom: 30px;
   max-width: 940px;
 }
-.index-container .body-container .title{font-family:'Merriweather' !important;font-size:22px;padding-bottom:10px;}
+.index-container .body-container .title{
+  font-size:22px;
+  padding-bottom:10px;
+  color: #53A264;
+}
 .index-container .body-container .description-container{
   font-size:16px;
-  margin-top: 20px;
-  margin-left: 20px;
-  padding-left: 300px;
+  margin-right: 40px;
+  float: left;
+  width: 260px;
 }
-.index-container .body-container .container img {
-  float:left;
-  width:300px;
+
+.index-container .body-container .image-container{
+  float: left;
+  width: 608px;
+  border: 2px solid #53A264;
+  min-height: 400px;
+  border-radius: 3px;
 }
+
+.index-container .body-container .image-container img{
+  width: 100%;
+}
+
 .index-container .body-container .description{padding-bottom:40px;}
 .index-container .body-container .button-container{text-align:center;padding-bottom:100px;}
 .index-container .thoughts-list{margin:0 auto;padding:10px 0;}
@@ -70,6 +133,19 @@ body.landing-page{background: url("/images/journal-reflectupon_v1.png") no-repea
 
 @media all and (max-width:991px) {
     .preempt-reply{display:none !important;}
+
+    .index-container .body-container .description-container {
+      width: auto;
+      margin-left: auto;
+      text-align: center;
+      padding-left: 0;
+    }
+
+    .index-container .body-container .image-container {
+      width: 100%;
+      min-height: auto;
+      border: none;
+    }
 }
 
 @media all and (min-width:991px) {
@@ -77,11 +153,14 @@ body.landing-page{background: url("/images/journal-reflectupon_v1.png") no-repea
 }
 
 @media all and (max-width:680px) {
-  .index-container .body-container .description-container {
+  .index-container .mission-container li {
     width: auto;
-    margin-left: auto;
-    text-align: center;
-    padding-left: 0;
+    float: none;
+  }
+
+  .index-container .container {
+    padding-left: 20px;
+    padding-right: 20px;
   }
 
   .index-container .body-container .container img {
