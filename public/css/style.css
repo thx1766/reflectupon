@@ -554,6 +554,7 @@ div.jquery-gdakram-tooltip h1{display:none}
 
     .recommended-view .description {
       float: none;
+      width: auto;
     }
 
     .thought-row .message, .show-replies.thought-row .message {

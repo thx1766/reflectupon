@@ -114,6 +114,7 @@ module.exports = function(app) {
                     callback();
                 });
             }, function(err){
+                send_users = send_users.reverse();
                 res.send(send_users);
             });
 
