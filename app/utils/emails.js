@@ -3,7 +3,10 @@ var config   = process.env.PORT ? require('../../config') : require('../../confi
       config.sg_username,
       config.sg_password
     )
-  , Q        = require('q');
+  , Q        = require('q')
+  , mongoose = require('mongoose')
+  , Thought  = mongoose.model('Thought')
+  , User     = mongoose.model('User');
 
 exports.sendEmail = function(params, callback) {
 
@@ -24,4 +27,28 @@ exports.sendEmail = function(params, callback) {
       }
   });
 
+}
+
+/**
+ * Params
+ *   - thought_id: (string) Thought, where reply was made
+ *   - user_id:    (string) User, who wrote the reply
+ */
+exports.sendEmailWhenRepliedTo = function(thought_id, user_id) {
+
+  // Send e-mail notification if you're getting a reply from someone else
+  Thought.findById(thought_id, function(err, thought) {
+      User.findById(thought.user_id, function(err, user) {
+
+          if (user_id != user.id) {
+              var params = {
+                  recipients:    user.email,
+                  subject:       'Someone replied to your entry!',
+                  html_template: 'Someone just replied to one of your entries. Take a look at your entries to see their reply!<br /><br/>Thanks!<br />reflectupon team'
+              }
+
+              exports.sendEmail(params);
+          }
+      })
+  })
 }

@@ -63,7 +63,7 @@ window.rupon.mixins = window.rupon.mixins || {};
 
         submitReply: function(e) {
 
-            var description, newAnnotation, attr, annotations;
+            var description, newAnnotation, attr, annotations, replies;
 
             description = this.$el.find('.popover-content').find('textarea').val()
 
@@ -88,7 +88,7 @@ window.rupon.mixins = window.rupon.mixins || {};
                 var self = this;
                 this.replyCollection.create(attr, { 
                     wait: true,
-                    success: function() {
+                    success: function(model, response) {
                         self.$el.find('.write-reply').addClass('hidden');
                         self.$el.find('.preempt-reply').addClass('hidden');
                         $('.temp').popover('hide');
@@ -96,13 +96,19 @@ window.rupon.mixins = window.rupon.mixins || {};
                         annotations = self.model.get('annotations');
 
                         if (typeof annotations == "undefined") {
-                            annotations = [newAnnotation];
+                            annotations = [response.annotations[0]];
                         } else {
-                            annotations.push(newAnnotation);
+                            annotations.push(response.annotations[0]);
                         }
-                        self.model.set('annotations', annotations);
 
-                        self.renderAnnotations(self.nonHighlightedEntry, self.model.get('annotations'), self.model.get('replies'));
+                        self.model.set('annotations', annotations);
+                        self.model.set('replies', self.replyCollection);
+
+                        self.renderAnnotations(self.nonHighlightedEntry, self.model.get('annotations'), self.replyCollection.models);
+
+                        if (self.renderOnContentLoad) {
+                            self.renderOnContentLoad();
+                        }
                     }
                 });
             }

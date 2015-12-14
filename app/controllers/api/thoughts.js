@@ -1,7 +1,11 @@
 var mongoose   = require('mongoose')
   , async      = require('async')
   , Thought    = mongoose.model('Thought')
+  , Reply      = mongoose.model('Reply')
+  , Annotation = mongoose.model('Annotation')
+  , User       = mongoose.model('User')
   , helpers    = require('../../helpers')
+  , emails     = require('../../utils/emails')
   , _          = require('underscore');
 
 exports.get = function(req, res) {
@@ -370,4 +374,85 @@ exports.delete = function(req,res) {
             res.send(thought);
         })
     });
+}
+
+exports.postReply = function(req, res) {
+
+    var reply = new Reply({
+        title:          req.body.title,
+        description:    req.body.description,
+        thought_id:     req.body.thought_id,
+        user_id:        req.user._id,
+        date:           new Date()
+    });
+
+
+    reply.save(function(err) {
+
+        if (err) console.log(err);
+
+        emails.sendEmailWhenRepliedTo(req.body.thought_id, req.user.id);
+
+        if (req.body.annotations){
+            for (var i = 0; i < req.body.annotations.length; i++) {
+
+                var annotation = new Annotation({
+                    _reply_id:      reply._id,
+                    description:    req.body.annotations[i].description,
+                    start:          req.body.annotations[i].start,
+                    end:            req.body.annotations[i].end,
+                    thought_id:     req.body.thought_id,
+                    user_id:        req.user._id,
+                    date:           new Date()
+                });
+
+                annotation.replies.push(reply);
+
+                Thought.findById(req.body.thought_id, function(err, thought) {
+                    annotation.thoughts.push(thought);
+
+                    annotation.save(function(err) {
+
+                        if (err) console.log(err);
+
+                        reply.annotations.push(annotation);
+                        reply.save(function(err, reply){
+
+                            var populateOptions = {
+                                path: 'annotations'
+                            };
+
+                            Reply.populate(reply, populateOptions, function(err,reply) {
+                                if (err) console.log(err);
+
+                                res.send(reply);
+                            })
+
+
+                        });
+
+                    });
+
+                })
+
+            }
+        } else {
+            res.send(reply);
+        }
+
+        Thought.find({ _id: req.body.thought_id }, function(err, thought) {
+
+            var oneThought = thought[0];
+
+            oneThought.replies.push(reply);
+
+            oneThought.save(function(err){
+
+                if (err) console.log(err);
+
+            });
+        });
+
+    });
+
 }
