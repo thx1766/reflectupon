@@ -18,10 +18,6 @@ window.rupon.mixins = window.rupon.mixins || {};
 
         takeAnnotation: function() {
 
-            if (this.annotation_mode) {
-                return;
-            }
-
             var self = this;
             $(document).one('mouseup', function(e) {
                 e.preventDefault();
@@ -58,7 +54,8 @@ window.rupon.mixins = window.rupon.mixins || {};
         removePopover: function(e) {
             $('.temp').popover('hide');
             this.showTempText(false);
-            this.annotation_mode = false;
+
+            this.renderAnnotationsAndReplies();
         },
 
         submitReply: function(e) {
@@ -104,11 +101,7 @@ window.rupon.mixins = window.rupon.mixins || {};
                         self.model.set('annotations', annotations);
                         self.model.set('replies', self.replyCollection);
 
-                        self.renderAnnotations(self.nonHighlightedEntry, self.model.get('annotations'), self.replyCollection.models);
-
-                        if (self.renderOnContentLoad) {
-                            self.renderOnContentLoad();
-                        }
+                        self.renderAnnotationsAndReplies();
                     }
                 });
             }
@@ -246,8 +239,6 @@ window.rupon.mixins = window.rupon.mixins || {};
                     });
 
                     list = "<ul>" + list.join("") + "</ul>";
-
-                    this.renderRepliesPopover(highlight, list);
                 }
 
             }, this);
@@ -260,13 +251,12 @@ window.rupon.mixins = window.rupon.mixins || {};
             }, this);
         },
 
-        renderRepliesPopover: function(highlight, content) {
-            this.$el.find(highlight).popover({
-                content:   content,
-                html:      true,
-                trigger:   "hover",
-                placement: "bottom"
-            });
+        renderAnnotationsAndReplies: function() {
+            this.renderAnnotations(this.nonHighlightedEntry, this.model.get('annotations'), this.replyCollection.models);
+
+            if (this.renderOnContentLoad) {
+                this.renderOnContentLoad();
+            }
         }
     }
 })();
