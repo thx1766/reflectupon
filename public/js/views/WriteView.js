@@ -8,7 +8,7 @@ window.rupon.views = window.rupon.views || {};
 
     rv.WriteView = cv.TemplateView.extend({
         tagName: "div",
-        className: "write-view section clearfix",
+        className: "write-view clearfix",
         template: Handlebars.templates['write'],
 
         tags: [],
