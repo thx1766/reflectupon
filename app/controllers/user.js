@@ -40,15 +40,19 @@ exports.home = function(req, res, dates) {
 
                 dates.get(is_mobile, user_id, function(frequency) {
 
-                    res.render('home', {
-                        user:         req.user,
-                        topBar:       true,
-                        signout:      true,
-                        thoughts:     thoughts,
-                        landing_page: false,
-                        is_admin:     req.user.username == 'andrew',
-                        frequency:    JSON.stringify(frequency)
+                    helpers.getOnlyAnonThoughts({}, function(popular_thoughts) {
+                        res.render('home', {
+                            user:         req.user,
+                            topBar:       true,
+                            signout:      true,
+                            thoughts:     thoughts,
+                            landing_page: false,
+                            is_admin:     req.user.username == 'andrew',
+                            frequency:    JSON.stringify(frequency),
+                            popular:      JSON.stringify(popular_thoughts)
+                        });
                     });
+
                 });
             }
 

@@ -76,14 +76,17 @@ exports.getAnnotationsForThought = function(thought, user_id, callback) {
 exports.getOnlyAnonThoughts = function(params, callback, options) {
 
     options = options || {};
+    params = params || {};
 
-    var startDate = new Date(new Date().setHours(0,0,0,0));
-    startDate.setDate(startDate.getDate()-14);
+    var limit = params.limit || 20;
 
-    params.date = {
-        $gte: startDate,
-        $lte: new Date()
-    };
+    // var startDate = new Date(new Date().setHours(0,0,0,0));
+    // startDate.setDate(startDate.getDate()-14);
+
+    // params.date = {
+    //     $gte: startDate,
+    //     $lte: new Date()
+    // };
 
     params.privacy = "ANONYMOUS";
 
@@ -93,11 +96,24 @@ exports.getOnlyAnonThoughts = function(params, callback, options) {
 
     Thought.find(params)
         .sort({date: -1})
+        .limit(limit)
+        .populate('replies')
         .exec(function(err, thoughts) {
 
-            if (err) console.log(err);
-            callback(thoughts);
+            async.mapSeries(
+                thoughts, function(thought, callback) {
 
+                    thought = thought.toObject();
+                    exports.getAnnotationsForThought(thought, null, function(annotations) {
+                        thought.annotations = annotations;
+
+                        callback(err, thought);
+                    })
+                },
+                function(err, results) {
+                    if (err) console.log(err);
+                    callback(results);
+                });
         });
 }
 

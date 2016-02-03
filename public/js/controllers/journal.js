@@ -11,13 +11,14 @@ window.rupon.utils = window.rupon.utils || {};
 
         dayModelIndex;
 
-    rc.setAllThoughts = function(frequency) {
+    rc.setAllThoughts = function(frequency, popular) {
 
         var getStartedView;
 
         var recommended_collection  = new rupon.models.thoughtCollection(),
             user_message_collection = new rupon.models.userMessageCollection(),
             frequency_collection    = new rupon.models.frequencyCollection(frequency),
+            popular_collection      = new rupon.models.thoughtCollection(popular),
             tags_collection         = new rm.topicsCollection();
 
         // Only pass reference to reply_collection - since each thought handles its own replies
@@ -112,15 +113,24 @@ window.rupon.utils = window.rupon.utils || {};
             })
 
         var mainView = new rv.MainView();
+        var popularView = new rv.ThoughtsView({
+            collection: popular_collection,
+            reply_collection: rm.replyCollection,
+            user: rupon.account_info
+        });
 
         $("#container").html("<div class='main-view-container'></div><div class='side-view-container'></div>");
         $(".side-view-container").append(getStartedView.$el);
         $(".side-view-container").append(frequencyView.$el);
-        $(".main-view-container").append(mainView.$el);
+        $(".main-view-container")
+            .append(mainView.$el)
 
         mainView.$el
             .find(".dashboard-container").append(writeToThoughtsView.$el).end()
-            .find(".pagination-container").append(paginationView.$el);
+            .find(".pagination-container").append(paginationView.$el).end()
+            .find(".popular-container").append(popularView.$el);
+
+        popularView.trigger('content-loaded');
 
         user_message_collection.on("reset", function() {
             if (user_message_collection.at(0)) {

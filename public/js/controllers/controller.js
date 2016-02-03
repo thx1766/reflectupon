@@ -21,10 +21,15 @@ window.rupon.utils = window.rupon.utils || {};
 
     rc.startPage = function(options) {
 
-        var frequency = [];
+        var frequency = [],
+            popular = [];
 
         if (options && options.frequency) {
             frequency = options.frequency;
+        }
+
+        if (options && options.popular) {
+            popular = options.popular;
         }
 
         rupon.account_info         = rupon.account_info || {};
@@ -34,7 +39,7 @@ window.rupon.utils = window.rupon.utils || {};
         my_thoughts_collection    = new rupon.models.thoughtCollection([],{type: "my-posts"});
         other_thoughts_collection = new rupon.models.thoughtCollection([],{type: "other-posts"});
 
-        rc.setAllThoughts(frequency);
+        rc.setAllThoughts(frequency, popular);
 
         other_thoughts_collection.fetch({reset: true, data: {"stream_type": "other-thoughts"}});
 

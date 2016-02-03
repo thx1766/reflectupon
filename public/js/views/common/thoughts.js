@@ -165,6 +165,10 @@ window.rupon.views = window.rupon.views || {};
         renderOnContentLoad: function() {
             var replyIds = _.pluck(this.replyCollection.models, "id");
 
+            if (!replyIds.length) {
+                return false;
+            }
+
             var dataReplyIds = this.$el.find('[data-reply-id]').map(function() { return $(this).attr('data-reply-id') });
 
             var replyPos = [];
