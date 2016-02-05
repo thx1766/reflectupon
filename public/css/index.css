@@ -1,5 +1,3 @@
-body{position:relative;}
-body.landing-page{background: url("/images/journal-reflectupon_v1.png") no-repeat center center fixed;background-size: cover;}
 ul{margin:0;}
 
 .landing-page #topbar-wrapper .navbar {
@@ -8,7 +6,6 @@ ul{margin:0;}
 }
 .landing-page #topbar-wrapper .navbar.scrolled{
   background-color: #fff;
-  border-bottom: 1px solid #494949;
 }
 .landing-page .wrapper{width:100%;padding:0;}
 .landing-page #topbar-wrapper{background-color:transparent;box-shadow:0 0 0;}
@@ -21,100 +18,12 @@ ul{margin:0;}
   font-family:'Merriweather' !important;
 }
 .index-container .btn{display: inline-block;padding: 12px 22px;background-color: #EDEDED;margin-top: 50px;text-shadow: none;border-radius: 6px;color: #6E4F4F;box-shadow: 0 1px 4px #8D8D8D;font-size: 18px;font-weight: 600;margin-bottom: 40px;}
-.index-container .head-container{position:relative;}
-.index-container .head-container .description{font-family:"Merriweather";font-size: 36px;padding-bottom:10px;padding-top: 0px;line-height:54px;max-width:416px;margin:0 auto;}
-.index-container .head-container .container{
-  font-weight: 200;
-  font-size:24px;
-  color:#f2f2f2;
-  height:550px;
-  max-width:540px;
-  padding-top:120px;
-  padding-bottom:36px;
-  margin:0 auto;
-  text-align:center;
-}
 
-.index-container .mission-container {
-  background-color: #53A264;
-  padding-top: 40px;
-  padding-bottom: 30px;
-  color: #fff;
-}
-
-.index-container .mission-container .title {
-  font-size: 16px;
-  margin-bottom: 6px;
-}
-.index-container .mission-container .container {
-  max-width: 940px;
-}
-
-.index-container .mission-container ul {
-  list-style: none;
-}
-
-.index-container .mission-container li {
-  margin-bottom: 30px;
-  width: 46%;
-}
-
-.index-container .mission-container li:first-child{
-  margin-right: 40px;
-  float: left;
-}
-
-.index-container .mission-container li:last-child{
-  float: right;
-}
-
-.index-container .body-container{
-  background-color:#fff;
-  padding-top: 40px;
-}
-.index-container .body-container .container{
-  padding-bottom: 30px;
-  max-width: 940px;
-}
-.index-container .body-container .title{
-  font-size:22px;
-  padding-bottom:10px;
-  color: #53A264;
-}
-.index-container .body-container .description-container{
-  font-size:16px;
-  margin-right: 40px;
-  float: left;
-  width: 260px;
-}
-
-.index-container .body-container .image-container{
-  float: left;
-  width: 608px;
-  border: 2px solid #53A264;
-  min-height: 400px;
-  border-radius: 3px;
-}
-
-.index-container .body-container .image-container img{
-  width: 100%;
-}
-
-.index-container .body-container .description{padding-bottom:40px;}
-.index-container .body-container .button-container{text-align:center;padding-bottom:100px;}
-.index-container .thoughts-list{margin:0 auto;padding:10px 0;}
 .main-content{position:relative;background-color:#f5f5f5;}
 .logo-name{text-shadow: 0px 2px #5A5656;font-size: 40px;letter-spacing: 1px;margin-bottom:15px;}
 .logo-name form{position: absolute;top: 230px;left: 0;width: 100%;}
 .index-container .special-msg{text-align: center;background-color: #E45C5C;margin: 10px auto 20px;padding: 10px 0;color:#ffffff;border-radius:2px;}
 
-.landing-page .thought-row .description-container{width:auto;float:none;}
-.thoughts-list .tooltip{opacity:1;box-shadow:0 0 0 #000000;}
-.thoughts-list .tooltip.bottom .tooltip-arrow{top:-4px;margin-left:-8px;border-width:0 10px 10px;border-bottom-color:#fff;}
-.thoughts-list .tooltip-inner{background-color: #fff;color: #656565;padding: 13px 10px;border-radius: 3px;box-shadow: 0 2px 6px #9E9E9E;font-size: 15px;border: 1px solid #ccc;}
-.thoughts-list .tooltip ul {list-style: none;text-align: left;margin-bottom:0;}
-.thoughts-list .tooltip li {margin-bottom: 3px;border-bottom: 1px solid #ccc;padding-bottom: 3px;}
-.thoughts-list .tooltip li:last-child{border-bottom:0;margin-bottom:0;}
 .login-form{border-radius:3px;}
 .login-form .row-container label{width:85px;}
 .reset-password-form{width:320px;}
@@ -141,49 +50,94 @@ ul{margin:0;}
 .modal.login .message a{text-decoration:none;color:#636CDB}
 .modal.login #forgot-password{display:none;}
 
-@media all and (max-width:991px) {
-    .preempt-reply{display:none !important;}
-
-    .index-container .body-container .description-container {
-      width: auto;
-      margin-left: auto;
-      margin-right: auto;
-      text-align: center;
-      padding-left: 0;
-    }
-
-    .index-container .body-container .image-container {
-      width: 100%;
-      min-height: auto;
-      border: none;
-    }
-}
-
-@media all and (min-width:991px) {
-    .write-reply{display:none;}
-}
-
-@media all and (max-width:680px) {
-  .index-container .mission-container li {
-    width: auto;
-    float: none !important;
-    margin-right: 0 !important;
-  }
-
-  .index-container .container {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-
-  .index-container .body-container .container img {
-    float: none;
-    margin: 0 auto;
-    display: block;
+@media (min-width: 1200px) {
+  .landing-page .container {
+    width: 970px;
   }
 }
 
-@media all and (max-width:480px) {
-  .index-container .body-container .container img {
-    width: 100%;
-  }
+.landing-page li {
+    margin-left: 20px;
+    padding-left: 6px;
+    margin-bottom: 6px;
+}
+
+.landing-page .heading{
+  font-size: 24px;
+  margin-bottom: 20px;
+  font-weight:400;
+  margin-top: 20px;
+}
+
+.landing-page .heading:first-child{
+  margin-top: 0;
+}
+
+.landing-page .description {
+  font-size: 18px;
+  font-weight:300;
+  line-height:26px;
+}
+
+.landing-page .img {
+  height:350px;
+  width:500px;
+  border: 1px solid #000;
+  background-color: #ccc;
+}
+
+.landing-page .level {
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+
+.landing-page #level1 {
+  height:300px;
+}
+
+.landing-page #level1 .background-image{
+  background: url("/images/header-img.jpg") center no-repeat;
+  height: 600px;
+}
+.landing-page #level2 {
+  text-align: center;
+  font-size: 32px;
+  background-color: #00B2EE;
+  color: #fff;
+}
+
+.landing-page #level2 .container {
+  max-width: 700px;
+}
+
+.landing-page #level3 {
+  background-color:#008FBF;
+  color: #fff;
+}
+
+.landing-page #level3 .description{
+  width: 400px;
+}
+.landing-page #level4 {
+  background-color:#000000;
+  color: #fff;
+}
+.landing-page #level4 .description{
+  width: 400px;
+}
+.landing-page #level5 {
+  background-color:#E6E6E6;
+}
+.landing-page #level6 {
+  height:400px;
+}
+.landing-page #level6 .description{
+  width: 400px;
+}
+.landing-page #level7 {
+  height:200px;
+}
+.landing-page #footer {
+  background-color:#ddd;
+  height: 250px;
 }
