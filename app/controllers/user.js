@@ -200,7 +200,7 @@ exports.postRegBetaUser = function(req, res, next) {
                 console.log(err);
             } else {
                 sendgrid.send({
-                    to:   'andrewjcasal@gmail.com',
+                    to:   email,
                     from: 'andrewjcasal@gmail.com',
                     subject: 'Stay tuned for further updates!',
                     html: "Thanks for your interest. We'll get in touch with you soon regarding our newsletter and releases!<br /><br />Thanks,<br />The Team"
