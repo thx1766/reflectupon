@@ -4,8 +4,20 @@ ul{margin:0;}
   min-height: 65px;
   padding-top: 8px;
 }
+
+.landing-page #topbar-wrapper .navbar-right {
+  /*display: none;*/
+}
+.landing-page #topbar-wrapper .navbar-brand{
+  display:none;
+}
 .landing-page #topbar-wrapper .navbar.scrolled{
   background-color: #fff;
+  border-bottom: 6px solid #333;
+}
+
+.landing-page #topbar-wrapper .navbar.scrolled .navbar-brand{
+  display:block;
 }
 .landing-page .wrapper{width:100%;padding:0;}
 .landing-page #topbar-wrapper{background-color:transparent;box-shadow:0 0 0;}
@@ -80,10 +92,32 @@ ul{margin:0;}
 }
 
 .landing-page .img {
-  height:350px;
-  width:500px;
+  height:400px;
+  width:600px;
   border: 1px solid #000;
   background-color: #ccc;
+  background-size:100%;
+}
+.landing-page .form-box{
+  margin-top:20px;
+}
+
+.landing-page input{
+  border: 0;
+  border-radius: 2px;
+  outline: none;
+  color: #333;
+  padding: 0 20px;
+}
+.landing-page button{
+  border: 0;
+  height: 45px;
+  margin-left: 10px;
+  border-radius: 2px;
+  padding: 0 20px;
+  font-size: 20px;
+  font-weight: 300;
+  vertical-align: 5px;
 }
 
 .landing-page .level {
@@ -91,23 +125,40 @@ ul{margin:0;}
   padding-bottom: 60px;
 }
 
-.landing-page #level1 {
-  height:300px;
-}
-
-.landing-page #level1 .background-image{
-  background: url("/images/header-img.jpg") center no-repeat;
-  height: 600px;
+.landing-page #level1.background-image{
+  background: url("/images/header-img.jpg") center -40px no-repeat;
+  height: 450px;
+  background-size: 100%;
 }
 .landing-page #level2 {
   text-align: center;
   font-size: 32px;
   background-color: #00B2EE;
   color: #fff;
+  padding-top:30px;
+  padding-bottom:30px;
 }
 
 .landing-page #level2 .container {
   max-width: 700px;
+}
+.landing-page #level2 .form-box{
+  width: 420px;
+  margin: 30px auto 0;
+  text-align: left;
+}
+.landing-page #level2 input, .landing-page #level2 button{
+  box-shadow: 0 2px 3px #0082AE;
+}
+.landing-page #level2 input{
+  font-size: 24px;
+}
+
+.landing-page #level2 button{
+  background-color: #00AA27;
+  height: 33px;
+  vertical-align: 3px;
+  margin-left: 4px;
 }
 
 .landing-page #level3 {
@@ -116,7 +167,11 @@ ul{margin:0;}
 }
 
 .landing-page #level3 .description{
-  width: 400px;
+  width: 320px;
+}
+
+.landing-page #level3 .img{
+  background-image:url("/images/cups-full.jpg");
 }
 .landing-page #level4 {
   background-color:#000000;
@@ -125,19 +180,36 @@ ul{margin:0;}
 .landing-page #level4 .description{
   width: 400px;
 }
+.landing-page #level4 .img{
+  background-image:url("/images/bed-full.jpg");
+}
 .landing-page #level5 {
   background-color:#E6E6E6;
 }
 .landing-page #level6 {
-  height:400px;
+}
+.landing-page #level6 .img{
+  background-image:url("/images/posters-empty.jpg");
 }
 .landing-page #level6 .description{
-  width: 400px;
+  width: 320px;
 }
 .landing-page #level7 {
-  height:200px;
+  font-size: 32px;
+  color: #fff;
+  text-align: center;
+  background-color: #00AA27;
+  padding-top:80px;
+  padding-bottom: 80px;
+}
+.landing-page #level7 input, .landing-page #level7 button{
+  box-shadow: 0 2px 3px #007F1D;
+}
+.landing-page #level7 button{
+  background-color: #00B2EE;
 }
 .landing-page #footer {
-  background-color:#ddd;
+  background: url("/images/footer-logo.png") no-repeat;
+  background-size:100%;
   height: 250px;
 }

@@ -77,6 +77,21 @@ window.rupon.utils = window.rupon.utils || {};
 
     rc.startIndexPage = function(message, login) {
 		var indexView = new rupon.views.IndexView({message: message});
+
+        indexView
+            .on('subscribe', function(email, callback) {
+                $.ajax({
+                    type: "POST",
+                    url:  "/register-beta",
+                    data: {
+                        "email": email
+                    },
+                    success: function(response) {
+                        callback(response.msg);
+                    }
+                })
+            });
+
 		$(".index-container").html(indexView.$el);
 
         var thoughts_collection = new rupon.models.thoughtCollection(),

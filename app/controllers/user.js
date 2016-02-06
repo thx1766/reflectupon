@@ -172,6 +172,55 @@ exports.postregister = function(req, res, next) {
 
 };
 
+exports.postRegBetaUser = function(req, res, next) {
+    var email = req.body.email;
+
+    if (!validateEmail(email)) {
+        return false;
+    }
+
+    User.findOne({email: req.body.email}, function(err, user_check) {
+
+        if (user_check) {
+            res.send({"msg": "exists"});
+            return false;
+
+        }
+
+        var username = Math.floor((Math.random() * 1000000) + 1);
+
+        var user = new User({
+            username: username,
+            email:    email,
+            password: "default"
+        });
+
+        user.save(function(err, user_saved) {
+            if(err) {
+                console.log(err);
+            } else {
+                sendgrid.send({
+                    to:   'andrewjcasal@gmail.com',
+                    from: 'andrewjcasal@gmail.com',
+                    subject: 'Stay tuned for further updates!',
+                    html: "Thanks for your interest. We'll get in touch with you soon regarding our newsletter and releases!<br /><br />Thanks,<br />The Team"
+                }, function(err, json) {
+                    if (err) { return console.error(err); }
+                    console.log(json);
+                });
+                res.send({"msg": "success"});
+            }
+        });
+
+    });
+
+}
+
+var validateEmail = function(email) {
+    var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+}
+
 exports.postForgot = function(req, res, next) {
 
     var email = req.body.email;

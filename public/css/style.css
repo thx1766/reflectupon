@@ -16,7 +16,14 @@ a img{border:0;}
 }
 #topbar a{display:inline-block;color:#494949;text-decoration:none;letter-spacing:1px;transition: .2s color;}
 #topbar .navbar-nav a:hover{background-color: transparent;color: #837DC2;}
-#topbar .navbar-brand{font-family:'Merriweather';font-size:22px;}
+#topbar .navbar-brand{
+  font-family: 'Merriweather';
+  font-size: 22px;
+  background: url(../images/GYST-small.png) no-repeat -28px -29px;
+  height: 50px;
+  width: 600px;
+  background-size: 100%;
+}
 
 .fa-sign-out{margin-top:5px;}
 .wrapper{margin:0 auto;clear:both;display:block;padding-top:70px;padding-left:15px;padding-right:15px;}
