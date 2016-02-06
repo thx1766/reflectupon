@@ -6,7 +6,7 @@ ul{margin:0;}
 }
 
 .landing-page #topbar-wrapper .navbar-right {
-  /*display: none;*/
+  display: none;
 }
 .landing-page #topbar-wrapper .navbar-brand{
   display:none;
