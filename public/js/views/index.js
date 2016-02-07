@@ -22,7 +22,7 @@ window.rupon.views = window.rupon.views || {};
             $(window).scroll(function() {
                 var scrollTop = $(document).scrollTop();
 
-                if (scrollTop > 200) {
+                if (scrollTop > 250) {
                     $('.navbar').addClass('scrolled');
                 } else {
                     $('.navbar').removeClass('scrolled');
