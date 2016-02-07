@@ -3,7 +3,7 @@ ul{margin:0;}
 .landing-page #topbar-wrapper .navbar {
   height: 65px;
   padding-top: 8px;
-  overflow: hidden;
+  overflow: hidden.;
 }
 
 .landing-page #topbar-wrapper .navbar-right {
@@ -98,9 +98,23 @@ ul{margin:0;}
 
 .landing-page .img {
   width:600px;
-  border: 1px solid #000;
+  height:400px;
   background-color: #ccc;
   background-size:100%;
+}
+
+.landing-page img{
+  width: 100%;
+}
+.landing-page #level3 img,
+.landing-page #level4 img,
+.landing-page #level6 img{
+  display: none;
+}
+.landing-page #level3 img.selected,
+.landing-page #level4 img.selected,
+.landing-page #level6 img.selected{
+  display: block;
 }
 .landing-page .form-box{
   margin-top:20px;
