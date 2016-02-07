@@ -181,47 +181,38 @@ exports.postRegBetaUser = function(req, res, next) {
 
     User.findOne({email: req.body.email}, function(err, user_check) {
 
-        console.log('sending...');
-        var email = new sendgrid.Email();
-        email.addTo('andrewjcasal@gmail.com');
-        email.from = 'andrewjcasal@gmail.com';
-        email.subject = "Stay tuned for further updates!";
-        email.html = "Thanks for your interest. We'll get in touch with you soon regarding our newsletter and releases!<br /><br />Thanks,<br />The Team"
+        if (user_check) {
+            res.send({"msg": "exists"});
+            return false;
 
-        email.addFilter('templates', 'template_id', '25bd6eaf-6b06-4f76-a255-eb5037b0ffe7');
-        sendgrid.send(email, function(err, json) {
-            console.log('is sent');
+        }
+
+        var username = Math.floor((Math.random() * 1000000) + 1);
+
+        var user = new User({
+            username: username,
+            email:    email,
+            password: "default"
         });
-        // if (user_check) {
-        //     res.send({"msg": "exists"});
-        //     return false;
 
-        // }
+        user.save(function(err, user_saved) {
+            if(err) {
+                console.log(err);
+            } else {
 
-        // var username = Math.floor((Math.random() * 1000000) + 1);
+                var email = new sendgrid.Email();
+                email.addTo(email);
+                email.from = 'andrewjcasal@gmail.com';
+                email.subject = "Stay tuned for further updates!";
+                email.html = "Thanks for your interest. We'll get in touch with you soon regarding our newsletter and releases!<br /><br />Thanks,<br />The Team"
 
-        // var user = new User({
-        //     username: username,
-        //     email:    email,
-        //     password: "default"
-        // });
+                email.addFilter('templates', 'template_id', '25bd6eaf-6b06-4f76-a255-eb5037b0ffe7');
+                sendgrid.send(email, function(err, json) {
+                });
 
-        // user.save(function(err, user_saved) {
-        //     if(err) {
-        //         console.log(err);
-        //     } else {
-        //         sendgrid.send({
-        //             to:   email,
-        //             from: 'andrewjcasal@gmail.com',
-        //             subject: 'Stay tuned for further updates!',
-        //             html: "Thanks for your interest. We'll get in touch with you soon regarding our newsletter and releases!<br /><br />Thanks,<br />The Team"
-        //         }, function(err, json) {
-        //             if (err) { return console.error(err); }
-        //             console.log(json);
-        //         });
-        //         res.send({"msg": "success"});
-        //     }
-        // });
+                res.send({"msg": "success"});
+            }
+        });
 
     });
 
