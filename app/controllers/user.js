@@ -181,6 +181,7 @@ exports.postRegBetaUser = function(req, res, next) {
 
     User.findOne({email: req.body.email}, function(err, user_check) {
 
+        console.log('sending...');
         var email = new sendgrid.Email();
         email.addTo('andrewjcasal@gmail.com');
         email.from = 'andrewjcasal@gmail.com';
@@ -189,6 +190,7 @@ exports.postRegBetaUser = function(req, res, next) {
 
         email.addFilter('templates', 'template_id', '25bd6eaf-6b06-4f76-a255-eb5037b0ffe7');
         sendgrid.send(email, function(err, json) {
+            console.log('is sent');
         });
         // if (user_check) {
         //     res.send({"msg": "exists"});
