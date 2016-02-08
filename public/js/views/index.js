@@ -19,114 +19,124 @@ window.rupon.views = window.rupon.views || {};
             this.message = options.message;
             this.render();
 
+            var t;
+
             $(window).scroll(function() {
                 var scrollTop = $(document).scrollTop(),
                     ind, pos;
 
-                if (scrollTop > 250) {
+                if (scrollTop < 300) {
+                    $("#level1 img").css('margin-top', -100 * scrollTop/300);
+                }
+
+                if (scrollTop > 200) {
                     $('.navbar').addClass('scrolled');
                 } else {
                     $('.navbar').removeClass('scrolled');
                 }
 
-                ind = $("#level3 img").index($('#level3 img.selected'));
-                if (scrollTop > 700) {
-                    pos = 4;
-                    if (ind != pos) {
-                        $("#level3 img.selected").removeClass("selected");
-                        $("#level3 img:eq("+pos+")").addClass("selected");
-                    }
-                } else if (scrollTop > 600) {
-                    pos = 3;
-                    if (ind != pos) {
-                        $("#level3 img.selected").removeClass("selected");
-                        $("#level3 img:eq("+pos+")").addClass("selected");
-                    }
-                } else if (scrollTop > 500) {
-                    pos = 2;
-                    if (ind != pos) {
-                        $("#level3 img.selected").removeClass("selected");
-                        $("#level3 img:eq("+pos+")").addClass("selected");
-                    }
-                } else if (scrollTop > 400) {
-                    pos = 1;
-                    if (ind != pos) {
-                        $("#level3 img.selected").removeClass("selected");
-                        $("#level3 img:eq("+pos+")").addClass("selected");
-                    }
-                } else {
-                    pos = 0;
-                    if (ind != pos) {
-                        $("#level3 img.selected").removeClass("selected");
-                        $("#level3 img:eq("+pos+")").addClass("selected");
-                    }
-                }
+                clearTimeout(t);
+                t = setTimeout(function() {
 
-                ind = $("#level4 img").index($('#level4 img.selected'));
-                if (scrollTop > 1300) {
-                    pos = 4;
-                    if (ind != pos) {
-                        $("#level4 img.selected").removeClass("selected");
-                        $("#level4 img:eq("+pos+")").addClass("selected");
+                    ind = $("#level3 img").index($('#level3 img.selected'));
+                    if (scrollTop > 700) {
+                        pos = 4;
+                        if (ind != pos) {
+                            $("#level3 img.selected").removeClass("selected");
+                            $("#level3 img:eq("+pos+")").addClass("selected");
+                        }
+                    } else if (scrollTop > 600) {
+                        pos = 3;
+                        if (ind != pos) {
+                            $("#level3 img.selected").removeClass("selected");
+                            $("#level3 img:eq("+pos+")").addClass("selected");
+                        }
+                    } else if (scrollTop > 500) {
+                        pos = 2;
+                        if (ind != pos) {
+                            $("#level3 img.selected").removeClass("selected");
+                            $("#level3 img:eq("+pos+")").addClass("selected");
+                        }
+                    } else if (scrollTop > 400) {
+                        pos = 1;
+                        if (ind != pos) {
+                            $("#level3 img.selected").removeClass("selected");
+                            $("#level3 img:eq("+pos+")").addClass("selected");
+                        }
+                    } else {
+                        pos = 0;
+                        if (ind != pos) {
+                            $("#level3 img.selected").removeClass("selected");
+                            $("#level3 img:eq("+pos+")").addClass("selected");
+                        }
                     }
-                } else if (scrollTop > 1200) {
-                    pos = 3;
-                    if (ind != pos) {
-                        $("#level4 img.selected").removeClass("selected");
-                        $("#level4 img:eq("+pos+")").addClass("selected");
-                    }
-                } else if (scrollTop > 1100) {
-                    pos = 2;
-                    if (ind != pos) {
-                        $("#level4 img.selected").removeClass("selected");
-                        $("#level4 img:eq("+pos+")").addClass("selected");
-                    }
-                } else if (scrollTop > 1000) {
-                    pos = 1;
-                    if (ind != pos) {
-                        $("#level4 img.selected").removeClass("selected");
-                        $("#level4 img:eq("+pos+")").addClass("selected");
-                    }
-                } else {
-                    pos = 0;
-                    if (ind != pos) {
-                        $("#level4 img.selected").removeClass("selected");
-                        $("#level4 img:eq("+pos+")").addClass("selected");
-                    }
-                }
 
-                ind = $("#level6 img").index($('#level6 img.selected'));
-                if (scrollTop > 2200) {
-                    pos = 4;
-                    if (ind != pos) {
-                        $("#level6 img.selected").removeClass("selected");
-                        $("#level6 img:eq("+pos+")").addClass("selected");
+                    ind = $("#level4 img").index($('#level4 img.selected'));
+                    if (scrollTop > 1300) {
+                        pos = 4;
+                        if (ind != pos) {
+                            $("#level4 img.selected").removeClass("selected");
+                            $("#level4 img:eq("+pos+")").addClass("selected");
+                        }
+                    } else if (scrollTop > 1200) {
+                        pos = 3;
+                        if (ind != pos) {
+                            $("#level4 img.selected").removeClass("selected");
+                            $("#level4 img:eq("+pos+")").addClass("selected");
+                        }
+                    } else if (scrollTop > 1100) {
+                        pos = 2;
+                        if (ind != pos) {
+                            $("#level4 img.selected").removeClass("selected");
+                            $("#level4 img:eq("+pos+")").addClass("selected");
+                        }
+                    } else if (scrollTop > 1000) {
+                        pos = 1;
+                        if (ind != pos) {
+                            $("#level4 img.selected").removeClass("selected");
+                            $("#level4 img:eq("+pos+")").addClass("selected");
+                        }
+                    } else {
+                        pos = 0;
+                        if (ind != pos) {
+                            $("#level4 img.selected").removeClass("selected");
+                            $("#level4 img:eq("+pos+")").addClass("selected");
+                        }
                     }
-                } else if (scrollTop > 2100) {
-                    pos = 3;
-                    if (ind != pos) {
-                        $("#level6 img.selected").removeClass("selected");
-                        $("#level6 img:eq("+pos+")").addClass("selected");
+
+                    ind = $("#level6 img").index($('#level6 img.selected'));
+                    if (scrollTop > 2200) {
+                        pos = 4;
+                        if (ind != pos) {
+                            $("#level6 img.selected").removeClass("selected");
+                            $("#level6 img:eq("+pos+")").addClass("selected");
+                        }
+                    } else if (scrollTop > 2100) {
+                        pos = 3;
+                        if (ind != pos) {
+                            $("#level6 img.selected").removeClass("selected");
+                            $("#level6 img:eq("+pos+")").addClass("selected");
+                        }
+                    } else if (scrollTop > 2000) {
+                        pos = 2;
+                        if (ind != pos) {
+                            $("#level6 img.selected").removeClass("selected");
+                            $("#level6 img:eq("+pos+")").addClass("selected");
+                        }
+                    } else if (scrollTop > 1900) {
+                        pos = 1;
+                        if (ind != pos) {
+                            $("#level6 img.selected").removeClass("selected");
+                            $("#level6 img:eq("+pos+")").addClass("selected");
+                        }
+                    } else {
+                        pos = 0;
+                        if (ind != pos) {
+                            $("#level6 img.selected").removeClass("selected");
+                            $("#level6 img:eq("+pos+")").addClass("selected");
+                        }
                     }
-                } else if (scrollTop > 2000) {
-                    pos = 2;
-                    if (ind != pos) {
-                        $("#level6 img.selected").removeClass("selected");
-                        $("#level6 img:eq("+pos+")").addClass("selected");
-                    }
-                } else if (scrollTop > 1900) {
-                    pos = 1;
-                    if (ind != pos) {
-                        $("#level6 img.selected").removeClass("selected");
-                        $("#level6 img:eq("+pos+")").addClass("selected");
-                    }
-                } else {
-                    pos = 0;
-                    if (ind != pos) {
-                        $("#level6 img.selected").removeClass("selected");
-                        $("#level6 img:eq("+pos+")").addClass("selected");
-                    }
-                }
+                }, 20);
             })
         },
 
