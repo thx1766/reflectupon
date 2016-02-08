@@ -6,6 +6,8 @@ window.rupon.views = window.rupon.views || {};
     var rv = window.rupon.views;
     var cv = window.rupon.common_views;
 
+    var a, b, c;
+
     rv.IndexView = cv.BaseView.extend({
 
         tagName: "div",
@@ -19,8 +21,7 @@ window.rupon.views = window.rupon.views || {};
             this.message = options.message;
             this.render();
 
-            var t;
-
+            var self = this;
             $(window).scroll(function() {
                 var scrollTop = $(document).scrollTop(),
                     ind, pos;
@@ -35,108 +36,89 @@ window.rupon.views = window.rupon.views || {};
                     $('.navbar').removeClass('scrolled');
                 }
 
-                clearTimeout(t);
-                t = setTimeout(function() {
-
-                    ind = $("#level3 img").index($('#level3 img.selected'));
-                    if (scrollTop > 700) {
-                        pos = 4;
-                        if (ind != pos) {
-                            $("#level3 img.selected").removeClass("selected");
-                            $("#level3 img:eq("+pos+")").addClass("selected");
-                        }
-                    } else if (scrollTop > 600) {
-                        pos = 3;
-                        if (ind != pos) {
-                            $("#level3 img.selected").removeClass("selected");
-                            $("#level3 img:eq("+pos+")").addClass("selected");
-                        }
-                    } else if (scrollTop > 500) {
-                        pos = 2;
-                        if (ind != pos) {
-                            $("#level3 img.selected").removeClass("selected");
-                            $("#level3 img:eq("+pos+")").addClass("selected");
-                        }
-                    } else if (scrollTop > 400) {
-                        pos = 1;
-                        if (ind != pos) {
-                            $("#level3 img.selected").removeClass("selected");
-                            $("#level3 img:eq("+pos+")").addClass("selected");
-                        }
-                    } else {
-                        pos = 0;
-                        if (ind != pos) {
-                            $("#level3 img.selected").removeClass("selected");
-                            $("#level3 img:eq("+pos+")").addClass("selected");
-                        }
+                ind = $("#level3 img").index($('#level3 img.selected'));
+                if (scrollTop > 700) {
+                    pos = 4;
+                    if (ind != pos) {
+                        self.transitionPicture(3, pos, a);
                     }
-
-                    ind = $("#level4 img").index($('#level4 img.selected'));
-                    if (scrollTop > 1300) {
-                        pos = 4;
-                        if (ind != pos) {
-                            $("#level4 img.selected").removeClass("selected");
-                            $("#level4 img:eq("+pos+")").addClass("selected");
-                        }
-                    } else if (scrollTop > 1200) {
-                        pos = 3;
-                        if (ind != pos) {
-                            $("#level4 img.selected").removeClass("selected");
-                            $("#level4 img:eq("+pos+")").addClass("selected");
-                        }
-                    } else if (scrollTop > 1100) {
-                        pos = 2;
-                        if (ind != pos) {
-                            $("#level4 img.selected").removeClass("selected");
-                            $("#level4 img:eq("+pos+")").addClass("selected");
-                        }
-                    } else if (scrollTop > 1000) {
-                        pos = 1;
-                        if (ind != pos) {
-                            $("#level4 img.selected").removeClass("selected");
-                            $("#level4 img:eq("+pos+")").addClass("selected");
-                        }
-                    } else {
-                        pos = 0;
-                        if (ind != pos) {
-                            $("#level4 img.selected").removeClass("selected");
-                            $("#level4 img:eq("+pos+")").addClass("selected");
-                        }
+                } else if (scrollTop > 600) {
+                    pos = 3;
+                    if (ind != pos) {
+                        self.transitionPicture(3, pos, a);
                     }
-
-                    ind = $("#level6 img").index($('#level6 img.selected'));
-                    if (scrollTop > 2200) {
-                        pos = 4;
-                        if (ind != pos) {
-                            $("#level6 img.selected").removeClass("selected");
-                            $("#level6 img:eq("+pos+")").addClass("selected");
-                        }
-                    } else if (scrollTop > 2100) {
-                        pos = 3;
-                        if (ind != pos) {
-                            $("#level6 img.selected").removeClass("selected");
-                            $("#level6 img:eq("+pos+")").addClass("selected");
-                        }
-                    } else if (scrollTop > 2000) {
-                        pos = 2;
-                        if (ind != pos) {
-                            $("#level6 img.selected").removeClass("selected");
-                            $("#level6 img:eq("+pos+")").addClass("selected");
-                        }
-                    } else if (scrollTop > 1900) {
-                        pos = 1;
-                        if (ind != pos) {
-                            $("#level6 img.selected").removeClass("selected");
-                            $("#level6 img:eq("+pos+")").addClass("selected");
-                        }
-                    } else {
-                        pos = 0;
-                        if (ind != pos) {
-                            $("#level6 img.selected").removeClass("selected");
-                            $("#level6 img:eq("+pos+")").addClass("selected");
-                        }
+                } else if (scrollTop > 500) {
+                    pos = 2;
+                    if (ind != pos) {
+                        self.transitionPicture(3, pos, a);
                     }
-                }, 20);
+                } else if (scrollTop > 400) {
+                    pos = 1;
+                    if (ind != pos) {
+                        self.transitionPicture(3, pos, a);
+                    }
+                } else {
+                    pos = 0;
+                    if (ind != pos) {
+                        self.transitionPicture(3, pos, a);
+                    }
+                }
+
+                ind = $("#level4 img").index($('#level4 img.selected'));
+                if (scrollTop > 1300) {
+                    pos = 4;
+                    if (ind != pos) {
+                        self.transitionPicture(4, pos, b);
+                    }
+                } else if (scrollTop > 1200) {
+                    pos = 3;
+                    if (ind != pos) {
+                        self.transitionPicture(4, pos, b);
+                    }
+                } else if (scrollTop > 1100) {
+                    pos = 2;
+                    if (ind != pos) {
+                        self.transitionPicture(4, pos, b);
+                    }
+                } else if (scrollTop > 1000) {
+                    pos = 1;
+                    if (ind != pos) {
+                        self.transitionPicture(4, pos, b);
+                    }
+                } else {
+                    pos = 0;
+                    if (ind != pos) {
+                        self.transitionPicture(4, pos, b);
+                    }
+                }
+
+                ind = $("#level6 img").index($('#level6 img.selected'));
+                if (scrollTop > 2200) {
+                    pos = 4;
+                    if (ind != pos) {
+                        self.transitionPicture(6, pos, c);
+                    }
+                } else if (scrollTop > 2100) {
+                    pos = 3;
+                    if (ind != pos) {
+                        self.transitionPicture(6, pos, c);
+                    }
+                } else if (scrollTop > 2000) {
+                    pos = 2;
+                    if (ind != pos) {
+                        self.transitionPicture(6, pos, c);
+                    }
+                } else if (scrollTop > 1900) {
+                    pos = 1;
+                    if (ind != pos) {
+                        self.transitionPicture(6, pos, c);
+                    }
+                } else {
+                    pos = 0;
+                    if (ind != pos) {
+                        self.transitionPicture(6, pos, c);
+                    }
+                }
             })
         },
 
@@ -188,6 +170,15 @@ window.rupon.views = window.rupon.views || {};
         validateEmail: function(email) {
             var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return re.test(email);
+        },
+
+        transitionPicture: function(levelNum, pos, t) {
+
+            clearTimeout(t);
+            t = setTimeout(function() {
+                $("#level"+levelNum+" img.selected").removeClass("selected");
+                $("#level"+levelNum+" img:eq("+pos+")").addClass("selected");
+            }, 500);
         }
 
     })
