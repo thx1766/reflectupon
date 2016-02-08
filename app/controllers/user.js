@@ -1,4 +1,4 @@
-var config          = require('../../config'),
+var config          = process.env.PORT ? require('../../config') : require('../../config_settings'),
     passport        = require('passport'),
     util            = require('util'),
     mongoose        = require('mongoose'),
@@ -173,7 +173,8 @@ exports.postregister = function(req, res, next) {
 };
 
 exports.postRegBetaUser = function(req, res, next) {
-    var email = req.body.email;
+
+    var emailAddress = req.body.email;
 
     if (!validateEmail(email)) {
         return false;
@@ -191,7 +192,7 @@ exports.postRegBetaUser = function(req, res, next) {
 
         var user = new User({
             username: username,
-            email:    email,
+            email:    emailAddress,
             password: "default"
         });
 
@@ -201,15 +202,17 @@ exports.postRegBetaUser = function(req, res, next) {
             } else {
 
                 var email = new sendgrid.Email();
-                email.addTo(email);
+                email.addTo(emailAddress);
                 email.from = 'andrewjcasal@gmail.com';
                 email.subject = "Stay tuned for further updates!";
-                email.html = "Thanks for your interest. We'll get in touch with you soon regarding our newsletter and releases!<br /><br />Thanks,<br />The Team"
+                email.html = "Thanks for your interest. We'll get in touch with you soon regarding our newsletter and releases.<br />" +
+                    "<br />Thanks,<br />" +
+                    "The Team at Get Your Shit Together<br />" +
+                    "<a href='www.getyoursh.it'>www.getyoursh.it</a>";
 
                 email.addFilter('templates', 'template_id', '25bd6eaf-6b06-4f76-a255-eb5037b0ffe7');
                 sendgrid.send(email, function(err, json) {
                 });
-
                 res.send({"msg": "success"});
             }
         });
