@@ -6,9 +6,14 @@ ul{margin:0;}
   overflow: hidden.;
 }
 
-.landing-page #topbar-wrapper .navbar-right {
-  display: none;
+.landing-page #topbar-wrapper .navbar-right .sign-up-btn{
+  opacity: 0;
 }
+
+.landing-page #topbar-wrapper .navbar-right .log-in-btn{
+  opacity: 0;
+}
+
 .landing-page #topbar-wrapper .navbar-brand{
   opacity: 0;
   margin-top: 25px;
