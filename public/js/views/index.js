@@ -26,6 +26,9 @@ window.rupon.views = window.rupon.views || {};
                 var scrollTop = $(document).scrollTop(),
                     ind, pos, level;
 
+                var docWidth = $(document).width();
+                var scrollDict = {};
+
                 if (scrollTop < 300) {
                     $("#level1 img").css('margin-top', -100 * scrollTop/300);
                 }
@@ -36,33 +39,76 @@ window.rupon.views = window.rupon.views || {};
                     $('.navbar').removeClass('scrolled');
                 }
 
-                if (scrollTop < 775) {
+                if (docWidth > 1200) {
+                    scrollDict = {
+                        top: {
+                            upper: 775,
+                            third: 600,
+                            second: 400
+                        },
+                        middle: {
+                            upper: 1400,
+                            lower: 775,
+                            third: 1200,
+                            second: 1000
+                        },
+                        bottom: {
+                            upper: 2400,
+                            lower: 1800,
+                            third: 2200,
+                            second: 2000
+                        }
+                    }
+                } else if (docWidth < 500) {
+                    scrollDict = {
+                        top: {
+                            upper: 775,
+                            third: 600,
+                            second: 400
+                        },
+                        middle: {
+                            upper: 2000,
+                            lower: 1000,
+                            third: 1750,
+                            second: 1550
+                        },
+                        bottom: {
+                            upper: 3100,
+                            lower: 2000,
+                            third: 3000,
+                            second: 2750
+                        }
+                    }
+                }
+                
+
+                if (scrollTop < scrollDict.top.upper) {
                     level = 3;
-                    if (scrollTop > 600) {
+                    if (scrollTop > scrollDict.top.third) {
                         pos = 4;
-                    } else if (scrollTop > 400) {
+                    } else if (scrollTop > scrollDict.top.second) {
                         pos = 2;
                     } else {
                         pos = 0;
                     }
                 }
 
-                if (scrollTop >= 775 && scrollTop < 1400) {
+                if (scrollTop >= scrollDict.middle.lower && scrollTop < scrollDict.middle.upper) {
                     level = 4;
-                    if (scrollTop > 1200) {
+                    if (scrollTop > scrollDict.middle.third) {
                         pos = 4;
-                    } else if (scrollTop > 1000) {
+                    } else if (scrollTop > scrollDict.middle.second) {
                         pos = 2;
                     } else {
                         pos = 0;
                     }
                 }
 
-                if (scrollTop > 1800 && scrollTop < 2400) {
+                if (scrollTop > scrollDict.bottom.lower && scrollTop < scrollDict.bottom.upper) {
                     level = 6;
-                    if (scrollTop > 2200) {
+                    if (scrollTop > scrollDict.bottom.third) {
                         pos = 4;
-                    } else if (scrollTop > 2000) {
+                    } else if (scrollTop > scrollDict.bottom.second) {
                         pos = 2;
                     } else {
                         pos = 0;
