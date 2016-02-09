@@ -29,7 +29,7 @@ window.rupon.views = window.rupon.views || {};
                 var docWidth = $(document).width();
                 var scrollDict = {};
 
-                if (scrollTop < 300) {
+                if (scrollTop < 300 && docWidth > 1200) {
                     $("#level1 img").css('margin-top', -100 * scrollTop/300);
                 }
 
