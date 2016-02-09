@@ -176,11 +176,11 @@ exports.postRegBetaUser = function(req, res, next) {
 
     var emailAddress = req.body.email;
 
-    if (!validateEmail(email)) {
+    if (!validateEmail(emailAddress)) {
         return false;
     }
 
-    User.findOne({email: req.body.email}, function(err, user_check) {
+    User.findOne({email: emailAddress}, function(err, user_check) {
 
         if (user_check) {
             res.send({"msg": "exists"});
