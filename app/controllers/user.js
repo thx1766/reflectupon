@@ -47,7 +47,7 @@ exports.home = function(req, res, dates) {
                             signout:      true,
                             thoughts:     thoughts,
                             landing_page: false,
-                            is_admin:     req.user.username == 'andrew',
+                            is_admin:     req.user.email == 'andrewjcasal@gmail.com' || req.user.email == 'stranovich@gmail.com',
                             frequency:    JSON.stringify(frequency),
                             popular:      JSON.stringify(popular_thoughts)
                         });
