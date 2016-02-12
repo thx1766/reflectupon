@@ -387,7 +387,7 @@ exports.postReply = function(req, res) {
     });
 
 
-    reply.save(function(err) {
+    reply.save(function(err, reply) {
 
         if (err) console.log(err);
 
