@@ -38,8 +38,7 @@ window.rupon.utils = window.rupon.utils || {};
                 thought.save({},{success: function() {
                     renderRightColumnView("recommended", {
                         collection:          frequency_collection,
-                        writeToThoughtsView: writeToThoughtsView,
-                        paginationView:      paginationView
+                        writeToThoughtsView: writeToThoughtsView
                     })
                 }});
 
@@ -56,36 +55,6 @@ window.rupon.utils = window.rupon.utils || {};
             .on('highlight-mine-done', function() {
                 getStartedView.render('highlight-mine-done');
             })
-
-        var paginationView = new rv.PaginationView({collection: frequency_collection});
-        paginationView
-            .on('go-to-entries', function(collection) {
-                renderRightColumnView("most-recent", {
-                    collection:          collection,
-                    writeToThoughtsView: writeToThoughtsView,
-                    paginationView:      paginationView
-                });
-            })
-            .on('get-less-recent', function(collection) {
-                renderRightColumnView("next-entry", {
-                    collection:          collection,
-                    writeToThoughtsView: writeToThoughtsView,
-                    paginationView:      paginationView
-                });
-            })
-            .on('get-more-recent', function(collection) {
-                renderRightColumnView("previous-entry", {
-                    collection:          collection,
-                    writeToThoughtsView: writeToThoughtsView,
-                    paginationView:      paginationView
-                });
-            })
-            .on('go-to-write', function() {
-                writeToThoughtsView.trigger('write-reflection');
-                paginationView.render({
-                    page_num: 0
-                })
-            });
 
         getStartedView = new rv.GetStartedView({
             collection:  frequency_collection
@@ -104,8 +73,7 @@ window.rupon.utils = window.rupon.utils || {};
             .on('go-to-entry', function(date) {
                 renderRightColumnView(date, {
                     collection:          frequency_collection,
-                    writeToThoughtsView: writeToThoughtsView,
-                    paginationView:      paginationView
+                    writeToThoughtsView: writeToThoughtsView
                 });
             })
             .on('write-entry', function(val) {
@@ -127,7 +95,6 @@ window.rupon.utils = window.rupon.utils || {};
 
         mainView.$el
             .find(".dashboard-container").append(writeToThoughtsView.$el).end()
-            .find(".pagination-container").append(paginationView.$el).end()
             .find(".popular-container").append(popularView.$el);
 
         popularView.trigger('content-loaded');
@@ -201,13 +168,9 @@ window.rupon.utils = window.rupon.utils || {};
 
         var collection          = options.collection;
         var writeToThoughtsView = options.writeToThoughtsView;
-        var paginationView      = options.paginationView;
 
         if (modelType == "recommended") {
             writeToThoughtsView.render("recommended");
-            paginationView.render({
-                type:              "recommended"
-            })
         } else {
             var model = getModelByDate(modelType, collection, dayModelIndex);
             dayModelIndex = collection.indexOf(model);
@@ -219,11 +182,6 @@ window.rupon.utils = window.rupon.utils || {};
             var lastModelIndex = collection.indexOf(lastModel);
 
             writeToThoughtsView.render("day", model);
-            paginationView.render({
-                model_index:       dayModelIndex,
-                first_model_index: firstModelIndex,
-                last_model_index:  lastModelIndex
-            })
         }
     }
 

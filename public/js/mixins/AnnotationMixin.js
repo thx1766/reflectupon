@@ -42,9 +42,9 @@ window.rupon.mixins = window.rupon.mixins || {};
                 $('.temp').popover({
                     content: Handlebars.templates['popover']
                 });
-                $('.temp').popover('show')
+                $('.temp').popover('show');
 
-                popover_input = $('.popover-content').find('input');
+                popover_input = $('.popover-content').find('textarea');
                 $('.temp').on('shown.bs.popover', function () {
                   popover_input.focus()
                 })
