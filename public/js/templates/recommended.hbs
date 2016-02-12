@@ -1,15 +1,17 @@
 <div class="notice">You wrote your journal entry for today! Help someone in the community, by giving insights to their entry. If your entry is shared anonymously, you'll also receive insights very soon. <br /><br />Begin your reply by selecting text in their entry below.</div>
 <div class="body-container clearfix">
   <div class="header">Recommended for You Today</div>
-  <div class="description selectable">{{{description}}}</div>
-  <div class="replies">
-      {{#each replies}}
-          <div class="reply-desc">{{description}}</div>
-      {{/each}}
-  </div>
-  {{#if read_more_button}}
-    <div class="read-more-container">
-      <a href="javascript:;" class="read-more">Read More</a>
+  <div class="clearfix" style="padding: 12px;min-height:200px">
+    <div class="description selectable">{{{description}}}</div>
+    <div class="replies">
+        {{#each replies}}
+            <div class="reply-desc">{{description}}</div>
+        {{/each}}
     </div>
-  {{/if}}
+    {{#if read_more_button}}
+      <div class="read-more-container">
+        <a href="javascript:;" class="read-more">Read More</a>
+      </div>
+    {{/if}}
+  </div>
 </div>

@@ -1,7 +1,8 @@
 var mongoose   = require('mongoose')
   , async      = require('async')
   , Thought    = mongoose.model('Thought')
-  , Annotation = mongoose.model('Annotation');
+  , Annotation = mongoose.model('Annotation')
+  , User       = mongoose.model('User');
 
 exports.getThoughtsWithAnnotation = function(options, callback) {
 
@@ -73,7 +74,7 @@ exports.getAnnotationsForThought = function(thought, user_id, callback) {
     })
 }
 
-exports.getOnlyAnonThoughts = function(params, callback, options) {
+exports.getPublicThoughts = function(params, callback, options) {
 
     options = options || {};
     params = params || {};
@@ -88,13 +89,13 @@ exports.getOnlyAnonThoughts = function(params, callback, options) {
     //     $lte: new Date()
     // };
 
-    params.privacy = "ANONYMOUS";
-
     if (typeof options.feature != "undefined") {
         params.feature = options.feature;
     }
 
     Thought.find(params)
+        .where('privacy')
+        .in(["ANONYMOUS", "PUBLIC"])
         .sort({date: -1})
         .limit(limit)
         .populate('replies')
@@ -104,10 +105,19 @@ exports.getOnlyAnonThoughts = function(params, callback, options) {
                 thoughts, function(thought, callback) {
 
                     thought = thought.toObject();
+
                     exports.getAnnotationsForThought(thought, null, function(annotations) {
                         thought.annotations = annotations;
 
-                        callback(err, thought);
+                        if (thought.privacy == "PUBLIC") {
+                            User.findById(thought.user_id, function(err, user) {
+                                thought.username = user.username;
+                                callback(err, thought);
+                            });
+                        } else {
+                            callback(err, thought);
+                        }
+
                     })
                 },
                 function(err, results) {

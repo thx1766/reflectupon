@@ -182,7 +182,7 @@ exports.get = function(req, res) {
 
                 break;
             case "other-thoughts":
-                helpers.getOnlyAnonThoughts(params, function(thoughts) {
+                helpers.getPublicThoughts(params, function(thoughts) {
                     res.send(thoughts);
                 });
                 break;
@@ -192,7 +192,7 @@ exports.get = function(req, res) {
                     feature: true
                 };
 
-                helpers.getOnlyAnonThoughts(params, function(thoughts) {
+                helpers.getPublicThoughts(params, function(thoughts) {
                     res.send(thoughts);
                 }, options);
                 break;

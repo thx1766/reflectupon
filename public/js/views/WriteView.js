@@ -97,7 +97,7 @@ window.rupon.views = window.rupon.views || {};
                     description:    textarea_ele.val(),
                     //title:          '',
                     //expression:     '',
-                    privacy:        privacy_ele.prop("checked") ? 'ANONYMOUS' : 'PRIVATE',
+                    privacy:        privacy_ele.prop("checked") ? 'ANONYMOUS' : 'PUBLIC',
                     date:           date,
                     tag_ids:        self.tags
                 }

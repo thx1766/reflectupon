@@ -40,7 +40,7 @@ exports.home = function(req, res, dates) {
 
                 dates.get(is_mobile, user_id, function(frequency) {
 
-                    helpers.getOnlyAnonThoughts({}, function(popular_thoughts) {
+                    helpers.getPublicThoughts({}, function(popular_thoughts) {
                         res.render('home', {
                             user:         req.user,
                             topBar:       true,
@@ -69,7 +69,7 @@ exports.entry = function(req, res) {
     if (req.params.id) {
         params._id = req.params.id;
     }
-    helpers.getOnlyAnonThoughts(params, function(thoughts) {
+    helpers.getPublicThoughts(params, function(thoughts) {
         if (thoughts.length) {
             var thought = thoughts[0].toJSON();
             thought.date = moment().format("MMM Do");

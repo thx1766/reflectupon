@@ -129,6 +129,12 @@ window.rupon.views = window.rupon.views || {};
 
             template_options.description = rh.convertLineBreaks(template_options.description, 'n');
 
+            if (this.model.get('privacy') == "ANONYMOUS") {
+                template_options.username = "Anonymous";
+            }
+
+            template_options.date = moment(this.model.get("date")).fromNow();
+
             // Description used when editing - without all the annotations
             this.editable_description = template_options.description;
 

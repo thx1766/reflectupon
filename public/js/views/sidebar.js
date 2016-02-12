@@ -71,11 +71,21 @@ window.rupon.views = window.rupon.views || {};
 
         template: Handlebars.templates['frequency'],
 
+        container_ele: '.entries-container',
+
+        events: {
+            "click .write-entry": "writeReflection"
+        },
+
         initialize: function(options) {
             this.$el.html(this.template());
             cv.CollectionContainer.prototype.initialize.call(this, function(model) { 
                 return new rv.FrequencyItemView({model: model});
             });
+        },
+
+        writeReflection: function() {
+            this.trigger('write-reflection');
         }
 
     });

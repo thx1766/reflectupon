@@ -88,8 +88,9 @@ window.rupon.utils = window.rupon.utils || {};
         });
 
         $("#container").html("<div class='main-view-container'></div><div class='side-view-container'></div>");
-        $(".side-view-container").append(getStartedView.$el);
-        $(".side-view-container").append(frequencyView.$el);
+        $(".side-view-container")
+            .append(getStartedView.$el)
+            .append(frequencyView.$el);
         $(".main-view-container")
             .append(mainView.$el)
 

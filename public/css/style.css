@@ -53,18 +53,31 @@ a img{border:0;}
 #sidebar{position:relative;z-index:10;}
 #container{margin:0 auto;position:relative;z-index:1;transition:margin .5s;}
 #container.with-replies{margin:0;}
+.write-entry{
+    padding: 12px;
+    background-color: #fff;
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: #00B2EE;
+    box-shadow: 0 2px 3px rgba(0, 130, 174, 0.31);
+    display: block;
+}
+.write-entry:hover{
+    color: #00B2EE;
+}
 .side-view-container{margin-bottom:20px;}
-.side-view{
+.side-view .entries-container{
   box-shadow: 0 2px 3px rgba(0, 130, 174, 0.31);
 }
 .side-view .header{
     padding: 12px 12px;
     font-size: 18px;
-    color: #00B2EE;
+    color: #00AA27;
     background-color: #ffffff;
-    border-bottom: 1px solid #00B2EE;
+    border-bottom: 1px solid #00AA27;
 }
-.side-view li{background-color:#ffffff;padding:8px 10px 8px 18px;list-style:none;color:#DBDBDB;position:relative;}
+.side-view li{background-color:#ffffff;padding:8px 10px 8px 18px;list-style:none;color:#DBDBDB;position:relative;display:none;}
+.side-view li.filled{display:block;}
 .colored-tabs{position: absolute;top: 0;right: 0;}
 .colored-tabs > div{width: 5px;height: 36px;float:right;}
 .colored-tabs .tab0{background-color:yellow;}
@@ -191,20 +204,22 @@ ul.get-started .desc {
 }
 
 .recommended-view .notice {
-    background-color: #BBDBF2;
-    padding: 12px 20px;
+    background-color: #fff;
+    padding: 12px;
     font-size: 16px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 3px rgba(0, 130, 174, 0.31);
 }
 .recommended-view .body-container{
-    padding:25px 20px;
     background-color:#fff;
+    box-shadow: 0 2px 3px rgba(0, 130, 174, 0.31);
 }
 .recommended-view .header{
-    font-size:22px;
-    font-weight: 200;
-    padding: 10px 0;
-    border-bottom: 1px solid #F5F5F5;
-    margin-bottom: 14px;
+    padding: 12px 12px;
+    font-size: 18px;
+    color: #00AA27;
+    background-color: #ffffff;
+    border-bottom: 1px solid #00AA27
 }
 .recommended-view .description{
   font-family: 'Merriweather';
@@ -261,12 +276,14 @@ ul.get-started .desc {
 
 .past-posts-label{float:right;color:#999999;}
 
+.dashboard-view{
+  margin-bottom: 15px;
+}
 .write-view{
   max-height:750px;
   position:relative;
   z-index:2;
   border-radius:inherit;
-  margin-bottom: 15px;
 }
 .write-view .footer .options{float: left;}
 .write-view .footer .anon-input{
@@ -310,10 +327,10 @@ ul.get-started .desc {
   background-color: #fff;
   box-shadow:0 2px 3px rgba(0, 130, 174, 0.31);}
 .write-view .header{
-  border-bottom: 1px solid #00B2EE;
+  border-bottom: 1px solid #00AA27;
   padding: 12px 12px;
   font-size: 18px;
-  color: #00B2EE;
+  color: #00AA27;
   background-color: #ffffff;
 }
 
@@ -651,9 +668,15 @@ div.jquery-gdakram-tooltip h1{display:none}
 .popular-container .header{
   padding: 12px 12px;
   font-size: 18px;
-  color: #00B2EE;
+  color: #00AA27;
   background-color: #ffffff;
   margin-bottom: 12px;
+}
+.with-author{
+  display:none;
+}
+.popular-container .with-author{
+  display:inline;
 }
 .popular-container .message {
   padding: 10px;
