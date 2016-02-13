@@ -664,7 +664,7 @@ div.jquery-gdakram-tooltip h1{display:none}
 }
 
 .popular-container {
-  background-color:#E6E6E6;
+  background-color:rgba(255, 255, 255, 0.75);
 }
 .popular-container .header{
   padding: 12px 12px;
@@ -672,6 +672,7 @@ div.jquery-gdakram-tooltip h1{display:none}
   color: #00AA27;
   background-color: #ffffff;
   margin-bottom: 12px;
+  border-bottom: 1px solid #00AA27;
 }
 .with-author{
   display:none;
@@ -683,6 +684,7 @@ div.jquery-gdakram-tooltip h1{display:none}
   padding: 10px;
   background-color: #ffffff;
   border-radius: 3px;
+  box-shadow: 0 0 2px #428bca;
 }
 
 .popular-container .replies{
@@ -693,4 +695,5 @@ div.jquery-gdakram-tooltip h1{display:none}
   width: 258px;
   background-color: #fff;
   border: 0;
+  box-shadow:0 0 2px #428bca;
 }
