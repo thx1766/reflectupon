@@ -1,5 +1,6 @@
 * {padding:0; margin:0}
 body{color:#444;background-color:rgba(0, 178, 238, 0.31)}
+body.landing-page{background-color: #fff}
 body.new-ux{background-color:rgb(190,111,111)}
 body.new-ux .wrapper{width:600px;padding:20px;background-color:#fff;margin-top:30px;border-radius:2px;box-shadow:0 2px 6px #5e5e5e}
 body.new-ux textarea{margin-bottom:15px;}
