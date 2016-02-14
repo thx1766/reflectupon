@@ -11,7 +11,8 @@ window.rupon.mixins = window.rupon.mixins || {};
         events: {
             'click .reply-popover .fa-times': 'removePopover',
             'selectstart .selectable':        'takeAnnotation',
-            'click .reply-popover button':    'submitReply'
+            'click .reply-popover button':    'submitReply',
+            'keypress .reply-popover textarea': 'attemptSubmitReply'
         },
 
         annotation_mode: false,
@@ -56,6 +57,12 @@ window.rupon.mixins = window.rupon.mixins || {};
             this.showTempText(false);
 
             this.renderAnnotationsAndReplies();
+        },
+
+        attemptSubmitReply: function(e) {
+            if (e.which == 13){
+                this.submitReply(e);
+            }
         },
 
         submitReply: function(e) {

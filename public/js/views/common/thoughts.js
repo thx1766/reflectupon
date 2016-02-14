@@ -32,7 +32,7 @@ window.rupon.views = window.rupon.views || {};
             'click .edit':                    'editThought',
             'click .delete':                  'deleteThought',
             'click .archive':                 'archiveThought',
-            'keypress .message textarea':     'submitEdit',
+            'keypress .editable':             'submitEdit',
             'click .write-reply2':            'writeReply', 
             'click .reply-summary':           'getReplySummary'
         },

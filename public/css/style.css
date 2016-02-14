@@ -390,7 +390,7 @@ ul.get-started .desc {
 }
 .thought-row .message .description{font-size: 16px;font-weight: 400;line-height: 30px;color: #686868;min-height:150px;}
 .thought-row.editing .description{display:none;}
-.thought-row textarea.editable{display:none;resize: none;border: 1px solid #ccc;background-color:#ffffff;font-size: 20px;font-family: "Times New Roman";color: rgb(107, 107, 107);outline: none;width: 720px;border-radius:3px;padding:0 4px;margin-left:-5px;margin-bottom:8px;}
+.thought-row textarea.editable{display:none;resize: none;border: 1px solid #ccc;background-color:#ffffff;font-size: 20px;font-family: "Times New Roman";color: rgb(107, 107, 107);outline: none;width: 100%;border-radius:3px;padding:0 4px;margin-bottom:8px;}
 .thought-row.editing textarea{display:block}
 .thought-row .dropdown{overflow:hidden;z-index:10;padding: 10px;right: -12px;width:120px;}
 .thought-row .dropdown li{border-bottom:1px solid #ccc;}
