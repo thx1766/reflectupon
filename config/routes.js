@@ -218,21 +218,15 @@ module.exports = function(app) {
 
     app.delete('/api/reply/:id', replies.delete);
 
-    app.patch('/api/reply/:reply_id', function(req, res) {
+    app.put('/api/reply/:reply_id', function(req, res) {
         
         Reply.findById(req.params.reply_id, function(err,reply) {
 
             if (err) console.log(err);
 
-            var permitted_privacy = [
-                'REPLIER_TO_PRIVATE',
-                'REPLIER_TO_PUBLIC',
-                'AUTHOR_TO_PRIVATE',
-                'AUTHOR_TO_PUBLIC'
-            ];
-
             if (req.body.thanked) reply.thanked = req.body.thanked;
             if (req.body.privacy) reply.privacy = req.body.privacy;
+            if (req.body.status)  reply.status  = req.body.status;
 
             reply.save(function() {
 

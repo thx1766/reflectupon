@@ -1,6 +1,25 @@
 <div class="description">
   {{description}}
 </div>
+<div class="actions-box">
+  <ul>
+    <li>
+      <input type="radio" {{#if checkedA}}checked="checked"{{/if}} name="{{_id}}-action" id="{{_id}}-approve" status-type="approve" />
+      <label for="{{_id}}-approve">Approve</label>
+    </li>
+    <li>
+      <input type="radio" {{#if checkedB}}checked="checked"{{/if}} name="{{_id}}-action" id="{{_id}}-reject-1" status-type="reject" status-value="1" />
+      <label for="{{_id}}-reject-1">Reject - Invalidating</label>
+    </li>
+    <li>
+      <input type="radio" {{#if checkedC}}checked="checked"{{/if}} name="{{_id}}-action" id="{{_id}}-reject-2" status-type="reject" status-value="2" />
+      <label for="{{_id}}-reject-2">Reject - Trolling</label>
+    </li>
+  </ul>
+  <div class="saved-box">
+    Saved
+  </div>
+</div>
 <div class="options">
   <span class="date">{{date}}</span>
   <a href="javascript:;" class="delete">Delete</a>

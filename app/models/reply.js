@@ -9,7 +9,8 @@ var replySchema = Schema({
     thought_id:     String,
     annotations:    [{ type: Schema.Types.ObjectId, ref: 'Annotation'}],
     date:           Date,
-    thanked:        Boolean
+    thanked:        Boolean,
+    status:         String
 });
 
 mongoose.model('Reply', replySchema)

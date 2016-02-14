@@ -49,19 +49,57 @@
   list-style:none;
 }
 
-.vet-reply-view li {
-  padding:15px;
+.vet-reply-view li.reply-box{
   background-color: #ffffff;
   margin-bottom: 10px;
+  float: left;
+  width: 246px;
+  margin-right: 10px;
+}
+.vet-reply-view .actions-box{
+  background-color: #E7F9FF;
+  position: relative;
+}
+.vet-reply-view .actions-box li {
+  list-style: none;
+  padding: 8px;
+  padding-top:0;
+}
+.vet-reply-view .actions-box li:first-child{
+  padding-top: 8px;
+}
+
+.vet-reply-view .actions-box input {
+  vertical-align: 1px;
+}
+
+.vet-reply-view .actions-box label {
+  margin-left: 6px;
+  font-weight: 400;
 }
 
 .vet-reply-view .description {
-  padding-bottom: 5px;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  min-height: 80px;
+}
+
+.vet-reply-view .saved-box{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  background-color: #E7F9FF;
+  padding-top: 20px;
+  font-size: 28px;
+  display:none;
 }
 
 .vet-reply-view .options {
   border-top: 1px solid #ccc;
-  padding-top: 3px;
+  padding: 8px;
 }
 
 .vet-reply-view .options .date {

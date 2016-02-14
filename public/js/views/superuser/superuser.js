@@ -253,12 +253,61 @@ window.rupon.views = window.rupon.views || {};
         }
     });
 
-    rv.SuperUserReplyView = cv.SimpleModelView.extend({
+    rv.SuperUserReplyView = cv.TemplateView.extend({
         tagName: 'li',
+        className: 'reply-box',
         template: Handlebars.templates['vet-reply'],
 
         events: {
-            'click .delete': 'deleteReply',
+            'click input':   'clickInput',
+            'click .delete': 'deleteReply'
+        },
+
+        render: function(options) {
+            var template_options = _.clone(this.model.attributes);
+
+            if (template_options.status) {
+                switch (template_options.status) {
+                    case 'approved':
+                        template_options.checkedA = true;
+                        break;
+                    case 'rejected - 1':
+                        template_options.checkedB = true;
+                        break;
+                    case 'rejected - 2':
+                        template_options.checkedC = true;
+                        break;
+                }
+            }
+
+            cv.TemplateView.prototype.render.call(this, template_options);
+        },
+
+        clickInput: function(e) {
+            var target   = $(e.currentTarget),
+                targetId = target.attr('id'),
+                statusType = target.attr('status-type'),
+                statusVal = target.attr('status-value') || '',
+                status;
+
+            if (statusType == "approve") {
+                statusType = "approved";
+            } else if (statusType == "reject") {
+                statusType = "rejected";
+            }
+
+            var self = this;
+
+            status = statusType + (statusVal ? ' - ' : '') + statusVal;
+
+            this.model.save({
+                status: status
+            });
+            this.$el.find('.saved-box').fadeIn(300, function() {
+                setTimeout(function() {
+                    self.$el.find('.saved-box').fadeOut(300);
+                }, 1000);
+            });
         },
 
         deleteReply: function() {

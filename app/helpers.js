@@ -2,7 +2,8 @@ var mongoose   = require('mongoose')
   , async      = require('async')
   , Thought    = mongoose.model('Thought')
   , Annotation = mongoose.model('Annotation')
-  , User       = mongoose.model('User');
+  , User       = mongoose.model('User')
+  , _          = require('underscore');
 
 exports.getThoughtsWithAnnotation = function(options, callback) {
 
@@ -106,17 +107,17 @@ exports.getPublicThoughts = function(params, callback, options) {
 
                     thought = thought.toObject();
 
+                    thought.replies = exports.removeRejectedReplies(thought.replies);
+
                     exports.getAnnotationsForThought(thought, null, function(annotations) {
                         thought.annotations = annotations;
 
-                        if (thought.privacy == "PUBLIC") {
-                            User.findById(thought.user_id, function(err, user) {
-                                thought.username = user.username;
-                                callback(err, thought);
-                            });
-                        } else {
+                        exports.getUserIfPublic(thought, function(user) {
+                            thought.username = user.username;
+
+                        },function() {
                             callback(err, thought);
-                        }
+                        });
 
                     })
                 },
@@ -125,6 +126,23 @@ exports.getPublicThoughts = function(params, callback, options) {
                     callback(results);
                 });
         });
+}
+
+exports.removeRejectedReplies = function(replies) {
+    return _.reject(replies, function(reply) {
+        return typeof reply.status != 'undefined' && reply.status.indexOf('rejected') != -1;
+    });
+}
+
+exports.getUserIfPublic = function(thought, action, callback) {
+    if (thought.privacy == "PUBLIC") {
+        User.findById(thought.user_id, function(err, user) {
+            action(user);
+            callback();
+        });
+    } else {
+        callback();
+    }
 }
 
 /* Get date range from start to end */
