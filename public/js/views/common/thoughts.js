@@ -157,6 +157,15 @@ window.rupon.views = window.rupon.views || {};
                 template_options.privacy_inverse = toTitleCase(template_options.privacy_inverse.toLowerCase());
             }
 
+            var nonAnnotationReplies = _.filter(replies, function(reply) {
+                return !reply.get('annotations').length
+            });
+            nonAnnotationReplies = _.map(nonAnnotationReplies, function(reply) {
+                return {
+                    description: reply.get('description')
+                }
+            });
+            console.log(nonAnnotationReplies);
             var outputHtml = this.template(template_options);
 
             cv.Container.prototype.detachChildren.call(this);

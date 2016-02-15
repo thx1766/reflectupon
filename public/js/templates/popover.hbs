@@ -1,9 +1,11 @@
-<div class="reply-popover">
+<div class="write-reply-container reply-popover">
     <div class="clearfix" style="margin-bottom:4px">
         <i class="fa fa-times" style="cursor:pointer;float:right" />
     </div>
-    <textarea style="padding: 4px; display:block"></textarea>
-    <div class="clearfix" style="margin-top:8px">
-        <button type="button" class="btn btn-primary" style="float:right">Submit</button>
+    <textarea class="write-reply-textarea" style="padding: 4px; display:block"></textarea>
+    <div class="submit-footer clearfix" style="margin-top:8px">
+        <input id="enter-submit" type="checkbox" checked="checked">
+        <label for="enter-submit">Pressing <strong>Enter</strong> submits</label>
+        <button id="submit-reply" type="button" class="btn btn-primary" style="float:right">Submit</button>
     </div>
 </div>
