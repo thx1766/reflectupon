@@ -59,10 +59,12 @@ ul{margin:0;}
 .row-container .input{float:right;font-size:17px;padding:4px;width:178px;}
 .index-container hr{margin-bottom:20px;}
 
-.submit-box input, .modal.login form input[type=submit]{
-	font-size:16px;
-	padding: 10px 45px;
-	background-color: #F0EEEE;
+.landing-page .submit-box input,
+.landing-page .modal.login form input[type=submit]{
+	font-size:20px;
+  height: 45px;
+	background-color: #00B2EE;
+  color: #fff;
 	border-radius: 3px;
 	border: 0;
 	box-shadow: 1px 1px 1px #ccc;
@@ -123,17 +125,21 @@ ul{margin:0;}
 .landing-page .form-box{
   margin-top:20px;
 }
-
 .landing-page input{
-  border: 0;
   border-radius: 2px;
   outline: none;
   color: #333;
   padding: 0 20px;
 }
+
+.landing-page span.error {
+  color: red;
+}
+.landing-page .form-box input {
+  border: 0;
+}
 .landing-page button{
   border: 0;
-  height: 45px;
   margin-left: 10px;
   border-radius: 2px;
   padding: 0 20px;
@@ -226,6 +232,7 @@ ul{margin:0;}
 }
 .landing-page #level7 button{
   background-color: #00B2EE;
+  height: 45px;
 }
 .landing-page #footer {
   padding: 0;
