@@ -16,21 +16,13 @@ window.rupon.views = window.rupon.views || {};
         },
 
         renderLogin: function() {
-            var login = $(Handlebars.templates['login-modal']({type: 'login'}));
-            login.modal();
-            login.on('click', '.forgot-password', this.showForgotPassword);
+            var loginView = new rv.LoginModal();
+            $(loginView.$el).modal();
         },
 
         renderSignup: function() {
             var signupModal = new rv.SignupModal();
             $(signupModal.$el).modal();
-        },
-
-        showForgotPassword: function() {
-            $(".or-register").fadeOut();
-            $("#login-form").slideUp(500, function() {
-                $("#forgot-password").fadeIn();
-            });
         }
 
     });
@@ -96,4 +88,24 @@ window.rupon.views = window.rupon.views || {};
         }
 
     });
+
+    rv.LoginModal = cv.TemplateView.extend({
+        className: "modal fade login",
+        template: Handlebars.templates['login-modal'],
+
+        events: {
+            'click .forgot-password':  'showForgotPassword',
+            'click .submit-box input': 'clickSubmit'
+        },
+
+        showForgotPassword: function() {
+            $(".or-register").fadeOut();
+            $("#login-form").slideUp(500, function() {
+                $("#forgot-password").fadeIn();
+            });
+        },
+
+        clickSubmit: function() {
+        }
+    })
 })();

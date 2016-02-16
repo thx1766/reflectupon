@@ -107,6 +107,9 @@ exports.getIndex = function(req, res) {
 };
 
 exports.postlogin = function(req, res, next) {
+
+    req.body.username = req.body.username.trim().toLowerCase();
+
     passport.authenticate('local', function(err, user, info) {
         if (err) { return next(err) }
 
