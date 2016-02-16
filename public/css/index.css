@@ -11,7 +11,16 @@ ul{margin:0;}
 }
 
 .landing-page #topbar-wrapper .navbar-right .log-in-btn{
-  opacity: 0;
+  opacity: 1;
+  font-size: 20px;
+  color: #fff;
+  background-color: #00AA27;
+  height: 43px;
+  vertical-align: 3px;
+  margin-left: 4px;
+  font-weight: 300;
+  border-radius: 2px;
+  box-shadow: 0 2px 3px #ccc;
 }
 
 .landing-page #topbar-wrapper .navbar-brand{

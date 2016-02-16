@@ -15,7 +15,7 @@ a img{border:0;}
   border-radius: 0;
   transition: .2s background-color;
 }
-#topbar a{display:inline-block;color:#494949;text-decoration:none;letter-spacing:1px;transition: .2s color;}
+#topbar a{display:inline-block;color:#494949;text-decoration:none;transition: .2s color;}
 #topbar .navbar-nav a:hover{background-color: transparent;color: #837DC2;}
 #topbar .navbar-brand{
   font-family: 'Merriweather';

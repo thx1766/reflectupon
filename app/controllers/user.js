@@ -138,7 +138,13 @@ exports.postregister = function(req, res, next) {
 
         } else {
 
-            var user = new User({ username: req.body.username, email: req.body.email, password: req.body.password });
+            var user = new User({ 
+                username: req.body.username,
+                email: req.body.email,
+                password: req.body.password,
+                status: "beta1"
+            });
+
             user.save(function(err, user_saved) {
                 if(err) {
                     console.log(err);
