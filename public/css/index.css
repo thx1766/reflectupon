@@ -15,12 +15,13 @@ ul{margin:0;}
   font-size: 20px;
   color: #fff;
   background-color: #00AA27;
-  height: 43px;
+  height: 47px;
   vertical-align: 3px;
   margin-left: 4px;
   font-weight: 300;
   border-radius: 2px;
   box-shadow: 0 2px 3px #ccc;
+  margin-top: -3px;
 }
 
 .landing-page #topbar-wrapper .navbar-brand{
