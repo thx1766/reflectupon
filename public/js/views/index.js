@@ -59,7 +59,7 @@ window.rupon.views = window.rupon.views || {};
                             second: 2000
                         }
                     }
-                } else if (docWidth < 500) {
+                } else /*if (docWidth < 500) */{
                     scrollDict = {
                         top: {
                             upper: 775,

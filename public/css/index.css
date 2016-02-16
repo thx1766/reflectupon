@@ -296,7 +296,21 @@ ul{margin:0;}
 }
 
 @media (max-width: 500px) {
-  .landing-page #topbar-wrapper {
+  .landing-page .navbar-right li {
+    text-align:center;
+    margin-left:0;
+    padding-left:0;
+  }
+  .landing-page button.navbar-toggle {
+    width: auto;
+    padding: 9px 10px;
+  }
+  .landing-page #topbar-wrapper .navbar {
+    background-color: #00B2EE;
+    height: auto;
+    padding-top: 0;
+  }
+  .landing-page #topbar-wrapper .navbar-brand {
     display: none;
   }
 
