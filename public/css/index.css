@@ -11,7 +11,17 @@ ul{margin:0;}
 }
 
 .landing-page #topbar-wrapper .navbar-right .log-in-btn{
-  opacity: 0;
+  opacity: 1;
+  font-size: 20px;
+  color: #fff;
+  background-color: #00AA27;
+  height: 47px;
+  vertical-align: 3px;
+  margin-left: 4px;
+  font-weight: 300;
+  border-radius: 2px;
+  box-shadow: 0 2px 3px #ccc;
+  margin-top: -3px;
 }
 
 .landing-page #topbar-wrapper .navbar-brand{
@@ -59,10 +69,12 @@ ul{margin:0;}
 .row-container .input{float:right;font-size:17px;padding:4px;width:178px;}
 .index-container hr{margin-bottom:20px;}
 
-.submit-box input, .modal.login form input[type=submit]{
-	font-size:16px;
-	padding: 10px 45px;
-	background-color: #F0EEEE;
+.landing-page .submit-box input,
+.landing-page .modal.login form input[type=submit]{
+	font-size:20px;
+  height: 45px;
+	background-color: #00B2EE;
+  color: #fff;
 	border-radius: 3px;
 	border: 0;
 	box-shadow: 1px 1px 1px #ccc;
@@ -123,17 +135,21 @@ ul{margin:0;}
 .landing-page .form-box{
   margin-top:20px;
 }
-
 .landing-page input{
-  border: 0;
   border-radius: 2px;
   outline: none;
   color: #333;
   padding: 0 20px;
 }
+
+.landing-page span.error {
+  color: red;
+}
+.landing-page .form-box input {
+  border: 0;
+}
 .landing-page button{
   border: 0;
-  height: 45px;
   margin-left: 10px;
   border-radius: 2px;
   padding: 0 20px;
@@ -226,6 +242,7 @@ ul{margin:0;}
 }
 .landing-page #level7 button{
   background-color: #00B2EE;
+  height: 45px;
 }
 .landing-page #footer {
   padding: 0;
@@ -269,7 +286,10 @@ ul{margin:0;}
   }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 767px) {
+  .landing-page #topbar-wrapper .navbar-brand {
+    display: none;
+  }
   .landing-page #level5 .description {
     width: 100%;
   }
@@ -277,11 +297,27 @@ ul{margin:0;}
   .landing-page #level5 .description:first-child{
     margin-bottom: 20px;
   }
+  .landing-page #topbar-wrapper .navbar {
+    background-color: #00B2EE;
+    height: auto;
+    padding-top: 0;
+  }
+  .landing-page button.navbar-toggle {
+    width: auto;
+    padding: 9px 10px;
+  }
 }
 
-@media (max-width: 500px) {
-  .landing-page #topbar-wrapper {
-    display: none;
+@media (max-width: 599px) {
+  .modal-header .close{
+    width: auto;
+    padding: 0;
+    margin-top: 0;
+  }
+  .landing-page .navbar-right li {
+    text-align:center;
+    margin-left:0;
+    padding-left:0;
   }
 
   .landing-page #level1 {

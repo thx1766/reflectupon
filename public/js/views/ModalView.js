@@ -16,13 +16,86 @@ window.rupon.views = window.rupon.views || {};
         },
 
         renderLogin: function() {
-            var login = $(Handlebars.templates['login-modal']({type: 'login'}));
-            login.modal();
-            login.on('click', '.forgot-password', this.showForgotPassword);
+            var loginView = new rv.LoginModal();
+            $(loginView.$el).modal();
         },
 
         renderSignup: function() {
-            $(Handlebars.templates['signup-modal']({type: 'signup'})).modal();
+            var signupModal = new rv.SignupModal();
+            $(signupModal.$el).modal();
+        }
+
+    });
+
+    rv.SignupModal = cv.TemplateView.extend({
+        className: "modal fade signup",
+        template: Handlebars.templates['signup-modal'],
+
+        events: {
+            'click .submit-box input': 'clickSubmit'
+        },
+
+        clickSubmit: function() {
+            var error = false;
+
+            var usernameField = this.$el.find('#username-field'),
+                emailField    = this.$el.find('#email-field'),
+                passwordField = this.$el.find('#password-field'),
+                confirmField  = this.$el.find('#confirm-password-field');
+
+            usernameField.find('span').html('');
+            emailField.find('span').html('');
+            passwordField.find('span').html('');
+            confirmField.find('span').html('');
+
+            if (!$.trim(usernameField.find('input').val())) {
+                usernameField.find('span').html('Required');
+                error = true;
+            }
+
+            var emailInput = emailField.find('input').val();
+            if (!$.trim(emailInput)) {
+                emailField.find('span').html('Required');
+                error = true;
+            } else if (!this.validateEmail(emailInput)) {
+                emailField.find('span').html('Not an e-mail');
+            }
+
+            var passwordInput = passwordField.find('input').val();
+            if (!$.trim(passwordInput)) {
+                passwordField.find('span').html('Required');
+                error = true;
+            }
+
+            var confirmInput = confirmField.find('input').val()
+            if (!$.trim(confirmInput)) {
+                confirmField.find('span').html('Required');
+                error = true;
+            }
+
+            if (passwordInput != confirmInput) {
+                passwordField.find('span').html('Passwords must match');
+            }
+
+            if (error) {
+                return false;
+            }
+        },
+
+        validateEmail: function(email) {
+            var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(email);
+        }
+
+    });
+
+    rv.LoginModal = cv.TemplateView.extend({
+        className: "modal fade login",
+        template: Handlebars.templates['login-modal'],
+
+        events: {
+            'click .forgot-password':  'showForgotPassword',
+            'click .submit-box input': 'clickSubmit'
         },
 
         showForgotPassword: function() {
@@ -30,7 +103,9 @@ window.rupon.views = window.rupon.views || {};
             $("#login-form").slideUp(500, function() {
                 $("#forgot-password").fadeIn();
             });
-        }
+        },
 
-    });
+        clickSubmit: function() {
+        }
+    })
 })();

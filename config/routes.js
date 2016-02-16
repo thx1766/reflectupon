@@ -96,13 +96,17 @@ module.exports = function(app) {
 
     app.get('/api/active_users', superuser.active_users.get)
 
-    app.get('/api/users', function(req,res) {
+    app.get('/api/users', auth.ensureAuthenticated, function(req,res) {
 
         var options = {};
 
         //if (req.body.check_username) options.check_username
 
-        User.find({}, function(err, users) {
+        User
+            .find({})
+            .sort({'created_at': -1})
+            .limit(20)
+            .exec(function(err, users) {
 
             var send_users = [];
 
@@ -115,7 +119,7 @@ module.exports = function(app) {
                     callback();
                 });
             }, function(err){
-                send_users = send_users.reverse();
+                send_users = send_users;
                 res.send(send_users);
             });
 
@@ -123,7 +127,7 @@ module.exports = function(app) {
 
     });
 
-    app.delete('/api/users/:id', function(req,res) {
+    app.delete('/api/users/:id', auth.ensureAuthenticated, function(req,res) {
         User.findById(req.params.id, function(err,user) {
             user.remove(function(err) {
                 if (err) console.log(err);

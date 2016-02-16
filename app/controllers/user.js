@@ -111,6 +111,9 @@ exports.getIndex = function(req, res) {
 };
 
 exports.postlogin = function(req, res, next) {
+
+    req.body.username = req.body.username.trim().toLowerCase();
+
     passport.authenticate('local', function(err, user, info) {
         if (err) { return next(err) }
 
@@ -142,7 +145,13 @@ exports.postregister = function(req, res, next) {
 
         } else {
 
-            var user = new User({ username: req.body.username, email: req.body.email, password: req.body.password });
+            var user = new User({ 
+                username: req.body.username,
+                email: req.body.email,
+                password: req.body.password,
+                status: "beta1"
+            });
+
             user.save(function(err, user_saved) {
                 if(err) {
                     console.log(err);

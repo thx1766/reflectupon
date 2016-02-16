@@ -75,7 +75,7 @@ window.rupon.utils = window.rupon.utils || {};
 		return text;
     }
 
-    rc.startIndexPage = function(message, login) {
+    rc.startIndexPage = function(message, betaSignup) {
 		var indexView = new rupon.views.IndexView({message: message});
 
         indexView
@@ -123,9 +123,10 @@ window.rupon.utils = window.rupon.utils || {};
                 new rv.ModalView({view: "login"});
             });
 
-        if (login == "1") {
-            $('.index-container').find('.btn').click()
+        if (betaSignup == "1") {
+            new rv.ModalView({view: "signup"});
         }
+
     }
     
     rc.applyTooltipEvents = function(view) {
