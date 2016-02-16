@@ -482,8 +482,21 @@ ul.get-started .desc {
     margin-left: -15px;
 }
 /* Super user */
-ul.users-view {list-style:none}
-ul.users-view li{padding:6px 20px;border-bottom:1px solid #ccc;}
+ul.users-view {list-style:none;
+    background-color: #fff;}
+ul.users-view .grouping{
+    width:50px;
+    height:8px;
+    color: #fff;
+    margin-right: 8px;
+    margin-top: -2px;
+}
+ul.users-view .grouping .type {
+    background-color: #5cb85c;
+    border-radius: 2px;
+    padding: 2px 6px;
+}
+ul.users-view li{padding:6px 20px 6px 8px;border-bottom:1px solid #ccc;}
 ul.users-view li>div{float:left;}
 ul.users-view li .email{width:250px;}
 ul.users-view li .num_thoughts{width:60px;}
