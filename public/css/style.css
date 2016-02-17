@@ -20,7 +20,7 @@ a img{border:0;}
 #topbar .navbar-brand{
   font-family: 'Merriweather';
   font-size: 22px;
-  background: url(../images/GYST-small.png) no-repeat -28px -29px;
+  background: url(../images/GYST-small.png) no-repeat 0 center;
   height: 50px;
   width: 600px;
   background-size: 100%;
@@ -158,7 +158,7 @@ ul.get-started .desc {
 .date-view .header{position:relative;font-size: 15px;font-family: 'Helvetica Neue';font-weight: 200;border-bottom: 1px solid #F5F5F5;margin-bottom: 14px;min-height:36px;padding:10px 0;}
 .date-view .section{background-color:#fff;border-radius:3px;padding:10px 20px 25px;color:#626262;line-height: 24px;position: relative;box-shadow:0 1px 2px #d6d6d6;min-height: 400px;}
 
-.private-entry-label{color:#DA9C9C;padding-left:1px;float:left;line-height:14px;}
+.private-entry-label{color:#DA9C9C;padding-left:1px;float:left;line-height:14px;display:none;}
 .private-entry-label i{margin-right:2px;vertical-align: -1px;}
 
 .below-message{font-weight:200;height:30px;font-size:16px;color:#C76F6F;border-bottom-left-radius: 3px;border-bottom-right-radius: 3px;}
