@@ -11,8 +11,8 @@ window.rupon.mixins = window.rupon.mixins || {};
         events: {
             'click .reply-popover .fa-times': 'removePopover',
             'selectstart .selectable':        'takeAnnotation',
-            'click .reply-popover button':    'submitReply',
-            'keypress .reply-popover textarea': 'attemptSubmitReply'
+            'click #submit-reply':            'submitReply',
+            'keypress .write-reply-textarea': 'attemptSubmitReply'
         },
 
         annotation_mode: false,
@@ -60,16 +60,23 @@ window.rupon.mixins = window.rupon.mixins || {};
         },
 
         attemptSubmitReply: function(e) {
+            var enterWillSubmit;
+
             if (e.which == 13){
-                this.submitReply(e);
+
+                enterWillSubmit = !!$(e.currentTarget).parent().find('input#enter-submit:checked').length;
+
+                if (enterWillSubmit) {
+                    this.submitReply(e);
+                }
             }
         },
 
         submitReply: function(e) {
 
-            var description, newAnnotation, attr, annotations, replies;
+            var description, newAnnotation, attr, annotations, replies, hasAnnotation;
 
-            description = this.$el.find('.popover-content').find('textarea').val()
+            description = $(e.currentTarget).closest('.write-reply-container').find('textarea').val()
 
             if ($.trim(description) != "") {
 
@@ -79,7 +86,8 @@ window.rupon.mixins = window.rupon.mixins || {};
                     thought_id:  this.model.get('_id')
                 };
 
-                if (this.selected_start >= 0 && this.selected_end && this.selected_text) {
+                hasAnnotation = $(e.currentTarget).closest('.write-reply-container').hasClass('reply-popover')
+                if (hasAnnotation && this.selected_start >= 0 && this.selected_end && this.selected_text) {
                     newAnnotation = {
                         start: this.selected_start,
                         end:   this.selected_end,
@@ -97,15 +105,18 @@ window.rupon.mixins = window.rupon.mixins || {};
                         self.$el.find('.preempt-reply').addClass('hidden');
                         $('.temp').popover('hide');
 
-                        annotations = self.model.get('annotations');
+                        if (response.annotations.length) {
+                            annotations = self.model.get('annotations');
 
-                        if (typeof annotations == "undefined") {
-                            annotations = [response.annotations[0]];
-                        } else {
-                            annotations.push(response.annotations[0]);
+                            if (typeof annotations == "undefined") {
+                                annotations = [response.annotations[0]];
+                            } else {
+                                annotations.push(response.annotations[0]);
+                            }
+
+                            self.model.set('annotations', annotations);
                         }
 
-                        self.model.set('annotations', annotations);
                         self.model.set('replies', self.replyCollection);
 
                         self.renderAnnotationsAndReplies();

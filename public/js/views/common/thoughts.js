@@ -34,7 +34,8 @@ window.rupon.views = window.rupon.views || {};
             'click .archive':                 'archiveThought',
             'keypress .editable':             'submitEdit',
             'click .write-reply2':            'writeReply', 
-            'click .reply-summary':           'getReplySummary'
+            'click .reply-summary':           'getReplySummary',
+            'click .click-reply':             'clickReply'
         },
 
         initialize: function(options) {
@@ -157,6 +158,15 @@ window.rupon.views = window.rupon.views || {};
                 template_options.privacy_inverse = toTitleCase(template_options.privacy_inverse.toLowerCase());
             }
 
+            var nonAnnotationReplies = _.filter(replies, function(reply) {
+                return !reply.get('annotations').length
+            });
+            nonAnnotationReplies = _.map(nonAnnotationReplies, function(reply) {
+                return {
+                    description: reply.get('description')
+                }
+            });
+            template_options.nonAnnotationReplies = nonAnnotationReplies;
             var outputHtml = this.template(template_options);
 
             cv.Container.prototype.detachChildren.call(this);
@@ -252,21 +262,6 @@ window.rupon.views = window.rupon.views || {};
             this.trigger("change-privacy", model_privacy, this.model);
         },
 
-        // activateTooltip: function() {
-        //     var self = this;
-
-        //     this.$el.tooltip({
-        //         event_in:          "tooltip-start",
-        //         event_out:         "tooltip-end",
-        //         opacity:           1,
-        //         on_complete:       function() {
-        //             self.trigger("tooltip-initialized");
-        //         },
-        //         arrow_left_offset: 280,
-        //         tooltip_class:     "thought-tooltip"
-        //     });
-        // },
-
         editThought: function() {
             this.$el.addClass("editing");
             this.$el.find('.message').append('<textarea class="editable">'+this.editable_description+'</textarea>');
@@ -301,6 +296,12 @@ window.rupon.views = window.rupon.views || {};
                     .find('.write-reply2').addClass('hidden').end()
                     .find('.write-reply').css('display','block').find('textarea').focus();
             }
+        },
+
+        clickReply: function() {
+            this.$el.find('.write-reply-container').html(Handlebars.templates['write-reply']);
+            this.$el.find('.write-reply textarea').focus();
+            this.$el.find('.click-reply').addClass('clicked');
         }
 
     });
