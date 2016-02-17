@@ -201,6 +201,21 @@ ul.get-started .desc {
 .below-message ul{list-style:none;display:inline-block;margin-bottom:0;}
 .below-message span{display:inline-block;cursor:pointer;color:#A7A7A7;}
 
+.tags-container{
+  color: #919191;
+}
+.tags-container ul{
+  display:inline-block;
+}
+.tags-container li{
+  display:inline-block;
+}
+.tags-container li:after{
+  content: " • ";
+}
+.tags-container li:last-child:after{
+  content: "";
+}
 .click-reply.clicked{
     color:#ccc;
     pointer-events: none;

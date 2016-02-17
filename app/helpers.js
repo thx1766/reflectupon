@@ -3,6 +3,7 @@ var mongoose   = require('mongoose')
   , Thought    = mongoose.model('Thought')
   , Annotation = mongoose.model('Annotation')
   , User       = mongoose.model('User')
+  , Topic      = mongoose.model('Topic')
   , _          = require('underscore');
 
 exports.getThoughtsWithAnnotation = function(options, callback) {
@@ -116,7 +117,12 @@ exports.getPublicThoughts = function(params, callback, options) {
                             thought.username = user.username;
 
                         },function() {
-                            callback(err, thought);
+
+                            exports.getTopicsByIds(thought.tag_ids, function(topics) {
+                                thought.tag_ids = topics;
+                                console.log(thought);
+                                callback(err, thought);
+                            })
                         });
 
                     })
@@ -126,6 +132,14 @@ exports.getPublicThoughts = function(params, callback, options) {
                     callback(results);
                 });
         });
+}
+
+exports.getTopicsByIds = function(tag_ids, callback) {
+    Topic.find({"_id": { $in: tag_ids }}).exec(function(err, topics) {
+        callback(_.map(topics, function(topic){
+            return topic.name;
+        }));
+    });
 }
 
 exports.removeRejectedReplies = function(replies) {

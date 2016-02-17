@@ -1,5 +1,10 @@
 <div style="padding-top: 4px;padding-bottom:4px;padding-left: 10px;color: #919191;margin-top: 8px;">
     Written <span class="with-author">by <strong>{{username}}</strong> • </span>{{date}}<span class="highlight-reply"> • Highlight text in entry to form reply</span>
+    {{#if tag_ids}}
+    <div class="tags-container">
+        Topics: <ul>{{#each tag_ids}}<li>{{this}}</li> {{/each}}</ul>
+    </div>
+    {{/if}}
 </div>
 <div class="side-action-container">
     {{#if show_replies}}
