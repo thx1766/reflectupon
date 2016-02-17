@@ -36,9 +36,10 @@
         </div>
     {{/if}}
 
-    {{#if is_author}}
     <div class="message-summary clearfix">
-        <a href="javascript:;">Reply</a>
+        <a href="javascript:;" class="click-reply">Reply</a>
+
+    {{#if is_author}}
         {{#equal privacy "Private"}}
             <div class="private-entry-label">
                 <i class="fa fa-lock" title='Private Entry'></i>
@@ -67,8 +68,8 @@
                 </div>
             </div>
         </div>
-    </div>
     {{/if}}
+    </div>
     <div class="left-actions dropdown-container arrow-left">
         <div class="dropdown-arrow">
             <div class="arrow"></div>
@@ -76,17 +77,20 @@
         </div>
     </div>
     <div class="tooltip_description" style="display:none;" title="No worries"></div>
-    <div class="write-reply-container write-reply-box">
-        <div class="sender-header">My Reply</div>
-        <div class="write-field">
-            <textarea class="write-reply-textarea" placeholder="Write your reply" style="resize: none;"></textarea>
+    <div class="write-reply-container write-reply-box"></div>
+    {{#if nonAnnotationReplies}}
+    <div class="response-list">
+        <div class="response">
+            Annotated responses to the right. Other responses below.
         </div>
-        <div class="submit-footer clearfix">
-            <input id="enter-submit" type="checkbox" checked="checked">
-            <label for="enter-submit">Pressing <strong>Enter</strong> submits</label>
-            <button id="submit-reply" type="button" class="btn btn-primary" style="float:right">Submit</button>
+        {{#each nonAnnotationReplies}}
+        <div class="response">
+            <div><strong>Someone replied:</strong></div>
+            <div>{{description}}</div>
         </div>
+        {{/each}}
     </div>
+    {{/if}}
 </div>
 <div class="replies"></div>
 
