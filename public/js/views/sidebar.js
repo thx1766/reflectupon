@@ -68,6 +68,7 @@ window.rupon.views = window.rupon.views || {};
 
         tagName: "div",
         className: "side-view clearfix",
+        id: "entries",
 
         template: Handlebars.templates['frequency'],
 

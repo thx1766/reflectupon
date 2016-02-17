@@ -90,7 +90,19 @@ window.rupon.utils = window.rupon.utils || {};
         $("#container").html("<div class='main-view-container'></div><div class='side-view-container'></div>");
         $(".side-view-container")
             .append(getStartedView.$el)
-            .append(frequencyView.$el);
+            .append(frequencyView.$el)
+            .append(Handlebars.templates['guidelines']())
+
+        $(document).scroll(function() {
+            var scrollTop = $(document).scrollTop(),
+                guidelinesEl = $('.guidelines');
+
+            if (scrollTop > 460 && !guidelinesEl.hasClass('fixed')) {
+                guidelinesEl.addClass('fixed');
+            } else if(scrollTop <= 460 && guidelinesEl.hasClass('fixed')) {
+                guidelinesEl.removeClass('fixed');
+            }
+        })
         $(".main-view-container")
             .append(mainView.$el)
 

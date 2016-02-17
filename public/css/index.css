@@ -308,7 +308,14 @@ ul{margin:0;}
   }
 }
 
+@media (max-width: 661px) {
+  #topbar .navbar-brand {
+    width: 85%;
+  }
+}
+
 @media (max-width: 599px) {
+
   .modal-header .close{
     width: auto;
     padding: 0;

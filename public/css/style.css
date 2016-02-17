@@ -20,7 +20,7 @@ a img{border:0;}
 #topbar .navbar-brand{
   font-family: 'Merriweather';
   font-size: 22px;
-  background: url(../images/GYST-small.png) no-repeat -28px -29px;
+  background: url(../images/GYST-small.png) no-repeat 0 center;
   height: 50px;
   width: 600px;
   background-size: 100%;
@@ -66,7 +66,7 @@ a img{border:0;}
 .write-entry:hover{
     color: #00B2EE;
 }
-.side-view-container{margin-bottom:20px;}
+.side-view-container{margin-bottom:15px;}
 .side-view .entries-container{
   box-shadow: 0 2px 3px rgba(0, 130, 174, 0.31);
 }
@@ -128,6 +128,37 @@ ul.get-started .desc {
     padding-left: 34px;
 }
 
+#entries {
+    margin-bottom: 15px;
+}
+
+.guidelines {
+    background-color:#fff
+}
+
+.guidelines.fixed{
+    position: fixed;
+    top: 65px;
+    width: 150px;
+}
+
+.guidelines .header {
+    padding: 12px 12px;
+    font-size: 18px;
+    color: #00AA27;
+    background-color: #ffffff;
+    border-bottom: 1px solid #00AA27;
+}
+
+.guidelines ul {
+    padding: 8px 30px;
+    font-size: 18px;
+}
+
+.guidelines ul li {
+    padding: 2px 0;
+}
+
 #topbar{max-width:940px;margin: 0 auto;}
 
 .annotations-list{background-color:#ccc;width:230px;height:500px;position:fixed;right:148px;}
@@ -161,7 +192,7 @@ ul.get-started .desc {
 .date-view .header{position:relative;font-size: 15px;font-family: 'Helvetica Neue';font-weight: 200;border-bottom: 1px solid #F5F5F5;margin-bottom: 14px;min-height:36px;padding:10px 0;}
 .date-view .section{background-color:#fff;border-radius:3px;padding:10px 20px 25px;color:#626262;line-height: 24px;position: relative;box-shadow:0 1px 2px #d6d6d6;min-height: 400px;}
 
-.private-entry-label{color:#DA9C9C;padding-left:1px;float:left;line-height:14px;}
+.private-entry-label{color:#DA9C9C;padding-left:1px;float:left;line-height:14px;display:none;}
 .private-entry-label i{margin-right:2px;vertical-align: -1px;}
 
 .below-message{font-weight:200;height:30px;font-size:16px;color:#C76F6F;border-bottom-left-radius: 3px;border-bottom-right-radius: 3px;}
@@ -306,7 +337,6 @@ ul.get-started .desc {
   margin-bottom: 15px;
 }
 .write-view{
-  max-height:750px;
   position:relative;
   z-index:2;
   border-radius:inherit;
@@ -458,12 +488,12 @@ ul.get-started .desc {
 }
 
 .popover-content textarea {
-  width: 400px;
+  width: 100%;
   height: 150px;
 }
 .popover{
   max-width:416px;
-  width: 416px;
+  width: 100%;
   z-index:10;
 }
 
@@ -688,6 +718,14 @@ div.jquery-gdakram-tooltip h1{display:none}
     .wrapper {
       padding-top: 18px;
     }
+
+    .popover {
+      left: 0 !important;
+    }
+
+    .side-view-container {
+      min-height:800px;
+    }
 }
 
 @media all and (min-width:600px) {
@@ -700,6 +738,22 @@ div.jquery-gdakram-tooltip h1{display:none}
         width: 82%;
         float: right;
     }
+}
+
+.nav>li.my-entries {
+  display:none;
+}
+
+@media all and (max-width:767px) {
+  .nav>li.my-entries {
+    display: block;
+  }
+}
+
+@media (max-width: 939px) {
+  .guidelines {
+    display: none;
+  }
 }
 
 @media all and (min-width:940px) {
