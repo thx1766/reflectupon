@@ -66,7 +66,7 @@ a img{border:0;}
 .write-entry:hover{
     color: #00B2EE;
 }
-.side-view-container{margin-bottom:20px;min-height:1000px;}
+.side-view-container{margin-bottom:15px;}
 .side-view .entries-container{
   box-shadow: 0 2px 3px rgba(0, 130, 174, 0.31);
 }
@@ -126,6 +126,37 @@ ul.get-started .number {
 
 ul.get-started .desc {
     padding-left: 34px;
+}
+
+#entries {
+    margin-bottom: 15px;
+}
+
+.guidelines {
+    background-color:#fff
+}
+
+.guidelines.fixed{
+    position: fixed;
+    top: 65px;
+    width: 150px;
+}
+
+.guidelines .header {
+    padding: 12px 12px;
+    font-size: 18px;
+    color: #00AA27;
+    background-color: #ffffff;
+    border-bottom: 1px solid #00AA27;
+}
+
+.guidelines ul {
+    padding: 8px 30px;
+    font-size: 18px;
+}
+
+.guidelines ul li {
+    padding: 2px 0;
 }
 
 #topbar{max-width:940px;margin: 0 auto;}
@@ -281,7 +312,6 @@ ul.get-started .desc {
   margin-bottom: 15px;
 }
 .write-view{
-  max-height:750px;
   position:relative;
   z-index:2;
   border-radius:inherit;
@@ -434,12 +464,12 @@ ul.get-started .desc {
 }
 
 .popover-content textarea {
-  width: 400px;
+  width: 100%;
   height: 150px;
 }
 .popover{
   max-width:416px;
-  width: 416px;
+  width: 100%;
   z-index:10;
 }
 
@@ -656,6 +686,14 @@ div.jquery-gdakram-tooltip h1{display:none}
     .wrapper {
       padding-top: 18px;
     }
+
+    .popover {
+      left: 0 !important;
+    }
+
+    .side-view-container {
+      min-height:800px;
+    }
 }
 
 @media all and (min-width:600px) {
@@ -677,6 +715,12 @@ div.jquery-gdakram-tooltip h1{display:none}
 @media all and (max-width:767px) {
   .nav>li.my-entries {
     display: block;
+  }
+}
+
+@media (max-width: 939px) {
+  .guidelines {
+    display: none;
   }
 }
 
