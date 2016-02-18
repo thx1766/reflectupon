@@ -206,7 +206,8 @@ exports.postRegBetaUser = function(req, res, next) {
         var user = new User({
             username: username,
             email:    emailAddress,
-            password: "default"
+            password: "default",
+            status:   "input"
         });
 
         user.save(function(err, user_saved) {
@@ -221,7 +222,7 @@ exports.postRegBetaUser = function(req, res, next) {
                 email.html = "Thanks for your interest. We'll get in touch with you soon regarding our newsletter and releases.<br />" +
                     "<br />Thanks,<br />" +
                     "The Team at Get Your Shit Together<br />" +
-                    "<a href='www.getyoursh.it'>www.getyoursh.it</a>";
+                    "<a href='www.getyourshittogether.co'>www.getyourshittogether.co</a>";
 
                 email.addFilter('templates', 'template_id', '25bd6eaf-6b06-4f76-a255-eb5037b0ffe7');
                 sendgrid.send(email, function(err, json) {
@@ -249,7 +250,10 @@ exports.postForgot = function(req, res, next) {
                 sender:   "andrewjcasal@gmail.com",
                 receiver: email,
                 subject:  "Forgot your password?",
-                text:     'Hey,<br /><br />It seems like you might have forgotten your password. Click <a href="{{ verification_link }}">here</a> to retrieve it.<br /><br/>Thanks!<br />reflectupon team'
+                text:     'Hey,<br /><br />It seems like you might have forgotten your password. Click <a href="{{ verification_link }}">here</a> to retrieve it.<br /><br/>'+
+
+                    "The Team at Get Your Shit Together<br />" +
+                    "<a href='www.getyourshittogether.co'>www.getyourshittogether.co</a>"
             };
 
             var reset = forgot.forgot( email_options, function(err) {
@@ -269,7 +273,7 @@ exports.postForgot = function(req, res, next) {
         }
     });
 
-    return res.redirect('/');
+    res.send({"msg": "success"});
 };
 
 exports.postReset = function(req, res, next) {
@@ -283,8 +287,9 @@ exports.postReset = function(req, res, next) {
         var user = User.findOne({ email: email}, function(err, user) {
             if (user) {
                 user.password = password;
-                user.save();
-                res.render('index', { message: "Password successfully reset.", topBar: false, landing_page: false})
+                user.save(function() {
+                    res.redirect('/?password-reset=1');
+                });
             }
         })
     }
