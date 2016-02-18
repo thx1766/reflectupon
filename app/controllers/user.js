@@ -253,7 +253,7 @@ exports.postForgot = function(req, res, next) {
                 text:     'Hey,<br /><br />It seems like you might have forgotten your password. Click <a href="{{ verification_link }}">here</a> to retrieve it.<br /><br/>'+
 
                     "The Team at Get Your Shit Together<br />" +
-                    "<a href='www.getyourshittogether.co'>www.getyourshittogether.co</a>";
+                    "<a href='www.getyourshittogether.co'>www.getyourshittogether.co</a>"
             };
 
             var reset = forgot.forgot( email_options, function(err) {
