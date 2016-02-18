@@ -19,9 +19,9 @@ window.rupon.views = window.rupon.views || {};
             var loginView = new rv.LoginModal(),
                 loginViewEl = $(loginView.$el);
             loginView
-                .on('show-forgot', function() {
+                .on('show-forgot', function(email) {
                     loginViewEl.modal('hide');
-                    var forgotView = new rv.ForgotModal();
+                    var forgotView = new rv.ForgotModal({email: email});
                     $(forgotView.$el).modal();
                 });
             loginViewEl.modal();
@@ -106,10 +106,20 @@ window.rupon.views = window.rupon.views || {};
         },
 
         showForgotPassword: function() {
-            this.trigger('show-forgot');
+            var username = this.$el.find('#username').val();
+
+            if (!this.validateEmail(username)) {
+                username = '';
+            }
+            this.trigger('show-forgot', username);
         },
 
         clickSubmit: function() {
+        },
+
+        validateEmail: function(email) {
+            var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(email);
         }
     });
 
