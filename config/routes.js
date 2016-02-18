@@ -105,7 +105,6 @@ module.exports = function(app) {
         User
             .find({})
             .sort({'created_at': -1})
-            .limit(50)
             .exec(function(err, users) {
 
             var send_users = [];
