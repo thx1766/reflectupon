@@ -40,7 +40,8 @@ window.rupon.views = window.rupon.views || {};
         template: Handlebars.templates['signup-modal'],
 
         events: {
-            'click .submit-box input': 'clickSubmit'
+            'click .submit-box input': 'clickSubmit',
+            'focusout #email-field input': 'checkEmail'
         },
 
         clickSubmit: function() {
@@ -85,9 +86,35 @@ window.rupon.views = window.rupon.views || {};
                 passwordField.find('span').html('Passwords must match');
             }
 
-            if (error) {
+            if (self.err || error) {
                 return false;
             }
+        },
+
+        checkEmail: function() {
+            var emailField = this.$el.find('#email-field');
+            emailField.find('span').html('');
+            var emailInput = emailField.find('input').val();
+            if ($.trim(emailInput) == "") {
+            } else if (!this.validateEmail(emailInput)) {
+                emailField.find('span').html('Not an e-mail');
+            } else {
+                var self = this;
+                $.ajax({
+                    type: "POST",
+                    url: "/check-email",
+                    data: {email: emailInput},
+                    success: function(response){
+                        self.err = false;
+                        if (response.msg == "already exists") {
+                            emailField.find('span').html('E-mail already exists.');
+                            self.err = true;
+                        }
+                    },
+                    dataType: "JSON"
+                });
+            }
+
         },
 
         validateEmail: function(email) {

@@ -310,6 +310,17 @@ exports.getUserEmailList = function () {
 
 }
 
+exports.checkEmail = function(req, res) {
+    var email = req.body.email;
+    User.findOne({ email: email }, function(err, user) {
+        if (user) {
+            res.send({msg: "already exists"})
+        } else {
+            res.send({msg: "success"})
+        }
+    });
+}
+
 passport.serializeUser(function(user, done) {
     done(null, user.id);
 });

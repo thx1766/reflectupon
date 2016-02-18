@@ -120,7 +120,6 @@ exports.getPublicThoughts = function(params, callback, options) {
 
                             exports.getTopicsByIds(thought.tag_ids, function(topics) {
                                 thought.tag_ids = topics;
-                                console.log(thought);
                                 callback(err, thought);
                             })
                         });
