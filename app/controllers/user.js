@@ -312,7 +312,8 @@ exports.getUserEmailList = function () {
 
 exports.checkEmail = function(req, res) {
     var email = req.body.email;
-    User.findOne({ email: email }, function(err, user) {
+
+    User.findOne({ email: { $regex : new RegExp(email, "i") } }, function(err, user) {
         if (user) {
             res.send({msg: "already exists"})
         } else {
@@ -323,7 +324,7 @@ exports.checkEmail = function(req, res) {
 
 exports.checkUsername = function(req, res) {
     var username = req.body.username;
-    User.findOne({ username: username }, function(err, user) {
+    User.findOne({ username: { $regex : new RegExp(username, "i") } }, function(err, user) {
         if (user) {
             res.send({msg: "already exists"})
         } else {
