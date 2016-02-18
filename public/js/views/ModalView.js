@@ -16,8 +16,15 @@ window.rupon.views = window.rupon.views || {};
         },
 
         renderLogin: function() {
-            var loginView = new rv.LoginModal();
-            $(loginView.$el).modal();
+            var loginView = new rv.LoginModal(),
+                loginViewEl = $(loginView.$el);
+            loginView
+                .on('show-forgot', function() {
+                    loginViewEl.modal('hide');
+                    var forgotView = new rv.ForgotModal();
+                    $(forgotView.$el).modal();
+                });
+            loginViewEl.modal();
         },
 
         renderSignup: function() {
@@ -99,13 +106,15 @@ window.rupon.views = window.rupon.views || {};
         },
 
         showForgotPassword: function() {
-            $(".or-register").fadeOut();
-            $("#login-form").slideUp(500, function() {
-                $("#forgot-password").fadeIn();
-            });
+            this.trigger('show-forgot');
         },
 
         clickSubmit: function() {
         }
+    });
+
+    rv.ForgotModal = cv.TemplateView.extend({
+        className: "modal fade forgot",
+        template: Handlebars.templates['forgot-modal']
     })
 })();
