@@ -587,6 +587,7 @@ ul.users-view li>div{float:left;}
 ul.users-view li .email{width:250px;}
 ul.users-view li .num_thoughts{width:60px;}
 ul.users-view li .date{width:90px;}
+ul.users-view .username{padding-left: 10px;}
 ul.thought-view{}
 
 .clearfix:after {content: ".";display: block;clear: both;visibility: hidden;line-height: 0;height: 0;}
