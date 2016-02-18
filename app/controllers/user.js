@@ -273,7 +273,7 @@ exports.postForgot = function(req, res, next) {
         }
     });
 
-    return res.redirect('/');
+    res.send({"msg": "success"});
 };
 
 exports.postReset = function(req, res, next) {
@@ -287,8 +287,9 @@ exports.postReset = function(req, res, next) {
         var user = User.findOne({ email: email}, function(err, user) {
             if (user) {
                 user.password = password;
-                user.save();
-                res.render('index', { message: "Password successfully reset.", topBar: false, landing_page: false})
+                user.save(function() {
+                    res.redirect('/?password-reset=1');
+                });
             }
         })
     }

@@ -8,6 +8,9 @@
         {{#if message}}
             <div class="special-msg">{{ message }}</div>
         {{/if}}
+        {{#if reset}}
+            <div class="status">Password successfully reset</div>
+        {{/if}}
         <div class="form-container login-form">
             <form id="login-form" action="/login" method="post" role="form">
             <form role="form">

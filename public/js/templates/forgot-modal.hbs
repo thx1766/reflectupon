@@ -9,16 +9,19 @@
             <div class="special-msg">{{ message }}</div>
         {{/if}}
         <div class="form-container login-form">
-            <form id="forgot-password" action="/forgot" method="post">
+            <form id="forgot-password">
                 <div class="row-container clearfix">
                     Forgot your password?
                 </div>
                 <div class="form-group">
                     <label>Email</label>
-                    <input class="form-control" type="text" name="email" value="{{email}}" />
+                    <input id="email" class="form-control" type="text" name="email" value="{{email}}" />
                 </div>
                 <div class="submit-box clearfix">
-                    <input type="submit" value="Retrieve"/>
+                    <input class="submit-forgot" type="submit" />
+                </div>
+                <div class="email-sent" style="color:#00AA27;font-size:16px;display:none;">
+                  An e-mail has been sent to your e-mail address, so you can proceed to reset your password.
                 </div>
             </form>
         </div>

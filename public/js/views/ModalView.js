@@ -9,14 +9,15 @@ window.rupon.views = window.rupon.views || {};
     rv.ModalView = cv.BaseView.extend({
         initialize: function(opts) {
             if (opts.view == 'login') {
-                this.renderLogin();
+                var isReset = opts.message && opts.message == "reset";
+                this.renderLogin(isReset);
             } else if (opts.view == 'signup') {
                 this.renderSignup();
             }
         },
 
-        renderLogin: function() {
-            var loginView = new rv.LoginModal(),
+        renderLogin: function(isReset) {
+            var loginView = new rv.LoginModal({reset: isReset}),
                 loginViewEl = $(loginView.$el);
             loginView
                 .on('show-forgot', function(email) {
@@ -125,6 +126,29 @@ window.rupon.views = window.rupon.views || {};
 
     rv.ForgotModal = cv.TemplateView.extend({
         className: "modal fade forgot",
-        template: Handlebars.templates['forgot-modal']
+        template: Handlebars.templates['forgot-modal'],
+
+        events: {
+            'click .submit-forgot': 'clickSubmit'
+        },
+
+        clickSubmit: function() {
+            var self = this,
+                email = this.$el.find('#email').val();
+
+            if ($.trim(email) != "") {
+                $.ajax({
+                    type: "POST",
+                    url: "/forgot",
+                    data: {email: email},
+                    success: function(){
+                        self.$el.find('.email-sent').show();
+                    },
+                    dataType: "JSON"
+                });
+            }
+
+            return false;
+        }
     })
 })();
