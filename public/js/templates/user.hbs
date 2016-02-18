@@ -1,5 +1,5 @@
 <div class="grouping">
-  {{#equal status "beta1" }} <div class="type">{{ status }}</div>{{/equal}}
+  {{#if status}} <div class="type">{{ status }}</div>{{/if}}
 </div>
 <div class="email">{{ email }}</div>
 <div class="num_thoughts">{{ num_thoughts }}</div>
