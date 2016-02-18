@@ -321,6 +321,17 @@ exports.checkEmail = function(req, res) {
     });
 }
 
+exports.checkUsername = function(req, res) {
+    var username = req.body.username;
+    User.findOne({ username: username }, function(err, user) {
+        if (user) {
+            res.send({msg: "already exists"})
+        } else {
+            res.send({msg: "success"})
+        }
+    });
+}
+
 passport.serializeUser(function(user, done) {
     done(null, user.id);
 });

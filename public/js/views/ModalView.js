@@ -41,6 +41,7 @@ window.rupon.views = window.rupon.views || {};
 
         events: {
             'click .submit-box input': 'clickSubmit',
+            'focusout #username-field input': 'checkUsername',
             'focusout #email-field input': 'checkEmail'
         },
 
@@ -88,6 +89,29 @@ window.rupon.views = window.rupon.views || {};
 
             if (self.err || error) {
                 return false;
+            }
+        },
+
+        checkUsername: function() {
+            var usernameField = this.$el.find('#username-field');
+            usernameField.find('span').html('');
+            var usernameInput = usernameField.find('input').val();
+            if ($.trim(usernameInput) == "") {
+            } else {
+                var self = this;
+                $.ajax({
+                    type: "POST",
+                    url: "/check-username",
+                    data: {username: usernameInput},
+                    success: function(response){
+                        self.err = false;
+                        if (response.msg == "already exists") {
+                            usernameField.find('span').html('Username already exists.');
+                            self.err = true;
+                        }
+                    },
+                    dataType: "JSON"
+                });
             }
         },
 

@@ -35,6 +35,7 @@ module.exports = function(app) {
     app.post('/forgot',                              user_routes.postForgot);
     app.post('/reset',                               user_routes.postReset);
     app.post('/check-email',                         user_routes.checkEmail);
+    app.post('/check-username',                      user_routes.checkUsername);
     app.get( '/twiml',                               thought_routes.getTwiml);
     app.get( '/superuser', auth.ensureAuthenticated, superuser_routes.get);
 
