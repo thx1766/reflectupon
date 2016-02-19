@@ -9,15 +9,23 @@ window.rupon.views = window.rupon.views || {};
     rv.ModalView = cv.BaseView.extend({
         initialize: function(opts) {
             if (opts.view == 'login') {
-                this.renderLogin();
+                var isReset = opts.message && opts.message == "reset";
+                this.renderLogin(isReset);
             } else if (opts.view == 'signup') {
                 this.renderSignup();
             }
         },
 
-        renderLogin: function() {
-            var loginView = new rv.LoginModal();
-            $(loginView.$el).modal();
+        renderLogin: function(isReset) {
+            var loginView = new rv.LoginModal({reset: isReset}),
+                loginViewEl = $(loginView.$el);
+            loginView
+                .on('show-forgot', function(email) {
+                    loginViewEl.modal('hide');
+                    var forgotView = new rv.ForgotModal({email: email});
+                    $(forgotView.$el).modal();
+                });
+            loginViewEl.modal();
         },
 
         renderSignup: function() {
@@ -32,7 +40,9 @@ window.rupon.views = window.rupon.views || {};
         template: Handlebars.templates['signup-modal'],
 
         events: {
-            'click .submit-box input': 'clickSubmit'
+            'click .submit-box input': 'clickSubmit',
+            'focusout #username-field input': 'checkUsername',
+            'focusout #email-field input': 'checkEmail'
         },
 
         clickSubmit: function() {
@@ -77,9 +87,58 @@ window.rupon.views = window.rupon.views || {};
                 passwordField.find('span').html('Passwords must match');
             }
 
-            if (error) {
+            if (self.err || error) {
                 return false;
             }
+        },
+
+        checkUsername: function() {
+            var usernameField = this.$el.find('#username-field');
+            usernameField.find('span').html('');
+            var usernameInput = usernameField.find('input').val();
+            if ($.trim(usernameInput) == "") {
+            } else {
+                var self = this;
+                $.ajax({
+                    type: "POST",
+                    url: "/check-username",
+                    data: {username: usernameInput},
+                    success: function(response){
+                        self.err = false;
+                        if (response.msg == "already exists") {
+                            usernameField.find('span').html('Username already exists.');
+                            self.err = true;
+                        }
+                    },
+                    dataType: "JSON"
+                });
+            }
+        },
+
+        checkEmail: function() {
+            var emailField = this.$el.find('#email-field');
+            emailField.find('span').html('');
+            var emailInput = emailField.find('input').val();
+            if ($.trim(emailInput) == "") {
+            } else if (!this.validateEmail(emailInput)) {
+                emailField.find('span').html('Not an e-mail');
+            } else {
+                var self = this;
+                $.ajax({
+                    type: "POST",
+                    url: "/check-email",
+                    data: {email: emailInput},
+                    success: function(response){
+                        self.err = false;
+                        if (response.msg == "already exists") {
+                            emailField.find('span').html('E-mail already exists.');
+                            self.err = true;
+                        }
+                    },
+                    dataType: "JSON"
+                });
+            }
+
         },
 
         validateEmail: function(email) {
@@ -99,13 +158,48 @@ window.rupon.views = window.rupon.views || {};
         },
 
         showForgotPassword: function() {
-            $(".or-register").fadeOut();
-            $("#login-form").slideUp(500, function() {
-                $("#forgot-password").fadeIn();
-            });
+            var username = this.$el.find('#username').val();
+
+            if (!this.validateEmail(username)) {
+                username = '';
+            }
+            this.trigger('show-forgot', username);
         },
 
         clickSubmit: function() {
+        },
+
+        validateEmail: function(email) {
+            var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(email);
+        }
+    });
+
+    rv.ForgotModal = cv.TemplateView.extend({
+        className: "modal fade forgot",
+        template: Handlebars.templates['forgot-modal'],
+
+        events: {
+            'click .submit-forgot': 'clickSubmit'
+        },
+
+        clickSubmit: function() {
+            var self = this,
+                email = this.$el.find('#email').val();
+
+            if ($.trim(email) != "") {
+                $.ajax({
+                    type: "POST",
+                    url: "/forgot",
+                    data: {email: email},
+                    success: function(){
+                        self.$el.find('.email-sent').show();
+                    },
+                    dataType: "JSON"
+                });
+            }
+
+            return false;
         }
     })
 })();

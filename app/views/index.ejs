@@ -14,7 +14,10 @@
   }
   $(document).ready(function(){
     var message = "<%= typeof message != 'undefined' ? message : '' %>";
-    rupon.controllers.startIndexPage(message, getQueryVariable("beta-signup"));
+    rupon.controllers.startIndexPage(message, {
+      "beta-signup":    getQueryVariable("beta-signup"),
+      "password-reset": getQueryVariable("password-reset")
+    });
   })
 </script>
 <% include footer %>

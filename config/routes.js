@@ -34,6 +34,8 @@ module.exports = function(app) {
     app.post('/register-beta',                       user_routes.postRegBetaUser);
     app.post('/forgot',                              user_routes.postForgot);
     app.post('/reset',                               user_routes.postReset);
+    app.post('/check-email',                         user_routes.checkEmail);
+    app.post('/check-username',                      user_routes.checkUsername);
     app.get( '/twiml',                               thought_routes.getTwiml);
     app.get( '/superuser', auth.ensureAuthenticated, superuser_routes.get);
 
@@ -105,7 +107,6 @@ module.exports = function(app) {
         User
             .find({})
             .sort({'created_at': -1})
-            .limit(50)
             .exec(function(err, users) {
 
             var send_users = [];

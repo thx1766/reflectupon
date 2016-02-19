@@ -84,6 +84,12 @@ ul{margin:0;}
 .modal.login .message a{text-decoration:none;color:#636CDB}
 .modal.login #forgot-password{display:none;}
 
+.modal.login .status{
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #00AA27;
+}
+
 @media (min-width: 1200px) {
   .landing-page .container {
     width: 970px;
