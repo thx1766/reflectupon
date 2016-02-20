@@ -227,6 +227,12 @@ ul{margin:0;}
 .landing-page #level3 .popular-container .thought-row{
   width: 791px;
   margin: 0 auto;
+  opacity:0;
+  transition:opacity .5s;
+}
+
+.landing-page #level3 .popular-container .thought-row.shown{
+  opacity: 1;
 }
 .landing-page #level3 .popular-container .message-top{
   color: #fff;
@@ -234,6 +240,31 @@ ul{margin:0;}
 }
 .landing-page #level3 .selectable span.perm {
   padding: 4px 0;
+  transition: background-color .5s;
+  background-color: transparent;
+}
+.landing-page #level3 .selectable span.perm.shown{
+  background-color: #F6FFBA;
+}
+
+.landing-page #level3 .selectable span.perm.shown.pulse{
+  background-color: #F2FF68;
+}
+
+.landing-page #level3 .replies-list {
+  position: relative;
+}
+.landing-page #level3 .replies-list .reply-desc{
+  left: 50px;
+  opacity: 0;
+  transition: left .75s, opacity .75s;
+}
+.landing-page #level3 .replies-list .reply-desc.shown{
+  left: 0;
+  opacity: 1;
+}
+.landing-page #level3 .replies .reply-desc p.description{
+  height: auto;
 }
 .landing-page #level4 {
   background-color:#000000;

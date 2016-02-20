@@ -39,6 +39,40 @@ window.rupon.views = window.rupon.views || {};
                     $('.navbar').removeClass('scrolled');
                 }
 
+                if (scrollTop > 200) {
+                    $('#level3 .thought-row').addClass('shown');
+                }
+                if (scrollTop > 300 && !$("#perm1").hasClass('shown')) {
+                    $("#perm1").addClass('shown pulse');
+                    setTimeout(function() {
+                        $("#perm1").removeClass('pulse');
+                    }, 500)
+                }
+
+                if (scrollTop > 400 && !$("#perm2").hasClass('shown')) {
+                    $("#perm2").addClass('shown pulse');
+                    setTimeout(function() {
+                        $("#perm2").removeClass('pulse');
+                    }, 500)
+                }
+
+                if (scrollTop > 550 && !$("#perm3").hasClass('shown')) {
+                    $("#perm3").addClass('shown pulse');
+                    setTimeout(function() {
+                        $("#perm3").removeClass('pulse');
+                    }, 500)
+                }
+
+                if (scrollTop > 550) {
+                    $('#reply1').addClass('shown');
+                    setTimeout(function() {
+                        $('#reply2').addClass('shown');
+                        setTimeout(function() {
+                            $('#reply3').addClass('shown');
+                        }, 150)
+                    }, 150)
+                }
+
                 if (docWidth > 1200) {
                     scrollDict = {
                         top: {
@@ -81,6 +115,7 @@ window.rupon.views = window.rupon.views || {};
                     }
                 }
                 
+
 
                 if (scrollTop < scrollDict.top.upper) {
                     level = 3;
