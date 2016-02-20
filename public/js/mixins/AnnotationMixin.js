@@ -200,7 +200,7 @@ window.rupon.mixins = window.rupon.mixins || {};
         transformAnnotation: function(output, input) {
             if (input.end > output.end) {
                 return this.overlapLater(output, input);
-            } else if (input.end < output.end) {
+            } else if (input.end <= output.end) {
                 return this.overlapWithin(output, input);
             } else {
                 return output;
