@@ -208,15 +208,65 @@ ul{margin:0;}
   margin-left: 4px;
 }
 
+
 .landing-page #level3 {
   background-color:#008FBF;
-  color: #fff;
-}
-
+  padding: 0;
+  /*color: #fff;*/
+}/*
 .landing-page #level3 .description{
   width: 320px;
 }
+*/
+.landing-page #level3 .popular-container{
+  padding-top: 40px;
+  padding-bottom: 60px;
+  background-color: transparent;
+  margin: 0 10px;
+}
 
+.landing-page #level3 .popular-container .thought-row{
+  width: 791px;
+  margin: 0 auto;
+  opacity:0;
+  transition:opacity .5s;
+}
+
+.landing-page #level3 .popular-container .thought-row.shown{
+  opacity: 1;
+}
+.landing-page #level3 .popular-container .message-top{
+  color: #fff;
+  font-size: 16px;
+}
+.landing-page #level3 .selectable span.perm {
+  padding: 4px 0;
+  transition: background-color .5s;
+  background-color: transparent;
+}
+.landing-page #level3 .selectable span.perm.shown{
+  background-color: #F6FFBA;
+}
+
+.landing-page #level3 .selectable span.perm.shown.pulse{
+  background-color: #F2FF68;
+}
+
+.landing-page #level3 .replies-list {
+  position: relative;
+}
+.landing-page #level3 .replies-list .reply-desc{
+  left: 50px;
+  opacity: 0;
+  transition: left .75s, opacity .75s;
+}
+.landing-page #level3 .replies-list .reply-desc.shown{
+  left: 0;
+  opacity: 1;
+}
+.landing-page #level3 .replies .reply-desc p.description{
+  height: auto;
+}
 .landing-page #level4 {
   background-color:#000000;
   color: #fff;
@@ -270,12 +320,12 @@ ul{margin:0;}
   .landing-page #level1 {
     height: auto;
   }
-
+/*
   .landing-page #level3 .description {
     margin-top: 20px;
     width: 100%;
   }
-
+*/
   .landing-page #level4 .description {
     width: 100%;
     margin-bottom: 20px;
@@ -292,6 +342,26 @@ ul{margin:0;}
   }
 }
 
+@media (max-width: 939px) {
+
+  .landing-page #level3 li.reply-desc{
+    margin-left:0;
+  }
+  .landing-page #level3 .popular-container .thought-row {
+    width: 100%;
+  }
+  .landing-page #level3 .extended{
+    display:none;
+  }
+
+  .landing-page #level3 .popular-container .replies {
+    margin-right: 12px;
+  }
+  .landing-page #level3 .popular-container .replies .reply-desc {
+    width: 100%;
+  }
+}
+
 @media (max-width: 767px) {
   .landing-page #topbar-wrapper .navbar-brand {
     display: none;
@@ -299,7 +369,6 @@ ul{margin:0;}
   .landing-page #level5 .description {
     width: 100%;
   }
-
   .landing-page #level5 .description:first-child{
     margin-bottom: 20px;
   }
@@ -354,5 +423,9 @@ ul{margin:0;}
 
   .landing-page #level2 button {
     margin-left: 0;
+  }
+
+  .landing-page #level3 .extended-2{
+    display:none;
   }
 }

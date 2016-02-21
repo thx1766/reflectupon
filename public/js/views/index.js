@@ -39,6 +39,40 @@ window.rupon.views = window.rupon.views || {};
                     $('.navbar').removeClass('scrolled');
                 }
 
+                if (scrollTop > 200) {
+                    $('#level3 .thought-row').addClass('shown');
+                }
+                if (scrollTop > 300 && !$("#perm1").hasClass('shown')) {
+                    $("#perm1").addClass('shown pulse');
+                    setTimeout(function() {
+                        $("#perm1").removeClass('pulse');
+                    }, 500)
+                }
+
+                if (scrollTop > 400 && !$("#perm2").hasClass('shown')) {
+                    $("#perm2").addClass('shown pulse');
+                    setTimeout(function() {
+                        $("#perm2").removeClass('pulse');
+                    }, 500)
+                }
+
+                if (scrollTop > 550 && !$("#perm3").hasClass('shown')) {
+                    $("#perm3").addClass('shown pulse');
+                    setTimeout(function() {
+                        $("#perm3").removeClass('pulse');
+                    }, 800)
+                }
+
+                if (scrollTop > 450) {
+                    $('#reply1').addClass('shown');
+                    setTimeout(function() {
+                        $('#reply2').addClass('shown');
+                        setTimeout(function() {
+                            $('#reply3').addClass('shown');
+                        }, 150)
+                    }, 150)
+                }
+
                 if (docWidth > 1200) {
                     scrollDict = {
                         top: {
@@ -47,16 +81,16 @@ window.rupon.views = window.rupon.views || {};
                             second: 400
                         },
                         middle: {
-                            upper: 1400,
-                            lower: 775,
-                            third: 1200,
-                            second: 1000
+                            upper: 1800,
+                            lower: 0,
+                            third: 1500,
+                            second: 1300
                         },
                         bottom: {
-                            upper: 2400,
+                            upper: 2600,
                             lower: 1800,
-                            third: 2200,
-                            second: 2000
+                            third: 2400,
+                            second: 2200
                         }
                     }
                 } else /*if (docWidth < 500) */{
@@ -67,31 +101,32 @@ window.rupon.views = window.rupon.views || {};
                             second: 400
                         },
                         middle: {
-                            upper: 2000,
-                            lower: 1000,
-                            third: 1750,
-                            second: 1550
+                            upper: 2500,
+                            lower: 0,
+                            third: 2300,
+                            second: 2150
                         },
                         bottom: {
-                            upper: 3100,
-                            lower: 2000,
-                            third: 3000,
-                            second: 2750
+                            upper: 3800,
+                            lower: 2500,
+                            third: 3500,
+                            second: 3350
                         }
                     }
                 }
                 
 
-                if (scrollTop < scrollDict.top.upper) {
-                    level = 3;
-                    if (scrollTop > scrollDict.top.third) {
-                        pos = 4;
-                    } else if (scrollTop > scrollDict.top.second) {
-                        pos = 2;
-                    } else {
-                        pos = 0;
-                    }
-                }
+
+                // if (scrollTop < scrollDict.top.upper) {
+                //     level = 3;
+                //     if (scrollTop > scrollDict.top.third) {
+                //         pos = 4;
+                //     } else if (scrollTop > scrollDict.top.second) {
+                //         pos = 2;
+                //     } else {
+                //         pos = 0;
+                //     }
+                // }
 
                 if (scrollTop >= scrollDict.middle.lower && scrollTop < scrollDict.middle.upper) {
                     level = 4;

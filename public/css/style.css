@@ -201,6 +201,9 @@ ul.get-started .desc {
 .below-message ul{list-style:none;display:inline-block;margin-bottom:0;}
 .below-message span{display:inline-block;cursor:pointer;color:#A7A7A7;}
 
+.message-top {
+  padding-top: 4px;padding-bottom:4px;padding-left: 10px;color: #919191;margin-top: 8px;
+}
 .tags-container{
   color: #919191;
 }
@@ -479,7 +482,7 @@ ul.get-started .desc {
 .thought-row .dropdown li a{display:block}
 
 .selectable span.temp{border-bottom:2px dotted rgb(107, 107, 107);}
-.selectable span.perm, .overflow-description .highlight{background-color:#F9FFD1;border-radius:2px;padding:1px 0;transition:background-color .25s;-webkit-transition:background-color .25s;}
+.selectable span.perm, .overflow-description .highlight{background-color:#F6FFBA;border-radius:2px;padding:1px 0;transition:background-color .25s;-webkit-transition:background-color .25s;}
 .selectable span.perm:hover{background-color:#F2FF68}
 
 .thought-row a{text-decoration:none;font-family: helvetica neue;}
