@@ -53,7 +53,7 @@ window.rupon.views = window.rupon.views || {};
         },
         events: {
             "click .action":      "thankReply",
-            "click .make-public": "makePublic"
+            "click .reply-privacy": "changePrivacy"
         },
 
         render: function(options) {
@@ -62,8 +62,11 @@ window.rupon.views = window.rupon.views || {};
 
             var params = {
                 is_author: this.user && this.user.user_id == this.model.get('user_id'),
-                can_reply: this.user && !template_options.is_author,
-                is_public: this.model.get('privacy') == "AUTHOR_TO_PUBLIC"
+                can_reply: this.user && !template_options.is_author
+            }
+
+            if (typeof template_options.privacy == "undefined") {
+                template_options.privacy = "ANONYMOUS";
             }
 
             if (this.replyPos) {
@@ -81,11 +84,26 @@ window.rupon.views = window.rupon.views || {};
             this.trigger('thank-reply', attr);
         },
 
-        makePublic: function() {
-            var attr = _.clone(this.model.attributes);
-            this.trigger('make-reply-public', attr);
-            this.$el.find('.make-public').addClass('hidden');
-            this.$el.find('.public').removeClass('hidden');
+        changePrivacy: function() {
+            var privacy,
+                privacy_types = ["ANONYMOUS", "PUBLIC"];
+
+            if (typeof this.model.get('privacy') == "undefined") {
+                privacy = "PUBLIC";
+            } else {
+                switch (this.model.get('privacy')) {
+                    case "PUBLIC":
+                        privacy = "ANONYMOUS";
+                        break;
+                    case "ANONYMOUS":
+                        privacy = "PUBLIC";
+                        break;
+                }
+            }
+
+            this.model.save({
+                privacy: privacy
+            })
         }
 
     });

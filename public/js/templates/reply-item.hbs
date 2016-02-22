@@ -1,6 +1,42 @@
 <div>
     <div>
-        <p class="title"><strong>{{#if is_author}}You{{else}}Someone{{/if}} replied:</strong></p>
+        <div class="title-container clearfix">
+            <p class="title" style="float:left"><strong>
+                {{#if is_author}}
+                    {{#equal privacy "ANONYMOUS"}}
+                        <span style="color: #8F8F8F">Anonymous</span> <span style="color: #008FBF">(You)</span>
+                    {{/equal}}
+                    {{#equal privacy "PUBLIC"}}
+                        <span style="color: #008FBF">You</span>
+                    {{/equal}}
+                {{else}}
+                    {{#equal privacy "ANONYMOUS"}}
+                        <span style="color: #8F8F8F">Anonymous</span>
+                    {{/equal}}
+                    {{#equal privacy "PUBLIC"}}
+                        <span style="color: #008FBF">{{username}}</span>
+                    {{/equal}}
+                {{/if}}
+                replied:</strong>
+            </p>
+            {{#if is_author}}
+            <div class="dropdown-container arrow-right clearfix" style="float: right">
+                <a href="javascript:;" class="reply-options">
+                    <i class="fa fa-ellipsis-h fa-lg"></i>
+                </a>
+                <div class="dropdown-arrow clearfix">
+                    <div class="arrow">
+                    </div>
+                    <div class="dropdown">
+                        <ul>
+                            <li><a href="javascript:;" class="reply-privacy">Set as {{#equal privacy "ANONYMOUS"}}Public{{/equal}}{{#equal privacy "PUBLIC"}}Anonymous{{/equal}}</a></li>
+                            {{#if can_edit }}<li><a href="javascript:;" class="edit">Edit</a></li>{{/if}}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {{/if}}
+        </div>
         <p class="description">{{ description }}</p>
     </div>
     <div>{{!-- 

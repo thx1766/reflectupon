@@ -110,21 +110,33 @@ exports.getPublicThoughts = function(params, callback, options) {
 
                     thought.replies = exports.removeRejectedReplies(thought.replies);
 
-                    exports.getAnnotationsForThought(thought, null, function(annotations) {
-                        thought.annotations = annotations;
+                    async.mapSeries(thought.replies, function(reply, callback2) {
 
-                        exports.getUserIfPublic(thought, function(user) {
-                            thought.username = user.username;
+                        exports.getUserIfPublic(reply, function(user) {
+                            reply.username = user.username;
+                        }, function() {
+                            callback2(err, reply);
+                        })
 
-                        },function() {
+                    }, function(err, replies_results) {
 
-                            exports.getTopicsByIds(thought.tag_ids, function(topics) {
-                                thought.tag_ids = topics;
-                                callback(err, thought);
-                            })
-                        });
+                        thought.replies = replies_results;
+                        exports.getAnnotationsForThought(thought, null, function(annotations) {
+                            thought.annotations = annotations;
 
-                    })
+                            exports.getUserIfPublic(thought, function(user) {
+                                thought.username = user.username;
+
+                            },function() {
+
+                                exports.getTopicsByIds(thought.tag_ids, function(topics) {
+                                    thought.tag_ids = topics;
+                                    callback(err, thought);
+                                })
+                            });
+
+                        })
+                    });
                 },
                 function(err, results) {
                     if (err) console.log(err);
@@ -147,9 +159,9 @@ exports.removeRejectedReplies = function(replies) {
     });
 }
 
-exports.getUserIfPublic = function(thought, action, callback) {
-    if (thought.privacy == "PUBLIC") {
-        User.findById(thought.user_id, function(err, user) {
+exports.getUserIfPublic = function(item, action, callback) {
+    if (item.privacy == "PUBLIC") {
+        User.findById(item.user_id, function(err, user) {
             action(user);
             callback();
         });

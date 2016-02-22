@@ -3,6 +3,15 @@
     <div class="write-field">
         <textarea class="write-reply-textarea" placeholder="Write your reply" style="resize: none;"></textarea>
     </div>
+    <div class="privacy-state clearfix">
+        <div style="float:left;">
+          Reply as <span id="show-username">{{username}}</span><span id="show-anon" style="display:none">Anonymous</span>
+        </div>
+        <div style="float:right;">
+            <input type="checkbox" id="write-anon">
+            <label for="write-anon">Write anonymously</label>
+        </div>
+    </div>
     <div class="submit-footer clearfix">
         <input id="enter-submit" type="checkbox" checked="checked">
         <label for="enter-submit">Pressing <strong>Enter</strong> submits</label>

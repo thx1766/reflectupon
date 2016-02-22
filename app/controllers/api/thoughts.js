@@ -383,6 +383,7 @@ exports.postReply = function(req, res) {
         description:    req.body.description,
         thought_id:     req.body.thought_id,
         user_id:        req.user._id,
+        privacy:        req.body.privacy,
         date:           new Date()
     });
 

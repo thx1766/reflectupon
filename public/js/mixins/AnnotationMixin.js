@@ -12,7 +12,8 @@ window.rupon.mixins = window.rupon.mixins || {};
             'click .reply-popover .fa-times': 'removePopover',
             'selectstart .selectable':        'takeAnnotation',
             'click #submit-reply':            'submitReply',
-            'keypress .write-reply-textarea': 'attemptSubmitReply'
+            'keypress .write-reply-textarea': 'attemptSubmitReply',
+            'change #write-anon':             'toggleName'
         },
 
         annotation_mode: false,
@@ -41,7 +42,7 @@ window.rupon.mixins = window.rupon.mixins || {};
                 selectable_field.html(this.showTempText(true, selectable_text, this.selected_text));
 
                 $('.temp').popover({
-                    content: Handlebars.templates['popover']
+                    content: Handlebars.templates['popover']({username: window.rupon.account_info.username})
                 });
                 $('.temp').popover('show');
 
@@ -74,19 +75,21 @@ window.rupon.mixins = window.rupon.mixins || {};
 
         submitReply: function(e) {
 
-            var description, newAnnotation, attr, annotations, replies, hasAnnotation;
+            var description, newAnnotation, attr, annotations, replies, hasAnnotation,
+                writeReplyEle = $(e.currentTarget).closest('.write-reply-container');
 
-            description = $(e.currentTarget).closest('.write-reply-container').find('textarea').val()
+            description = writeReplyEle.find('textarea').val()
 
             if ($.trim(description) != "") {
 
                 attr = {
                     user_id:     this.user.user_id,
                     description: description,
-                    thought_id:  this.model.get('_id')
+                    thought_id:  this.model.get('_id'),
+                    privacy:     writeReplyEle.find("#write-anon").prop("checked") ? "ANONYMOUS" : "PUBLIC"
                 };
 
-                hasAnnotation = $(e.currentTarget).closest('.write-reply-container').hasClass('reply-popover')
+                hasAnnotation = writeReplyEle.hasClass('reply-popover')
                 if (hasAnnotation && this.selected_start >= 0 && this.selected_end && this.selected_text) {
                     newAnnotation = {
                         start: this.selected_start,
@@ -124,6 +127,11 @@ window.rupon.mixins = window.rupon.mixins || {};
                 });
             }
 
+        },
+
+        toggleName: function() {
+            $("#show-username").toggle();
+            $("#show-anon").toggle();
         },
 
         showTempText: function(showTempText, textBeforeEdit, selectedText) {

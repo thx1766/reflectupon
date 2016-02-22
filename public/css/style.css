@@ -247,6 +247,10 @@ ul.get-started .desc {
 .write-reply-box .submit-footer{
     padding:10px;
 }
+
+.write-reply-box .privacy-state{
+    padding: 0 10px;
+}
 .date-view {
   box-shadow: 0 0px 2px #d6d6d6;
 }
@@ -462,6 +466,7 @@ ul.get-started .desc {
 
 .replies .reply-desc p.title {
   margin-bottom: 0;
+  font-family: 'Merriweather';
 }
 
 .replies .reply-desc p.description {
@@ -522,6 +527,12 @@ ul.get-started .desc {
   max-width:416px;
   width: 100%;
   z-index:10;
+}
+
+.privacy-state {
+  font-family: arial;
+  border-bottom: 1px solid #ccc;
+  margin-top: 4px;
 }
 
 .submit-footer {
@@ -822,4 +833,9 @@ div.jquery-gdakram-tooltip h1{display:none}
   background-color: #fff;
   border: 0;
   box-shadow:0 0 2px #428bca;
+}
+
+.popular-container .replies .reply-desc .reply-options {
+  padding-top: 4px;
+  color: #428bca;
 }
