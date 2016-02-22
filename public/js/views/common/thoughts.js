@@ -211,7 +211,8 @@ window.rupon.views = window.rupon.views || {};
             this.replyCollectionContainer = new rv.RepliesView({
                 collection: this.replyCollection,
                 user:       this.user,
-                replyDict:  replyDict
+                replyDict:  replyDict,
+                thoughtUserId: this.model.get('user_id')
             });
             this.addChild(this.replyCollectionContainer, ".replies");
         },

@@ -48,6 +48,7 @@ window.rupon.views = window.rupon.views || {};
             this.listenTo(this.model, "change", this.render);
             this.user     = options.user;
             this.replyPos = options.replyDict[this.model.id];
+            this.thoughtUserId = options.thoughtUserId;
 
             cv.TemplateView.prototype.initialize.call(this, options);
         },
@@ -58,11 +59,13 @@ window.rupon.views = window.rupon.views || {};
 
         render: function(options) {
 
-            var template_options = _.clone(this.model.attributes);
+            var template_options = _.clone(this.model.attributes),
+                isEntryAuthor = this.user && this.user.user_id == this.thoughtUserId,
+                isAuthor =      this.user && this.user.user_id == this.model.get('user_id');
 
             var params = {
-                is_author: this.user && this.user.user_id == this.model.get('user_id'),
-                can_reply: this.user && !template_options.is_author
+                is_author: isAuthor,
+                can_thank: isEntryAuthor && !isAuthor
             }
 
             if (typeof template_options.privacy == "undefined") {
@@ -80,8 +83,9 @@ window.rupon.views = window.rupon.views || {};
         },
 
         thankReply: function() {
-            var attr = _.clone(this.model.attributes);
-            this.trigger('thank-reply', attr);
+            this.model.save({
+                thanked: true
+            })
         },
 
         changePrivacy: function() {

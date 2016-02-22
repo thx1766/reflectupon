@@ -39,27 +39,21 @@
         </div>
         <p class="description">{{ description }}</p>
     </div>
-    <div>{{!-- 
-    {{#if thanked}}
-        {{#if is_author}}
-            <span>You were thanked!</span>
+    {{#if can_thank}}
+    <div>
+        {{#unless thanked}}
+        <a href="javascript:;" class="action">
+            <span>Thank for reply</span>
+        </a>
         {{else}}
-            <a href="javascript:;" class="action">
-                <i class="fa fa-heart"></i>
-            </a>
-        {{/if}}
-    {{else}}
-        {{#if can_reply}}
-            <a href="javascript:;" class="action">
-                <span>Thank replier</span>
-                <i class="fa fa-heart-o"></i>
-            </a>
+        <span>Thanked!</span>
+        {{/unless}}
+    </div>
+    {{/if}}
+    {{#if is_author}}
+        {{#if thanked}}
+        <div>
+            <span>You were thanked!</span>
+        </div>
         {{/if}}
     {{/if}}
-    <a href="javascript:;" class="make-public {{#if is_public}}hidden{{/if}}">
-        Make Public
-    </a>
-    <span class="public {{#unless is_public}}hidden{{/unless}}">
-        Public
-    </span> --}}
-    </div>
