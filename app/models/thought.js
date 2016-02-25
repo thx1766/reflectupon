@@ -18,7 +18,10 @@ var thoughtSchema = Schema({
     feature:        Boolean,
     recommended:    [{
         type: Schema.Types.ObjectId,
-        ref: 'Thought' }]
+        ref: 'Thought' }],
+    prompt:         [{
+        type: Schema.Types.ObjectId,
+        ref: 'Prompt' }]
 });
 
 thoughtSchema.statics.random = function(user,cb) {

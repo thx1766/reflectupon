@@ -49,7 +49,8 @@ exports.home = function(req, res, dates) {
                             landing_page: false,
                             is_admin:     req.user.email == 'andrewjcasal@gmail.com' || req.user.email == 'stranovich@gmail.com',
                             frequency:    JSON.stringify(frequency),
-                            popular:      JSON.stringify(popular_thoughts)
+                            popular:      JSON.stringify(popular_thoughts),
+                            prompt:       "fsdlkfjlj"
                         });
                     });
 

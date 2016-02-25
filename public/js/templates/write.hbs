@@ -15,6 +15,14 @@
         </div>
     </div>
 </div>
+<div class="journal-prompt">
+    <div class="header">
+        Monday's Prompt of the Day
+    </div>
+    <div class="description">
+        {{prompt}}
+    </div>
+</div>
 <div class="section">
 <div class="header clearfix">
     Today's Entry
@@ -39,6 +47,12 @@
         <input class='add-link hidden' placeholder="Given a URL you include here... (add 'http')" />
     </div>
     <div class="tags-container"></div>
-    <button type="button" class="btn btn-primary create">Create entry</button>
+    <div class="submit-options">
+        <div class="prompt-input">
+            <input type="checkbox" id="using-prompt"/>
+            <label for="using-prompt">Using Today's Prompt</label>
+        </div>
+        <button type="button" class="btn btn-primary create">Create entry</button>
+    </div>
 </div>
 </div>

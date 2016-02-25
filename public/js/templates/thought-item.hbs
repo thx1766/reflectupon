@@ -5,6 +5,11 @@
         Topics: <ul>{{#each tag_ids}}<li>{{this}}</li> {{/each}}</ul>
     </div>
     {{/if}}
+    {{#if prompt}}
+    <div style="color:#00AA27">
+        Answering the prompt <strong>{{prompt}}</strong>
+    </div>
+    {{/if}}
 </div>
 <div class="side-action-container">
     {{#if show_replies}}

@@ -22,7 +22,7 @@ window.rupon.views = window.rupon.views || {};
 
             this.$el.html(this.template());
 
-            var nav_types = ['actives', 'featured', 'tags', 'users', 'vet', 'vet-replies'];
+            var nav_types = ['actives', 'featured', 'tags', 'users', 'vet', 'vet-replies', 'prompts'];
 
             var leftView = new rv.SuperUserLeftView({nav_types: nav_types});
             this.addChild(leftView, '.left-container');
@@ -51,7 +51,8 @@ window.rupon.views = window.rupon.views || {};
                 'users':   ['UsersView', 'user_collection'],
                 'vet':     ['SuperUserThoughtsView', 'other_thoughts_collection'],
                 'vet-replies': ['SuperUserRepliesView', 'other_replies_collection'],
-                'featured':['SuperUserThoughtsView', 'featured_collection']
+                'featured':['SuperUserThoughtsView', 'featured_collection'],
+                'prompts': ['SuperUserPromptsView', 'prompts_collection']
             };
 
             this.superUserRight = new rv[types[type][0]]({
@@ -313,5 +314,37 @@ window.rupon.views = window.rupon.views || {};
         deleteReply: function() {
             this.model.destroy();
         },
+    });
+
+    rv.SuperUserPromptsView = cv.CollectionContainer.extend({
+        tagName: 'ul',
+        className: 'prompts-view',
+        template: Handlebars.templates["super-user-prompts"],
+
+        initialize: function() {
+            cv.CollectionContainer.prototype.initialize.call(this, function(model) {
+                return new rv.SuperUserPromptView({model: model})
+            })
+        },
+
+        events: {
+            'click .add-prompt': 'clickAddPrompt'
+        },
+
+        clickAddPrompt: function() {
+            var prompt = this.$el.find('textarea').val();
+
+            this.collection.create({
+                description: prompt
+            });
+
+            this.$el.find('textarea').val("");
+        }
+    });
+
+    rv.SuperUserPromptView = cv.SimpleModelView.extend({
+        tagName: 'li',
+        className: 'prompt-view',
+        template: Handlebars.templates['super-user-prompt'],
     });
 })();

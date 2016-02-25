@@ -11,13 +11,15 @@ var mongoose        = require('mongoose')
   , replies          = require('../app/controllers/api/replies')
   , reports          = require('../app/controllers/api/reports')
   , superuser        = require('../app/controllers/api/superuser')
+  , prompts          = require('../app/controllers/api/prompts')
 
 var Thought     = mongoose.model('Thought'),
     Reply       = mongoose.model('Reply'),
     Annotation  = mongoose.model('Annotation'),
     User        = mongoose.model('User'),
     userMessage = mongoose.model('UserMessage'),
-    Topic       = mongoose.model('Topic');
+    Topic       = mongoose.model('Topic'),
+    Prompt      = mongoose.model('Prompt');
 
 module.exports = function(app) {
 
@@ -220,6 +222,10 @@ module.exports = function(app) {
     });
 
     app.get('/api/reply', auth.ensureAuthenticated, replies.get);
+
+    app.post('/api/prompts',   prompts.post);
+    app.get('/api/prompts',    prompts.get);
+    app.delete('/api/prompts', prompts.delete);
 
     app.delete('/api/reply/:id', replies.delete);
 

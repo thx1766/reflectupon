@@ -11,7 +11,7 @@ window.rupon.utils = window.rupon.utils || {};
 
         dayModelIndex;
 
-    rc.setAllThoughts = function(frequency, popular) {
+    rc.setAllThoughts = function(frequency, popular, prompt) {
 
         var getStartedView;
 
@@ -26,7 +26,8 @@ window.rupon.utils = window.rupon.utils || {};
             tags_collection:      tags_collection,
             frequency_collection: frequency_collection,
             reply_collection:     rm.replyCollection,
-            user:                 rupon.account_info
+            user:                 rupon.account_info,
+            prompt:               prompt
         });
 
         writeToThoughtsView
@@ -126,14 +127,6 @@ window.rupon.utils = window.rupon.utils || {};
                     .find(".message-container").html(nagView.$el);
             }
         })
-
-        my_thoughts_collection.fetch({
-            reset: true, 
-            data: {
-                "stream_type":   "my-thoughts",
-                "reply_privacy": "AUTHOR_TO_PUBLIC"
-            }
-        });
 
         tags_collection.fetch();
 

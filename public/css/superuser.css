@@ -105,3 +105,9 @@
 .vet-reply-view .options .date {
   margin-right:10px;
 }
+
+.prompt-view {
+  background-color: #fff;
+  padding: 20px;
+  list-style: none;
+}
