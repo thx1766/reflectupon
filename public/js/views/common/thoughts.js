@@ -28,7 +28,7 @@ window.rupon.views = window.rupon.views || {};
 
         events: {
             'click .read-more':               'showSingle',
-            'click .privacy-status':          'changePrivacy',
+            'click .private-only':            'changePrivacy',
             'click .edit':                    'editThought',
             'click .delete':                  'deleteThought',
             'click .archive':                 'archiveThought',
@@ -65,20 +65,6 @@ window.rupon.views = window.rupon.views || {};
                 wait: true,
                 patch: true
             };
-
-            // this.replyCollectionContainer
-            //     .on('thank-reply', function(attr) {
-            //         var reply = self.replyCollection.findWhere(attr);
-            //         reply.save({
-            //             'thanked': !reply.get('thanked')
-            //         }, patch_options);
-            //     })
-            //     .on('make-reply-public', function(attr) {
-            //         var reply = self.replyCollection.findWhere(attr);
-            //         reply.save({
-            //             'privacy': 'AUTHOR_TO_PUBLIC'
-            //         }, patch_options);
-            //     })
 
         },
 
@@ -243,15 +229,7 @@ window.rupon.views = window.rupon.views || {};
 
         changePrivacy: function() {
 
-            var model_privacy = this.model.get("privacy");
-
-            if (privacy[0] == model_privacy) {
-                model_privacy = privacy[1];
-            } else if(privacy[1] == model_privacy) {
-                model_privacy = privacy[0];
-            }
-
-            this.trigger("change-privacy", model_privacy, this.model);
+            this.trigger("change-privacy", "PRIVATE", this.model);
         },
 
         editThought: function() {
