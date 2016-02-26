@@ -77,7 +77,8 @@ window.rupon.views = window.rupon.views || {};
 
             var view = new rv.WriteView({
                 tags_collection: tags_collection,
-                entry_date:      moment().format("MMM DD")
+                entry_date:      moment().format("MMM DD"),
+                prompt:          this.options.prompt
             });
 
             var self = this;

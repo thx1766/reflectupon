@@ -190,6 +190,11 @@ window.rupon.models = window.rupon.models || {};
     rm.reportsCollection = Backbone.Collection.extend({
         model: rm.report,
         url:   '/api/reports'
+    });
+
+    rm.prompt = Backbone.Model.extend({});
+    rm.promptsCollection = Backbone.Collection.extend({
+        url: '/api/prompts'
     })
 
 })();

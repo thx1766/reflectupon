@@ -101,12 +101,14 @@ exports.getPublicThoughts = function(params, callback, options) {
         .sort({date: -1})
         .limit(limit)
         .populate('replies')
+        .populate('prompt')
         .exec(function(err, thoughts) {
 
             async.mapSeries(
                 thoughts, function(thought, callback) {
 
                     thought = thought.toObject();
+                    console.log(thought.prompt);
 
                     thought.replies = exports.removeRejectedReplies(thought.replies);
 

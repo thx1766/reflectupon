@@ -6,7 +6,8 @@ var mongoose   = require('mongoose')
   , User       = mongoose.model('User')
   , helpers    = require('../../helpers')
   , emails     = require('../../utils/emails')
-  , _          = require('underscore');
+  , _          = require('underscore')
+  , prompts    = require('./prompts');
 
 exports.get = function(req, res) {
     var params = {}, params2 = {}, array1 = null,
@@ -40,147 +41,6 @@ exports.get = function(req, res) {
     if (req.user) {
 
         switch (stream_type) {
-            case "my-thoughts":
-
-                if (per_page == 0) {
-                    res.links({
-                        next: '/api/thought/?stream_type='+stream_type+'&page='+(Number(page)+1)+'&per_page=15&sort=updated&direction=desc'
-                    });
-                    res.send([])
-                }
-
-                params = {
-                    user_id: req.user._id
-                };
-
-                params1 = {
-                    privacy: "ANONYMOUS",
-                    user_id: { $ne: req.user._id }
-                };
-
-                if (per_page == 15) {
-                    limit1 = 15;
-                    limit2 = 1;
-                }
-
-                date_sort = {date: -1};
-                populate = {
-                    path: 'replies',
-                    match: { user_id: req.user._id }
-                };
-
-                async.parallel([
-
-                    function(cb) {
-                        if (params.user_id) {
-                            Thought.find( params )
-                                .populate('replies')
-                                .limit(limit1)
-                                .skip(limit1 * (page - 1))
-                                .sort(date_sort)
-                                .exec(cb)
-                        }
-                    },
-
-                    function(cb) {
-                        Thought.find( params1 )
-                            .populate(populate)
-                            .limit(limit2)
-                            .skip(limit2 * (page - 1))
-                            .sort(date_sort)
-                            .exec(cb)
-                    }
-                    
-                ], function(err, results) {
-
-                    var thoughts = results[0]
-
-                    function compare(a,b) {
-                        if (a.date < b.date) return 1;
-                        if (a.date > b.date) return -1;
-                        return 0;
-                    }
-
-                    if (err) console.log(err);
-
-                    var options = {
-                        path: 'replies.annotations',
-                        model: 'Annotation'
-                    }
-
-                    // Get annotations for all thoughts being outputted
-                    Thought.populate(thoughts, options, function(err, thoughts2) {
-
-                        Thought.find( params).count().exec(function(err, count) {
-
-                            if (err) console.log(err);
-
-                            var send_thoughts = [];
-
-                            async.each(thoughts2, function(thought, callback) {
-
-                                var send_thought = thought.toObject();
-                                if (req.user._id != send_thought.user_id) {
-
-                                    var params = {
-                                        user_id: send_thought.user_id,
-                                        privacy: "ANONYMOUS"
-                                    };
-
-                                    Thought.find(params)
-                                        .populate('replies').exec(function(err, related) {
-
-                                        send_thought.history = [];
-
-                                        _.each(related, function(thought) {
-                                            if (thought.replies && thought.replies.length) {
-                                                _.each(thought.replies, function(reply) {
-                                                    if (reply.user_id == req.user._id) {
-
-                                                        send_thought.history.push(thought);
-                                                    }
-                                                })
-                                            }
-                                        })
-
-                                        send_thoughts.push(send_thought);
-                                        callback();
-                                    })
-
-                                } else {
-
-                                    send_thoughts.push(send_thought);
-                                    callback();
-
-                                }
-
-
-                            }, function(err) {
-
-                                if ((per_page * page) < count) { 
-                                    res.links({
-                                        next: '/api/thought/?stream_type='+stream_type+'&page='+(Number(page)+1)+'&per_page=15&sort=updated&direction=desc'
-                                    });
-                                }
-
-                                if (thoughts) {
-                                    if (thoughts.length == 1) {
-                                        res.send(send_thoughts[0])
-                                    } else {
-
-                                        send_thoughts = send_thoughts.sort(compare);
-                                        res.send(send_thoughts);
-                                    }
-                                }
-
-                            });
-
-                        })
-                    })
-
-                });
-
-                break;
             case "other-thoughts":
                 helpers.getPublicThoughts(params, function(thoughts) {
                     res.send(thoughts);
@@ -298,40 +158,53 @@ exports.post = function(req, res) {
 
     getRecommended(req.user._id, function(recommended) {
 
-        var thought = new Thought({
-            title:          req.body.title,
-            description:    req.body.description,
-            expression:     req.body.expression,
-            annotation:     req.body.annotation,
-            privacy:        req.body.privacy,
-            user_id:        req.user._id,
-            link:           req.body.link,
-            tag_ids:        req.body.tag_ids,
-            date:           req.body.date,
-            recommended:    recommended
-        });
+        var prompt_id = "";
+        if (typeof req.body.prompt_id != "undefined") {
+            prompt_id = req.body.prompt_id;
+        }
+        prompts.getPromptsById(prompt_id, function(prompt) {
 
-        thought.save(function(err) {
+            var thoughtAttr = {
+                title:          req.body.title,
+                description:    req.body.description,
+                expression:     req.body.expression,
+                annotation:     req.body.annotation,
+                privacy:        req.body.privacy,
+                user_id:        req.user._id,
+                link:           req.body.link,
+                tag_ids:        req.body.tag_ids,
+                date:           req.body.date,
+                recommended:    recommended
+            }
 
-            if (err) console.log(err);
+            if (prompt) {
+                thoughtAttr.prompt = prompt;
+            }
 
-            Thought.populate(thought, {path:"recommended"}, function(err,thought) {
+            var thought = new Thought(thoughtAttr);
 
-                populateRepliesForThought(thought.recommended, req.user._id, function(recommended) {
+            thought.save(function(err) {
 
-                    thought.recommended = recommended;
-                    thought = thought.toObject();
+                if (err) console.log(err);
 
-                    if (thought.recommended && thought.recommended[0]) {
-                        helpers.getAnnotationsForThought(thought.recommended[0], req.user._id, function(annotations)  {
-                            thought.recommended[0].annotations = annotations;
-                            res.send(thought);
-                        });
-                    }
+                Thought.populate(thought, {path:"recommended"}, function(err,thought) {
 
+                    populateRepliesForThought(thought.recommended, req.user._id, function(recommended) {
+
+                        thought.recommended = recommended;
+                        thought = thought.toObject();
+
+                        if (thought.recommended && thought.recommended[0]) {
+                            helpers.getAnnotationsForThought(thought.recommended[0], req.user._id, function(annotations)  {
+                                thought.recommended[0].annotations = annotations;
+                                res.send(thought);
+                            });
+                        }
+
+                    })
                 })
-            })
 
+            });
         });
 
     });

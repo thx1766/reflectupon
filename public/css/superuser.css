@@ -105,3 +105,18 @@
 .vet-reply-view .options .date {
   margin-right:10px;
 }
+
+.prompt-view {
+  background-color: #fff;
+  padding: 10px;
+  list-style: none;
+}
+
+.prompt-view .description {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 4px;
+}
+
+.prompt-view .actions{
+  padding-top: 4px;
+}

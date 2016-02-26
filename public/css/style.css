@@ -189,7 +189,7 @@ ul.get-started .desc {
 .thought-row .message.reply-summary-activated{min-height:400px;}
 .show-replies.thought-row .message{float:left;}
 
-.thought-row .highlight-reply{opacity:0;transition: opacity .5s;color:#00AA27;}
+.thought-row .highlight-reply{opacity:0;transition: opacity .5s;}
 .popular-container .thought-row:hover .highlight-reply{opacity:1;}
 .date-view .header{position:relative;font-size: 15px;font-family: 'Helvetica Neue';font-weight: 200;border-bottom: 1px solid #F5F5F5;margin-bottom: 14px;min-height:36px;padding:10px 0;}
 .date-view .section{background-color:#fff;border-radius:3px;padding:10px 20px 25px;color:#626262;line-height: 24px;position: relative;box-shadow:0 1px 2px #d6d6d6;min-height: 400px;}
@@ -377,14 +377,20 @@ ul.get-started .desc {
   border-radius:inherit;
 }
 .write-view .footer .options{float: left;}
-.write-view .footer .anon-input{
+.write-view .footer .submit-options{float:right;}
+.write-view .footer .anon-input,
+.write-view .footer .prompt-input
+{
   display: inline-block;
   margin-top: 6px;
   margin-right: 10px;
 }
-.write-view .footer .anon-input input{vertical-align:1px;margin-right:6px;}
+.write-view .footer .anon-input input,
+.write-view .footer .prompt-input input{vertical-align:1px;margin-right:6px;}
 
-.write-view .footer .anon-input label, .write-view .footer .anon-input input {
+.write-view .footer .anon-input label, .write-view .footer .anon-input input,
+.write-view .footer .prompt-input label,
+.write-view .footer .prompt-input input{
   cursor:pointer;
   font-weight: normal;
 }
@@ -417,6 +423,28 @@ ul.get-started .desc {
   font-size: 16px;
   background-color: #fff;
   box-shadow:0 2px 3px rgba(0, 130, 174, 0.31);}
+.write-view .journal-prompt {
+  background-color: #fff;
+  margin-bottom: 15px;
+  transition: margin-bottom .3s;
+}
+.write-view .journal-prompt.selected{
+  background-color: #FFF0F0;
+  margin-bottom:0;
+}
+.write-view .journal-prompt .header{
+  padding: 12px;
+  text-align: center;
+  font-size: 18px;
+  color: #444;
+  background-color:transparent;
+  border-bottom: 1px solid #ccc;
+}
+.write-view .journal-prompt .description{
+  padding: 24px 14px;
+  font-size: 16px;
+  text-align: center;
+}
 .write-view .header{
   border-bottom: 1px solid #00AA27;
   padding: 12px 12px;

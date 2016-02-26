@@ -6,6 +6,7 @@ var config          = process.env.PORT ? require('../../config') : require('../.
     forgot          = require('../../forgot'),
     fs              = require('fs'),
     helpers         = require('../helpers'),
+    prompts         = require('./api/prompts')
     sendgrid        = require('sendgrid')(
         config.sg_username,
         config.sg_password
@@ -41,16 +42,31 @@ exports.home = function(req, res, dates) {
                 dates.get(is_mobile, user_id, function(frequency) {
 
                     helpers.getPublicThoughts({}, function(popular_thoughts) {
-                        res.render('home', {
-                            user:         req.user,
-                            topBar:       true,
-                            signout:      true,
-                            thoughts:     thoughts,
-                            landing_page: false,
-                            is_admin:     req.user.email == 'andrewjcasal@gmail.com' || req.user.email == 'stranovich@gmail.com',
-                            frequency:    JSON.stringify(frequency),
-                            popular:      JSON.stringify(popular_thoughts)
-                        });
+
+                        var promptsParams = {
+                            eligible: moment().isoWeekday()
+                        }
+                        prompts.getPrompts(promptsParams, function(prompts) {
+
+                            var attr = {
+                                user:         req.user,
+                                topBar:       true,
+                                signout:      true,
+                                thoughts:     thoughts,
+                                landing_page: false,
+                                is_admin:     req.user.email == 'andrewjcasal@gmail.com' || req.user.email == 'stranovich@gmail.com',
+                                frequency:    JSON.stringify(frequency),
+                                popular:      JSON.stringify(popular_thoughts)
+                            };
+
+                            if (prompts.length) {
+                                attr.prompt = JSON.stringify({
+                                    id: prompts[0].id,
+                                    description: prompts[0].description
+                                })
+                            }
+                            res.render('home', attr);
+                        })
                     });
 
                 });

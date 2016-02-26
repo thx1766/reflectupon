@@ -32,17 +32,16 @@ window.rupon.utils = window.rupon.utils || {};
             popular = options.popular;
         }
 
+        if (options && options.prompt) {
+            prompt = options.prompt;
+        }
+
         rupon.account_info         = rupon.account_info || {};
         rupon.account_info.user_id = options.user_id;
         rupon.account_info.email   = options.email;
         rupon.account_info.username = options.username;
 
-        my_thoughts_collection    = new rupon.models.thoughtCollection([],{type: "my-posts"});
-        other_thoughts_collection = new rupon.models.thoughtCollection([],{type: "other-posts"});
-
-        rc.setAllThoughts(frequency, popular);
-
-        other_thoughts_collection.fetch({reset: true, data: {"stream_type": "other-thoughts"}});
+        rc.setAllThoughts(frequency, popular, prompt);
 
     };
 
