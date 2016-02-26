@@ -98,9 +98,9 @@ window.rupon.utils = window.rupon.utils || {};
             var scrollTop = $(document).scrollTop(),
                 guidelinesEl = $('.guidelines');
 
-            if (scrollTop > 460 && !guidelinesEl.hasClass('fixed')) {
+            if (scrollTop > 678 && !guidelinesEl.hasClass('fixed')) {
                 guidelinesEl.addClass('fixed');
-            } else if(scrollTop <= 460 && guidelinesEl.hasClass('fixed')) {
+            } else if(scrollTop <= 678 && guidelinesEl.hasClass('fixed')) {
                 guidelinesEl.removeClass('fixed');
             }
         })
