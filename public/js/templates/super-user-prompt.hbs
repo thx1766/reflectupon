@@ -1,1 +1,20 @@
-{{description}}
+<div class="description">{{description}}</div>
+<div class="actions">
+  <select>
+    <option value="1" 
+      {{#equal eligible "0"}}selected="selected"{{/equal}}>Sunday</option>
+    <option value="1" 
+      {{#equal eligible "1"}}selected="selected"{{/equal}}>Monday</option>
+    <option value="2" 
+      {{#equal eligible "2"}}selected="selected"{{/equal}}>Tuesday</option>
+    <option value="3" 
+      {{#equal eligible "3"}}selected="selected"{{/equal}}>Wednesday</option>
+    <option value="4" 
+      {{#equal eligible "4"}}selected="selected"{{/equal}}>Thursday</option>
+    <option value="5" 
+      {{#equal eligible "5"}}selected="selected"{{/equal}}>Friday</option>
+    <option value="1" 
+      {{#equal eligible "6"}}selected="selected"{{/equal}}>Saturday</option>
+  </select>
+  <a href="#" class="delete">Delete</a>
+</div>

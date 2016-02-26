@@ -223,9 +223,10 @@ module.exports = function(app) {
 
     app.get('/api/reply', auth.ensureAuthenticated, replies.get);
 
-    app.post('/api/prompts',   prompts.post);
-    app.get('/api/prompts',    prompts.get);
-    app.delete('/api/prompts', prompts.delete);
+    app.post('/api/prompts',       prompts.post);
+    app.get('/api/prompts',        prompts.get);
+    app.put('/api/prompts/:id',    prompts.put);
+    app.delete('/api/prompts/:id', prompts.delete);
 
     app.delete('/api/reply/:id', replies.delete);
 

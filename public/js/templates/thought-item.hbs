@@ -7,7 +7,7 @@
     {{/if}}
     {{#if prompt}}
     <div style="color:#00AA27">
-        Answering the prompt <strong>{{prompt}}</strong>
+        Answering the prompt {{#each prompt}}<strong>{{description}}</strong>{{/each}}
     </div>
     {{/if}}
 </div>

@@ -15,14 +15,16 @@
         </div>
     </div>
 </div>
+{{#if prompt}}
 <div class="journal-prompt">
     <div class="header">
-        Monday's Prompt of the Day
+        {{day}}'s Prompt of the Day
     </div>
-    <div class="description">
-        {{prompt}}
+    <div class="description" id="{{prompt.id}}">
+            {{prompt.description}}
     </div>
 </div>
+{{/if}}
 <div class="section">
 <div class="header clearfix">
     Today's Entry

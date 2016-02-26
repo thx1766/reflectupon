@@ -22,6 +22,7 @@ window.rupon.views = window.rupon.views || {};
         },
 
         render: function(options) {
+            options.day = moment().format("dddd");
             cv.TemplateView.prototype.render.call(this, options);
             //this.$el.find('textarea').autosize();
 
@@ -94,6 +95,8 @@ window.rupon.views = window.rupon.views || {};
                 var date = new Date();
                 // date.setDate(date.getDate()-(5));
 
+                var prompt_id = $('.journal-prompt').find('.description').attr('id');
+
                 var params = {
                     description:    textarea_ele.val(),
                     //title:          '',
@@ -101,7 +104,7 @@ window.rupon.views = window.rupon.views || {};
                     privacy:        privacy_ele.prop("checked") ? 'ANONYMOUS' : 'PUBLIC',
                     date:           date,
                     tag_ids:        self.tags,
-                    prompt:         prompt_ele.prop("checked") ? '123': ''
+                    prompt_id:      prompt_ele.prop("checked") ? prompt_id: ''
                 }
 
                 if (addlink_shown) params.link = this.$el.find('input.add-link').val();

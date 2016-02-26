@@ -346,5 +346,22 @@ window.rupon.views = window.rupon.views || {};
         tagName: 'li',
         className: 'prompt-view',
         template: Handlebars.templates['super-user-prompt'],
+
+        events: {
+            'click .delete': 'clickDelete',
+            'change select': 'changeDay'
+        },
+
+        clickDelete: function() {
+            this.model.destroy();
+        },
+
+        changeDay: function() {
+            var day = this.$el.find('select').val();
+
+            this.model.save({
+                eligible: day
+            })
+        }
     });
 })();

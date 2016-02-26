@@ -3,7 +3,8 @@ var mongoose = require('mongoose')
 
 var promptSchema = Schema({
     description:    String,
-    date:           Date
+    date:           Date,
+    eligible:       String
 });
 
 mongoose.model('Prompt', promptSchema);
