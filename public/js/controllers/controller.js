@@ -22,7 +22,8 @@ window.rupon.utils = window.rupon.utils || {};
     rc.startPage = function(options) {
 
         var frequency = [],
-            popular = [];
+            popular = [],
+            prompt = {};
 
         if (options && options.frequency) {
             frequency = options.frequency;
