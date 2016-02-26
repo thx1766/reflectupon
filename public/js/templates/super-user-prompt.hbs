@@ -1,4 +1,11 @@
-<div class="description">{{description}}</div>
+<div class="description">
+{{#unless edit}}
+  {{description}}
+{{else}}
+  <textarea>{{description}}</textarea>
+  <button>Submit</button>
+{{/unless}}
+</div>
 <div class="actions">
   <select>
     <option value="0"
@@ -16,5 +23,6 @@
     <option value="6"
       {{#equal eligible "6"}}selected="selected"{{/equal}}>Saturday</option>
   </select>
-  <a href="#" class="delete">Delete</a>
+  <a href="javascript:;" class="edit">Edit</a>
+  <a href="javascript:;" class="delete">Delete</a>
 </div>

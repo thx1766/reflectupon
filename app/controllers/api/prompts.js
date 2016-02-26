@@ -20,9 +20,8 @@ exports.post = function(req, res) {
 
 exports.put = function(req, res) {
     Prompt.findById(req.params.id, function (err, prompt) {
-        if (req.body.eligible) {
-            prompt.eligible = req.body.eligible;
-        }
+
+        prompt = _.extend(prompt, _.pick(req.body, ['eligible', 'description']));
         prompt.save();
     });
 }

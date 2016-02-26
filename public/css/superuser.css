@@ -117,6 +117,12 @@
   padding-bottom: 4px;
 }
 
+.prompt-view .description textarea {
+  width: 100%;
+  resize: none;
+  min-height: 80px;
+}
+
 .prompt-view .actions{
   padding-top: 4px;
 }

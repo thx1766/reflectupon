@@ -342,14 +342,33 @@ window.rupon.views = window.rupon.views || {};
         }
     });
 
-    rv.SuperUserPromptView = cv.SimpleModelView.extend({
+    rv.SuperUserPromptView = cv.TemplateView.extend({
         tagName: 'li',
         className: 'prompt-view',
         template: Handlebars.templates['super-user-prompt'],
 
         events: {
+            'click .edit':   'clickEdit',
             'click .delete': 'clickDelete',
+            'click button':  'submitEdit',
             'change select': 'changeDay'
+        },
+
+        render: function(options) {
+            var template_options = _.clone(this.model.attributes);
+            cv.TemplateView.prototype.render.call(this, _.extend(template_options, options));
+        },
+
+        clickEdit: function() {
+            this.render({edit: true});
+        },
+
+        submitEdit: function() {
+            var description = this.$el.find('textarea').val();
+            this.model.save({
+                description: description
+            })
+            this.render({edit: false});
         },
 
         clickDelete: function() {
