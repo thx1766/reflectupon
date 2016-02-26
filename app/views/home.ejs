@@ -8,8 +8,8 @@
           user_id: "<%= user._id %>",
           email: "<%= user.email %>",
           frequency: <%- frequency %>,
-          popular: <%- popular %>,
-          prompt: <%- prompt %>
+          popular: <%- popular %><%if (typeof prompt != "undefined") { %>,
+          prompt: <%- prompt %><% } %>
         });
     })
     </script>

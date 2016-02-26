@@ -42,7 +42,7 @@ exports.getPrompts = function(params, callback) {
 
         if (prompts.length) {
             callback(prompts);
-        } else if (_.keys(params)){
+        } else if (_.keys(params).length){
 
             // Do again with no params
             exports.getPrompts({}, function(prompts) {
@@ -50,6 +50,7 @@ exports.getPrompts = function(params, callback) {
             });
         } else {
             console.log('no prompts');
+            callback({});
         }
     });
 }

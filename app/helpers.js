@@ -108,7 +108,6 @@ exports.getPublicThoughts = function(params, callback, options) {
                 thoughts, function(thought, callback) {
 
                     thought = thought.toObject();
-                    console.log(thought.prompt);
 
                     thought.replies = exports.removeRejectedReplies(thought.replies);
 
