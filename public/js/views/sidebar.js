@@ -13,7 +13,6 @@ window.rupon.views = window.rupon.views || {};
 
         writeDone: false,
         highlightElseDone: false,
-        highlightMineDone: false,
 
         render: function() {
 
@@ -38,10 +37,6 @@ window.rupon.views = window.rupon.views || {};
                 return id == rupon.account_info.user_id
             }).length;
 
-            this.highlightMineDone = !!_.reject(userActivities, function(id){
-                return id != rupon.account_info.user_id
-            }).length;
-
             if (typeof arguments[0] == "string") {
                 switch (arguments[0]) {
                     case "write-done":
@@ -50,16 +45,12 @@ window.rupon.views = window.rupon.views || {};
                     case "highlight-else-done":
                         this.highlightElseDone = true;
                         break;
-                    case "highlight-mine-done":
-                        this.highlightMineDone = true;
-                        break;
                 }
             }
 
             cv.TemplateView.prototype.render.call(this, {
                 write_done:          this.writeDone,
-                highlight_else_done: this.highlightElseDone,
-                highlight_mine_done: this.highlightMineDone
+                highlight_else_done: this.highlightElseDone
             });
         }
     });
@@ -79,10 +70,17 @@ window.rupon.views = window.rupon.views || {};
         },
 
         initialize: function(options) {
-            this.$el.html(this.template());
+
+            this.listenTo(this.collection, 'thought-change', this.showModule);
+
             cv.CollectionContainer.prototype.initialize.call(this, function(model) { 
                 return new rv.FrequencyItemView({model: model});
-            });
+            }, options);
+        },
+
+        showModule: function() {
+            this.$el.find('.entries-container').show();
+            this.$el.find('.write-entry').show();
         },
 
         writeReflection: function() {

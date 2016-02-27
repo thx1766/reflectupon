@@ -115,7 +115,7 @@ window.rupon.common_views = window.rupon.common_views || {};
          * The constructor can be used to create views that need more than just
          * the model during instantiation.
          */
-        initialize: function(modelViewClassOrConstructor) {
+        initialize: function(modelViewClassOrConstructor, options) {
             CommonViews.Container.prototype.initialize.call(this);
             this.modelViews = {};
             if (typeof modelViewClassOrConstructor == 'function') {
@@ -126,12 +126,12 @@ window.rupon.common_views = window.rupon.common_views || {};
             this.listenTo(this.collection, 'add', this.addView);
             this.listenTo(this.collection, 'remove', this.removeView);
             this.listenTo(this.collection, 'reset', this.reset);
-            this.render();
+            this.render(options);
         },
 
-        render: function() {
+        render: function(options) {
 
-            if (this.template) this.$el.html(this.template());
+            if (this.template) this.$el.html(this.template(options));
 
             var container_ele = this.container_ele || null;
             var num_elements  = this.num_elements  || null;

@@ -71,6 +71,7 @@ a img{border:0;}
 .side-view-container{margin-bottom:15px;}
 .side-view .entries-container{
   box-shadow: 0 2px 3px rgba(0, 130, 174, 0.31);
+  margin-bottom: 15px;
 }
 .side-view-container .header{
     padding: 12px 12px;
@@ -130,12 +131,9 @@ ul.get-started .desc {
     padding-left: 34px;
 }
 
-#entries {
-    margin-bottom: 15px;
-}
-
 .guidelines {
-    background-color:#fff
+    display:none;
+    background-color:#fff;
 }
 
 .guidelines.fixed{

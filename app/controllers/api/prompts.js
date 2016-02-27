@@ -49,7 +49,7 @@ exports.getPrompts = function(params, callback) {
             });
         } else {
             console.log('no prompts');
-            callback({});
+            callback(false);
         }
     });
 }
@@ -57,7 +57,7 @@ exports.getPrompts = function(params, callback) {
 exports.getPromptsById = function(id, callback) {
 
     if (id == "") {
-        callback({});
+        callback(false);
     } else {
         exports.getPrompts({_id: id}, callback);
     }

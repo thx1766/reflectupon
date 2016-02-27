@@ -66,7 +66,10 @@ window.rupon.utils = window.rupon.utils || {};
                 getStartedView.render('write-done');
             });
 
-        frequencyView = new rv.FrequencyView({collection: frequency_collection});
+        frequencyView = new rv.FrequencyView({
+            collection: frequency_collection,
+            no_entries: !_.flatten(_.pluck(frequency, 'thoughts')).length
+        });
         frequencyView
             .on('write-reflection', function() {
                 writeToThoughtsView.trigger('write-reflection')
@@ -100,8 +103,11 @@ window.rupon.utils = window.rupon.utils || {};
 
             if (scrollTop > 678 && !guidelinesEl.hasClass('fixed')) {
                 guidelinesEl.addClass('fixed');
+                guidelinesEl.fadeIn(300);
             } else if(scrollTop <= 678 && guidelinesEl.hasClass('fixed')) {
-                guidelinesEl.removeClass('fixed');
+                guidelinesEl.fadeOut(50, function() {
+                    guidelinesEl.removeClass('fixed');
+                });
             }
         })
         $(".main-view-container")
