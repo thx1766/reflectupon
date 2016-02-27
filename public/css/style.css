@@ -822,7 +822,7 @@ div.jquery-gdakram-tooltip h1{display:none}
     }
 
     ul.get-started, .guidelines{
-      display:none;
+      display:none !important;
     }
 }
 
