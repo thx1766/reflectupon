@@ -43,6 +43,8 @@ window.rupon.utils = window.rupon.utils || {};
                     })
                 }});
 
+                popular_collection.add(thought);
+
                 var thoughts = freq_item.get('thoughts')
                 thoughts.unshift(thought);
                 freq_item.set('thoughts', thoughts);

@@ -104,6 +104,8 @@ exports.getPublicThoughts = function(params, callback, options) {
         .populate('prompt')
         .exec(function(err, thoughts) {
 
+            thoughts.reverse();
+
             async.mapSeries(
                 thoughts, function(thought, callback) {
 

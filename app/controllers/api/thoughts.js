@@ -187,21 +187,28 @@ exports.post = function(req, res) {
 
                 if (err) console.log(err);
 
-                Thought.populate(thought, {path:"recommended"}, function(err,thought) {
+                Thought.populate(thought, [{path:"recommended"},{path:"prompt"}], function(err,thought) {
 
-                    populateRepliesForThought(thought.recommended, req.user._id, function(recommended) {
+                    thought = thought.toObject();
 
-                        thought.recommended = recommended;
-                        thought = thought.toObject();
+                    helpers.getUserIfPublic(thought, function(user) {
+                        thought.username = user.username;
 
-                        if (thought.recommended && thought.recommended[0]) {
-                            helpers.getAnnotationsForThought(thought.recommended[0], req.user._id, function(annotations)  {
-                                thought.recommended[0].annotations = annotations;
-                                res.send(thought);
-                            });
-                        }
+                    },function() {
 
-                    })
+                        populateRepliesForThought(thought.recommended, req.user._id, function(recommended) {
+
+                            thought.recommended = recommended;
+
+                            if (thought.recommended && thought.recommended[0]) {
+                                helpers.getAnnotationsForThought(thought.recommended[0], req.user._id, function(annotations)  {
+                                    thought.recommended[0].annotations = annotations;
+                                    res.send(thought);
+                                });
+                            }
+
+                        })
+                    });
                 })
 
             });

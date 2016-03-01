@@ -54,7 +54,7 @@ window.rupon.common_views = window.rupon.common_views || {};
                 this._children.push(child);
                 this._selectors.push(opt_selector);
                 var $container = opt_selector ? this.$el.find(opt_selector) : this.$el;
-                $container.append(child.$el);
+                this.displayAddedChild($container, child);
             }
         },
 
@@ -69,7 +69,7 @@ window.rupon.common_views = window.rupon.common_views || {};
                 var child = info[0];
                 var opt_selector = info[1];
                 var $container = opt_selector ? this.$el.find(opt_selector) : this.$el;
-                $container.append(child.$el);
+                this.displayAddedChild($container, child);
             }, this);
         },
 
@@ -90,6 +90,10 @@ window.rupon.common_views = window.rupon.common_views || {};
             this._selectors = [];
             Backbone.View.prototype.remove.call(this);
         },
+
+        displayAddedChild: function($container, child) {
+            $container.append(child.$el);
+        }
     });
 
 

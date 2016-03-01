@@ -201,6 +201,10 @@ window.rupon.views = window.rupon.views || {};
 
                 return view
             });
+        },
+
+        displayAddedChild: function($container, child) {
+            $container.prepend(child.$el);
         }
 
     });

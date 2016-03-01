@@ -58,7 +58,8 @@ window.rupon.models = window.rupon.models || {};
 
     });
 
-    rm.thoughtCollection = Backbone.PageableCollection.extend({
+    //rm.thoughtCollection = Backbone.PageableCollection.extend({
+    rm.thoughtCollection = Backbone.Collection.extend({
         model: rm.thought,
         mode: "infinite",
 
