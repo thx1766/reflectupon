@@ -33,9 +33,9 @@ window.rupon.views = window.rupon.views || {};
             'click .delete':                  'deleteThought',
             'click .archive':                 'archiveThought',
             'keypress .editable':             'submitEdit',
-            'click .write-reply2':            'writeReply', 
             'click .reply-summary':           'getReplySummary',
-            'click .click-reply':             'clickReply'
+            'click .click-reply':             'clickReply',
+            'click .view-replies':            'viewReplies'
         },
 
         initialize: function(options) {
@@ -254,24 +254,15 @@ window.rupon.views = window.rupon.views || {};
             this.trigger("archive-thought", this.model);
         },
 
-        writeReply: function() {
-
-            if (typeof this.user == "undefined") {
-                $('#myModal').modal();
-            } else {
-
-                $(".main-view-container").addClass('left-align');
-
-                this.$el
-                    .find('.write-reply2').addClass('hidden').end()
-                    .find('.write-reply').css('display','block').find('textarea').focus();
-            }
-        },
-
         clickReply: function() {
             this.$el.find('.write-reply-container').html(Handlebars.templates['write-reply']);
             this.$el.find('.write-reply textarea').focus();
             this.$el.find('.click-reply').addClass('clicked');
+        },
+
+        viewReplies: function() {
+            this.$el.find('.response-list').show();
+            this.$el.find('.view-replies').addClass('clicked');
         }
 
     });

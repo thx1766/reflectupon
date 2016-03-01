@@ -101,10 +101,10 @@ window.rupon.utils = window.rupon.utils || {};
             var scrollTop = $(document).scrollTop(),
                 guidelinesEl = $('.guidelines');
 
-            if (scrollTop > 678 && !guidelinesEl.hasClass('fixed')) {
+            if (scrollTop > 578 && !guidelinesEl.hasClass('fixed')) {
                 guidelinesEl.addClass('fixed');
                 guidelinesEl.fadeIn(300);
-            } else if(scrollTop <= 678 && guidelinesEl.hasClass('fixed')) {
+            } else if(scrollTop <= 578 && guidelinesEl.hasClass('fixed')) {
                 guidelinesEl.fadeOut(50, function() {
                     guidelinesEl.removeClass('fixed');
                 });

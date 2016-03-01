@@ -20,11 +20,6 @@
             </a>
         {{/if}}
     {{/if}}
-    {{#if can_reply}}
-        <a href="javascript:;" class="side-action write-reply2">
-            <i class="fa fa-plus"></i><span>Reply</span>
-        </a>
-    {{/if}}
 </div>
 {{#if annotation }}
     <div class="annotation">
@@ -48,6 +43,9 @@
 
     <div class="message-summary clearfix">
         <a href="javascript:;" class="click-reply">Reply</a>
+        {{#if nonAnnotationReplies}}
+            <a href="javascript:;" class="view-replies">Review Non-Inline Replies ({{nonAnnotationReplies.length}})</a>
+        {{/if}}
 
     {{#if is_author}}
         {{#equal privacy "Private"}}
@@ -89,7 +87,7 @@
     <div class="tooltip_description" style="display:none;" title="No worries"></div>
     <div class="write-reply-container write-reply-box"></div>
     {{#if nonAnnotationReplies}}
-    <div class="response-list">
+    <div class="response-list" style="display:none">
         <div class="response">
             Annotated responses to the right. Other responses below.
         </div>

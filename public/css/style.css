@@ -211,7 +211,12 @@ ul.get-started .desc {
 .below-message span{display:inline-block;cursor:pointer;color:#A7A7A7;}
 
 .message-top {
-  padding-top: 4px;padding-bottom:4px;padding-left: 10px;color: #919191;margin-top: 8px;
+  padding-top: 4px;
+  padding-bottom:4px;
+  padding-left: 10px;
+  color: #919191;
+  margin-top: 8px;
+  width: 500px;
 }
 .tags-container{
   color: #919191;
@@ -228,9 +233,13 @@ ul.get-started .desc {
 .tags-container li:last-child:after{
   content: "";
 }
-.click-reply.clicked{
+.click-reply.clicked,
+.view-replies.clicked{
     color:#ccc;
     pointer-events: none;
+}
+.view-replies{
+    margin-left: 20px;
 }
 .write-reply-box{
     margin-left: 20px;
@@ -772,7 +781,6 @@ div.jquery-gdakram-tooltip h1{display:none}
     .thought-row .reply-collection{margin-bottom:12px;}
 
     .reply-summary i{margin-left: 6px;}
-    .write-reply2 i{margin-right:4px;}
 
     .main-view-container.left-align .col-md-9{float:left;margin:auto;}
 }
@@ -783,7 +791,7 @@ div.jquery-gdakram-tooltip h1{display:none}
 
 @media all and (max-width:939px) {
 
-    .recommended-view .description {
+    .recommended-view .description, .message-top {
       float: none;
       width: auto;
     }
@@ -841,6 +849,10 @@ div.jquery-gdakram-tooltip h1{display:none}
 
     .side-view-container {
       min-height:800px;
+    }
+
+    .thought-row .highlight-reply {
+      display: none;
     }
 }
 

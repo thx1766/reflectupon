@@ -34,13 +34,27 @@ exports.get = function(is_mobile, user_id, callback) {
                 frequency[i] = {
                     day:         startDate,
                     thoughts:    filtered_thoughts,
-                    activity:    getItemsByDate(annotations, startDate, endDate),
-                    tags:        getTagsFromAllThoughts(filtered_thoughts)
+                    activity:    getItemsByDate(annotations, startDate, endDate)
                 };
 
             }
 
-            callback(frequency);
+            async.mapSeries(frequency, function(freq_item, callback2) {
+
+                async.mapSeries(freq_item.thoughts, function(freq_thought, callback3) {
+                    helpers.getTopicsByIds(freq_thought.tag_ids, function(topics) {
+                        freq_thought.tag_ids = topics;
+                        callback3(null, freq_thought);
+                    });
+                },
+                function(err, freq_thoughts) {
+                    freq_item.thoughts = freq_thoughts;
+                    callback2(null, freq_item);
+                });
+            },
+            function(err, results) {
+                callback(results);
+            });
 
         });
 
@@ -82,11 +96,14 @@ var getItemsByDate = function(thoughts, startDate, endDate) {
     });
 };
 
-var getTagsFromAllThoughts = function(thoughts) {
+var getTagsFromAllThoughts = function(thoughts, callback) {
     var tag_ids = _.map(thoughts, function(thought) {
         return thought.tag_ids;
     })
-    return _.uniq(_.flatten(tag_ids));
+    tag_ids = _.uniq(_.flatten(tag_ids));
+    helpers.getTopicsByIds(tag_ids, function(topics) {
+        callback(topics);
+    });
 };
 
 var getDateByTimeZone = function(date) {
