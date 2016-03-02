@@ -9,7 +9,8 @@
           email: "<%= user.email %>",
           frequency: <%- frequency %>,
           popular: <%- popular %><%if (typeof prompt != "undefined") { %>,
-          prompt: <%- prompt %><% } %>
+          prompt: <%- prompt %>,
+          settings: <%- settings %><% } %>
         });
     })
     </script>

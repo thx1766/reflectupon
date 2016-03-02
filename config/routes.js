@@ -12,6 +12,7 @@ var mongoose        = require('mongoose')
   , reports          = require('../app/controllers/api/reports')
   , superuser        = require('../app/controllers/api/superuser')
   , prompts          = require('../app/controllers/api/prompts')
+  , userSettings     = require('../app/controllers/api/user_settings')
 
 var Thought     = mongoose.model('Thought'),
     Reply       = mongoose.model('Reply'),
@@ -41,6 +42,26 @@ module.exports = function(app) {
     app.get( '/twiml',                               thought_routes.getTwiml);
     app.get( '/superuser', auth.ensureAuthenticated, superuser_routes.get);
 
+    app.get('/api/thought',        thoughts.get);
+    app.post('/api/thought',       thoughts.post);
+    app.put('/api/thought/:id',    thoughts.put);
+    app.delete('/api/thought/:id', thoughts.delete);
+
+    app.post('/api/thought/:thought/reply', thoughts.postReply);
+    app.get('/api/reply', auth.ensureAuthenticated, replies.get);
+    app.delete('/api/reply/:id', replies.delete);
+
+    app.post('/api/prompts',       prompts.post);
+    app.get('/api/prompts',        prompts.get);
+    app.put('/api/prompts/:id',    prompts.put);
+    app.delete('/api/prompts/:id', prompts.delete);
+
+    app.post('/api/user_settings', auth.ensureAuthenticated, userSettings.post);
+    app.get('/api/user_settings',  auth.ensureAuthenticated, userSettings.get);
+    app.put('/api/user_settings',  auth.ensureAuthenticated, userSettings.put);
+
+    app.get('/api/reports',        reports.get);
+
     app.get('/api/frequency', function(req, res) {
 
         var is_mobile = req.query.mobile,
@@ -50,13 +71,6 @@ module.exports = function(app) {
             res.send(frequency);
         });
     });
-
-    app.get('/api/thought',        thoughts.get);
-    app.post('/api/thought',       thoughts.post);
-    app.put('/api/thought/:id',    thoughts.put);
-    app.delete('/api/thought/:id', thoughts.delete);
-
-    app.get('/api/reports',        reports.get);
 
     app.post('/api/send_email', function(req,res) {
 
@@ -182,9 +196,6 @@ module.exports = function(app) {
         });
     });
 
-
-    app.post('/api/thought/:thought/reply', thoughts.postReply);
-
     app.post('/api/thought/:thought/reply/:reply/annotation/', function(req, res) {
 
         var annotation = new Annotation({
@@ -220,15 +231,6 @@ module.exports = function(app) {
     app.get('/account', auth.ensureAuthenticated, function(req,res) {
         res.send( req.user );
     });
-
-    app.get('/api/reply', auth.ensureAuthenticated, replies.get);
-
-    app.post('/api/prompts',       prompts.post);
-    app.get('/api/prompts',        prompts.get);
-    app.put('/api/prompts/:id',    prompts.put);
-    app.delete('/api/prompts/:id', prompts.delete);
-
-    app.delete('/api/reply/:id', replies.delete);
 
     app.put('/api/reply/:reply_id', function(req, res) {
         

@@ -7,6 +7,7 @@ var config          = process.env.PORT ? require('../../config') : require('../.
     fs              = require('fs'),
     helpers         = require('../helpers'),
     prompts         = require('./api/prompts')
+    userSettings    = require('./api/user_settings')
     sendgrid        = require('sendgrid')(
         config.sg_username,
         config.sg_password
@@ -43,29 +44,33 @@ exports.home = function(req, res, dates) {
 
                     helpers.getPublicThoughts({}, function(popular_thoughts) {
 
-                        var promptsParams = {
-                            eligible: moment().isoWeekday()
-                        }
-                        prompts.getPrompts(promptsParams, function(prompts) {
+                        userSettings.getSettings(user_id, function(userSettings) {
 
-                            var attr = {
-                                user:         req.user,
-                                topBar:       true,
-                                signout:      true,
-                                thoughts:     thoughts,
-                                landing_page: false,
-                                is_admin:     req.user.email == 'andrewjcasal@gmail.com' || req.user.email == 'stranovich@gmail.com',
-                                frequency:    JSON.stringify(frequency),
-                                popular:      JSON.stringify(popular_thoughts)
-                            };
-
-                            if (prompts.length) {
-                                attr.prompt = JSON.stringify({
-                                    id: prompts[0].id,
-                                    description: prompts[0].description
-                                })
+                            var promptsParams = {
+                                eligible: moment().isoWeekday()
                             }
-                            res.render('home', attr);
+                            prompts.getPrompts(promptsParams, function(prompts) {
+
+                                var attr = {
+                                    user:         req.user,
+                                    topBar:       true,
+                                    signout:      true,
+                                    thoughts:     thoughts,
+                                    landing_page: false,
+                                    is_admin:     req.user.email == 'andrewjcasal@gmail.com' || req.user.email == 'stranovich@gmail.com',
+                                    frequency:    JSON.stringify(frequency),
+                                    popular:      JSON.stringify(popular_thoughts),
+                                    settings:     JSON.stringify(userSettings)
+                                };
+
+                                if (prompts.length) {
+                                    attr.prompt = JSON.stringify({
+                                        id: prompts[0].id,
+                                        description: prompts[0].description
+                                    })
+                                }
+                                res.render('home', attr);
+                            })
                         })
                     });
 

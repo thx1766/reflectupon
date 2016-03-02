@@ -6,7 +6,8 @@ var config   = process.env.PORT ? require('../../config') : require('../../confi
   , Q        = require('q')
   , mongoose = require('mongoose')
   , Thought  = mongoose.model('Thought')
-  , User     = mongoose.model('User');
+  , User     = mongoose.model('User')
+  , userSettings = require('../controllers/api/user_settings');
 
 exports.sendEmail = function(params, callback) {
 
@@ -36,9 +37,16 @@ exports.sendEmail = function(params, callback) {
  */
 exports.sendEmailWhenRepliedTo = function(thought_id, user_id) {
 
-  // Send e-mail notification if you're getting a reply from someone else
+    // Send e-mail notification if you're getting a reply from someone else
   Thought.findById(thought_id, function(err, thought) {
-      User.findById(thought.user_id, function(err, user) {
+    
+    User.findById(thought.user_id, function(err, user) {
+          
+      userSettings.getSettings(user.id, function(userSettings) {
+
+          if (!userSettings.email_reply) {
+            return false;
+          }
 
           if (user_id != user.id) {
               var params = {
@@ -50,5 +58,7 @@ exports.sendEmailWhenRepliedTo = function(thought_id, user_id) {
               exports.sendEmail(params);
           }
       })
+    })
   })
+
 }

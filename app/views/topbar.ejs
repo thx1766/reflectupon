@@ -10,22 +10,7 @@
           </button>
         </div>
         <nav class="collapse navbar-collapse bs-navbar-collapse">
-          <ul class="nav navbar-nav left-nav"><!--
-              <li class="show-journal">
-                  <a href="/journal">
-                      Journal
-                  </a>
-              </li>
-              <li class="show-reports">
-                  <a href="/reports">
-                      Reports
-                  </a>
-              </li>
-              <li class="show-explore">
-                  <a href="#">
-                      Explore
-                  </a>
-              </li>-->
+          <ul class="nav navbar-nav left-nav">
               <% if (is_admin) { %>
                   <li>
                       <a href="/superuser">
@@ -41,10 +26,12 @@
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <% if (signout) { %>
-              <li>
-                  <a class="icon" href="/logout">
-                      Log out
-                  </a>
+              <li class="me-container dropdown-container arrow-right">
+                <a href="javascript:;">Options</a>
+                <div class="dropdown-arrow clearfix">
+                  <div class="arrow"></div>
+                  <div class="dropdown"></div>
+                </div>
               </li>
             <% } else { %><!--
               <li>

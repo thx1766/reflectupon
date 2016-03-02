@@ -21,28 +21,12 @@ window.rupon.utils = window.rupon.utils || {};
 
     rc.startPage = function(options) {
 
-        var frequency = [],
-            popular = [],
-            prompt = {};
-
-        if (options && options.frequency) {
-            frequency = options.frequency;
-        }
-
-        if (options && options.popular) {
-            popular = options.popular;
-        }
-
-        if (options && options.prompt) {
-            prompt = options.prompt;
-        }
-
         rupon.account_info         = rupon.account_info || {};
         rupon.account_info.user_id = options.user_id;
         rupon.account_info.email   = options.email;
         rupon.account_info.username = options.username;
 
-        rc.setAllThoughts(frequency, popular, prompt);
+        rc.setAllThoughts(_.pick(options, ['frequency', 'popular', 'prompt', 'settings']));
 
     };
 

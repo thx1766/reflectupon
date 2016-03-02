@@ -11,8 +11,14 @@ window.rupon.utils = window.rupon.utils || {};
 
         dayModelIndex;
 
-    rc.setAllThoughts = function(frequency, popular, prompt) {
+    rc.setAllThoughts = function(params) {
 
+        params = params || {};
+
+        var frequency =    params.frequency, 
+            popular =      params.popular,
+            prompt =       params.prompt,
+            settings =     params.settings;
         var getStartedView;
 
         var recommended_collection  = new rupon.models.thoughtCollection(),
@@ -97,7 +103,12 @@ window.rupon.utils = window.rupon.utils || {};
         $(".side-view-container")
             .append(getStartedView.$el)
             .append(frequencyView.$el)
-            .append(Handlebars.templates['guidelines']())
+            .append(Handlebars.templates['guidelines']());
+
+        var settingsView = new rv.SettingsView({
+            model: new rm.userSettings(settings)
+        });
+        $(".me-container .dropdown").html(settingsView.$el);
 
         $(document).scroll(function() {
             var scrollTop = $(document).scrollTop(),
