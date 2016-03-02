@@ -50,7 +50,8 @@ exports.put = function(req,res) {
             .exec(function(err, userSettings) {
 
                 if (userSettings) {
-                    userSettings.email_reply = req.body.email_reply
+                    userSettings.email_reply = req.body.email_reply;
+                    userSettings.email_thanks = req.body.email_thanks;
                     userSettings.save(function(err) {
                         if (err) console.log(err);
                         res.send(userSettings);

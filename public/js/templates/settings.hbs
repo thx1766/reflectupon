@@ -1,9 +1,16 @@
 <ul>
   <li class="notif-options">
+    <div>Username</div>
+    <div style="margin-bottom: 10px">{{username}}</div>
     <div>Notifications</div>
-    <div>
+    <div style="font-size: 14px">Receive e-mails:</div>
+    <div style="margin-left: 20px">
       <input id="email-replies" type="checkbox" {{#if email_reply}}checked="checked"{{/if}}>
-      <label for="email-replies">Receive e-mails for replies</label>
+      <label for="email-replies">For replies</label>
+    </div>
+    <div style="margin-left: 20px">
+      <input id="email-thanks" type="checkbox" {{#if email_thanks}}checked="checked"{{/if}}>
+      <label for="email-thanks">When thanked</label>
     </div>
   </li>
   <li class="logout">

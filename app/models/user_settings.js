@@ -8,6 +8,9 @@ var userSettingsSchema = Schema({
         unique: true },
     email_reply: {
         type: Boolean,
+        default: true },
+    email_thanks: {
+        type: Boolean,
         default: true }
 });
 

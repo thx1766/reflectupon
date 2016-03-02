@@ -303,7 +303,7 @@ window.rupon.views = window.rupon.views || {};
 
             this.model.save({
                 status: status
-            });
+            }, {patch: true});
             this.$el.find('.saved-box').fadeIn(300, function() {
                 setTimeout(function() {
                     self.$el.find('.saved-box').fadeOut(300);

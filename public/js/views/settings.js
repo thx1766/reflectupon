@@ -13,13 +13,21 @@ window.rupon.views = window.rupon.views || {};
         template: Handlebars.templates['settings'],
 
         events: {
-          'click #email-replies': 'clickEmailReply'
+          'click #email-replies': 'clickEmailReply',
+          'click #email-thanks':  'clickEmailThanks'
         },
 
         clickEmailReply: function() {
           var isClicked = this.$el.find('#email-replies').prop("checked");
           this.model.save({
             email_reply: isClicked
+          });
+        },
+
+        clickEmailThanks: function() {
+          var isClicked = this.$el.find('#email-thanks').prop("checked");
+          this.model.save({
+            email_thanks: isClicked
           });
         }
     });

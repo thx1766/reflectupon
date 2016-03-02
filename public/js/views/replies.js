@@ -85,7 +85,7 @@ window.rupon.views = window.rupon.views || {};
         thankReply: function() {
             this.model.save({
                 thanked: true
-            })
+            }, {patch: true})
         },
 
         changePrivacy: function() {
@@ -107,7 +107,7 @@ window.rupon.views = window.rupon.views || {};
 
             this.model.save({
                 privacy: privacy
-            })
+            }, {patch: true})
         }
 
     });

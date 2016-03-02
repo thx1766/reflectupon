@@ -49,7 +49,8 @@ module.exports = function(app) {
 
     app.post('/api/thought/:thought/reply', thoughts.postReply);
     app.get('/api/reply', auth.ensureAuthenticated, replies.get);
-    app.delete('/api/reply/:id', replies.delete);
+    app.patch('/api/reply/:reply_id',               replies.patch);
+    app.delete('/api/reply/:id',                    replies.delete);
 
     app.post('/api/prompts',       prompts.post);
     app.get('/api/prompts',        prompts.get);
@@ -230,26 +231,6 @@ module.exports = function(app) {
 
     app.get('/account', auth.ensureAuthenticated, function(req,res) {
         res.send( req.user );
-    });
-
-    app.put('/api/reply/:reply_id', function(req, res) {
-        
-        Reply.findById(req.params.reply_id, function(err,reply) {
-
-            if (err) console.log(err);
-
-            if (req.body.thanked) reply.thanked = req.body.thanked;
-            if (req.body.privacy) reply.privacy = req.body.privacy;
-            if (req.body.status)  reply.status  = req.body.status;
-
-            reply.save(function() {
-
-                res.send( reply );
-
-            })
-
-        });
-
     });
 
     var topics_uri = '/api/topics';

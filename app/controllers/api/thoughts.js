@@ -272,7 +272,7 @@ exports.postReply = function(req, res) {
 
         if (err) console.log(err);
 
-        emails.sendEmailWhenRepliedTo(req.body.thought_id, req.user.id);
+        emails.sendEmailWhenRepliedTo(req.body.thought_id, reply);
 
         if (req.body.annotations){
             for (var i = 0; i < req.body.annotations.length; i++) {

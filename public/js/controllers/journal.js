@@ -105,6 +105,7 @@ window.rupon.utils = window.rupon.utils || {};
             .append(frequencyView.$el)
             .append(Handlebars.templates['guidelines']());
 
+        settings.username = rupon.account_info.username;
         var settingsView = new rv.SettingsView({
             model: new rm.userSettings(settings)
         });
