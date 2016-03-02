@@ -14,7 +14,8 @@ window.rupon.views = window.rupon.views || {};
         template: Handlebars.templates['index'],
 
         events: {
-            'click button': 'clickButton'
+            'click button': 'clickButton',
+            'click .sign-up-btn': 'clickSignUp'
         },
 
         initialize: function(options){
@@ -212,6 +213,10 @@ window.rupon.views = window.rupon.views || {};
         transitionPicture: function(levelNum, pos, t) {
             $("#level"+levelNum+" img.selected").removeClass("selected");
             $("#level"+levelNum+" img:eq("+pos+")").addClass("selected");
+        },
+
+        clickSignUp: function() {
+            new rv.ModalView({view: 'signup'});
         }
 
     })
