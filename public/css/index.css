@@ -215,7 +215,6 @@ ul{margin:0;}
 .landing-page #level2 .form-box{
   width: 420px;
   margin: 30px auto 0;
-  text-align: left;
 }
 .landing-page #level2 input, .landing-page #level2 button{
   box-shadow: 0 2px 3px #0082AE;
@@ -226,7 +225,7 @@ ul{margin:0;}
 
 .landing-page #level2 button{
   background-color: #00AA27;
-  height: 33px;
+  height: 45px;
   vertical-align: 3px;
   margin-left: 4px;
 }

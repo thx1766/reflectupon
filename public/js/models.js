@@ -196,6 +196,16 @@ window.rupon.models = window.rupon.models || {};
     rm.prompt = Backbone.Model.extend({});
     rm.promptsCollection = Backbone.Collection.extend({
         url: '/api/prompts'
-    })
+    });
+
+    rm.userSettings = Backbone.Model.extend({
+        initialize: function(options) {
+            this.user = options.user
+        },
+
+        url: function() {
+            return '/api/user_settings?user_id=' + this.user;
+        }
+    });
 
 })();

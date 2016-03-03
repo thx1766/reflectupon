@@ -1,7 +1,10 @@
 var mongoose   = require('mongoose')
   , async      = require('async')
   , Reply      = mongoose.model('Reply')
-  , helpers    = require('../../helpers');
+  , User       = mongoose.model('User')
+  , helpers    = require('../../helpers')
+  , emails     = require('../../utils/emails')
+  , _          = require('underscore');
 
 exports.get = function(req, res) {
 
@@ -14,6 +17,28 @@ exports.get = function(req, res) {
             res.send(replies);
 
         });
+
+}
+
+exports.patch = function(req, res) {
+        
+    Reply.findById(req.params.reply_id, function(err,reply) {
+
+        if (err) console.log(err);
+
+        _.extend(reply, _.pick(req.body, ['thanked', 'privacy', 'status']));
+
+        if (req.body.thanked) {
+            emails.sendEmailWhenThanked(reply);
+        }
+
+        reply.save(function() {
+
+            res.send( reply );
+
+        })
+
+    });
 
 }
 
