@@ -55,7 +55,7 @@ exports.sendEmailWhenRepliedTo = function(thought_id, reply) {
                 var thought_description = thought.description.length <= 100 ? thought.description : thought.description.substring(0, 100) + '...';
 
                 var email = new sendgrid.Email();
-                email.addTo('andrewjcasal@gmail.com');
+                email.addTo(user.email);
                 email.from = 'andrewjcasal@gmail.com';
                 email.subject = display_name + " replied to your entry!";
                 email.html = display_name + ' just replied to your entry, "'+thought_description+'"';
