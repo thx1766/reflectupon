@@ -23,6 +23,11 @@ window.rupon.views = window.rupon.views || {};
             this.render();
 
             var self = this;
+
+            console.log(this.$el.find('.rotater').children().length);
+
+            self.rotate(2);
+
             $(window).scroll(function() {
                 var scrollTop = $(document).scrollTop(),
                     ind, pos, level;
@@ -30,11 +35,7 @@ window.rupon.views = window.rupon.views || {};
                 var docWidth = $(document).width();
                 var scrollDict = {};
 
-                if (scrollTop < 300 && docWidth > 1200) {
-                    $("#level1 img").css('margin-top', -100 * scrollTop/300);
-                }
-
-                if (scrollTop > 200) {
+                if (scrollTop > 80) {
                     $('.navbar').addClass('scrolled');
                 } else {
                     $('.navbar').removeClass('scrolled');
@@ -217,6 +218,25 @@ window.rupon.views = window.rupon.views || {};
 
         clickSignUp: function() {
             new rv.ModalView({view: 'signup'});
+        },
+
+        rotate: function(n) {
+            var self = this,
+                rotater = this.$el.find('.rotater'),
+                len = rotater.children().length;
+
+            setTimeout(function() {
+                rotater.find('img').removeClass('selected previous next');
+                rotater.find('img:eq('+n+')').addClass('next');
+                rotater.find('img:eq('+(n-1)+')').addClass('selected');
+                rotater.find('img:eq('+(n-2)+')').addClass('previous');
+                
+                if (n+1 < len) {
+                    self.rotate(n+1);
+                } else {
+                    self.rotate(0);
+                }
+            }, 2500);
         }
 
     })
