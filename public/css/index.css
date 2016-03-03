@@ -175,13 +175,15 @@ ul{margin:0;}
 }
 
 .landing-page #level1{
-  height: 625px;
   overflow: hidden;
   padding: 0;
 }
-.landing-page #level1 img.background {
+.landing-page #level1 .background {
   width: 100%;
-  opacity: 0.8;
+  opacity: 0.7;
+  background: url(/images/panel_bkgd.jpg);
+  background-size: 100%;
+  height: 600px;
 }
 
 .landing-page #level1 img{
@@ -195,11 +197,42 @@ ul{margin:0;}
   right: 0;
   margin: 225px auto 0;
   width: 750px;
+  text-align:center;
+  max-width:100%;
 }
 .landing-page #level1 .logo-container img{
   height:70px;
 }
-
+.landing-page #level1 .rotater{
+  position: relative;
+  width: 406px;
+  height: 57px;
+  vertical-align: -16px;
+  max-width: 100%;
+}
+.landing-page #level1 .rotater img {
+  position: absolute;
+  top:40px;
+  left:0;
+  right:0;
+  opacity:0;
+  margin: 0 auto;
+  transition: opacity .5s, top .5s, width .5s, height .5s;
+  height: 120%;
+}
+.landing-page #level1 .rotater img.next {
+  opacity:0;
+  top: -20px;
+}
+.landing-page #level1 .rotater img.selected {
+  opacity:1;
+  top: 0;
+}
+.landing-page #level1 .rotater img.previous {
+  opacity:.3;
+  top: 30px;
+  height: 90%;
+}
 .landing-page #level2 {
   text-align: center;
   font-size: 32px;
@@ -234,7 +267,7 @@ ul{margin:0;}
 .landing-page #level3 {
   background-color:#008FBF;
   padding: 0;
-  /*color: #fff;*/
+  overflow:hidden;
 }/*
 .landing-page #level3 .description{
   width: 320px;
@@ -362,6 +395,11 @@ ul{margin:0;}
     width: 120%;
     margin-left: -10%;
   }
+  .landing-page #level1 .background {
+    background-position: top right;
+    background-size: auto;
+    height: 564px;
+  }
 }
 
 @media (max-width: 939px) {
@@ -381,6 +419,10 @@ ul{margin:0;}
   }
   .landing-page #level3 .popular-container .replies .reply-desc {
     width: 100%;
+  }
+
+  .landing-page #level1 .background {
+    background-position: center;
   }
 }
 
@@ -403,6 +445,11 @@ ul{margin:0;}
     width: auto;
     padding: 9px 10px;
   }
+
+  .landing-page #level1 .logo-container .rotater{
+    margin-top: -6px;
+    margin-bottom: 10px;
+  }
 }
 
 @media (max-width: 661px) {
@@ -424,13 +471,13 @@ ul{margin:0;}
     padding-left:0;
   }
 
-  .landing-page #level1 {
-    height: 260px;
+  .landing-page #level1 .background {
+    background-position: 80% top;
   }
 
-  .landing-page #level1 img {
-    width: 160%;
-    margin-left: -10%;
+  .landing-page #level1 .logo-container{
+    margin-top: 400px;
+    width: 100%;
   }
 
   .landing-page #level2 .form-box {
