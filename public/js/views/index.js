@@ -231,12 +231,16 @@ window.rupon.views = window.rupon.views || {};
                 rotater.find('img:eq('+(n-1)+')').addClass('selected');
                 rotater.find('img:eq('+(n-2)+')').addClass('previous');
                 
+                var wid = rotater.find('img:eq('+(n-1)+')').width();
+                self.$el.find('.rotater').width(wid);
+
                 if (n+1 < len) {
                     self.rotate(n+1);
                 } else {
                     self.rotate(0);
                 }
-            }, 2500);
+
+            }, 2800);
         }
 
     })

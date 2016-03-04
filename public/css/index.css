@@ -180,7 +180,7 @@ ul{margin:0;}
 }
 .landing-page #level1 .background {
   width: 100%;
-  opacity: 0.7;
+  opacity: 0.9;
   background: url(/images/panel_bkgd.jpg);
   background-size: 100%;
   height: 600px;
@@ -196,7 +196,7 @@ ul{margin:0;}
   left: 0;
   right: 0;
   margin: 225px auto 0;
-  width: 750px;
+  width: 850px;
   text-align:center;
   max-width:100%;
 }
@@ -205,10 +205,11 @@ ul{margin:0;}
 }
 .landing-page #level1 .rotater{
   position: relative;
-  width: 406px;
+  width: 171px;
   height: 57px;
-  vertical-align: -16px;
+  vertical-align: -17px;
   max-width: 100%;
+  transition: width .5s;
 }
 .landing-page #level1 .rotater img {
   position: absolute;
@@ -217,12 +218,13 @@ ul{margin:0;}
   right:0;
   opacity:0;
   margin: 0 auto;
-  transition: opacity .5s, top .5s, width .5s, height .5s;
+  transition: opacity .5s, top .5s, right .5s, width .5s, height .5s;
   height: 120%;
 }
 .landing-page #level1 .rotater img.next {
   opacity:0;
-  top: -20px;
+  top: 0;
+  right: -100px;
 }
 .landing-page #level1 .rotater img.selected {
   opacity:1;
