@@ -35,10 +35,12 @@ window.rupon.views = window.rupon.views || {};
                 var docWidth = $(document).width();
                 var scrollDict = {};
 
-                if (scrollTop > 80) {
-                    $('.navbar').addClass('scrolled');
-                } else {
-                    $('.navbar').removeClass('scrolled');
+                if (docWidth > 599) {
+                    if (scrollTop > 80) {
+                        $('.navbar').addClass('scrolled');
+                    } else {
+                        $('.navbar').removeClass('scrolled');
+                    }
                 }
 
                 if (scrollTop > 200) {

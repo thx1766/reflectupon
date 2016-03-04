@@ -3,7 +3,7 @@ ul{margin:0;}
 .landing-page #topbar-wrapper .navbar {
   height: 65px;
   padding-top: 8px;
-  overflow: hidden.;
+  overflow: hidden;
 }
 
 .landing-page #topbar-wrapper .navbar-right .sign-up-btn{
@@ -449,8 +449,7 @@ ul{margin:0;}
   }
 
   .landing-page #level1 .logo-container .rotater{
-    margin-top: -6px;
-    margin-bottom: 10px;
+    margin: -6px auto 10px;
   }
 }
 
@@ -473,6 +472,10 @@ ul{margin:0;}
     padding-left:0;
   }
 
+  .landing-page #topbar-wrapper .navbar-right .log-in-btn{
+    line-height: 25px;
+  }
+
   .landing-page #level1 .background {
     background-position: 80% top;
   }
@@ -480,6 +483,14 @@ ul{margin:0;}
   .landing-page #level1 .logo-container{
     margin-top: 400px;
     width: 100%;
+  }
+
+  .landing-page #level1 .logo-container img{
+    height: 57px;
+  }
+  .landing-page #level1 .rotater {
+    width: 100% !important;
+    height: 48px;
   }
 
   .landing-page #level2 .form-box {
