@@ -859,7 +859,7 @@ div.jquery-gdakram-tooltip h1{display:none}
       height: auto;
     }
 
-    ul.get-started, .guidelines{
+    .guidelines{
       display:none !important;
     }
 }
@@ -915,6 +915,10 @@ div.jquery-gdakram-tooltip h1{display:none}
 
   .main-view-container {
     width:100%;
+  }
+
+  ul.get-started{
+    display:none !important;
   }
 }
 
