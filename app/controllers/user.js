@@ -177,15 +177,7 @@ exports.postregister = function(req, res, next) {
                 if(err) {
                     console.log(err);
                 } else {
-                    sendgrid.send({
-                        to: req.body.email,
-                        from: 'andrewjcasal@gmail.com',
-                        subject: 'Welcome to reflectupon!',
-                        html: 'Thanks for your interest! Stay tuned for further updates.<br /><br/>Thanks!<br />reflectupon team'
-                    }, function(err, json) {
-                        if (err) { return console.error(err); }
-                        console.log(json);
-                    });
+                    exports.registerEmail(req.body.email);
 
                     passport.authenticate('local', function(err, user, info) {
                         if (err) { return next(err) }
@@ -206,6 +198,17 @@ exports.postregister = function(req, res, next) {
 
 };
 
+exports.registerEmail = function(email) {
+    sendgrid.send({
+        to: email,
+        from: 'andrewjcasal@gmail.com',
+        subject: 'Welcome to Get Your Shit Together!',
+        html: 'Thanks for your interest! Stay tuned for further updates.<br /><br/>Thanks!<br />Get Your Shit Together team'
+    }, function(err, json) {
+        if (err) { return console.error(err); }
+        console.log(json);
+    });
+}
 exports.postRegBetaUser = function(req, res, next) {
 
     var emailAddress = req.body.email;
