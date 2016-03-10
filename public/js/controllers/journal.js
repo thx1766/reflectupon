@@ -9,7 +9,8 @@ window.rupon.utils = window.rupon.utils || {};
         rm = window.rupon.models,
         rh = window.rupon.helpers,
 
-        dayModelIndex;
+        dayModelIndex,
+        popularView;
 
     rc.setAllThoughts = function(params) {
 
@@ -93,7 +94,7 @@ window.rupon.utils = window.rupon.utils || {};
             })
 
         var mainView = new rv.MainView();
-        var popularView = new rv.ThoughtsView({
+        popularView = new rv.ThoughtsView({
             collection: popular_collection,
             reply_collection: rm.replyCollection,
             user: rupon.account_info
@@ -208,6 +209,8 @@ window.rupon.utils = window.rupon.utils || {};
             var lastModelIndex = collection.indexOf(lastModel);
 
             writeToThoughtsView.render("day", model);
+            popularView.remove();
+            $('.popular-container').hide();
         }
     }
 
