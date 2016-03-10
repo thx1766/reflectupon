@@ -492,6 +492,9 @@ ul{margin:0;}
     width: 100% !important;
     height: 48px;
   }
+  .landing-page #level1 .rotater img.next{
+    right: 0;
+  }
 
   .landing-page #level2 .form-box {
     width: 100%;
