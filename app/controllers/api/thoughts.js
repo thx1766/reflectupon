@@ -272,7 +272,14 @@ exports.postReply = function(req, res) {
 
         if (err) console.log(err);
 
-        emails.sendEmailWhenRepliedTo(req.body.thought_id, reply);
+        Thought
+            .findById(req.body.thought_id)
+            .populate('replies')
+            .exec(function(err, thought) {
+
+                emails.sendReplyEmailToEntryWriter(thought, reply);
+                emails.sendReplyToOtherParticipants(thought, reply);
+            })
 
         if (req.body.annotations){
             for (var i = 0; i < req.body.annotations.length; i++) {
