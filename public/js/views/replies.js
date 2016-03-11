@@ -98,10 +98,6 @@ window.rupon.views = window.rupon.views || {};
                 this.responseTemplate = false;
             }
 
-            if (this.model.get('description') == 'test reply 2') {
-                console.log('here');
-            }
-
             if (template_options.sub_models && template_options.sub_models.length) {
                 var nestedView = new rv.RepliesView({
                     collection: new rm.replyCollection(template_options.sub_models),
