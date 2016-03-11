@@ -1,5 +1,4 @@
-<div>
-    <div>
+    <div class="main-reply">
         <div class="title-container clearfix">
             <p class="title" style="float:left"><strong>
                 {{#if is_author}}
@@ -38,22 +37,33 @@
             {{/if}}
         </div>
         <p class="description">{{ description }}</p>
-    </div>
-    {{#if can_thank}}
-    <div>
-        {{#unless thanked}}
-        <a href="javascript:;" class="action">
-            <span>Thank for reply</span>
-        </a>
-        {{else}}
-        <span>Thanked!</span>
-        {{/unless}}
-    </div>
-    {{/if}}
-    {{#if is_author}}
-        {{#if thanked}}
+        {{#if can_thank}}
         <div>
-            <span>You were thanked!</span>
+            <a href="javascript:;" class="make-response">
+                <span>Respond</span>
+            </a> • 
+            {{#unless thanked}}
+            <a href="javascript:;" class="action">
+                <span>Thank for reply</span>
+            </a>
+            {{else}}
+            <span>Thanked!</span>
+            {{/unless}}
         </div>
         {{/if}}
-    {{/if}}
+        {{#if is_author}}
+            {{#if thanked}}
+            <div>
+                <span>You were thanked!</span>
+            </div>
+            {{/if}}
+        {{/if}}
+        {{#if new_reply}}
+            <div class="reply-to-reply clearfix">
+              <textarea></textarea>
+              <div class="confirmed">Submitted! Refresh the page.</div>
+              <button class="btn btn-primary submit-response">Submit</button>
+            </div>
+        {{/if}}
+    </div>
+    <div class="nested-container"></div>

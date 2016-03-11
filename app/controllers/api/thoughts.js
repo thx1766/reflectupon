@@ -258,15 +258,20 @@ exports.delete = function(req,res) {
 
 exports.postReply = function(req, res) {
 
-    var reply = new Reply({
+    var reply_attr = {
         title:          req.body.title,
         description:    req.body.description,
         thought_id:     req.body.thought_id,
         user_id:        req.user._id,
         privacy:        req.body.privacy,
         date:           new Date()
-    });
+    }
 
+    if (req.body.main_reply_id) {
+        reply_attr.main_reply_id = req.body.main_reply_id;
+    }
+
+    var reply = new Reply(reply_attr);
 
     reply.save(function(err, reply) {
 

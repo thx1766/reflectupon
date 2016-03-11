@@ -799,6 +799,15 @@ div.jquery-gdakram-tooltip h1{display:none}
   background-color: #fff;
   border: 0;
   box-shadow:0 0 2px #428bca;
+  padding: 0;
+}
+
+.popular-container .replies .reply-desc .main-reply {
+  padding: 10px;
+}
+.popular-container .replies .reply-desc .nested-container .reply-desc{
+  position: relative;
+  margin-bottom: 0;
 }
 
 .popular-container .replies .reply-desc .reply-options {
@@ -806,6 +815,33 @@ div.jquery-gdakram-tooltip h1{display:none}
   color: #428bca;
 }
 
+.reply-to-reply {
+    border-top: 1px solid #ccc;
+    padding-top: 4px;
+    margin-top: 6px;
+}
+
+.reply-to-reply textarea{
+    width: 100%;
+    margin-bottom: 8px;
+    min-height: 80px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    margin-top: 4px;
+    padding: 4px;
+}
+
+.reply-to-reply .confirmed{
+    float: left;
+    width: 130px;
+    margin-top: -3px;
+    color: green;
+    display: none;
+}
+
+.reply-to-reply .btn-primary{
+    float: right;
+}
 @media all and (min-width:992px) {
     .thought-row .reply-collection-container{max-height:400px;overflow:auto;}
     .thought-row .reply-collection{margin-bottom:12px;}

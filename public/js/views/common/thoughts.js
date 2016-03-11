@@ -43,7 +43,28 @@ window.rupon.views = window.rupon.views || {};
             var self = this;
             this.tags_collection = options.tags_collection;
             if (typeof options.reply_collection != "undefined") {
-                this.replyCollection = new options.reply_collection(this.model.get("replies").models);
+
+                mainModelCollection = this.model.get('replies').models
+
+                var mainModels = _.filter(mainModelCollection, function(model){
+                    return typeof model.get('main_reply_id') != "string"
+                });
+
+                if (mainModels.length != mainModelCollection) {
+                    var subModels = _.filter(mainModelCollection, function(model){
+                        return typeof model.get('main_reply_id') == "string"
+                    });
+
+                    mainModels = _.map(mainModels, function(model) { 
+                      var mainModelsSubs = _.filter(subModels, function(subModel) {
+                          return model.id == subModel.get('main_reply_id')
+                      });
+                      model.set('sub_models', mainModelsSubs);
+                      return model;
+                    });
+                }
+
+                this.replyCollection = new options.reply_collection(mainModels);
 
                 this.replyCollection
                     .on('add', function() {
