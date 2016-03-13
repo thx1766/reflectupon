@@ -356,6 +356,16 @@ window.rupon.views = window.rupon.views || {};
 
         render: function(options) {
             var template_options = _.clone(this.model.attributes);
+            template_options.days = [];
+            template_options.eligible = template_options.eligible || 0
+
+            _(30).times(function(n) {
+                template_options.days.push({
+                    pos: n,
+                    selected: n == template_options.eligible
+                })
+            });
+
             cv.TemplateView.prototype.render.call(this, _.extend(template_options, options));
         },
 

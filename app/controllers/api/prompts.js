@@ -37,21 +37,26 @@ exports.delete = function(req, res) {
 
 exports.getPrompts = function(params, callback) {
 
-    Prompt.find(params).exec(function(err, prompts) {
+    Prompt
+        .find(params)
+        .sort({
+            eligible: 1
+        })
+        .exec(function(err, prompts) {
 
-        if (prompts.length) {
-            callback(prompts);
-        } else if (_.keys(params).length){
-
-            // Do again with no params
-            exports.getPrompts({}, function(prompts) {
+            if (prompts.length) {
                 callback(prompts);
-            });
-        } else {
-            console.log('no prompts');
-            callback(false);
-        }
-    });
+            } else if (_.keys(params).length){
+
+                // Do again with no params
+                exports.getPrompts({}, function(prompts) {
+                    callback(prompts);
+                });
+            } else {
+                console.log('no prompts');
+                callback(false);
+            }
+        });
 }
 
 exports.getPromptsById = function(id, callback) {

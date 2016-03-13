@@ -46,9 +46,16 @@ exports.home = function(req, res, dates) {
 
                         userSettings.getSettings(user_id, function(userSettings) {
 
-                            var promptsParams = {
-                                eligible: moment().isoWeekday()
+                            var daydiff = function(first, second) {
+                                return Math.round((second-first)/(1000*60*60*24));
                             }
+                            var date1 = new Date();
+                            date1.setHours(0,0,0,0);
+
+                            var promptsParams = {
+                                eligible: daydiff(moment("2016-03-12"), date1) % 30
+                            }
+
                             prompts.getPrompts(promptsParams, function(prompts) {
 
                                 var attr = {
