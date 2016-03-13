@@ -92,20 +92,13 @@ exports.entry = function(req, res) {
     }
     helpers.getPublicThoughts(params, function(thoughts) {
         if (thoughts.length) {
-            var thought = thoughts[0];
-
-            if (thought.toObject) {
-                thought = thought.toObject();
-            }
-            thought.date = moment().format("MMM Do");
-            thought.description = helpers.convertLineBreaks(thought.description, 'n');
 
             res.render('entry', {
                 topBar: true,
                 signout: false,
                 landing_page: false,
                 is_admin: false,
-                thought: thought
+                thought: JSON.stringify(thoughts)
             });
         }
     });

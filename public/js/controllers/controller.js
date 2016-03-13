@@ -45,11 +45,6 @@ window.rupon.utils = window.rupon.utils || {};
         }
     };
 
-    rc.setSingle = function(model) {
-		singleView = new rupon.views.Single.ThoughtView({model: model});
-		$("#container").html(singleView.$el);
-    };
-
     rupon.utils.getSelectionText = function() {
 		var text = "";
 		if (window.getSelection) {

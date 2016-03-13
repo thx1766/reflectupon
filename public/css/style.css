@@ -294,7 +294,7 @@ ul.get-started .desc {
     padding-bottom: 10px
 }
 
-.recommended-view .sign-up-module{
+.single-entry-view .sign-up-module{
   background-color: #fff;
   border-radius: 4px;
   padding: 10px;
@@ -302,7 +302,7 @@ ul.get-started .desc {
   font-weight: 300;
 }
 
-.recommended-view .sign-up-module button{
+.single-entry-view .sign-up-module button{
     margin-top:10px;
 }
 

@@ -9,7 +9,7 @@ window.rupon.utils = window.rupon.utils || {};
         rm = window.rupon.models,
         rh = window.rupon.helpers;
 
-    rc.startEntryPage = function(message, login) {
+    rc.startEntryPage = function(thought, message, login) {
 
         $('.sign-up-btn').on('click', function() {
             new rv.ModalView({view: "signup"});
@@ -17,6 +17,17 @@ window.rupon.utils = window.rupon.utils || {};
         $('.log-in-btn').on('click', function() {
             new rv.ModalView({view: "login"});
         });
+
+        var popular_collection = new rm.thoughtCollection(thought);
+
+        var popularView = new rv.ThoughtsView({
+            collection: popular_collection,
+            reply_collection: rm.replyCollection,
+            user: rupon.account_info
+        });
+
+        $(".popular-container").html(popularView.$el);
+        popularView.trigger('content-loaded');
 
     }
 

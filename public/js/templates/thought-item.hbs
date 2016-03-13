@@ -26,7 +26,7 @@
         <div class="annotation-desc"><span>Based on your snippet:</span> <span>{{ annotation }}</span></div>
     </div>
 {{/if}}
-<div class="message clearfix{{#equal privacy "Private"}} private{{/equal}}">
+<div class="message clearfix{{#equal privacy "Private"}} private{{/equal}}" data-id={{_id}}>
     {{#if link}}
         <div class="link-box">
             <span class="title">With a reflection to this link:</span>
