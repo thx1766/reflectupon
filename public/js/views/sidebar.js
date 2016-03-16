@@ -118,6 +118,7 @@ window.rupon.views = window.rupon.views || {};
         },
 
         goToEntry: function(e) {
+            mixpanel.track('go-to-entry');
             this.trigger('go-to-entry', this.model.attributes.day);
         },
 

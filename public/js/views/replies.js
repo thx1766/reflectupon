@@ -109,6 +109,7 @@ window.rupon.views = window.rupon.views || {};
         },
 
         thankReply: function() {
+            mixpanel.track('thank-reply');
             this.model.save({
                 thanked: true
             }, {patch: true})
@@ -137,11 +138,13 @@ window.rupon.views = window.rupon.views || {};
         },
 
         makeResponse: function() {
+            mixpanel.track('respond-reply');
             this.responseTemplate = true;
             this.render();
         },
 
         submitResponse: function() {
+            mixpanel.track('respond-submit');
             var response = new rm.reply({
                 thought_id: this.model.thought_id
             });

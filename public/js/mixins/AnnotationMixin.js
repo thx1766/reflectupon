@@ -22,6 +22,7 @@ window.rupon.mixins = window.rupon.mixins || {};
 
             var self = this;
             $(document).one('mouseup', function(e) {
+                mixpanel.track('set-annotation');
                 e.preventDefault();
                 self.setAnnotation();
             });
@@ -81,6 +82,7 @@ window.rupon.mixins = window.rupon.mixins || {};
             description = writeReplyEle.find('textarea').val()
 
             if ($.trim(description) != "") {
+                mixpanel.track('submit-reply');
 
                 attr = {
                     user_id:     this.user.user_id,

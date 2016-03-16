@@ -14,6 +14,12 @@ window.rupon.utils = window.rupon.utils || {};
 
     rc.setAllThoughts = function(params) {
 
+        mixpanel.identify(rupon.account_info.user_id);
+        mixpanel.people.set({
+            "$email": rupon.account_info.email
+        });
+        mixpanel.track('home-page-view');
+
         params = params || {};
 
         var frequency =    params.frequency, 

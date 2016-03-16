@@ -229,6 +229,7 @@ window.rupon.views = window.rupon.views || {};
         },
 
         showSingle: function() {
+            mixpanel.track('read-more');
             var attrs = {
                 showMore: true
             }
@@ -276,6 +277,7 @@ window.rupon.views = window.rupon.views || {};
         },
 
         clickReply: function() {
+            mixpanel.track('bottom-write-reply');
             this.$el.find('.write-reply-container').html(Handlebars.templates['write-reply']);
             this.$el.find('.write-reply textarea').focus();
             this.$el.find('.click-reply').addClass('clicked');

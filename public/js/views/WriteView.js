@@ -14,6 +14,7 @@ window.rupon.views = window.rupon.views || {};
         tags: [],
 
         events: {
+            'click textarea':       'trackWrite',
             'click .create':        'submitReflection',
             'click .privacy':       'changePrivacy',
             'click .write-another': 'writeAnother',
@@ -80,6 +81,10 @@ window.rupon.views = window.rupon.views || {};
             textarea_ele.focus();
         },
 
+        trackWrite: function() {
+            mixpanel.track('write-entry');
+        },
+
         submitReflection: function() {
 
             var self = this;
@@ -90,6 +95,7 @@ window.rupon.views = window.rupon.views || {};
             var prompt_ele = this.$el.find('.prompt-input input');
 
             if (!this.clickedOnce && $.trim(textarea_ele.val()) != "") {
+                mixpanel.track('create-entry');
                 this.clickedOnce = true;
 
                 var date = new Date();
