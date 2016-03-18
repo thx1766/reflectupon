@@ -298,8 +298,15 @@ ul.get-started .desc {
   background-color: #fff;
   border-radius: 4px;
   padding: 10px;
-  font-size: 20px;
   font-weight: 300;
+}
+
+.single-entry-view .sign-up-module .intro-sign-up{
+  font-size: 16px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom:8px;
+  margin-bottom:8px;
+  font-weight: 400;
 }
 
 .single-entry-view .sign-up-module button{
@@ -529,7 +536,6 @@ ul.get-started .desc {
   border-radius: 2px;
   margin-bottom: 8px;
   list-style: none;
-
 }
 
 .replies .reply-desc p.title {
@@ -540,7 +546,12 @@ ul.get-started .desc {
 .replies .reply-desc p.description {
   margin-bottom: 0;
   overflow: auto;
-  height: 60px;
+}
+
+.replies .reply-desc .reply-actions {
+  margin-top: 8px;
+  border-top: 1px solid #ccc;
+  padding-top: 2px;
 }
 .thought-row .replies .reply-desc {
   position: absolute;
@@ -554,9 +565,18 @@ ul.get-started .desc {
 .thought-row .dropdown li:last-child{border-bottom:0}
 .thought-row .dropdown li a{display:block}
 
+.single-entry-view .thought-row .message .description {
+  line-height: 40px;
+}
+
 .selectable span.temp{border-bottom:2px dotted rgb(107, 107, 107);}
 .selectable span.perm, .overflow-description .highlight{background-color:#F6FFBA;border-radius:2px;padding:1px 0;transition:background-color .25s;-webkit-transition:background-color .25s;}
 .selectable span.perm:hover{background-color:#F2FF68}
+
+.single-entry-view .selectable span.perm,
+.single-entry-view .overflow-description .highlight{
+  padding: 3px 0;
+}
 
 .thought-row a{text-decoration:none;font-family: helvetica neue;}
 .thought-row .annotation{color:#878787;font-size: 14px;font-family:"Helvetica Neue";font-weight:200;letter-spacing:.04em;padding:10px;}

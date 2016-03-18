@@ -42,6 +42,7 @@ window.rupon.views = window.rupon.views || {};
             options = options || {};
             var self = this;
             this.tags_collection = options.tags_collection;
+            this.experiment = options.experiment;
             if (typeof options.reply_collection != "undefined") {
 
                 mainModelCollection = this.model.get('replies').models
@@ -219,7 +220,8 @@ window.rupon.views = window.rupon.views || {};
                 collection: this.replyCollection,
                 user:       this.user,
                 replyDict:  replyDict,
-                thoughtUserId: this.model.get('user_id')
+                thoughtUserId: this.model.get('user_id'),
+                experiment: this.experiment
             });
             this.addChild(this.replyCollectionContainer, ".replies");
         },

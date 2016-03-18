@@ -35,9 +35,24 @@ window.rupon.views = window.rupon.views || {};
 
     });
 
-    rv.SignupModal = cv.TemplateView.extend({
+    rv.SignupModal = cv.Container.extend({
         className: "modal fade signup",
         template: Handlebars.templates['signup-modal'],
+
+        initialize: function() {
+            cv.Container.prototype.initialize.call(this);
+            this.render();
+        },
+
+        render: function(options) {
+            this.$el.html(this.template(options));
+            this.addChild(new rv.SignupView, '.form-container');
+        }
+
+    });
+
+    rv.SignupView = cv.TemplateView.extend({
+        template: Handlebars.templates['signup-view'],
 
         events: {
             'click .submit-box input': 'clickSubmit',

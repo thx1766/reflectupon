@@ -1,0 +1,25 @@
+<form id="register-form" action="/register" method="post">
+    <div class="form-group" id="username-field">
+        <label>Username</label>
+        <input class="form-control" type="text" name="username" value="{{username}}" />
+        <span class="error"></span>
+    </div>
+    <div class="form-group" id="email-field">
+        <label>E-mail</label>
+        <input class="form-control" type="text" name="email"/>
+        <span class="error"></span>
+    </div>
+    <div class="form-group" id="password-field">
+        <label>Password</label>
+        <input class="form-control" type="password" name="password"/>
+        <span class="error"></span>
+    </div>
+    <div class="form-group" id="confirm-password-field">
+        <label>Confirm Password</label>
+        <input class="form-control" type="password"/>
+        <span class="error"></span>
+    </div>
+    <div class="submit-box clearfix">
+        <input type="submit" value="Register"/>
+    </div>
+</form>

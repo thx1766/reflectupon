@@ -171,12 +171,20 @@ window.rupon.views = window.rupon.views || {};
         initialize: function(options) {
             var self = this;
             cv.CollectionContainer.prototype.initialize.call(this, function(model) {
-                var view = new rv.ThoughtWrapperView({
-                    model:              model,
-                    user:               options.user,
-                    reply_collection:   options.reply_collection,
-                    tags_collection:    options.tags_collection
-                })
+
+                var thoughtParams = {
+                    model: model
+                }
+
+                _.extend(thoughtParams, _.pick(options, [
+                    'user',
+                    'reply_collection',
+                    'tags_collection',
+                    'showMore',
+                    'experiment'
+                ]));
+
+                var view = new rv.ThoughtWrapperView(thoughtParams);
 
                 view
                     .on("delete-thought", function(model) {

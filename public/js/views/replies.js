@@ -51,10 +51,11 @@ window.rupon.views = window.rupon.views || {};
         initialize: function(options) {
             this.listenTo(this.model, "change", this.render);
             this.subModel = options.subModel;
+            this.experiment = options.experiment;
+            this.thoughtUserId = options.thoughtUserId;
             if (!this.subModel) {
                 this.user     = options.user;
                 this.replyPos = options.replyDict[this.model.id];
-                this.thoughtUserId = options.thoughtUserId;
             }
 
             cv.TemplateView.prototype.initialize.call(this, options);
@@ -63,7 +64,8 @@ window.rupon.views = window.rupon.views || {};
             "click .action":          "thankReply",
             "click .reply-privacy":   "changePrivacy",
             "click .make-response":   "makeResponse",
-            "click .submit-response": "submitResponse"
+            "click .submit-response": "submitResponse",
+            "click .read-more":       "readMore"
         },
 
         render: function(options) {
@@ -88,6 +90,11 @@ window.rupon.views = window.rupon.views || {};
                 } else {
                     this.$el.addClass('hidden');
                 }
+            }
+
+            if (template_options.description.length > 80 && !options.readMore) {
+                template_options.description = template_options.description.substring(0, 80) + "...";
+                params.readMore = true;
             }
 
             template_options = _.extend(template_options, params);
@@ -151,15 +158,28 @@ window.rupon.views = window.rupon.views || {};
             var description = this.$el.find('.reply-to-reply textarea').val();
 
             var self = this;
-            response.save({
+
+            var responseParams = {
                 description:   description,
                 privacy:       "PUBLIC",
                 main_reply_id: this.model.id
-            }, {
+            };
+
+            if (this.experiment) {
+                responseParams.experiment = true;
+                responseParams.user_id = this.thoughtUserId;
+            }
+
+            response.save(responseParams, {
                 success: function() {
                     self.$el.find('.confirmed').show();
                 }
             });
+        },
+
+        readMore: function() {
+            mixpanel.track('reply-read-more');
+            this.render({readMore: true});
         }
 
     });

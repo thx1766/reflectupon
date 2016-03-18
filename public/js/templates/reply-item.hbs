@@ -36,21 +36,21 @@
             </div>
             {{/if}}
         </div>
-        <p class="description">{{ description }}</p>
-        {{#if can_thank}}
-        <div>
+        <p class="description">{{ description }}{{#if readMore}} <a href="javascript:;" class="read-more">Read More</a>{{/if}}</p>
+        <div class="reply-actions">
             <a href="javascript:;" class="make-response">
                 <span>Respond</span>
-            </a> • 
-            {{#unless thanked}}
-            <a href="javascript:;" class="action">
-                <span>Thank for reply</span>
             </a>
-            {{else}}
-            <span>Thanked!</span>
-            {{/unless}}
+            {{#if can_thank}} • 
+                {{#unless thanked}}
+                <a href="javascript:;" class="action">
+                    <span>Thank for reply</span>
+                </a>
+                {{else}}
+                <span>Thanked!</span>
+                {{/unless}}
+            {{/if}}
         </div>
-        {{/if}}
         {{#if is_author}}
             {{#if thanked}}
             <div>

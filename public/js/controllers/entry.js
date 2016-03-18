@@ -9,21 +9,30 @@ window.rupon.utils = window.rupon.utils || {};
         rm = window.rupon.models,
         rh = window.rupon.helpers;
 
-    rc.startEntryPage = function(thought, message, login) {
+    rc.startEntryPage = function(thought, params) {
+        mixpanel.track('single-entry-view');
 
-        $('.sign-up-btn').on('click', function() {
-            new rv.ModalView({view: "signup"});
-        })
+        params = params || {};
+
         $('.log-in-btn').on('click', function() {
             new rv.ModalView({view: "login"});
         });
+
+        var signupForm = new rv.SignupView({
+            username: params.username || "",
+            experiment: true
+        });
+
+        $('.sign-up-view').html(signupForm.$el);
 
         var popular_collection = new rm.thoughtCollection(thought);
 
         var popularView = new rv.ThoughtsView({
             collection: popular_collection,
             reply_collection: rm.replyCollection,
-            user: rupon.account_info
+            user: rupon.account_info,
+            showMore: true,
+            experiment: true
         });
 
         $(".popular-container").html(popularView.$el);

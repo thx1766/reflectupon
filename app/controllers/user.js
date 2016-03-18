@@ -89,10 +89,18 @@ exports.home = function(req, res, dates) {
 };
 
 exports.journal = function(req, res) {
-    res.render('journal', { user: req.user, topBar: true, signout: true, landing_page: false, is_admin: req.user.username == 'andrew' });
+    res.render('journal', {
+        user: req.user,
+        topBar: true,
+        signout: true,
+        landing_page: false,
+        is_admin: req.user.username == 'andrew'
+    });
 };
 
 exports.entry = function(req, res) {
+    console.log('here');
+    console.log(req.user);
     var params = {};
     if (req.params.id) {
         params._id = req.params.id;
@@ -101,6 +109,7 @@ exports.entry = function(req, res) {
         if (thoughts.length) {
 
             res.render('entry', {
+                user: req.user,
                 topBar: true,
                 signout: false,
                 landing_page: false,

@@ -262,9 +262,15 @@ exports.postReply = function(req, res) {
         title:          req.body.title,
         description:    req.body.description,
         thought_id:     req.body.thought_id,
-        user_id:        req.user._id,
         privacy:        req.body.privacy,
         date:           new Date()
+    }
+
+    // Associate non-account replier in entry page to the thought
+    if (req.body.experiment) {
+        reply_attr.user_id = req.body.user_id;
+    } else {
+        reply_attr.user_id = req.user._id;
     }
 
     if (req.body.main_reply_id) {
@@ -333,19 +339,24 @@ exports.postReply = function(req, res) {
             res.send(reply);
         }
 
-        Thought.find({ _id: req.body.thought_id }, function(err, thought) {
-
-            var oneThought = thought[0];
-
-            oneThought.replies.push(reply);
-
-            oneThought.save(function(err){
-
-                if (err) console.log(err);
-
-            });
-        });
+        exports.saveReplyToThought(req.body.thought_id, reply);
 
     });
 
+}
+
+exports.saveReplyToThought = function(thought_id, reply) {
+
+    Thought.find({ _id: thought_id }, function(err, thought) {
+
+        var oneThought = thought[0];
+
+        oneThought.replies.push(reply);
+
+        oneThought.save(function(err){
+
+            if (err) console.log(err);
+
+        });
+    });
 }
