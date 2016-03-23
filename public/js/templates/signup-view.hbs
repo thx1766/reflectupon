@@ -19,6 +19,9 @@
         <input class="form-control" type="password"/>
         <span class="error"></span>
     </div>
+    {{#if experiment}}
+        <input type="hidden" name="thoughtId" value="{{thoughtId}}">
+    {{/if}}
     <div class="submit-box clearfix">
         <input type="submit" value="Register"/>
     </div>

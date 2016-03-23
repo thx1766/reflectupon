@@ -18,12 +18,18 @@ window.rupon.utils = window.rupon.utils || {};
             new rv.ModalView({view: "login"});
         });
 
-        var signupForm = new rv.SignupView({
-            username: params.username || "",
-            experiment: true
-        });
+        if (params.userMade) {
+            $('.side-view-container').hide();
+        } else {
 
-        $('.sign-up-view').html(signupForm.$el);
+            var signupForm = new rv.SignupView({
+                username: params.username || "",
+                experiment: true,
+                thoughtId: thought[0]._id
+            });
+
+            $('.sign-up-view').html(signupForm.$el);
+        }
 
         var popular_collection = new rm.thoughtCollection(thought);
 

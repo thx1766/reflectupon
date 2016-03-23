@@ -1,14 +1,16 @@
 <% include header %>
   <div class="single-entry-view">
     <div class="side-view-container">
+    <% if (!userMade) { %>
       <div class="sign-up-module">
         <div class="intro-sign-up">
           Write your own journal entries and share with your friends.
         </div>
         <div class="sign-up-view"></div>
       </div>
+    <% } %>
     </div>
-    <div class="main-view-container">
+    <div class="main-view-container" <% if (userMade) { %>style="margin:0 auto; float:none"<% } %>>
       <div class="popular-container"></div>
     </div>
   </div>
@@ -24,7 +26,8 @@
     }
     $(document).ready(function(){
       rupon.controllers.startEntryPage(<%- thought %>, {
-        "username": getQueryVariable("u")
+        "username": getQueryVariable("u"),
+        "userMade": <%- userMade %>
       });
     })
   </script>

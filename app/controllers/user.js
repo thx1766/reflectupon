@@ -99,8 +99,6 @@ exports.journal = function(req, res) {
 };
 
 exports.entry = function(req, res) {
-    console.log('here');
-    console.log(req.user);
     var params = {};
     if (req.params.id) {
         params._id = req.params.id;
@@ -108,14 +106,18 @@ exports.entry = function(req, res) {
     helpers.getPublicThoughts(params, function(thoughts) {
         if (thoughts.length) {
 
-            res.render('entry', {
-                user: req.user,
-                topBar: true,
-                signout: false,
-                landing_page: false,
-                is_admin: false,
-                thought: JSON.stringify(thoughts)
-            });
+            User.findById(thoughts[0].user_id, function(err, user) {
+
+                res.render('entry', {
+                    user: req.user,
+                    topBar: true,
+                    signout: false,
+                    landing_page: false,
+                    is_admin: false,
+                    thought: JSON.stringify(thoughts),
+                    userMade: user.status == "single"
+                });
+            })
         }
     });
 };
@@ -166,6 +168,24 @@ exports.logout = function(req, res) {
 
 exports.postregister = function(req, res, next) {
 
+    if (req.body.thoughtId) {
+        Thought.findById(req.body.thoughtId, function(err, thought) {
+            User.findById(thought.user_id, function(err, user) {
+                user.username = req.body.username;
+                user.email = req.body.email;
+                user.password = req.body.password;
+                user.status = "single";
+
+                user.save(function(err, user_saved) {
+                    req.logIn(user, function(err) {
+                        if (err) { return next(err); }
+                        return res.redirect('/home');
+                    });
+                })
+            })
+        })
+    } else {
+
     User.findOne({username: req.body.username}, function(err, user_check) {
 
         if (user_check) {
@@ -204,6 +224,8 @@ exports.postregister = function(req, res, next) {
 
         }
     })
+
+    }
 
 };
 
