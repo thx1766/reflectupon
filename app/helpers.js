@@ -2,6 +2,7 @@ var mongoose   = require('mongoose')
   , async      = require('async')
   , Thought    = mongoose.model('Thought')
   , Annotation = mongoose.model('Annotation')
+  , Reply      = mongoose.model('Reply')
   , User       = mongoose.model('User')
   , Topic      = mongoose.model('Topic')
   , _          = require('underscore');
@@ -115,8 +116,19 @@ exports.getPublicThoughts = function(params, callback, options) {
 
                     async.mapSeries(thought.replies, function(reply, callback2) {
 
-                        exports.getUserIfPublic(reply, function(user) {
+                        exports.getUserIfPublic(reply, function(user, callback3) {
                             reply.username = user.username;
+
+                            Thought.count({user_id: user._id}, function(err, count) {
+                                Reply.count({user_id: user._id}, function(err, replyCount) {
+                                    Reply.count({user_id: user._id, thanked: true}, function(err, thankedCount) {
+                                        reply.userEntriesCount = count;
+                                        reply.userRepliesCount = replyCount;
+                                        reply.userThanksCount = thankedCount;
+                                        callback3();
+                                    })
+                                })
+                            })
                         }, function() {
                             callback2(err, reply);
                         })
@@ -127,8 +139,9 @@ exports.getPublicThoughts = function(params, callback, options) {
                         exports.getAnnotationsForThought(thought, null, function(annotations) {
                             thought.annotations = annotations;
 
-                            exports.getUserIfPublic(thought, function(user) {
+                            exports.getUserIfPublic(thought, function(user, callback2) {
                                 thought.username = user.username;
+                                callback2();
 
                             },function() {
 
@@ -165,8 +178,9 @@ exports.removeRejectedReplies = function(replies) {
 exports.getUserIfPublic = function(item, action, callback) {
     if (item.privacy == "PUBLIC") {
         User.findById(item.user_id, function(err, user) {
-            action(user);
+            action(user, function() {
             callback();
+            });
         });
     } else {
         callback();

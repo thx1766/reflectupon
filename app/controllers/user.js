@@ -127,7 +127,12 @@ exports.reports = function(req, res) {
 };
 
 exports.newUser = function(req, res) {
-    res.render('new-user', {topBar: false, body: true, landing_page: false, is_admin: req.user.username == 'andrew' });
+    res.render('new-user', {
+        topBar: false,
+        body: true,
+        landing_page: false,
+        is_admin: req.user.username == 'andrew'
+    });
 };
 
 exports.getIndex = function(req, res) {

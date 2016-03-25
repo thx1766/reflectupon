@@ -191,8 +191,9 @@ exports.post = function(req, res) {
 
                     thought = thought.toObject();
 
-                    helpers.getUserIfPublic(thought, function(user) {
+                    helpers.getUserIfPublic(thought, function(user, callback2) {
                         thought.username = user.username;
+                        callback2();
 
                     },function() {
 

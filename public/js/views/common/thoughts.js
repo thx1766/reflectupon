@@ -121,8 +121,8 @@ window.rupon.views = window.rupon.views || {};
             options = options || {};
             template_options.showMore = options.showMore || false;
 
-            if (!template_options.showMore && template_options.description.length >1100) {
-                template_options.description = this.truncateDescription(template_options.description, 1100);
+            if (!template_options.showMore && template_options.description.length > 550) {
+                template_options.description = this.truncateDescription(template_options.description, 550);
                 template_options.read_more = true;
             }
 

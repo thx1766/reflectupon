@@ -1,6 +1,10 @@
     <div class="main-reply">
         <div class="title-container clearfix">
-            <p class="title" style="float:left"><strong>
+            <div class="title" style="float:left">
+                <div class="dropdown-container arrow-right clearfix" style="display:inline-block;font-family:'Merriweather';font-weight:bold">
+                    {{#if pointsStatus}}
+                    <span style="color: green;font-family: arial;font-size: 12px;">({{pointsStatus}})</span>
+                    {{/if}}
                 {{#if is_author}}
                     {{#equal privacy "ANONYMOUS"}}
                         <span style="color: #8F8F8F">Anonymous</span> <span style="color: #008FBF">(You)</span>
@@ -16,8 +20,20 @@
                         <span style="color: #008FBF">{{username}}</span>
                     {{/equal}}
                 {{/if}}
-                replied:</strong>
-            </p>
+                    <div class="dropdown-arrow clearfix">
+                        <div class="arrow">
+                        </div>
+                        <div class="dropdown" style="font-weight:400">
+                            <ul>
+                                <li>{{userEntriesCount}} entries</li>
+                                <li>{{userRepliesCount}} replies</li>
+                                <li>{{userThanksCount}} replies thanked</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <strong style="display:inline-block;vertical-align:top;">replied:</strong>
+            </div>
             {{#if is_author}}
             <div class="dropdown-container arrow-right clearfix" style="float: right">
                 <a href="javascript:;" class="reply-options">

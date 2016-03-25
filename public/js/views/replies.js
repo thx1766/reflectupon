@@ -77,7 +77,8 @@ window.rupon.views = window.rupon.views || {};
             var params = {
                 is_author: isAuthor,
                 can_thank: isEntryAuthor && !isAuthor,
-                new_reply: this.responseTemplate
+                new_reply: this.responseTemplate,
+                pointsStatus: this.model.get('userEntriesCount') ? (this.model.get('userEntriesCount') * 10) + (this.model.get('userRepliesCount') * 15) + (this.model.get('userThanksCount') * 5) : false
             }
 
             if (typeof template_options.privacy == "undefined") {
