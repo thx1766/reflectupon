@@ -57,7 +57,6 @@ exports.home = function(req, res, dates) {
                             }
 
                             prompts.getPrompts(promptsParams, function(prompts) {
-
                                 var attr = {
                                     user:         req.user,
                                     topBar:       true,
@@ -115,12 +114,27 @@ exports.entry = function(req, res) {
                     landing_page: false,
                     is_admin: false,
                     thought: JSON.stringify(thoughts),
-                    userMade: user.status == "single"
+                    userMade: user.status == "single" || user.username.indexOf('claim') == -1
                 });
             })
         }
     });
 };
+
+exports.settings = function(req, res) {
+
+    userSettings.getSettings(req.params.id, function(userSettings, user) {
+
+        res.render('settings', {
+            settings: JSON.stringify(userSettings),
+            landing_page: false,
+            topBar: true,
+            is_admin: false,
+            signout: false,
+            user: user
+        });
+    });
+}
 
 exports.reports = function(req, res) {
     res.render('reports', { user: req.user, topBar: true, signout: true, landing_page: false, is_admin: req.user.username == 'andrew' });
@@ -353,20 +367,6 @@ exports.postReset = function(req, res, next) {
             }
         })
     }
-
-}
-
-exports.getUserEmailList = function () {
-
-    var deferred = Q.defer();
-
-    User.find({}, function(err, users) {
-
-        deferred.resolve(_.pluck(users, "email"))
-
-    });
-
-    return deferred.promise;
 
 }
 

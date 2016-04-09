@@ -34,6 +34,7 @@ exports.getThoughtsWithAnnotation = function(options, callback) {
             };
 
             Thought.populate(thoughts, params, function(err, thoughtsWithRecs) {
+
                 async.mapSeries(
                     thoughtsWithRecs, function(thought, callback) {
 
@@ -46,6 +47,8 @@ exports.getThoughtsWithAnnotation = function(options, callback) {
                                     thought.recommended[0].annotations = annotations;
                                     callback(err, thought);
                                 });
+                            } else {
+                                callback(err, thought);
                             }
                         })
                     },
@@ -82,7 +85,11 @@ exports.getPublicThoughts = function(params, callback, options) {
     options = options || {};
     params = params || {};
 
-    var limit = params.limit || 20;
+    var limit = 20;
+    if (params.limit) {
+        limit = params.limit;
+        delete params.limit;
+    }
 
     // var startDate = new Date(new Date().setHours(0,0,0,0));
     // startDate.setDate(startDate.getDate()-14);

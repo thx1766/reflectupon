@@ -13,8 +13,16 @@ window.rupon.views = window.rupon.views || {};
         template: Handlebars.templates['settings'],
 
         events: {
+          'click #email-prompts': 'clickEmailPrompts',
           'click #email-replies': 'clickEmailReply',
           'click #email-thanks':  'clickEmailThanks'
+        },
+
+        clickEmailPrompts: function() {
+          var isClicked = this.$el.find('#email-prompts').prop("checked");
+          this.model.save({
+            email_prompts: isClicked
+          });
         },
 
         clickEmailReply: function() {

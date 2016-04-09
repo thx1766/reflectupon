@@ -28,7 +28,7 @@ window.rupon.views = window.rupon.views || {};
             this.addChild(leftView, '.left-container');
 
             this.renderOnTrigger(leftView, nav_types, options);
-            this.renderRightView(options,'actives');
+            this.renderRightView(options,'users');
 
         },
 
@@ -168,11 +168,24 @@ window.rupon.views = window.rupon.views || {};
     rv.UsersView = cv.CollectionContainer.extend({
         tagName: 'ul',
         className: 'users-view',
+        template: Handlebars.templates['users-wrapper'],
+
+        container_ele: '.users-table',
+
+        events: {
+            'click .send-email': 'sendEmail'
+        },
 
         initialize: function() {
             cv.CollectionContainer.prototype.initialize.call(this, function(model) {
                 return new rv.UserView({model: model})
             })
+        },
+
+        sendEmail: function() {
+            $.post("/api/send_email", function() {
+
+            });
         }
 
     });

@@ -3,7 +3,10 @@
 
     <script type="text/javascript">
     $(document).ready(function(){
-        rupon.controllers.startSettingsPage({ user_id: "<%= user._id %>", email: "<%= user.email %>" });
+        rupon.controllers.startSettingsPage({
+          username: "<%= user.username %>",
+          settings: <%- settings %>
+        });
     })
     </script>
 

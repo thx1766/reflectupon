@@ -22,7 +22,10 @@ exports.put = function(req, res) {
     Prompt.findById(req.params.id, function (err, prompt) {
 
         prompt = _.extend(prompt, _.pick(req.body, ['eligible', 'description']));
-        prompt.save();
+        prompt.save(function(err) {
+            res.send(prompt);
+        });
+
     });
 }
 

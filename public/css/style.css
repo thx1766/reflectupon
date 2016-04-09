@@ -428,13 +428,14 @@ ul.get-started .desc {
 
 .past-posts-label{float:right;color:#999999;}
 
-.dashboard-view{
+.recommended-view{
   margin-bottom: 15px;
 }
 .write-view{
   position:relative;
   z-index:2;
   border-radius:inherit;
+  margin-bottom: 15px;
 }
 .write-view .footer .options{float: left;}
 .write-view .footer .submit-options{float:right;}

@@ -9,8 +9,19 @@ window.rupon.utils = window.rupon.utils || {};
         rm = window.rupon.models,
         rh = window.rupon.helpers;
 
-    rc.startSettingsPage = function(options) {
-        $("#container").html(Handlebars.templates['settings']);
+    rc.startSettingsPage = function(params) {
+
+        $('.log-in-btn').on('click', function() {
+            new rv.ModalView({view: "login"});
+        });
+
+        var settings =     params.settings;
+        settings.username = params.username;
+        var settingsView = new rv.SettingsView({
+            model: new rm.userSettings(settings)
+        });
+
+        $("#container").html(settingsView.$el);
     }
 
 })();

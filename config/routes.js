@@ -2,6 +2,7 @@ var mongoose        = require('mongoose')
   , async           = require('async')
   , auth            = require('./middlewares/authorization')
   , _               = require('underscore')
+  , $               = require('jquery')(require('jsdom').jsdom().parentWindow)
   , emails          = require('../app/utils/emails')
   , user_routes      = require('../app/controllers/user')
   , thought_routes   = require('../app/controllers/thought')
@@ -41,6 +42,7 @@ module.exports = function(app) {
     app.post('/check-username',                      user_routes.checkUsername);
     app.get( '/twiml',                               thought_routes.getTwiml);
     app.get( '/superuser', auth.ensureAuthenticated, superuser_routes.get);
+    app.get( '/settings/:id',                        user_routes.settings);
 
     app.get('/api/thought',        thoughts.get);
     app.post('/api/thought',       thoughts.post);
@@ -59,7 +61,7 @@ module.exports = function(app) {
 
     app.post('/api/user_settings', auth.ensureAuthenticated, userSettings.post);
     app.get('/api/user_settings',  auth.ensureAuthenticated, userSettings.get);
-    app.put('/api/user_settings',  auth.ensureAuthenticated, userSettings.put);
+    app.put('/api/user_settings',  userSettings.put);
 
     app.get('/api/reports',        reports.get);
 
@@ -75,42 +77,25 @@ module.exports = function(app) {
 
     app.post('/api/send_email', function(req,res) {
 
-        var startDate = new Date();
-        startDate.setDate(startDate.getDate()-7);
+        var params = {
+            status: 'beta1'
+        };
 
-        var endDate = new Date();
-        endDate.setDate(endDate.getDate());
+        params = {
+            email: { $in: [
+                'andrewjcasal@gmail.com',
+                'tenorfella@gmail.com',
+                'stranovich@gmail.com'
+                ]}
+        }
 
-        // thought_routes.getAllByTimePeriod(startDate, endDate)
-        //     .then( function(thoughts) {
+        User.find(params, function(err, users) {
 
-        //         thoughts     = _.first(thoughts, 3);
-        //         descriptions = _.pluck(thoughts, 'description');
-        //         descriptions = _.map(descriptions, function(description) { 
-        //             if (description.length > 300) {
-        //                 return description.substr(0,300) + "...";
-        //             } else {
-        //                 return description;
-        //             }
-        //         })
+            emails.sendJournalPromptEmail(users, req.headers.origin, function() {
+                res.send("success");
+            });
 
-        //         user_routes.getUserEmailList()
-        //             .then(function(recipients) {
-        //                 app.render('weekly_email', {descriptions: descriptions}, function(err, html) {
-
-        //                     params = {
-        //                         html_template: html,
-        //                         subject:       "Weekly Postings on Reflect Upon",
-        //                         recipients:    recipients
-        //                     }
-
-        //                     return emails.sendEmail(params)
-        //                 })
-        //             })
-        //     })
-        //     .then( function(json) {
-        //         res.send({success: 1});
-        //     });
+        })
     });
 
     app.get('/api/active_users', superuser.active_users.get)
@@ -263,19 +248,66 @@ module.exports = function(app) {
     });
 
     app.post('/api/email', function(req, res) {
-        var thought = new Thought({
-            description:    req.body.plain,
-            privacy:        "PRIVATE",
-            user_id:        "522ebb4ee553960200000001",
-            date:           new Date()
+
+        var body = req.body.html;
+
+        var idIndex = body.indexOf('[ID:');
+        var idTag = "";
+
+        if (parseInt(idIndex) != -1) {
+            var startSubstr = body.substr(idIndex + 5);
+            var endIdIndex = startSubstr.indexOf(']');
+            idTag = startSubstr.substring(0, endIdIndex);
+        }
+
+        $('body').html(body);
+        $('body .gmail_signature').remove();
+
+        var nextHtml = $('body [dir=ltr]').html();
+        $('body').html(nextHtml);
+
+        $('body div').each(function() {
+            var text = $(this).html();
+
+            if (text != '<br>') {
+                $(this).replaceWith('<br>' + text);
+            } else {
+                $(this).replaceWith(text);
+            }
         });
+        nextHtml = $('body').html()
 
-        thought.save(function(err) {
+        var textIndex = nextHtml.indexOf('<br clear="all">');
+        if (textIndex != -1) {
+            nextHtml = nextHtml.substring(0, textIndex);
+        }
 
-            if (err) console.log(err);
+        var email = JSON.parse(req.body.envelope).from;
+        User.findOne({email: email}, function(err, user) {
 
-            res.send( thought );
+            var thoughtAttr = {
+                description: nextHtml,
+                privacy:     'PUBLIC',
+                user_id:     user._id,
+                date:        new Date()
+            }
 
+            if (idTag != "") {
+                Prompt.findById(idTag, function(err, prompt) {
+                    thoughtAttr.prompt = prompt;
+                    var thought = new Thought(thoughtAttr);
+
+                    thought.save(function(err) {
+
+                    });
+                });
+            } else {
+                var thought = new Thought(thoughtAttr);
+
+                thought.save(function(err) {
+
+                });
+            }
         });
     })
 

@@ -29,13 +29,31 @@ exports.getSettings = function(user_id, callback) {
 
                     userSettings.save(function(err) {
                         if (err) console.log(err);
-                        callback(userSettings);
+                        callback(userSettings, user);
                     });
                 } else {
-                    callback(userSettings);
+                    callback(userSettings, user);
                 }
 
             });
+    })
+}
+
+exports.eligibleUsers = function(users, property, callback) {
+    var params = {};
+
+    params['user']   = {$in: users};
+    params[property] = true;
+
+    UserSettings.find(params, function(err, userSettings) {
+        var validUserIds = _.map(_.pluck(userSettings,'user'), function(user_id) {
+            return user_id.toString();
+        });
+        var responseUsers = _.filter(users, function(user) {
+            console.log(user._id);
+            return _.contains(validUserIds, user._id.toString());
+        });
+        callback(responseUsers);
     })
 }
 
@@ -52,6 +70,7 @@ exports.put = function(req,res) {
                 if (userSettings) {
                     userSettings.email_reply = req.body.email_reply;
                     userSettings.email_thanks = req.body.email_thanks;
+                    userSettings.email_prompts = req.body.email_prompts;
                     userSettings.save(function(err) {
                         if (err) console.log(err);
                         res.send(userSettings);

@@ -8,13 +8,15 @@ var config   = process.env.PORT ? require('../../config') : require('../../confi
   , Thought  = mongoose.model('Thought')
   , User     = mongoose.model('User')
   , userSettings = require('../controllers/api/user_settings')
-  , _        = require('underscore');
+  , _        = require('underscore')
+  , helpers  = require('../helpers')
+  , prompts  = require('../controllers/api/prompts');
 
 exports.sendEmail = function(params, callback) {
 
   var email_params = {
       to:       params.recipients,
-      from:     'andrewjcasal@gmail.com',
+      from:     params.from || 'andrewjcasal@gmail.com',
       subject:  params.subject,
       html:     params.html_template
   }
@@ -31,28 +33,37 @@ exports.sendEmail = function(params, callback) {
 
 }
 
-exports.sendNewEmail = function(email_addresses, params) {
+exports.sendNewEmail = function(email_addresses, params, callback) {
 
     var email = new sendgrid.Email();
     email.setSmtpapiTos(email_addresses);
-    email.from = 'andrewjcasal@gmail.com';
+    email.from = params.from || 'andrewjcasal@gmail.com';
     email.subject = params.subject;
     email.html    = params.html;
 
     if (params.subs && params.subs.length) {
       _.each(params.subs, function(sub) {
-        var subTextArr = _.map(email_addresses, function(email) {
-          return sub.text;
-        });
+
+        var subTextArr = sub.text;
+        if (!Array.isArray(sub.text)) {
+          subTextArr = _.map(email_addresses, function(email) {
+            return sub.text;
+          });
+        }
         email.addSubstitution(sub.type, subTextArr);
       })
     }
 
-    email.addFilter('templates', 'template_id', '7ab8d627-e0d0-4a39-84e7-ae5bd588450c');
+    if (params.template_id) {
+      email.addFilter('templates', 'template_id', params.template_id);
+    }
+
     sendgrid.send(email, function(err, json) {
       if (err) {
         console.log(err);
       }
+
+      callback();
     })
 }
 /**
@@ -84,7 +95,8 @@ exports.sendReplyEmailToEntryWriter = function(thought, reply) {
                   subs:    [{
                     type: "-reply_description-",
                     text: reply.description
-                  }]
+                  }],
+                  template_id: '7ab8d627-e0d0-4a39-84e7-ae5bd588450c'
                 });
             }
         })
@@ -113,7 +125,8 @@ exports.sendReplyToOtherParticipants = function(thought, reply) {
         subs: [{
           type: "-reply_description-",
           text: reply.description
-        }]
+        }],
+        template_id: '7ab8d627-e0d0-4a39-84e7-ae5bd588450c'
       });
     });
   });
@@ -139,4 +152,62 @@ exports.sendEmailWhenThanked = function(reply) {
 
     })
   });
+}
+
+exports.sendJournalPromptEmail = function(users, domain, callback) {
+
+  var daydiff = function(first, second) {
+      return Math.round((second-first)/(1000*60*60*24));
+  }
+  var date1 = new Date();
+  date1.setHours(0,0,0,0);
+
+  var promptsParams = {
+      eligible: daydiff(moment("2016-03-12"), date1) % 30
+  }
+
+  prompts.getPrompts(promptsParams, function(prompts) {
+
+    var delimiter = " -OR- ";
+    var promptDescription = prompts[0].description;
+    var indexDelim = promptDescription.indexOf(delimiter);
+
+    var first, second;
+    if (indexDelim != -1) {
+      first = promptDescription.substring(0, indexDelim);
+      second = "<br />OR<br /><br />" + promptDescription.substring(indexDelim + delimiter.length) + "<br />"
+    } else {
+      first = promptDescription;
+      second = "";
+    }
+
+    userSettings.eligibleUsers(users, 'email_prompts', function(users) {
+
+      var userEmails = _.pluck(users, 'email');
+      var settingsUrls = _.map(users, function(user) {
+        return domain + "/settings/" + user._id;
+      });
+
+      exports.sendNewEmail(userEmails, {
+
+        from: 'entry@getyourshittogether.co',
+        subject: 'Prompt of the Day',
+        html:    first,
+        subs:    [{
+          type: "-challenge1-",
+          text: second
+        }, {
+          type: "-prompt1Id-",
+          text: prompts[0]._id
+        }, {
+          type: "-settings-",
+          text: settingsUrls
+        }],
+        template_id: 'f4f96446-8111-4ede-aa5e-a7d1c40768a6'
+      }, function() {
+        callback();
+      });
+    });
+
+  })
 }

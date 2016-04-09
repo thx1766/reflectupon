@@ -6,6 +6,9 @@ var userSettingsSchema = Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
         unique: true },
+    email_prompts: {
+        type: Boolean,
+        default: true },
     email_reply: {
         type: Boolean,
         default: true },

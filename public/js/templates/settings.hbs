@@ -5,6 +5,10 @@
     <div>Notifications</div>
     <div style="font-size: 14px">Receive e-mails:</div>
     <div style="margin-left: 20px">
+      <input id="email-prompts" type="checkbox" {{#if email_prompts}}checked="checked"{{/if}}>
+      <label for="email-prompts">For journal prompts</label>
+    </div>
+    <div style="margin-left: 20px">
       <input id="email-replies" type="checkbox" {{#if email_reply}}checked="checked"{{/if}}>
       <label for="email-replies">For replies</label>
     </div>
