@@ -48,7 +48,6 @@ exports.eligibleUsers = function(users, property, callback) {
             .findOne({
                 user: user})
             .exec(function(err, userSettings) {
-                console.log(userSettings);
 
                 if (!userSettings) {
                     userSettings = new UserSettings({
@@ -66,6 +65,7 @@ exports.eligibleUsers = function(users, property, callback) {
 
     }, function(err, results) {
         var params = {};
+        console.log(users);
 
         params['user']   = {$in: users};
         params[property] = false;
