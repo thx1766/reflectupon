@@ -17,6 +17,7 @@ var config          = process.env.PORT ? require('../../config') : require('../.
     User        = mongoose.model('User'),
     Thought     = mongoose.model('Thought'),
     UserMessage = mongoose.model('UserMessage'),
+    UserSettings = mongoose.model('UserSettings'),
     _ = require('underscore'),
     Q = require('q');
     SALT_WORK_FACTOR = 10;
@@ -225,6 +226,15 @@ exports.postregister = function(req, res, next) {
                 if(err) {
                     console.log(err);
                 } else {
+
+                    var userSettings = new UserSettings({
+                        user: user
+                    })
+
+                    userSettings.save(function(err) {
+                        if (err) console.log(err);
+                    });
+
                     exports.registerEmail(req.body.email);
 
                     passport.authenticate('local', function(err, user, info) {
