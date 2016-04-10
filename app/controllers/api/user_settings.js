@@ -58,6 +58,8 @@ exports.eligibleUsers = function(users, property, callback) {
                         if (err) console.log(err);
                         callback(err, user);
                     });
+                } else {
+                    callback(err, user);
                 }
             });
 
@@ -68,8 +70,6 @@ exports.eligibleUsers = function(users, property, callback) {
         params[property] = true;
 
         UserSettings.find(params, function(err, userSettings) {
-            console.log(userSettings);
-            console.log(users);
             var validUserIds = _.map(_.pluck(userSettings,'user'), function(user_id) {
                 return user_id.toString();
             });
