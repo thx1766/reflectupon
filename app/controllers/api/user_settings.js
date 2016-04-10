@@ -48,6 +48,7 @@ exports.eligibleUsers = function(users, property, callback) {
             .findOne({
                 user: user})
             .exec(function(err, userSettings) {
+                console.log(userSettings);
 
                 if (!userSettings) {
                     userSettings = new UserSettings({
@@ -76,8 +77,6 @@ exports.eligibleUsers = function(users, property, callback) {
             var responseUsers = _.filter(users, function(user) {
                 return _.contains(validUserIds, user._id.toString());
             });
-            console.log(users);
-            console.log(userSettings);
             callback(responseUsers);
         })
     });
