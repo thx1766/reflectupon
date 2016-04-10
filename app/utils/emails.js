@@ -183,30 +183,30 @@ exports.sendJournalPromptEmail = function(users, domain, callback) {
 
     userSettings.eligibleUsers(users, 'email_prompts', function(users) {
 
-      // var userEmails = _.pluck(users, 'email');
-      // var settingsUrls = _.map(users, function(user) {
-      //   return domain + "/settings/" + user._id;
-      // });
+      var userEmails = _.pluck(users, 'email');
+      var settingsUrls = _.map(users, function(user) {
+        return domain + "/settings/" + user._id;
+      });
 
-      // exports.sendNewEmail(userEmails, {
+      exports.sendNewEmail(userEmails, {
 
-      //   from: 'entry@getyourshittogether.co',
-      //   subject: 'Prompt of the Day',
-      //   html:    first,
-      //   subs:    [{
-      //     type: "-challenge1-",
-      //     text: second
-      //   }, {
-      //     type: "-prompt1Id-",
-      //     text: prompts[0]._id
-      //   }, {
-      //     type: "-settings-",
-      //     text: settingsUrls
-      //   }],
-      //   template_id: 'f4f96446-8111-4ede-aa5e-a7d1c40768a6'
-      // }, function() {
-      //   callback();
-      // });
+        from: 'entry@getyourshittogether.co',
+        subject: 'Prompt of the Day',
+        html:    first,
+        subs:    [{
+          type: "-challenge1-",
+          text: second
+        }, {
+          type: "-prompt1Id-",
+          text: prompts[0]._id
+        }, {
+          type: "-settings-",
+          text: settingsUrls
+        }],
+        template_id: 'f4f96446-8111-4ede-aa5e-a7d1c40768a6'
+      }, function() {
+        callback();
+      });
     });
 
   })

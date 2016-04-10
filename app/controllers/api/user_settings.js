@@ -74,12 +74,10 @@ exports.eligibleUsers = function(users, property, callback) {
                 return userSetting[property] == true;
             });
 
-            console.log(userSettings);
             var validUserIds = _.map(_.pluck(userSettings,'user'), function(user_id) {
                 return user_id.toString();
             });
             var responseUsers = _.filter(users, function(user) {
-                console.log(user._id.toString());
                 return _.contains(validUserIds, user._id.toString());
             });
             callback(responseUsers);
