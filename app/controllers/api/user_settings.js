@@ -67,16 +67,18 @@ exports.eligibleUsers = function(users, property, callback) {
         var params = {};
 
         params['user']   = {$in: users};
-        params[property] = true;
+        //params[property] = true;
 
         UserSettings.find(params, function(err, userSettings) {
-            var validUserIds = _.map(_.pluck(userSettings,'user'), function(user_id) {
-                return user_id.toString();
-            });
-            var responseUsers = _.filter(users, function(user) {
-                return _.contains(validUserIds, user._id.toString());
-            });
-            callback(responseUsers);
+            console.log('contains not true');
+            console.log(userSettings);
+            // var validUserIds = _.map(_.pluck(userSettings,'user'), function(user_id) {
+            //     return user_id.toString();
+            // });
+            // var responseUsers = _.filter(users, function(user) {
+            //     return _.contains(validUserIds, user._id.toString());
+            // });
+            // callback(responseUsers);
         })
     });
 }
