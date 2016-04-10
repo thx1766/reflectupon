@@ -67,7 +67,7 @@ exports.eligibleUsers = function(users, property, callback) {
         var params = {};
 
         params['user']   = {$in: users};
-        //params[property] = true;
+        params[property] = !!true;
 
         UserSettings.find(params, function(err, userSettings) {
             console.log(userSettings);
