@@ -298,14 +298,14 @@ module.exports = function(app) {
                     var thought = new Thought(thoughtAttr);
 
                     thought.save(function(err) {
-
+                        res.send('success');
                     });
                 });
             } else {
                 var thought = new Thought(thoughtAttr);
 
                 thought.save(function(err) {
-
+                    res.send('success');
                 });
             }
         });
