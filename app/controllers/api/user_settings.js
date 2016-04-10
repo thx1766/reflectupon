@@ -67,9 +67,13 @@ exports.eligibleUsers = function(users, property, callback) {
         var params = {};
 
         params['user']   = {$in: users};
-        params[property] = !!true;
 
         UserSettings.find(params, function(err, userSettings) {
+
+            userSettings = _.filter(userSettings, function(userSetting) {
+                return userSettings.property == true;
+            });
+
             console.log(userSettings);
             var validUserIds = _.map(_.pluck(userSettings,'user'), function(user_id) {
                 return user_id.toString();
