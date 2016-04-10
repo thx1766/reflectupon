@@ -76,6 +76,9 @@ exports.eligibleUsers = function(users, property, callback) {
             var responseUsers = _.filter(users, function(user) {
                 return _.contains(validUserIds, user._id.toString());
             });
+            console.log(users);
+            console.log(userSettings);
+            console.log(validUserIds);
             callback(responseUsers);
         })
     });
