@@ -40,26 +40,45 @@ exports.getSettings = function(user_id, callback) {
 }
 
 exports.eligibleUsers = function(users, property, callback) {
-    var params = {};
 
-    params['user']   = {$in: users};
-    params[property] = true;
+    /* Users that don't have user settings */
+    async.mapSeries(users, function(user, callback) {
 
-    UserSettings.find(params, function(err, userSettings) {
+        UserSettings
+            .findOne({
+                user: user})
+            .exec(function(err, userSettings) {
 
-        console.log('eligible');
-        console.log(users);
-        console.log(userSettings);
+                if (!userSettings) {
+                    userSettings = new UserSettings({
+                        user: user
+                    })
 
-        var validUserIds = _.map(_.pluck(userSettings,'user'), function(user_id) {
-            return user_id.toString();
-        });
-        var responseUsers = _.filter(users, function(user) {
-            console.log(user._id);
-            return _.contains(validUserIds, user._id.toString());
-        });
-        callback(responseUsers);
-    })
+                    userSettings.save(function(err) {
+                        if (err) console.log(err);
+                        callback(err, user);
+                    });
+                }
+            });
+
+    }, function(err, results) {
+        var params = {};
+
+        params['user']   = {$in: users};
+        params[property] = true;
+
+        UserSettings.find(params, function(err, userSettings) {
+            console.log(userSettings);
+            console.log(users);
+            var validUserIds = _.map(_.pluck(userSettings,'user'), function(user_id) {
+                return user_id.toString();
+            });
+            var responseUsers = _.filter(users, function(user) {
+                return _.contains(validUserIds, user._id.toString());
+            });
+            callback(responseUsers);
+        })
+    });
 }
 
 exports.put = function(req,res) {
