@@ -71,7 +71,7 @@ exports.eligibleUsers = function(users, property, callback) {
         UserSettings.find(params, function(err, userSettings) {
 
             userSettings = _.filter(userSettings, function(userSetting) {
-                return userSettings.property == true;
+                return userSettings[property] == true;
             });
 
             console.log(userSettings);
