@@ -69,12 +69,11 @@ exports.eligibleUsers = function(users, property, callback) {
         params['user']   = {$in: users};
         //params[property] = true;
 
-        console.log(params);
         UserSettings.find(params, function(err, userSettings) {
+            console.log(userSettings);
             var validUserIds = _.map(_.pluck(userSettings,'user'), function(user_id) {
                 return user_id.toString();
             });
-            console.log(validUserIds);
             var responseUsers = _.filter(users, function(user) {
                 console.log(user._id.toString());
                 return _.contains(validUserIds, user._id.toString());
