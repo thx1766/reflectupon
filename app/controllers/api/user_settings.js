@@ -78,7 +78,6 @@ exports.eligibleUsers = function(users, property, callback) {
             });
             console.log(users);
             console.log(userSettings);
-            console.log(validUserIds);
             callback(responseUsers);
         })
     });

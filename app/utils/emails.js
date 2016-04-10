@@ -183,7 +183,6 @@ exports.sendJournalPromptEmail = function(users, domain, callback) {
 
     userSettings.eligibleUsers(users, 'email_prompts', function(users) {
 
-      console.log(users);
       // var userEmails = _.pluck(users, 'email');
       // var settingsUrls = _.map(users, function(user) {
       //   return domain + "/settings/" + user._id;
