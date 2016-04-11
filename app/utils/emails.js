@@ -191,7 +191,7 @@ exports.sendJournalPromptEmail = function(users, domain, callback) {
       exports.sendNewEmail(userEmails, {
 
         from: 'entry@getyourshittogether.co',
-        subject: 'Prompt of the Day',
+        subject: 'Truth or Dare',
         html:    first,
         subs:    [{
           type: "-challenge1-",

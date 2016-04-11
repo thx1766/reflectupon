@@ -81,14 +81,6 @@ module.exports = function(app) {
             status: 'beta1'
         };
 
-        params = {
-            email: { $in: [
-                'andrewjcasal@gmail.com',
-                'tenorfella@gmail.com',
-                'stranovich@gmail.com'
-                ]}
-        }
-
         User.find(params, function(err, users) {
 
             emails.sendJournalPromptEmail(users, req.headers.origin, function() {
