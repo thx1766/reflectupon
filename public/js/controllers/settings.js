@@ -11,6 +11,9 @@ window.rupon.utils = window.rupon.utils || {};
 
     rc.startSettingsPage = function(params) {
 
+        mixpanel.identify(params.user_id);
+        mixpanel.track('public-settings-view');
+
         $('.log-in-btn').on('click', function() {
             new rv.ModalView({view: "login"});
         });
