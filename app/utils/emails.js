@@ -63,7 +63,9 @@ exports.sendNewEmail = function(email_addresses, params, callback) {
         console.log(err);
       }
 
-      callback();
+      if (callback) {
+        callback();
+      }
     })
 }
 /**
