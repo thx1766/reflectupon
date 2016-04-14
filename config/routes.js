@@ -90,6 +90,20 @@ module.exports = function(app) {
         })
     });
 
+    app.post('/api/send_email_indl', function(req, res) {
+
+        var email = req.body.email_address;
+
+        var users = [{
+            email: email,
+            _id:   'NEW'
+        }]
+
+        emails.sendJournalPromptEmail(users, req.headers.origin, function() {
+            res.send("success");
+        });
+    })
+
     app.get('/api/active_users', superuser.active_users.get)
 
     app.get('/api/users', auth.ensureAuthenticated, function(req,res) {
@@ -275,8 +289,10 @@ module.exports = function(app) {
         }
 
         var email = JSON.parse(req.body.envelope).from;
-        User.findOne({email: email}, function(err, user) {
+        email = "pikachu@edmodo.com";
+        console.log(email);
 
+        user_routes.getMakeUser(email, function(user) {
             var thoughtAttr = {
                 description: nextHtml,
                 privacy:     'PUBLIC',

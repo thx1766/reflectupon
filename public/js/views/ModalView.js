@@ -39,14 +39,29 @@ window.rupon.views = window.rupon.views || {};
         className: "modal fade signup",
         template: Handlebars.templates['signup-modal'],
 
-        initialize: function() {
+        initialize: function(options) {
+            /* for signup view */
+            options = options || {};
+            this.email = options.email;
+            this.nonUserSignedUp = options.nonUserSignedUp;
+
             cv.Container.prototype.initialize.call(this);
             this.render();
         },
 
         render: function(options) {
             this.$el.html(this.template(options));
-            this.addChild(new rv.SignupView, '.form-container');
+
+            var params = {};
+
+            if (this.email) {
+                params.email = this.email;
+            }
+
+            if (this.nonUserSignedUp) {
+                params.nonUserSignedUp = this.nonUserSignedUp;
+            }
+            this.addChild(new rv.SignupView(params), '.form-container');
         }
 
     });
@@ -153,7 +168,6 @@ window.rupon.views = window.rupon.views || {};
                     dataType: "JSON"
                 });
             }
-
         },
 
         validateEmail: function(email) {

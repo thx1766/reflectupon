@@ -61,7 +61,8 @@ window.rupon.utils = window.rupon.utils || {};
 
 		var indexView = new rupon.views.IndexView({message: message}),
             betaSignup    = options['beta-signup'],
-            passwordReset = options['password-reset'];
+            passwordReset = options['password-reset'],
+            newUserEmail     = options['new-user-email'];
 
         indexView
             .on('subscribe', function(email, callback) {
@@ -108,8 +109,15 @@ window.rupon.utils = window.rupon.utils || {};
                 new rv.ModalView({view: "login"});
             });
 
-        if (betaSignup == "1") {
-            new rv.ModalView({view: "signup"});
+        if (betaSignup == "1" && newUserEmail) {
+            var signupModal = new rv.SignupModal({
+                email: newUserEmail,
+                nonUserSignedUp: true
+            });
+            $(signupModal.$el).modal();
+        } else if (betaSignup == "1") {
+            var signupModal = new rv.SignupModal();
+            $(signupModal.$el).modal();
         }
 
         if (passwordReset == "1") {
