@@ -188,6 +188,7 @@ exports.logout = function(req, res) {
 
 exports.postregister = function(req, res, next) {
 
+    /* single entry page experiment */
     if (req.body.thoughtId) {
         Thought.findById(req.body.thoughtId, function(err, thought) {
             User.findById(thought.user_id, function(err, user) {
@@ -204,7 +205,26 @@ exports.postregister = function(req, res, next) {
                 })
             })
         })
+
+    /* proper sign up after using email prompt */
+    } else if (req.body.nonUserSignedUp) {
+        User.findOne({
+            email:  req.body.email
+        }, function(err, user) {
+            user.username = req.body.username;
+            user.password = req.body.password;
+            user.status = "emailUser";
+
+            user.save(function(err, user_saved) {
+                req.logIn(user, function(err) {
+                    if (err) { return next(err); }
+                    return res.redirect('/home');
+                });
+            })
+        })
     } else {
+
+    /* regular user registration flow */
 
     User.findOne({username: req.body.username}, function(err, user_check) {
 
@@ -383,7 +403,12 @@ exports.postReset = function(req, res, next) {
 exports.checkEmail = function(req, res) {
     var email = req.body.email;
 
-    User.findOne({ email: { $regex : new RegExp(email, "i") } }, function(err, user) {
+    User.findOne({
+        email: { $regex : new RegExp(email, "i") },
+
+        /*  Non-user prompt email 'registers' person, so they shouldn't get this message */
+        status: { $ne: 'email'}
+    }, function(err, user) {
         if (user) {
             res.send({msg: "already exists"})
         } else {
@@ -401,6 +426,34 @@ exports.checkUsername = function(req, res) {
             res.send({msg: "success"})
         }
     });
+}
+
+/* Find a user, and if not, just create one!
+   Used for sending email entries to site from non-users
+   If user was created, we send true as second param
+   */
+exports.getMakeUser = function(email, callback) {
+    User.findOne({email: email}, function(err, user) {
+
+        if (!user) {
+
+            var user = new User({
+                username: 'emailUser' + Math.floor((Math.random() * 1000000) + 1),
+                email:    email,
+                password: "default",
+                status:   "email"
+            });
+
+            user.save(function(err, user_saved) {
+                console.log('user_id');
+                console.log(user_saved._id);
+                callback(user, true);
+            });
+
+        } else {
+            callback(user, false);
+        }
+    })
 }
 
 passport.serializeUser(function(user, done) {

@@ -16,6 +16,7 @@
     var message = "<%= typeof message != 'undefined' ? message : '' %>";
     rupon.controllers.startIndexPage(message, {
       "beta-signup":    getQueryVariable("beta-signup"),
+      "new-user-email":    getQueryVariable("new-user-email"),
       "password-reset": getQueryVariable("password-reset")
     });
   })

@@ -6,7 +6,7 @@
     </div>
     <div class="form-group" id="email-field">
         <label>E-mail</label>
-        <input class="form-control" type="text" name="email"/>
+        <input class="form-control" type="text" name="email" value="{{email}}" {{#if nonUserSignedUp}}readOnly="true"{{/if}} />
         <span class="error"></span>
     </div>
     <div class="form-group" id="password-field">
@@ -19,6 +19,9 @@
         <input class="form-control" type="password"/>
         <span class="error"></span>
     </div>
+    {{#if nonUserSignedUp}}
+        <input type="hidden" name="nonUserSignedUp" value="true">
+    {{/if}}
     {{#if experiment}}
         <input type="hidden" name="thoughtId" value="{{thoughtId}}">
     {{/if}}

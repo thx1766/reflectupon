@@ -173,7 +173,8 @@ window.rupon.views = window.rupon.views || {};
         container_ele: '.users-table',
 
         events: {
-            'click .send-email': 'sendEmail'
+            'click .send-email': 'sendEmail',
+            'click .send-email-indl': 'sendEmailIndl'
         },
 
         initialize: function() {
@@ -185,6 +186,14 @@ window.rupon.views = window.rupon.views || {};
         sendEmail: function() {
             $.post("/api/send_email", function() {
 
+            });
+        },
+
+        sendEmailIndl: function() {
+
+            var emailAddress = $('.non-user-email').val();
+            $.post("/api/send_email_indl", {
+                email_address: emailAddress
             });
         }
 

@@ -183,11 +183,13 @@ exports.sendJournalPromptEmail = function(users, domain, callback) {
       second = "";
     }
 
-    userSettings.eligibleUsers(users, 'email_prompts', function(users) {
+    exports.eligibleForPrompts(users, function(users) {
 
       var userEmails = _.pluck(users, 'email');
       var settingsUrls = _.map(users, function(user) {
-        return domain + "/settings/" + user._id;
+
+        /* Journal Prompts to non-users, labeled NEW */
+        return user._id != "NEW" ? (domain + "/settings/" + user._id) : "";
       });
 
       exports.sendNewEmail(userEmails, {
@@ -212,4 +214,17 @@ exports.sendJournalPromptEmail = function(users, domain, callback) {
     });
 
   })
+}
+
+/* Handle two cases: for non-users receiving for first time, or for regulars */
+exports.eligibleForPrompts = function (users, callback){
+
+  if (users.length == 1 && users[0]._id == "NEW") {
+    callback(users);
+  } else {
+    userSettings.eligibleUsers(users, 'email_prompts', function(users) {
+      callback(users);
+    })
+  }
+
 }
