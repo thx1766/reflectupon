@@ -209,8 +209,7 @@ exports.postregister = function(req, res, next) {
     /* proper sign up after using email prompt */
     } else if (req.body.nonUserSignedUp) {
         User.findOne({
-            email:  req.body.email,
-            status: 'email'
+            email:  req.body.email
         }, function(err, user) {
             user.username = req.body.username;
             user.password = req.body.password;
@@ -404,7 +403,12 @@ exports.postReset = function(req, res, next) {
 exports.checkEmail = function(req, res) {
     var email = req.body.email;
 
-    User.findOne({ email: { $regex : new RegExp(email, "i") } }, function(err, user) {
+    User.findOne({
+        email: { $regex : new RegExp(email, "i") },
+
+        /*  Non-user prompt email 'registers' person, so they shouldn't get this message */
+        status: { $ne: 'email'}
+    }, function(err, user) {
         if (user) {
             res.send({msg: "already exists"})
         } else {
@@ -425,7 +429,9 @@ exports.checkUsername = function(req, res) {
 }
 
 /* Find a user, and if not, just create one!
-   Used for sending email entries to site from non-users */
+   Used for sending email entries to site from non-users
+   If user was created, we send true as second param
+   */
 exports.getMakeUser = function(email, callback) {
     User.findOne({email: email}, function(err, user) {
 
@@ -441,11 +447,11 @@ exports.getMakeUser = function(email, callback) {
             user.save(function(err, user_saved) {
                 console.log('user_id');
                 console.log(user_saved._id);
-                callback(user);
+                callback(user, true);
             });
 
         } else {
-            callback(user);
+            callback(user, false);
         }
     })
 }

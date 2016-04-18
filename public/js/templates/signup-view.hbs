@@ -6,7 +6,7 @@
     </div>
     <div class="form-group" id="email-field">
         <label>E-mail</label>
-        <input class="form-control" type="text" name="email" value="{{email}}" {{#if nonUserSignedUp}}disabled{{/if}} />
+        <input class="form-control" type="text" name="email" value="{{email}}" {{#if nonUserSignedUp}}readOnly="true"{{/if}} />
         <span class="error"></span>
     </div>
     <div class="form-group" id="password-field">

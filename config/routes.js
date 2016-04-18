@@ -289,10 +289,8 @@ module.exports = function(app) {
         }
 
         var email = JSON.parse(req.body.envelope).from;
-        email = "pikachu@edmodo.com";
-        console.log(email);
 
-        user_routes.getMakeUser(email, function(user) {
+        user_routes.getMakeUser(email, function(user, userCreated) {
             var thoughtAttr = {
                 description: nextHtml,
                 privacy:     'PUBLIC',
@@ -300,22 +298,26 @@ module.exports = function(app) {
                 date:        new Date()
             }
 
-            if (idTag != "") {
-                Prompt.findById(idTag, function(err, prompt) {
-                    thoughtAttr.prompt = prompt;
-                    var thought = new Thought(thoughtAttr);
+            prompts.getPromptIfId(idTag, function(prompt) {
+                thoughtAttr.prompt = prompt;
+            }, function() {
 
-                    thought.save(function(err) {
-                        res.send('success');
-                    });
-                });
-            } else {
                 var thought = new Thought(thoughtAttr);
 
                 thought.save(function(err) {
+
+                    if (userCreated) {
+                        emails.sendNewEmail([user.email], {
+                          from: "entry@getyourshittogether.co",
+                          subject: "Thanks for your entry!",
+                          html:    "http://www.getyourshittogether.co/?beta-signup=1&new-user-email=" + user.email,
+                          template_id: "acc92f29-e849-43fb-a885-409e411e4b5a"
+                        });
+                    }
+
                     res.send('success');
                 });
-            }
+            });
         });
     })
 

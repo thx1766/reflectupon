@@ -70,3 +70,15 @@ exports.getPromptsById = function(id, callback) {
         exports.getPrompts({_id: id}, callback);
     }
 }
+
+exports.getPromptIfId = function(idTag, action, callback) {
+
+    if (idTag) {
+        Prompt.findById(idTag, function(err, prompt) {
+            action(prompt);
+            callback();
+        });
+    } else {
+        callback();
+    }
+}
