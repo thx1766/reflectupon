@@ -321,12 +321,12 @@ exports.postRegBetaUser = function(req, res, next) {
 
                 var email = new sendgrid.Email();
                 email.addTo(emailAddress);
-                email.from = 'andrewjcasal@gmail.com';
+                email.from = 'noreply@heros.live';
                 email.subject = "Stay tuned for further updates!";
                 email.html = "Thanks for your interest. We'll get in touch with you soon regarding our newsletter and releases.<br />" +
                     "<br />Thanks,<br />" +
-                    "The Team at Get Your Shit Together<br />" +
-                    "<a href='www.getyourshittogether.co'>www.getyourshittogether.co</a>";
+                    "The Team at Heros<br />" +
+                    "<a href='www.heros.live'>www.heros.live</a>";
 
                 email.addFilter('templates', 'template_id', '25bd6eaf-6b06-4f76-a255-eb5037b0ffe7');
                 sendgrid.send(email, function(err, json) {

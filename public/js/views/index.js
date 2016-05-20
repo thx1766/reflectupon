@@ -228,10 +228,10 @@ window.rupon.views = window.rupon.views || {};
                 len = rotater.children().length;
 
             setTimeout(function() {
-                rotater.find('img').removeClass('selected previous next');
-                rotater.find('img:eq('+n+')').addClass('next');
-                rotater.find('img:eq('+(n-1)+')').addClass('selected');
-                rotater.find('img:eq('+(n-2)+')').addClass('previous');
+                rotater.find('.phrase').removeClass('selected previous next');
+                rotater.find('.phrase:eq('+n+')').addClass('next');
+                rotater.find('.phrase:eq('+(n-1)+')').addClass('selected');
+                rotater.find('.phrase:eq('+(n-2)+')').addClass('previous');
                 
                 var wid = rotater.find('img:eq('+(n-1)+')').width();
                 self.$el.find('.rotater').width(wid);

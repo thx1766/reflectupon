@@ -23,32 +23,42 @@
     <script type="text/javascript" src="/js/third-party/jquery.highlight.js"></script>
     <script type="text/javascript" src="/js/third-party/jquery.autosize.min.js"></script>
     <script type="text/javascript" src="/js/third-party/handlebars.js"></script>
-
-    <script type="text/javascript" src="/js/helpers.js"></script>
-    <script type="text/javascript" src="/js/models.js"></script>
-    <script type="text/javascript" src="/js/templates.js"></script>
-    <script type="text/javascript" src="/js/mixins/AnnotationMixin.js"></script>
-    <script type="text/javascript" src="/js/views/common_views.js"></script>
-    <script type="text/javascript" src="/js/views/views.js"></script>
-    <script type="text/javascript" src="/js/views/home.js"></script>
-    <script type="text/javascript" src="/js/views/sidebar.js"></script>
-    <script type="text/javascript" src="/js/views/single.js"></script>
-    <script type="text/javascript" src="/js/views/index.js"></script>
-    <script type="text/javascript" src="/js/views/ModalView.js"></script>
-    <script type="text/javascript" src="/js/views/WriteView.js"></script>
-    <script type="text/javascript" src="/js/views/thoughts.js"></script>
-    <script type="text/javascript" src="/js/views/settings.js"></script>
-    <script type="text/javascript" src="/js/views/common/thoughts.js"></script>
-    <script type="text/javascript" src="/js/views/replies.js"></script>
-    <script type="text/javascript" src="/js/views/journal/DayView.js"></script>
-    <script type="text/javascript" src="/js/views/reports/reports.js"></script>
-    <script type="text/javascript" src="/js/views/superuser/superuser.js"></script>
-    <script type="text/javascript" src="/js/controllers/journal.js"></script>
-    <script type="text/javascript" src="/js/controllers/reports.js"></script>
-    <script type="text/javascript" src="/js/controllers/settings.js"></script>
-    <script type="text/javascript" src="/js/controllers/superuser.js"></script>
-    <script type="text/javascript" src="/js/controllers/controller.js"></script>
-    <script type="text/javascript" src="/js/controllers/entry.js"></script>
+    
+    <% if (landing_page) { %>
+        <script type="text/javascript" src="/js/models.js"></script>
+        <script type="text/javascript" src="/js/templates.js"></script>
+        <script type="text/javascript" src="/js/views/common_views.js"></script>
+        <script type="text/javascript" src="/js/views/index.js"></script>
+        <script type="text/javascript" src="/js/views/ModalView.js"></script>
+        <script type="text/javascript" src="/js/controllers/controller.js"></script>
+    <% } else { %>
+        <script type="text/javascript" src="/js/helpers.js"></script>
+        <script type="text/javascript" src="/js/models.js"></script>
+        <script type="text/javascript" src="/js/templates.js"></script>
+        <script type="text/javascript" src="/js/mixins/AnnotationMixin.js"></script>
+        <script type="text/javascript" src="/js/views/common_views.js"></script>
+        <script type="text/javascript" src="/js/views/views.js"></script>
+        <script type="text/javascript" src="/js/views/home.js"></script>
+        <script type="text/javascript" src="/js/views/sidebar.js"></script>
+        <script type="text/javascript" src="/js/views/single.js"></script>
+        <script type="text/javascript" src="/js/views/index.js"></script>
+        <script type="text/javascript" src="/js/views/ModalView.js"></script>
+        <script type="text/javascript" src="/js/views/WriteView.js"></script>
+        <script type="text/javascript" src="/js/views/thoughts.js"></script>
+        <script type="text/javascript" src="/js/views/settings.js"></script>
+        <script type="text/javascript" src="/js/views/common/thoughts.js"></script>
+        <script type="text/javascript" src="/js/views/replies.js"></script>
+        <script type="text/javascript" src="/js/views/journal/DayView.js"></script>
+        <script type="text/javascript" src="/js/views/reports/reports.js"></script>
+        <script type="text/javascript" src="/js/views/superuser/superuser.js"></script>
+        <script type="text/javascript" src="/js/controllers/journal.js"></script>
+        <script type="text/javascript" src="/js/controllers/reports.js"></script>
+        <script type="text/javascript" src="/js/controllers/settings.js"></script>
+        <script type="text/javascript" src="/js/controllers/superuser.js"></script>
+        <script type="text/javascript" src="/js/controllers/controller.js"></script>
+        <script type="text/javascript" src="/js/controllers/entry.js"></script>
+    <% } %>
+    <!--<script type="text/javascript" src="/js/build/reflectupon.min.js"></script>-->
     <script type="text/javascript">
     $(document).ready(function(){
         $('.dropdown-toggle').dropdown();

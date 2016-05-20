@@ -22,10 +22,16 @@ a img{border:0;}
 #topbar .navbar-brand{
   font-family: 'Merriweather';
   font-size: 22px;
-  background: url(../images/GYST-small.png) no-repeat 0 center;
-  height: 50px;
-  width: 600px;
+  background: url(../images/heros-logo.png) no-repeat;
   background-size: 100%;
+  background-position: 0px 3px;
+  width: 125px;
+  margin-left: -37px;
+}
+.landing-page #topbar .navbar-brand {
+  background-position: 0px -6px;
+  width: 150px;
+  margin-left: 0;
 }
 
 .fa-sign-out{margin-top:5px;}
@@ -45,7 +51,6 @@ a img{border:0;}
 }
 
 .navbar-toggle .icon-bar{background-color:#494949;}
-.landing-page .navbar-toggle .icon-bar{background-color:#ffffff;}
 
 .other-thoughts{position:relative;}
 .other-thoughts .other-tooltip{display:none;}
