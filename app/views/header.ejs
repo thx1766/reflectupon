@@ -4,30 +4,28 @@
     <title>Heros</title>
 
     <!--<link rel="shortcut icon" type="image/png" href="/images/favicon.png"/>-->
-    <link type="text/css" href="/css/third-party/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
-    <link type="text/css" href="/css/third-party/bootstrap.min.css" rel="stylesheet" />
-    <link type="text/css" href="/css/style.css" rel="stylesheet" />
-    <link type="text/css" href="/css/index.css" rel="stylesheet" />
-    <script type="text/javascript" src="/js/third-party/jquery.min.js"></script>
-    <script type="text/javascript" src="/js/third-party/bootstrap.js"></script>
-    <script type="text/javascript" src="/js/third-party/underscore.min.js"></script>
-    <script type="text/javascript" src="/js/third-party/backbone.min.js"></script>
-    <script type="text/javascript" src="/bower_components/momentjs/moment.js"></script>
-    <script type="text/javascript" src="/js/third-party/jquery.colorbox-min.js"></script>
-    <script type="text/javascript" src="/js/third-party/handlebars.js"></script>
-    
     <% if (landing_page) { %>
-        <script type="text/javascript" src="/js/models.js"></script>
-        <script type="text/javascript" src="/js/templates.js"></script>
-        <script type="text/javascript" src="/js/views/common_views.js"></script>
-        <script type="text/javascript" src="/js/views/index.js"></script>
-        <script type="text/javascript" src="/js/views/ModalView.js"></script>
-        <script type="text/javascript" src="/js/controllers/controller.js"></script>
+        <link type="text/css" href="/css/third-party/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+        <link type="text/css" href="/css/third-party/bootstrap.min.css" rel="stylesheet" />
+        <link type="text/css" href="/css/style.css" rel="stylesheet" />
+        <link type="text/css" href="/css/index.css" rel="stylesheet" />
+        <script type="text/javascript" src="/js/build/reflectupon.min.js"></script>
     <% } else { %>
+        <link type="text/css" href="/css/third-party/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+        <link type="text/css" href="/css/third-party/bootstrap.min.css" rel="stylesheet" />
+        <link type="text/css" href="/css/style.css" rel="stylesheet" />
+        <link type="text/css" href="/css/index.css" rel="stylesheet" />
         <link href="//fonts.googleapis.com/css?family=Merriweather:300italic,300,400italic,400,700italic,700,900italic,900" rel="stylesheet" type="text/css">
         <link type="text/css" href="/css/third-party/jquery.tooltip.css" rel="stylesheet" />
         <link type="text/css" href="/css/single.css" rel="stylesheet" />
         <link type="text/css" href="/css/superuser.css" rel="stylesheet" />
+        <script type="text/javascript" src="/js/third-party/jquery.min.js"></script>
+        <script type="text/javascript" src="/js/third-party/bootstrap.js"></script>
+        <script type="text/javascript" src="/js/third-party/underscore.min.js"></script>
+        <script type="text/javascript" src="/js/third-party/backbone.min.js"></script>
+        <script type="text/javascript" src="/bower_components/momentjs/moment.js"></script>
+        <script type="text/javascript" src="/js/third-party/jquery.colorbox-min.js"></script>
+        <script type="text/javascript" src="/js/third-party/handlebars.js"></script>
         <script type="text/javascript" src="/bower_components/backbone.paginator/lib/backbone.paginator.min.js"></script>
         <script type="text/javascript" src="/js/third-party/jquery.scrollspy.js"></script>
         <script type="text/javascript" src="/js/third-party/jquery.highlight.js"></script>
@@ -58,7 +56,6 @@
         <script type="text/javascript" src="/js/controllers/controller.js"></script>
         <script type="text/javascript" src="/js/controllers/entry.js"></script>
     <% } %>
-    <!--<script type="text/javascript" src="/js/build/reflectupon.min.js"></script>-->
     <script type="text/javascript">
     $(document).ready(function(){
         $('.dropdown-toggle').dropdown();
