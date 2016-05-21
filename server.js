@@ -51,6 +51,7 @@ app.configure( function() {
     app.set('views', __dirname + '/app/views');
     app.set('view engine', 'ejs');
     app.use( express.static( __dirname + '/public' ));
+    app.use( express.compress());
     app.use( express.cookieParser());
     app.use( express.methodOverride() );
     app.use( express.session(session_params));
