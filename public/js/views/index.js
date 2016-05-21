@@ -11,7 +11,6 @@ window.rupon.views = window.rupon.views || {};
     rv.IndexView = cv.BaseView.extend({
 
         tagName: "div",
-        template: Handlebars.templates['index'],
 
         events: {
             'click button': 'clickButton',
@@ -19,12 +18,10 @@ window.rupon.views = window.rupon.views || {};
         },
 
         initialize: function(options){
-            this.message = options.message;
-            this.render();
+            // this.message = options.message;
+            // this.render();
 
             var self = this;
-
-            console.log(this.$el.find('.rotater').children().length);
 
             self.rotate(2);
 
@@ -161,17 +158,18 @@ window.rupon.views = window.rupon.views || {};
                 }
 
             })
+
         },
 
         render: function() {
 
-            var template_options = {};
+            // var template_options = {};
 
-            if ($.trim(this.message)) {
-                template_options.message = this.message;
-            }
+            // if ($.trim(this.message)) {
+            //     template_options.message = this.message;
+            // }
 
-            this.$el.append(this.template(template_options))
+            //this.$el.append(this.template(template_options))
         },
 
         clickButton: function(e) {
@@ -224,7 +222,7 @@ window.rupon.views = window.rupon.views || {};
 
         rotate: function(n) {
             var self = this,
-                rotater = this.$el.find('.rotater'),
+                rotater = $('.rotater'),
                 len = rotater.children().length;
 
             setTimeout(function() {
@@ -234,7 +232,7 @@ window.rupon.views = window.rupon.views || {};
                 rotater.find('.phrase:eq('+(n-2)+')').addClass('previous');
                 
                 var wid = rotater.find('img:eq('+(n-1)+')').width();
-                self.$el.find('.rotater').width(wid);
+                rotater.width(wid);
 
                 if (n+1 < len) {
                     self.rotate(n+1);

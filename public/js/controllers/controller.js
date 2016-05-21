@@ -78,25 +78,6 @@ window.rupon.utils = window.rupon.utils || {};
                 })
             });
 
-		$(".index-container").html(indexView.$el);
-
-        var thoughts_collection = new rupon.models.thoughtCollection(),
-            tags_collection     = new rm.topicsCollection();
-
-        thoughts_collection.fetch({ 
-            data: {
-                "stream_type":   "my-thoughts",
-                "reply_privacy": "AUTHOR_TO_PUBLIC"
-            },
-            success: function(collection) {
-                _.each(collection.models, function(model) {
-                    model.getAnnotations();
-                });
-            }
-        });
-
-        tags_collection.fetch();
-
         $('.index-container')
             .on('click', '.head-container .btn', function() {
                 $("html, body").animate({ scrollTop: "550px" });

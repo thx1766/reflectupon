@@ -1,24 +1,108 @@
 <% include header %>
 <div class="index-container">
+  <div class="level" id="level1">
+      <div class="background"></div>
+      <div class="logo-container">
+          <div class="logo">
+              <img src="/images/heros-logo.png" />
+          </div>
+          <a href="javascript:;" class="mobile-log-in">Beta Login</a>
+          <div style="font-size: 30px">Become the Hero of your own life story.</div>
+          <div style="font-size: 26px">Community, Resources, and Actions for:</div>
+          <div class="rotater" style="display: inline-block">
+              <div class="phrase selected">Loving Yourself</div>
+              <div class="phrase">Keeping Your Diet</div>
+              <div class="phrase">Handling Your Relationships</div>
+              <div class="phrase">Meditating Regularly</div>
+              <div class="phrase">Finding Happiness</div>
+              <div class="phrase">Following Your Dreams</div>
+              <div class="phrase">Handling Your Emotions</div>
+          </div>
+      </div>
+  </div>
+  <div class="level" id="level3">
+      <div style="text-align: center; font-size: 28px; margin-bottom: 60px">There's no <i>one way</i> to your greatest self.<br />That's why we made Heros.</div>
+      <div class="border-box">
+          <div class="heading">Do it your own way</div>
+          <div class="description">Combine resources from a variety of fields and sources to create a path as unique as you are.</div>
+      </div>
+      <div class="border-box">
+          <div class="heading">Make action easy</div>
+          <div class="description">Join challenges to stay accountable to your ambitions. Earning points keeps you eager to do more.</div>
+      </div>
+      <div class="border-box">
+          <div class="heading">Live it together</div>
+          <div class="description">Be part of small, supportive communities to accelerate your learning, break your past barriers, and have more fun.</div>
+      </div>
+  </div>
+  <div class="level" id="level4">
+      <div class="text">Do it for yourself,&nbsp;&nbsp; not by yourself</div>
+  </div>
+  <div class="level" id="level5" style="background-color:rgba(253, 253, 253, 0.65)">
+      <div style="text-align: center; font-size: 28px; margin-bottom: 60px">How does Heros work?</div>
+      <div class="container" style="max-width:800px">
+          <div style="margin-bottom: 80px">
+              <div class="clearfix" id="section1">
+                  <div style="font-size: 26px;margin-bottom: 10px">Supportive Communities</div>
+                  <div style="margin-bottom: 30px;font-size:16px">Small, stable communities help people bounce back from adversity, learn new ways to expand, and make everything more enjoyable.</div>
+                  <img src="/images/diagram3.png" />
+              </div>
+          </div>
+          <div style="margin-bottom: 70px">
+              <div class="clearfix" id="section2">
+                  <div class="description">
+                      <div style="font-size: 26px;margin-bottom: 10px">Progress Tracking</div>
+                      <div style="font-size:16px">
+                          Progress mapping helps people learn what's been working for them and what hasn't, while motivating them to take on new beneficial challenges.
+                      </div>
+                  </div>
+                  <img src="/images/diagram2.png" />
+              </div>
+          </div>
+          <div>
+              <div class="clearfix" id="section3">
+                  <div class="description">
+                      <div style="font-size: 26px;margin-bottom: 10px">Customized Resources</div>
+                      <div style="font-size:16px">
+                          Having resources from many fields lets people make more dynamic, complete solutions to even their most unique problems and aspirations.
+                      </div>
+                  </div>
+                  <img src="/images/diagram1.png" />
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="level" id="level7">
+      <div class="container">
+          <div class="right-container">
+              <span style="color:#444">Join the Renaissance!</span><br />
+              <span style="color:#444; font-size:18px">Sign up for the beta!</span>
+              <div class="form-box">
+                  <input />
+                  <button>Sign Up</button>
+                  <div class="error-msg" style="color: #444;font-size: 16px;"></div>
+              </div>
+          </div>
+      </div>
+  </div>
 </div>
-
-<script type="text/javascript">
+<script async type="text/javascript">
   function getQueryVariable(variable) {
-    var query = window.location.search.substring(1);
-    var vars = query.split("&");
-    for (var i=0;i<vars.length;i++) {
-           var pair = vars[i].split("=");
-           if(pair[0] == variable){return pair[1];}
-    }
-    return(false);
+      var query = window.location.search.substring(1);
+      var vars = query.split("&");
+      for (var i=0;i<vars.length;i++) {
+             var pair = vars[i].split("=");
+             if(pair[0] == variable){return pair[1];}
+      }
+      return(false);
   }
+
   $(document).ready(function(){
-    var message = "<%= typeof message != 'undefined' ? message : '' %>";
-    rupon.controllers.startIndexPage(message, {
-      "beta-signup":    getQueryVariable("beta-signup"),
-      "new-user-email":    getQueryVariable("new-user-email"),
-      "password-reset": getQueryVariable("password-reset")
-    });
+      rupon.controllers.startIndexPage('', {
+        "beta-signup":    getQueryVariable("beta-signup"),
+        "new-user-email":    getQueryVariable("new-user-email"),
+        "password-reset": getQueryVariable("password-reset")
+      });
   })
 </script>
 <% include footer %>
