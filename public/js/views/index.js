@@ -9,8 +9,7 @@ window.rupon.views = window.rupon.views || {};
     var a, b, c;
 
     rv.IndexView = cv.BaseView.extend({
-
-        tagName: "div",
+        el: "#level7",
 
         events: {
             'click button': 'clickButton',
