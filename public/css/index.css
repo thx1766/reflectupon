@@ -11,16 +11,16 @@ ul{margin:0;}
 }
 
 .landing-page #topbar-wrapper .navbar-right .log-in-btn{
-  opacity: 1;
+  opacity: 0;
   font-size: 16px;
-  color: #444;
+  color: #fff;
   height: 47px;
   vertical-align: 3px;
   margin-left: 4px;
   border-radius: 3px;
-  border: 1px solid #444;
+  border: 1px solid #fff;
   line-height: 16px;
-  margin-top: -2px;
+  margin-top: 6px;
 }
 
 .landing-page #topbar-wrapper .navbar-brand{
@@ -40,8 +40,8 @@ ul{margin:0;}
 }
 
 .landing-page #topbar-wrapper .navbar.scrolled .navbar-right .log-in-btn{
-  color: #444;
-  border: 1px solid #444;
+  color: #fff;
+  border: 1px solid #fff;
 }
 
 .landing-page .wrapper{width:100%;padding:0;}
@@ -120,7 +120,7 @@ ul{margin:0;}
 }
 
 .landing-page .form-box{
-  margin-top:20px;
+  margin-top:10px;
   margin-left: -6px;
 }
 .landing-page input{
@@ -154,6 +154,7 @@ ul{margin:0;}
 .landing-page #level1{
   overflow: hidden;
   padding: 0;
+  position: relative;
 }
 
 .landing-page #level3 .border-box{
@@ -171,7 +172,7 @@ ul{margin:0;}
 }
 
 .landing-page #level4{
-  background: url(/images/heros2.jpg) center;
+  background: #616D5C url(/images/heros2.png) center no-repeat;
   height: 427px;
 }
 
@@ -179,14 +180,32 @@ ul{margin:0;}
   font-size: 48px;
   text-align:center;
   color:#fff;
-  margin-top:40px;
+  margin-top:177px;
+  margin-left:-44px;
+}
+.landing-page #level4 .text div{
+  display:inline-block;
+}
+.landing-page #level4 .text div:first-child{
+  margin-right:130px;
 }
 .landing-page #level1 .background {
   width: 100%;
   opacity: 0.9;
-  background: url(/images/heros1.jpg) center bottom;
-  background-size: 1521px;
-  height: 485px;
+  background: #AF1F1F url(/images/heros1.png) center bottom no-repeat;
+  background-size: auto;
+  height: 564px;
+  background-position: center;
+}
+
+.landing-page #level1 .shadow {
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  opacity:0.3;
+  background-color:#000;
 }
 
 .landing-page #level1 img{
@@ -198,21 +217,23 @@ ul{margin:0;}
   top: 0;
   left: 0;
   right: 0;
-  margin: 135px auto 0;
+  margin: 250px auto 0;
   width: 850px;
   text-align:center;
   max-width:100%;
+  color:#fff;
+  font-family: Lato;
 }
 .landing-page #level1 .logo-container .logo{
-  position:absolute;top:-131px;left:-44px;
+  position:absolute;top:-240px;left:0px;
 }
 .landing-page #level1 .logo-container .mobile-log-in{
-  border: 2px solid #444;
-  color: #444;
+  border: 2px solid #fff;
+  color: #fff;
   padding: 10px;
   border-radius: 3px;
   position: absolute;
-  top: -123px;
+  top: -231px;
   right: 21px;
   display:none;
 }
@@ -226,7 +247,7 @@ ul{margin:0;}
   vertical-align: -17px;
   max-width: 100%;
   transition: width .5s;
-  margin-top: 50px;
+  margin-top: 20px;
 }
 .landing-page #level1 .rotater .phrase {
   position: absolute;
@@ -251,7 +272,7 @@ ul{margin:0;}
 }
 .landing-page #level1 .rotater .phrase.previous {
   opacity:.2;
-  top: 30px;
+  top: 16px;
   height: 90%;
 }
 .landing-page #level5 #section1 {
@@ -326,21 +347,21 @@ ul{margin:0;}
     margin-top: 20px;
   }
 
-  .landing-page #level1 .background {
-    background-position: top right;
-    background-size: auto;
-    height: 564px;
-  }
-
   .landing-page #level7 .right-container{
     width:450px;
   }
 }
 
-@media (max-width: 939px) {
-
-  .landing-page #level1 .background {
-    background-position: center;
+@media (max-width: 930px) {
+  .landing-page #level4 .text{
+    margin-left:0;
+    margin-top:0;
+  }
+  .landing-page #level4 .text div{
+    display: block;
+  }
+  .landing-page #level4 .text div:first-child{
+    margin-right:0;
   }
 }
 
@@ -366,6 +387,7 @@ ul{margin:0;}
   }
   .landing-page #level1 .logo-container .mobile-log-in{
     display: block;
+    opacity: 0;
   }
 
   .landing-page #level5 #section2 img, .landing-page #level5 #section3 img{
