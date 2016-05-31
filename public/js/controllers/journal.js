@@ -14,6 +14,11 @@ window.rupon.utils = window.rupon.utils || {};
 
     rc.setAllThoughts = function(params) {
 
+        rupon.account_info         = rupon.account_info || {};
+        rupon.account_info.user_id = params.user_id;
+        rupon.account_info.email   = params.email;
+        rupon.account_info.username = params.username;
+
         mixpanel.identify(rupon.account_info.user_id);
         mixpanel.people.set({
             "$email": rupon.account_info.email
@@ -26,7 +31,6 @@ window.rupon.utils = window.rupon.utils || {};
             popular =      params.popular,
             prompt =       params.prompt,
             settings =     params.settings;
-        var getStartedView;
 
         var recommended_collection  = new rupon.models.thoughtCollection(),
             user_message_collection = new rupon.models.userMessageCollection(),
@@ -62,28 +66,13 @@ window.rupon.utils = window.rupon.utils || {};
                 thoughts.unshift(thought);
                 freq_item.set('thoughts', thoughts);
                 freq_item.trigger('thought-change');
-
-                getStartedView.trigger('write-done')
-            })
-            .on('highlight-else-done', function() {
-                getStartedView.render('highlight-else-done');
-            })
-            .on('highlight-mine-done', function() {
-                getStartedView.render('highlight-mine-done');
-            })
-
-        getStartedView = new rv.GetStartedView({
-            collection:  frequency_collection
-        });
-
-        getStartedView
-            .on('write-done', function() {
-                getStartedView.render('write-done');
             });
 
         frequencyView = new rv.FrequencyView({
-            collection: frequency_collection,
-            no_entries: !_.flatten(_.pluck(frequency, 'thoughts')).length
+            collection:  frequency_collection,
+            no_entries:  !_.flatten(_.pluck(frequency, 'thoughts')).length,
+            communities: params.communities,
+            myCommunities: params.myCommunities
         });
         frequencyView
             .on('write-reflection', function() {
@@ -108,7 +97,6 @@ window.rupon.utils = window.rupon.utils || {};
 
         $("#container").html("<div class='main-view-container'></div><div class='side-view-container'></div>");
         $(".side-view-container")
-            .append(getStartedView.$el)
             .append(frequencyView.$el)
             .append(Handlebars.templates['guidelines']());
 

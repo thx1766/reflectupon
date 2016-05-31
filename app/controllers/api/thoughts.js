@@ -7,7 +7,8 @@ var mongoose   = require('mongoose')
   , helpers    = require('../../helpers')
   , emails     = require('../../utils/emails')
   , _          = require('underscore')
-  , prompts    = require('./prompts');
+  , prompts    = require('./prompts')
+  , challenges = require('./challenges');
 
 exports.get = function(req, res) {
     var params = {}, params2 = {}, array1 = null,
@@ -174,7 +175,8 @@ exports.post = function(req, res) {
                 link:           req.body.link,
                 tag_ids:        req.body.tag_ids,
                 date:           req.body.date,
-                recommended:    recommended
+                recommended:    recommended,
+                community:      req.body.communityId
             }
 
             if (prompt) {
@@ -264,7 +266,7 @@ exports.postReply = function(req, res) {
         description:    req.body.description,
         thought_id:     req.body.thought_id,
         privacy:        req.body.privacy,
-        date:           new Date()
+        date:           new Date()   
     }
 
     // Associate non-account replier in entry page to the thought
@@ -278,71 +280,84 @@ exports.postReply = function(req, res) {
         reply_attr.main_reply_id = req.body.main_reply_id;
     }
 
-    var reply = new Reply(reply_attr);
 
-    reply.save(function(err, reply) {
+    challenges.getChallenges({_id: req.body.challenge_id}, function(challenges) {
 
-        if (err) console.log(err);
+        if (req.body.challenge_id && challenges.length) {
+            reply_attr.challenge = challenges[0];
+        }
 
-        Thought
-            .findById(req.body.thought_id)
-            .populate('replies')
-            .exec(function(err, thought) {
+        var reply = new Reply(reply_attr);
 
-                emails.sendReplyEmailToEntryWriter(thought, reply);
-                emails.sendReplyToOtherParticipants(thought, reply);
-            })
+        reply.save(function(err, reply) {
 
-        if (req.body.annotations){
-            for (var i = 0; i < req.body.annotations.length; i++) {
+            if (err) console.log(err);
 
-                var annotation = new Annotation({
-                    _reply_id:      reply._id,
-                    description:    req.body.annotations[i].description,
-                    start:          req.body.annotations[i].start,
-                    end:            req.body.annotations[i].end,
-                    thought_id:     req.body.thought_id,
-                    user_id:        req.user._id,
-                    date:           new Date()
-                });
+            Thought
+                .findById(req.body.thought_id)
+                .populate('replies')
+                .exec(function(err, thought) {
 
-                annotation.replies.push(reply);
+                    emails.sendReplyEmailToEntryWriter(thought, reply);
+                    emails.sendReplyToOtherParticipants(thought, reply);
+                })
 
-                Thought.findById(req.body.thought_id, function(err, thought) {
-                    annotation.thoughts.push(thought);
+            if (req.body.annotations){
+                for (var i = 0; i < req.body.annotations.length; i++) {
 
-                    annotation.save(function(err) {
+                    var annotation = new Annotation({
+                        _reply_id:      reply._id,
+                        description:    req.body.annotations[i].description,
+                        start:          req.body.annotations[i].start,
+                        end:            req.body.annotations[i].end,
+                        thought_id:     req.body.thought_id,
+                        user_id:        req.user._id,
+                        date:           new Date()
+                    });
 
-                        if (err) console.log(err);
+                    annotation.replies.push(reply);
 
-                        reply.annotations.push(annotation);
-                        reply.save(function(err, reply){
+                    Thought.findById(req.body.thought_id, function(err, thought) {
+                        annotation.thoughts.push(thought);
 
-                            var populateOptions = {
-                                path: 'annotations'
-                            };
+                        annotation.save(function(err) {
 
-                            Reply.populate(reply, populateOptions, function(err,reply) {
-                                if (err) console.log(err);
+                            if (err) console.log(err);
 
-                                res.send(reply);
-                            })
+                            reply.annotations.push(annotation);
+                            reply.save(function(err, reply){
 
+                                var populateOptions = {
+                                    path: 'annotations'
+                                };
+
+                                Reply
+                                    .findById(reply._id)
+                                    .populate('annotations')
+                                    .populate('challenge')
+                                    .exec(function(err,reply) {
+                                        if (err) console.log(err);
+
+                                        res.send(reply);
+                                    })
+
+
+                            });
 
                         });
 
-                    });
+                    })
 
-                })
-
+                }
+            } else {
+                res.send(reply);
             }
-        } else {
-            res.send(reply);
-        }
 
-        exports.saveReplyToThought(req.body.thought_id, reply);
+            exports.saveReplyToThought(req.body.thought_id, reply);
 
-    });
+        });
+
+    })
 
 }
 

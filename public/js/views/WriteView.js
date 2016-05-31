@@ -23,6 +23,15 @@ window.rupon.views = window.rupon.views || {};
         },
 
         render: function(options) {
+
+            if (typeof options.showView != "undefined" && !options.showView) {
+                this.$el.addClass('hidden');
+            }
+
+            if (typeof options.communityId != "undefined") {
+                this.communityId = options.communityId
+            }
+
             options.day = moment().format("dddd");
             cv.TemplateView.prototype.render.call(this, options);
             //this.$el.find('textarea').autosize();

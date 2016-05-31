@@ -3,18 +3,17 @@
 
     <script type="text/javascript">
     $(document).ready(function(){
-        rupon.controllers.setAllThoughts({ 
+        rupon.controllers.startCommunityPage({
           username: "<%= user.username %>",
           user_id: "<%= user._id %>",
           email: "<%= user.email %>",
-          frequency: <%- frequency %>,
-          popular: <%- popular %><%if (typeof prompt != "undefined") { %>,
-          prompt: <%- prompt %><% } %>,
-          settings: <%- settings %>,
           communities: <%- communities %>,
-          myCommunities: <%- myCommunities %>
+          challenges: <%- challenges %>,
+          community: <%- community %>,
+          popular: <%- popular %>,
+          settings: <%- settings %>
         });
-    })
+    }) 
     </script>
 
 <% include footer %>

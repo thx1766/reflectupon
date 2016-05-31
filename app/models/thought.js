@@ -21,7 +21,10 @@ var thoughtSchema = Schema({
         ref: 'Thought' }],
     prompt:         [{
         type: Schema.Types.ObjectId,
-        ref: 'Prompt' }]
+        ref: 'Prompt' }],
+    community:      [{
+        type: Schema.Types.ObjectId,
+        ref: 'Community' }],
 });
 
 thoughtSchema.statics.random = function(user,cb) {

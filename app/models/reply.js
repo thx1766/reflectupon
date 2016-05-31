@@ -11,7 +11,8 @@ var replySchema = Schema({
     date:           Date,
     thanked:        Boolean,
     status:         String,
-    main_reply_id:  String
+    main_reply_id:  String,
+    challenge:      { type: Schema.Types.ObjectId, ref: 'Challenge'}
 });
 
 mongoose.model('Reply', replySchema)

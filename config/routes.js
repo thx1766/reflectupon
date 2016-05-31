@@ -13,6 +13,8 @@ var mongoose        = require('mongoose')
   , reports          = require('../app/controllers/api/reports')
   , superuser        = require('../app/controllers/api/superuser')
   , prompts          = require('../app/controllers/api/prompts')
+  , communities      = require('../app/controllers/api/communities')
+  , challenges       = require('../app/controllers/api/challenges')
   , userSettings     = require('../app/controllers/api/user_settings')
 
 var Thought     = mongoose.model('Thought'),
@@ -29,6 +31,9 @@ module.exports = function(app) {
     app.get( '/home',   auth.ensureAuthenticated,    function(req, res) {
         user_routes.home(req, res, dates);
     });
+    app.get('/challenges', auth.ensureAuthenticated, user_routes.challenges);
+    app.get('/challenge/:id', auth.ensureAuthenticated,  user_routes.challenge);
+    app.get('/community/:name', auth.ensureAuthenticated, user_routes.community);
     app.get( '/reports',auth.ensureAuthenticated,    user_routes.reports);
     app.get( '/entry/:id',                           user_routes.entry);
     app.get( '/new-ux', auth.ensureAuthenticated,    user_routes.newUser);
@@ -58,6 +63,14 @@ module.exports = function(app) {
     app.get('/api/prompts',        prompts.get);
     app.put('/api/prompts/:id',    prompts.put);
     app.delete('/api/prompts/:id', prompts.delete);
+
+    app.post('/api/communities',    communities.post);
+    app.put('/api/communities/:id', communities.put);
+    app.post('/api/communities/:id/members/:memberId', communities.postMember);
+
+    app.get('/api/challenges',      challenges.get)
+    app.post('/api/challenges',     challenges.post)
+    app.put('/api/challenges/:id',  challenges.put)
 
     app.post('/api/user_settings', auth.ensureAuthenticated, userSettings.post);
     app.get('/api/user_settings',  auth.ensureAuthenticated, userSettings.get);

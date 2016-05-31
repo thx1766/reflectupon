@@ -94,7 +94,12 @@
         {{#each nonAnnotationReplies}}
         <div class="response">
             <div><strong>Someone replied:</strong></div>
-            <div>{{description}}</div>
+            {{#if challenge}}
+                {{challenge.title}}
+            {{/if}}
+            <div>
+                {{description}}
+            </div>
         </div>
         {{/each}}
     </div>

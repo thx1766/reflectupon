@@ -1,4 +1,20 @@
-<a href="javascript:;" class="write-entry" {{#if no_entries}}style="display:none"{{/if}}>Write entry</a>
-<div class="entries-container" {{#if no_entries}}style="display:none"{{/if}}>
+<div class="module">
+  <a href="/challenges" class="module-option">Challenges</a>
+</div>
+<div class="module">
+  <div class="header">Communities</div>
+  <a href="javascript:;" class="module-option add-community" style="border-bottom: 1px solid #ccc"><i class="fa fa-plus-circle"></i>Add community</a>
+  <ul>
+    {{#each communities}}
+      <li>
+        <a href="/community/{{title}}">{{title}}</a>
+        {{#if isSubscribed}}subscribed{{/if}}
+      </li>
+    {{/each}}
+  </ul>
+</div>
+<div class="module entries-container" {{#if no_entries}}style="display:none"{{/if}}>
   <div class="header">My Entries</div>
+  <a href="javascript:;" class="module-option write-entry" {{#if no_entries}}style="display:none"{{/if}}>
+    <i class="fa fa-plus-circle"></i>Write entry</a>
 </div>
