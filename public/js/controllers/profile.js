@@ -9,12 +9,11 @@ window.rupon.utils = window.rupon.utils || {};
         rm = window.rupon.models,
         rh = window.rupon.helpers;
 
-    rc.startChallengePage = function(params) {
-      var challengePage = new rv.ChallengeView({
-        model: new Backbone.Model(params.challenge),
-        extended: true
+    rc.startProfilePage = function(params) {
+      var profilePage = new rv.ProfileView({
+        model: new Backbone.Model(params.user)
       })
 
-      $("#container .main-view-container .module").append(challengePage.$el);
+      $("#container .main-view-container .module").append(profilePage.$el);
     }
 })();

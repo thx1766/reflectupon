@@ -4,9 +4,7 @@
     <script type="text/javascript">
     $(document).ready(function(){
         rupon.controllers.setAllThoughts({ 
-          username: "<%= user.username %>",
-          user_id: "<%= user._id %>",
-          email: "<%= user.email %>",
+          user: <%- user %>,
           frequency: <%- frequency %>,
           popular: <%- popular %><%if (typeof prompt != "undefined") { %>,
           prompt: <%- prompt %><% } %>,

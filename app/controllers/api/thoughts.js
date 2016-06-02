@@ -165,55 +165,62 @@ exports.post = function(req, res) {
         }
         prompts.getPromptsById(prompt_id, function(prompt) {
 
-            var thoughtAttr = {
-                title:          req.body.title,
-                description:    req.body.description,
-                expression:     req.body.expression,
-                annotation:     req.body.annotation,
-                privacy:        req.body.privacy,
-                user_id:        req.user._id,
-                link:           req.body.link,
-                tag_ids:        req.body.tag_ids,
-                date:           req.body.date,
-                recommended:    recommended,
-                community:      req.body.communityId
-            }
+            challenges.getChallenges({_id: req.body.challenge_id}, function(challenges) {
 
-            if (prompt) {
-                thoughtAttr.prompt = prompt;
-            }
+                var thoughtAttr = {
+                    title:          req.body.title,
+                    description:    req.body.description,
+                    expression:     req.body.expression,
+                    annotation:     req.body.annotation,
+                    privacy:        req.body.privacy,
+                    user_id:        req.user._id,
+                    link:           req.body.link,
+                    tag_ids:        req.body.tag_ids,
+                    date:           req.body.date,
+                    recommended:    recommended,
+                    community:      req.body.communityId
+                }
 
-            var thought = new Thought(thoughtAttr);
+                if (req.body.challenge_id && challenges.length) {
+                    thoughtAttr.challenge = challenges[0];
+                }
 
-            thought.save(function(err) {
+                if (prompt) {
+                    thoughtAttr.prompt = prompt;
+                }
 
-                if (err) console.log(err);
+                var thought = new Thought(thoughtAttr);
 
-                Thought.populate(thought, [{path:"recommended"},{path:"prompt"}], function(err,thought) {
+                thought.save(function(err) {
 
-                    thought = thought.toObject();
+                    if (err) console.log(err);
 
-                    helpers.getUserIfPublic(thought, function(user, callback2) {
-                        thought.username = user.username;
-                        callback2();
+                    Thought.populate(thought, [{path:"recommended"},{path:"prompt"}], function(err,thought) {
 
-                    },function() {
+                        thought = thought.toObject();
 
-                        populateRepliesForThought(thought.recommended, req.user._id, function(recommended) {
+                        helpers.getUserIfPublic(thought, function(user, callback2) {
+                            thought.username = user.username;
+                            callback2();
 
-                            thought.recommended = recommended;
+                        },function() {
 
-                            if (thought.recommended && thought.recommended[0]) {
-                                helpers.getAnnotationsForThought(thought.recommended[0], req.user._id, function(annotations)  {
-                                    thought.recommended[0].annotations = annotations;
-                                    res.send(thought);
-                                });
-                            }
+                            populateRepliesForThought(thought.recommended, req.user._id, function(recommended) {
 
-                        })
-                    });
-                })
+                                thought.recommended = recommended;
 
+                                if (thought.recommended && thought.recommended[0]) {
+                                    helpers.getAnnotationsForThought(thought.recommended[0], req.user._id, function(annotations)  {
+                                        thought.recommended[0].annotations = annotations;
+                                        res.send(thought);
+                                    });
+                                }
+
+                            })
+                        });
+                    })
+
+                });
             });
         });
 

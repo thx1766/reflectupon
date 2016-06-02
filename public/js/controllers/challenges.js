@@ -14,7 +14,7 @@ window.rupon.utils = window.rupon.utils || {};
       var challengesPage = new rv.MainChallengesView({
         challenges: params.challenges,
         prompts:    params.prompts,
-        collection: new Backbone.Collection(params.challenges)
+        collection: new Backbone.Collection(params.challenges.concat(params.prompts))
       });
 
       $("#container").append('<div class="main-view-container"></div><div class="side-view-container"></div>');

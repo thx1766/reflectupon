@@ -159,11 +159,6 @@ window.rupon.views = window.rupon.views || {};
             var nonAnnotationReplies = _.filter(replies, function(reply) {
                 return !reply.get('annotations').length
             });
-            nonAnnotationReplies = _.map(nonAnnotationReplies, function(reply) {
-                return {
-                    description: reply.get('description')
-                }
-            });
             template_options.nonAnnotationReplies = nonAnnotationReplies;
             template_options.tag_ids = this.model.get('tag_ids');
             var outputHtml = this.template(template_options);
@@ -171,6 +166,22 @@ window.rupon.views = window.rupon.views || {};
             cv.Container.prototype.detachChildren.call(this);
             this.$el.html(outputHtml);
             cv.Container.prototype.reattachChildren.call(this);
+
+            if (template_options.challenge) {
+              var challengePage = new rv.ChallengeView({
+                model: new Backbone.Model(template_options.challenge)
+              })
+
+              this.$el.find(".challenge-container").append(challengePage.$el);
+            }
+
+            nonAnnotationRepliesCollection = new Backbone.Collection(nonAnnotationReplies);
+            _.each(nonAnnotationRepliesCollection.models, function(nar) {
+                var brv = new rv.BottomReplyView({
+                    model: nar
+                });
+                this.$el.find('.response-list').append(brv.$el);
+            }, this);
 
             this.setupAnnotations(template_options.description, this.model.get('annotations'), replies);
 

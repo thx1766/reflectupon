@@ -15,6 +15,7 @@ var mongoose        = require('mongoose')
   , prompts          = require('../app/controllers/api/prompts')
   , communities      = require('../app/controllers/api/communities')
   , challenges       = require('../app/controllers/api/challenges')
+  , profile          = require('../app/controllers/api/profile')
   , userSettings     = require('../app/controllers/api/user_settings')
 
 var Thought     = mongoose.model('Thought'),
@@ -31,9 +32,10 @@ module.exports = function(app) {
     app.get( '/home',   auth.ensureAuthenticated,    function(req, res) {
         user_routes.home(req, res, dates);
     });
-    app.get('/challenges', auth.ensureAuthenticated, user_routes.challenges);
-    app.get('/challenge/:id', auth.ensureAuthenticated,  user_routes.challenge);
+    app.get('/challenges',      auth.ensureAuthenticated, user_routes.challenges);
+    app.get('/challenge/:id',   auth.ensureAuthenticated, user_routes.challenge);
     app.get('/community/:name', auth.ensureAuthenticated, user_routes.community);
+    app.get('/profile/:name',   auth.ensureAuthenticated, user_routes.profile)
     app.get( '/reports',auth.ensureAuthenticated,    user_routes.reports);
     app.get( '/entry/:id',                           user_routes.entry);
     app.get( '/new-ux', auth.ensureAuthenticated,    user_routes.newUser);
@@ -75,6 +77,8 @@ module.exports = function(app) {
     app.post('/api/user_settings', auth.ensureAuthenticated, userSettings.post);
     app.get('/api/user_settings',  auth.ensureAuthenticated, userSettings.get);
     app.put('/api/user_settings',  userSettings.put);
+
+    app.put('/api/profile', auth.ensureAuthenticated, profile.put);
 
     app.get('/api/reports',        reports.get);
 

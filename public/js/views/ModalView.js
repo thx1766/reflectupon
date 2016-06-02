@@ -281,6 +281,7 @@ window.rupon.views = window.rupon.views || {};
     })
 
     rv.AddChallengesView = cv.TemplateView.extend({
+        className: 'add-challenge-view',
         template: Handlebars.templates['add-challenges-view'],
 
         events: {
@@ -290,9 +291,11 @@ window.rupon.views = window.rupon.views || {};
         submitChallenge: function() {
             var self = this;
             var input = this.$el.find('input').val(),
-                textarea = this.$el.find('textarea').val();
+                descriptionTextarea = this.$el.find('.description-val').val(),
+                instructionsTextarea = this.$el.find('.instructions-val').val();
 
-            if ($.trim(input) == "" || $.trim(textarea) == "") {
+            if ($.trim(input) == "" || $.trim(descriptionTextarea) == "" ||
+                $.trim(instructionsTextarea) == "") {
                 this.$el.find('.error-msg').show();
             } else { 
                 $.ajax({
@@ -300,7 +303,8 @@ window.rupon.views = window.rupon.views || {};
                     url:  '/api/challenges',
                     data: {
                         title: input,
-                        description: textarea
+                        description: descriptionTextarea,
+                        instructions: instructionsTextarea
                     },
                     success: function(response) {
                         self.trigger('added', response.title);

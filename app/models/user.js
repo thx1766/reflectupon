@@ -20,6 +20,7 @@ var userSchema = mongoose.Schema({
         type: Schema.Types.ObjectId, ref: 'Challenge'
       }
     }]
+  , intention:   String
 });
 
 // Bcrypt middleware

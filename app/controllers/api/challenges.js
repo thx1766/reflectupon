@@ -4,8 +4,9 @@ var mongoose   = require('mongoose')
 
 exports.post = function(req, res) {
     var challenge = new Challenge({
-        title:       req.body.title,
-        description: req.body.description
+        title:        req.body.title,
+        description:  req.body.description,
+        instructions: req.body.instructions
     });
 
     challenge.save(function(err) {

@@ -64,8 +64,16 @@ exports.home = function(req, res, dates) {
                                 communities.getCommunities({}, function(communities) {
 
                                     User.findById(req.user._id).populate('communities').exec(function(err, user) {
+
+                                        var userAttrs = _.pick(user, [
+                                            'username',
+                                            '_id',
+                                            'email',
+                                            'intention'
+                                        ]);
+                
                                         var attr = {
-                                            user:         req.user,
+                                            user:         JSON.stringify(userAttrs),
                                             topBar:       true,
                                             signout:      true,
                                             thoughts:     thoughts,
@@ -140,18 +148,20 @@ exports.community = function(req, res) {
     })
 };
 
+var startedChallengeStatus = function(challenges, user_challenges) {    
+    return _.map(challenges, function(challenge) {
+        challenge = challenge.toObject();
+        challenge.started = !!_.filter(user_challenges, function(uc) {
+            return uc.challenge ? uc.challenge.toString() == challenge._id.toString() : false
+        }).length;
+        return challenge;
+    });
+
+}
 exports.challenges = function(req, res) {
     challenges.getChallenges({}, function(challenges) {
 
-        challenges = _.map(challenges, function(challenge) {
-            challenge = challenge.toObject();
-            challenge.started = !!_.filter(req.user.user_challenges, function(uc) {
-                return uc.challenge.toString() == challenge._id.toString()
-            }).length;
-            console.log(challenge);
-            return challenge
-        })
-
+        challenges = startedChallengeStatus(challenges, req.user.user_challenges);
 
         prompts.getPrompts({}, function(prompts) {
 
@@ -181,10 +191,18 @@ exports.challenge = function(req, res) {
 
     challenges.getChallenges({_id: req.params.id}, function(challenges) {
 
+        challenges = startedChallengeStatus(challenges, req.user.user_challenges);
+
         res.render('challenge', _.defaults({
-            challenge: challenges[0]
+            challenge: JSON.stringify(challenges[0])
         }, pageDefaults));
     })
+}
+
+exports.profile = function(req, res) {
+    res.render('profile', _.defaults({
+        user: JSON.stringify(req.user)
+    }, pageDefaults));
 }
 
 exports.journal = function(req, res) {

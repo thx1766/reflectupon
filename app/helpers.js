@@ -110,61 +110,73 @@ exports.getPublicThoughts = function(params, callback, options) {
         .limit(limit)
         .populate('replies')
         .populate('prompt')
-        .exec(function(err, thoughts) {
+        .populate('challenge')
+        .exec(function(err, thoughtsTemp) {
 
-            thoughts.reverse();
+            var chalPopOptions = {
+                path: 'replies.challenge',
+                model: 'Challenge'
+            };
 
-            async.mapSeries(
-                thoughts, function(thought, callback) {
+            Thought.populate(thoughtsTemp, chalPopOptions, function(err, thoughts) {
 
-                    thought = thought.toObject();
+                thoughts.reverse();
 
-                    thought.replies = exports.removeRejectedReplies(thought.replies);
+                async.mapSeries(
+                    thoughts, function(thought, callback) {
 
-                    async.mapSeries(thought.replies, function(reply, callback2) {
+                        thought = thought.toObject();
 
-                        exports.getUserIfPublic(reply, function(user, callback3) {
-                            reply.username = user.username;
+                        thought.replies = exports.removeRejectedReplies(thought.replies);
 
-                            Thought.count({user_id: user._id}, function(err, count) {
-                                Reply.count({user_id: user._id}, function(err, replyCount) {
-                                    Reply.count({user_id: user._id, thanked: true}, function(err, thankedCount) {
-                                        reply.userEntriesCount = count;
-                                        reply.userRepliesCount = replyCount;
-                                        reply.userThanksCount = thankedCount;
-                                        callback3();
+                        async.mapSeries(thought.replies, function(reply, callback2) {
+
+                            exports.getUserIfPublic(reply, function(user, callback3) {
+                                reply.username = user.username;
+
+                                console.log(reply);
+
+                                Thought.count({user_id: user._id}, function(err, count) {
+                                    Reply.count({user_id: user._id}, function(err, replyCount) {
+                                        Reply.count({user_id: user._id, thanked: true}, function(err, thankedCount) {
+                                            reply.userEntriesCount = count;
+                                            reply.userRepliesCount = replyCount;
+                                            reply.userThanksCount = thankedCount;
+                                            callback3();
+                                        })
                                     })
                                 })
+                            }, function() {
+                                callback2(err, reply);
                             })
-                        }, function() {
-                            callback2(err, reply);
-                        })
 
-                    }, function(err, replies_results) {
+                        }, function(err, replies_results) {
 
-                        thought.replies = replies_results;
-                        exports.getAnnotationsForThought(thought, null, function(annotations) {
-                            thought.annotations = annotations;
+                            thought.replies = replies_results;
+                            exports.getAnnotationsForThought(thought, null, function(annotations) {
+                                thought.annotations = annotations;
 
-                            exports.getUserIfPublic(thought, function(user, callback2) {
-                                thought.username = user.username;
-                                callback2();
+                                exports.getUserIfPublic(thought, function(user, callback2) {
+                                    thought.username = user.username;
+                                    thought.intention = user.intention;
+                                    callback2();
 
-                            },function() {
+                                },function() {
 
-                                exports.getTopicsByIds(thought.tag_ids, function(topics) {
-                                    thought.tag_ids = topics;
-                                    callback(err, thought);
-                                })
-                            });
+                                    exports.getTopicsByIds(thought.tag_ids, function(topics) {
+                                        thought.tag_ids = topics;
+                                        callback(err, thought);
+                                    })
+                                });
 
-                        })
+                            })
+                        });
+                    },
+                    function(err, results) {
+                        if (err) console.log(err);
+                        callback(results);
                     });
-                },
-                function(err, results) {
-                    if (err) console.log(err);
-                    callback(results);
-                });
+            })
         });
 }
 

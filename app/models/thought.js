@@ -25,6 +25,9 @@ var thoughtSchema = Schema({
     community:      [{
         type: Schema.Types.ObjectId,
         ref: 'Community' }],
+    challenge: {
+        type: Schema.Types.ObjectId,
+        ref: 'Challenge' }
 });
 
 thoughtSchema.statics.random = function(user,cb) {

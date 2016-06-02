@@ -52,13 +52,18 @@ window.rupon.views = window.rupon.views || {};
 
       initialize: function() {
         cv.CollectionContainer.prototype.initialize.call(this, function(model) {
-          return new rv.ChallengeView({model: model});
+          if (!!model.get('title')) {
+            return new rv.ChallengeView({model: model});
+          } else {
+            return new rv.PromptView({model:model})
+          }
         })
       }
 
     });
 
     rv.ChallengeView = cv.SimpleModelView.extend({
+      className: "challenge-view",
       template: Handlebars.templates['challenge-view'],
       events: {
         'click .start-challenge': 'startChallenge',
@@ -66,10 +71,13 @@ window.rupon.views = window.rupon.views || {};
       },
 
       startChallenge: function() {
+        var self = this;
         $.ajax({
             type: 'PUT',
             url:  '/api/challenges/' + this.model.id,
             success: function(response) {
+              self.$el.find('.start-challenge').addClass('hidden');
+              self.$el.find('.complete-challenge').removeClass('hidden');
             },
             dataType: 'JSON'
         });
@@ -79,5 +87,9 @@ window.rupon.views = window.rupon.views || {};
         this.trigger('picked', this.model);
       }
     });
+
+    rv.PromptView = cv.SimpleModelView.extend({
+      template: Handlebars.templates['prompt-view']
+    })
 
 })();

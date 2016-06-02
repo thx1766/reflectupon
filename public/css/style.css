@@ -139,6 +139,17 @@ a img{border:0;}
   margin-bottom: 15px;
   border-radius: 4px;
 }
+
+.challenge-view{
+  border-top:1px solid #ccc;
+}
+.challenge-view:first-child{
+  border-top:0;
+}
+
+.edit-intention-container {
+  margin-top: 6px;
+}
 .side-view-container .header{
     padding: 12px 10px 12px 12px;
     font-size: 18px;
@@ -272,8 +283,6 @@ ul.get-started .desc {
 .thought-row .message.reply-summary-activated{min-height:400px;}
 .show-replies.thought-row .message{float:left;}
 
-.thought-row .highlight-reply{opacity:0;transition: opacity .5s;}
-.popular-container .thought-row:hover .highlight-reply{opacity:1;}
 .date-view .header{position:relative;font-size: 15px;font-family: 'Helvetica Neue';font-weight: 200;border-bottom: 1px solid #F5F5F5;margin-bottom: 14px;min-height:36px;padding:10px 0;}
 .date-view .section{background-color:#fff;border-radius:3px;padding:10px 20px 25px;color:#626262;line-height: 24px;position: relative;box-shadow:0 1px 2px #d6d6d6;min-height: 400px;}
 
@@ -495,11 +504,10 @@ ul.get-started .desc {
   padding-bottom: 6px;
 }
 .message .response-list{
-  margin-left: 15px;
+  margin-left: 20px;
 }
 .message .response {
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
+  padding: 10px 0;
 }
 .timestamp{float:left;color:#525252;font-size:22px;font-weight:200;}
 
@@ -964,6 +972,34 @@ div.jquery-gdakram-tooltip h1{display:none}
 
 .nav>li.my-entries {
   display:none;
+}
+
+.add-challenge-view .error-msg {
+    font-size: 16px;
+    color: #FF4C4C;
+    display:none;
+}
+
+.add-challenge-view .modal-container {
+    padding-bottom: 15px;
+    padding-top: 4px;
+}
+.add-challenge-view .modal-label{
+    font-size: 16px;
+    margin-bottom: 6px;
+}
+
+.add-challenge-view input {
+    border: 1px solid #ccc;
+    padding: 4px 10px;
+    font-size: 16px;
+    width: 200px;
+}
+
+.add-challenge-view textarea{
+    width: 100%;
+    height: 65px;
+    border: 1px solid #ccc;
 }
 
 @media all and (max-width:991px) {

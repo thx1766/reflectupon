@@ -14,10 +14,8 @@ window.rupon.utils = window.rupon.utils || {};
 
     rc.setAllThoughts = function(params) {
 
-        rupon.account_info         = rupon.account_info || {};
-        rupon.account_info.user_id = params.user_id;
-        rupon.account_info.email   = params.email;
-        rupon.account_info.username = params.username;
+        rupon.account_info         = params.user || {};
+        rupon.account_info.user_id = params.user._id;
 
         mixpanel.identify(rupon.account_info.user_id);
         mixpanel.people.set({
