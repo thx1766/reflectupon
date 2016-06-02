@@ -9,7 +9,18 @@ var userSchema = mongoose.Schema({
   , password:   { type: String, required: true, select: false }
   , created_at: { type: Date }
   , updated_at: { type: Date }
+  , communities: [{
+      type: Schema.Types.ObjectId, ref: 'Community'
+    }]
   , status:      String
+  , user_challenges: [{
+      date: Date
+    , status: String
+    , challenge: {
+        type: Schema.Types.ObjectId, ref: 'Challenge'
+      }
+    }]
+  , intention:   String
 });
 
 // Bcrypt middleware

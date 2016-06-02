@@ -185,4 +185,20 @@ window.rupon.views = window.rupon.views || {};
 
     });
 
+    rv.BottomReplyView = cv.SimpleModelView.extend({
+        template: Handlebars.templates['bottom-reply-view'],
+
+        render: function(options) {
+            cv.SimpleModelView.prototype.render.call(this,options)
+            if (this.model.get('challenge')) {
+
+              var challengePage = new rv.ChallengeView({
+                model: new Backbone.Model(this.model.get('challenge'))
+              })
+
+              this.$el.find(".challenge-container").append(challengePage.$el);
+            }
+        }
+    });
+
 })();

@@ -66,7 +66,8 @@ window.rupon.views = window.rupon.views || {};
         container_ele: '.entries-container',
 
         events: {
-            "click .write-entry": "writeReflection"
+            "click .write-entry": "writeReflection",
+            "click .add-community": "addCommunity"
         },
 
         initialize: function(options) {
@@ -78,6 +79,15 @@ window.rupon.views = window.rupon.views || {};
             }, options);
         },
 
+        render: function(options) {
+            var myCommunityIds = _.pluck(options.myCommunities,"_id");
+            options.communities = _.map(options.communities, function(community) {
+                community.isSubscribed = _.contains(_.pluck(options.myCommunities,"_id"), community._id)
+                return community;
+            })
+            cv.CollectionContainer.prototype.render.call(this, options);
+        },
+
         showModule: function() {
             this.$el.find('.entries-container').show();
             this.$el.find('.write-entry').show();
@@ -85,6 +95,25 @@ window.rupon.views = window.rupon.views || {};
 
         writeReflection: function() {
             this.trigger('write-reflection');
+        },
+
+        addCommunity: function() {
+
+            var self = this;
+            var addCommunityView = new rv.AddCommunityView();
+
+            var modal = new rv.MainModal({
+                modalType: addCommunityView,
+                htmlTitle: 'Add a community',
+            });
+
+            addCommunityView
+                .on('added', function(title) {
+                    self.$el.find('ul').append('<li><a href="/community/'+title+'">'+title+'</a></li>');
+                    $(modal.$el).modal('hide');
+                });
+
+            $(modal.$el).modal();
         }
 
     });

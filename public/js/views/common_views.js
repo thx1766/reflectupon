@@ -29,7 +29,7 @@ window.rupon.common_views = window.rupon.common_views || {};
     CommonViews.SimpleModelView = CommonViews.TemplateView.extend({
 
         render: function(options) {
-            var template_options = _.clone(this.model.attributes);
+            var template_options = _.extend(options, _.clone(this.model.attributes));
             CommonViews.TemplateView.prototype.render.call(this, template_options);
         }
 

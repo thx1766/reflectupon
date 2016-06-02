@@ -37,7 +37,7 @@ window.rupon.views = window.rupon.views || {};
 
     rv.SignupModal = cv.Container.extend({
         className: "modal fade signup",
-        template: Handlebars.templates['signup-modal'],
+        template: Handlebars.templates['modal'],
 
         initialize: function(options) {
             /* for signup view */
@@ -50,6 +50,7 @@ window.rupon.views = window.rupon.views || {};
         },
 
         render: function(options) {
+            options.htmlTitle = '<span style="color:#00AA27">Beta</span> Sign up';
             this.$el.html(this.template(options));
 
             var params = {};
@@ -61,7 +62,7 @@ window.rupon.views = window.rupon.views || {};
             if (this.nonUserSignedUp) {
                 params.nonUserSignedUp = this.nonUserSignedUp;
             }
-            this.addChild(new rv.SignupView(params), '.form-container');
+            this.addChild(new rv.SignupView(params), '.modal-body');
         }
 
     });
@@ -229,6 +230,88 @@ window.rupon.views = window.rupon.views || {};
             }
 
             return false;
+        }
+    });
+
+    rv.MainModal = cv.Container.extend({
+        className: "modal fade",
+        template: Handlebars.templates['modal'],
+
+        initialize: function(options) {
+            cv.Container.prototype.initialize.call(this);
+            this.render(options);
+        },
+
+        render: function(options) {
+            options = options || {};
+            this.$el.html(this.template(options));
+            this.addChild(options.modalType, '.modal-body');
+        }
+    });
+
+    rv.AddCommunityView = cv.TemplateView.extend({
+        template: Handlebars.templates['add-community-view'],
+
+        events: {
+            'click button': 'submitCommunity'
+        },
+
+        submitCommunity: function() {
+            var self = this;
+            var input = this.$el.find('input').val(),
+                textarea = this.$el.find('textarea').val();
+
+            if ($.trim(input) == "" || $.trim(textarea) == "") {
+                this.$el.find('.error-msg').show();
+            } else { 
+                $.ajax({
+                    type: 'POST',
+                    url:  '/api/communities',
+                    data: {
+                        title: input,
+                        description: textarea
+                    },
+                    success: function(response) {
+                        self.trigger('added', response.title);
+                    },
+                    dataType: 'JSON'
+                });
+            }
+        }
+    })
+
+    rv.AddChallengesView = cv.TemplateView.extend({
+        className: 'add-challenge-view',
+        template: Handlebars.templates['add-challenges-view'],
+
+        events: {
+            'click button': 'submitChallenge'
+        },
+
+        submitChallenge: function() {
+            var self = this;
+            var input = this.$el.find('input').val(),
+                descriptionTextarea = this.$el.find('.description-val').val(),
+                instructionsTextarea = this.$el.find('.instructions-val').val();
+
+            if ($.trim(input) == "" || $.trim(descriptionTextarea) == "" ||
+                $.trim(instructionsTextarea) == "") {
+                this.$el.find('.error-msg').show();
+            } else { 
+                $.ajax({
+                    type: 'POST',
+                    url:  '/api/challenges',
+                    data: {
+                        title: input,
+                        description: descriptionTextarea,
+                        instructions: instructionsTextarea
+                    },
+                    success: function(response) {
+                        self.trigger('added', response.title);
+                    },
+                    dataType: 'JSON'
+                });
+            }
         }
     })
 })();

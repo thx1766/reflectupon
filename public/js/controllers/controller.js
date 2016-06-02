@@ -19,17 +19,6 @@ window.rupon.utils = window.rupon.utils || {};
         rm = window.rupon.models,
         rh = window.rupon.helpers;
 
-    rc.startPage = function(options) {
-
-        rupon.account_info         = rupon.account_info || {};
-        rupon.account_info.user_id = options.user_id;
-        rupon.account_info.email   = options.email;
-        rupon.account_info.username = options.username;
-
-        rc.setAllThoughts(_.pick(options, ['frequency', 'popular', 'prompt', 'settings']));
-
-    };
-
     /* reset all views unless otherwise stated in params */
     rc.resetViews = function(options) {
 

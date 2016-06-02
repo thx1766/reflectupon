@@ -1,0 +1,13 @@
+<% include header %>
+    <div id="container"></div>
+
+    <script type="text/javascript">
+    $(document).ready(function(){
+        rupon.controllers.startChallengesPage({
+          challenges: <%- challenges %>,
+          prompts: <%- prompts %>
+        });
+    }) 
+    </script>
+
+<% include footer %>

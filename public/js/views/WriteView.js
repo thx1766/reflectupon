@@ -19,10 +19,20 @@ window.rupon.views = window.rupon.views || {};
             'click .privacy':       'changePrivacy',
             'click .write-another': 'writeAnother',
             'click .link':          'showLink',
-            'click .tag':           'openTagsMenu'
+            'click .tag':           'openTagsMenu',
+            'click .reflect-challenge': 'reflectChallenge'
         },
 
         render: function(options) {
+
+            if (typeof options.showView != "undefined" && !options.showView) {
+                this.$el.addClass('hidden');
+            }
+
+            if (typeof options.communityId != "undefined") {
+                this.communityId = options.communityId
+            }
+
             options.day = moment().format("dddd");
             cv.TemplateView.prototype.render.call(this, options);
             //this.$el.find('textarea').autosize();
@@ -110,13 +120,51 @@ window.rupon.views = window.rupon.views || {};
                     privacy:        privacy_ele.prop("checked") ? 'ANONYMOUS' : 'PUBLIC',
                     date:           date,
                     tag_ids:        self.tags,
-                    prompt_id:      prompt_ele.prop("checked") ? prompt_id: ''
+                    prompt_id:      prompt_ele.prop("checked") ? prompt_id: '',
+                    challenge_id:   this.$el.find('.reflect-on').attr('data-id')
                 }
 
                 if (addlink_shown) params.link = this.$el.find('input.add-link').val();
 
                 this.trigger("create-reflection", params)
             }
+        },
+
+        reflectChallenge: function() {
+
+            var self = this;
+            $.ajax({
+               type: 'GET',
+                url:  '/api/challenges/',
+                success: function(response) {
+
+                    response = _.map(response, function(challenge) {
+                        challenge.pick = true;
+                        return challenge;
+                    })
+                    var pastChallengesView = new rv.ChallengesView({
+                        challenges: response,
+                        prompts:    {},
+                        collection: new Backbone.Collection(response)
+                    });
+
+                    var modal = new rv.MainModal({
+                        modalType: pastChallengesView,
+                        htmlTitle: 'Reflect on a past challenge',
+                    });
+            
+                    $(modal.$el).modal();
+
+                    pastChallengesView
+                        .on('picked', function(model) {
+                            $(modal.$el).modal('hide');
+                            self.$el.find('.reflect-challenge-box .reflect-on').html(model.get('title'));
+                            self.$el.find('.reflect-challenge-box .reflect-on').attr('data-id', model.id)
+                        })
+                },
+                dataType: 'JSON'
+            });
+
         }
 
     });

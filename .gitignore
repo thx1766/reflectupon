@@ -14,7 +14,6 @@ results
 public/bower_components
 node_modules
 npm
-build
 .idea/workspace.xml
 .idea/jsLibraryMappings.xml
 dump.rdb

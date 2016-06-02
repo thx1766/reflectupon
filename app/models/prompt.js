@@ -5,6 +5,8 @@ var promptSchema = Schema({
     description:    String,
     date:           Date,
     eligible:       String
+}, {
+  timestamps: true
 });
 
 mongoose.model('Prompt', promptSchema);

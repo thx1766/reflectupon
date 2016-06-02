@@ -1,5 +1,5 @@
 <div class="message-top">
-    Written <span class="with-author">by <strong>{{username}}</strong> • </span>{{date}}<span class="highlight-reply"> • Highlight text in entry to form reply</span>
+    Written <span class="with-author">by <strong><a href="/profile/{{username}}">{{username}}</a></strong>{{#if intention}}, {{intention}}{{/if}} • </span>{{date}}
     {{#if tag_ids}}
     <div class="tags-container">
         Topics: <ul>{{#each tag_ids}}<li>{{this}}</li> {{/each}}</ul>
@@ -34,6 +34,9 @@
         </div>
     {{/if}}
 
+    {{#if challenge}}
+        <div class="challenge-container"></div>
+    {{/if}}
     <div class="description selectable">{{{ description }}}</div>
     {{#if read_more}} 
         <div class="read-more-container">
@@ -86,19 +89,13 @@
     </div>
     <div class="tooltip_description" style="display:none;" title="No worries"></div>
     <div class="write-reply-container write-reply-box"></div>
-    {{#if nonAnnotationReplies}}
     <div class="response-list" style="display:none">
+    {{#if nonAnnotationReplies}}
         <div class="response">
             Annotated responses to the right. Other responses below.
         </div>
-        {{#each nonAnnotationReplies}}
-        <div class="response">
-            <div><strong>Someone replied:</strong></div>
-            <div>{{description}}</div>
-        </div>
-        {{/each}}
-    </div>
     {{/if}}
+    </div>
 </div>
 <div class="replies"></div>
 

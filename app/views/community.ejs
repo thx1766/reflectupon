@@ -1,0 +1,19 @@
+<% include header %>
+    <div id="container"></div>
+
+    <script type="text/javascript">
+    $(document).ready(function(){
+        rupon.controllers.startCommunityPage({
+          username: "<%= user.username %>",
+          user_id: "<%= user._id %>",
+          email: "<%= user.email %>",
+          communities: <%- communities %>,
+          challenges: <%- challenges %>,
+          community: <%- community %>,
+          popular: <%- popular %>,
+          settings: <%- settings %>
+        });
+    }) 
+    </script>
+
+<% include footer %>
