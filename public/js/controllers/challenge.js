@@ -10,6 +10,10 @@ window.rupon.utils = window.rupon.utils || {};
         rh = window.rupon.helpers;
 
     rc.startChallengePage = function(params) {
+      rupon.account_info         = params.user || {};
+      rupon.account_info.user_id = params.user._id;
+      rc.setSettings(params.settings, rupon.account_info.username);
+      
       var challengePage = new rv.ChallengeView({
         model: new Backbone.Model(params.challenge),
         extended: true

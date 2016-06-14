@@ -107,6 +107,29 @@ exports.home = function(req, res, dates) {
 
 };
 
+exports.communities = function(req, res) {
+    userSettings.getSettings(req.user._id, function(userSettings) {
+
+        communities.getCommunities({}, function(communities) {
+
+            var userAttrs = _.pick(req.user, [
+                'username',
+                '_id',
+                'email',
+                'intention'
+            ]);
+
+            res.render('communities', _.defaults({
+                user: JSON.stringify(userAttrs),
+                settings: JSON.stringify(userSettings),
+                communities: JSON.stringify(communities),
+                signout: true
+            }, pageDefaults))
+
+        });
+    });
+}
+
 exports.community = function(req, res) {
 
     var name = req.params.name;
@@ -125,13 +148,21 @@ exports.community = function(req, res) {
                 userSettings.getSettings(user_id, function(userSettings) {
 
                     User.findById(req.user._id).populate('communities').exec(function(err, user) {
+
+                        var userAttrs = _.pick(user, [
+                            'username',
+                            '_id',
+                            'email',
+                            'intention'
+                        ]);
+
                         res.render('community', {
                             settings: JSON.stringify(userSettings),
                             landing_page: false,
                             topBar: true,
                             is_admin: false,
                             signout: true,
-                            user: req.user,
+                            user: JSON.stringify(userAttrs),
                             communities: JSON.stringify(user.communities),
                             challenges: JSON.stringify(challenges),
                             community: JSON.stringify(community),
@@ -159,25 +190,35 @@ var startedChallengeStatus = function(challenges, user_challenges) {
 
 }
 exports.challenges = function(req, res) {
-    challenges.getChallenges({}, function(challenges) {
 
-        challenges = startedChallengeStatus(challenges, req.user.user_challenges);
+    userSettings.getSettings(req.user._id, function(userSettings) {
+        challenges.getChallenges({}, function(challenges) {
 
-        prompts.getPrompts({}, function(prompts) {
+            challenges = startedChallengeStatus(challenges, req.user.user_challenges);
 
-            res.render('challenges', {
-                settings: JSON.stringify(userSettings),
-                landing_page: false,
-                topBar: true,
-                is_admin: false,
-                signout: false,
-                user: req.user,
-                challenges: JSON.stringify(challenges),
-                prompts: JSON.stringify(prompts)
-            });
+            prompts.getPrompts({}, function(prompts) {
+
+                var userAttrs = _.pick(req.user, [
+                    'username',
+                    '_id',
+                    'email',
+                    'intention'
+                ]);
+
+                res.render('challenges', {
+                    user: JSON.stringify(userAttrs),
+                    settings: JSON.stringify(userSettings),
+                    landing_page: false,
+                    topBar: true,
+                    is_admin: false,
+                    signout: true,
+                    challenges: JSON.stringify(challenges),
+                    prompts: JSON.stringify(prompts)
+                });
+            })
+
         })
-
-    })
+    });
 }
 
 var pageDefaults = {
@@ -189,20 +230,43 @@ var pageDefaults = {
 
 exports.challenge = function(req, res) {
 
-    challenges.getChallenges({_id: req.params.id}, function(challenges) {
+    userSettings.getSettings(req.user._id, function(userSettings) {
 
-        challenges = startedChallengeStatus(challenges, req.user.user_challenges);
+        challenges.getChallenges({_id: req.params.id}, function(challenges) {
 
-        res.render('challenge', _.defaults({
-            challenge: JSON.stringify(challenges[0])
-        }, pageDefaults));
-    })
+            challenges = startedChallengeStatus(challenges, req.user.user_challenges);
+
+            var userAttrs = _.pick(req.user, [
+                'username',
+                '_id',
+                'email',
+                'intention'
+            ]);
+            res.render('challenge', _.defaults({
+                user: JSON.stringify(userAttrs),
+                settings: JSON.stringify(userSettings),
+                challenge: JSON.stringify(challenges[0]),
+                signout: true
+            }, pageDefaults));
+        })
+    });
 }
 
 exports.profile = function(req, res) {
-    res.render('profile', _.defaults({
-        user: JSON.stringify(req.user)
-    }, pageDefaults));
+    userSettings.getSettings(req.user._id, function(userSettings) {
+        var userAttrs = _.pick(req.user, [
+            'username',
+            '_id',
+            'email',
+            'intention'
+        ]);
+
+        res.render('profile', _.defaults({
+            user: JSON.stringify(userAttrs),
+            settings: JSON.stringify(userSettings),
+            signout: true
+        }, pageDefaults));
+    });
 }
 
 exports.journal = function(req, res) {
@@ -399,8 +463,8 @@ exports.registerEmail = function(email) {
     sendgrid.send({
         to: email,
         from: 'andrewjcasal@gmail.com',
-        subject: 'Welcome to Get Your Shit Together!',
-        html: 'Thanks for your interest! Stay tuned for further updates.<br /><br/>Thanks!<br />Get Your Shit Together team'
+        subject: 'Welcome to Heros!',
+        html: 'Thanks for your interest! Stay tuned for further updates.<br /><br/>Thanks!<br />Heros team'
     }, function(err, json) {
         if (err) { return console.error(err); }
         console.log(json);
@@ -473,8 +537,8 @@ exports.postForgot = function(req, res, next) {
                 subject:  "Forgot your password?",
                 text:     'Hey,<br /><br />It seems like you might have forgotten your password. Click <a href="{{ verification_link }}">here</a> to retrieve it.<br /><br/>'+
 
-                    "The Team at Get Your Shit Together<br />" +
-                    "<a href='www.getyourshittogether.co'>www.getyourshittogether.co</a>"
+                    "The Team at Heros<br />" +
+                    "<a href='www.heroslive.com'>www.heroslive.com</a>"
             };
 
             var reset = forgot.forgot( email_options, function(err) {

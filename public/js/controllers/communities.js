@@ -9,15 +9,16 @@ window.rupon.utils = window.rupon.utils || {};
         rm = window.rupon.models,
         rh = window.rupon.helpers;
 
-    rc.startProfilePage = function(params) {
+    rc.startCommunitiesPage = function(params) {
       rupon.account_info         = params.user || {};
       rupon.account_info.user_id = params.user._id;
       rc.setSettings(params.settings, rupon.account_info.username);
 
-      var profilePage = new rv.ProfileView({
-        model: new Backbone.Model(params.user)
-      })
+      var communitiesPage = new rv.MainCommunitiesView({
+        collection: new rm.communitiesCollection(params.communities)
+      });
 
-      $("#container .main-view-container .module").append(profilePage.$el);
+      $("#container").append('<div class="main-view-container module"></div><div class="side-view-container"></div>');
+      $("#container .main-view-container").append(communitiesPage.$el);
     }
 })();

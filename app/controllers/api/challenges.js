@@ -4,9 +4,11 @@ var mongoose   = require('mongoose')
 
 exports.post = function(req, res) {
     var challenge = new Challenge({
+        creator:      req.user,
         title:        req.body.title,
         description:  req.body.description,
-        instructions: req.body.instructions
+        instructions: req.body.instructions,
+        link:         req.body.link
     });
 
     challenge.save(function(err) {
@@ -30,6 +32,14 @@ exports.put = function(req, res) {
   })
 }
 
+exports.putRelated = function(req, res) {
+  Challenge.findById(req.params.challengeId, function(err, related) {
+    Challenge.findByIdAndUpdate(req.params.id, { $addToSet: {relatedChallenges: related } }, function (err, challenge) {
+      res.send(challenge);
+    });
+  })
+}
+
 exports.get = function(req, res) {
   exports.getChallenges({}, function(challenges) {
     res.send(challenges);
@@ -39,6 +49,8 @@ exports.get = function(req, res) {
 exports.getChallenges = function(params, callback) {
   Challenge
     .find(params)
+    .populate('creator')
+    .populate('relatedChallenges')
     .exec(function(err, challenges) {
       callback(challenges);
     })

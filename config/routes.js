@@ -17,6 +17,7 @@ var mongoose        = require('mongoose')
   , challenges       = require('../app/controllers/api/challenges')
   , profile          = require('../app/controllers/api/profile')
   , userSettings     = require('../app/controllers/api/user_settings')
+  , aws             = require('aws-sdk')
 
 var Thought     = mongoose.model('Thought'),
     Reply       = mongoose.model('Reply'),
@@ -34,6 +35,7 @@ module.exports = function(app) {
     });
     app.get('/challenges',      auth.ensureAuthenticated, user_routes.challenges);
     app.get('/challenge/:id',   auth.ensureAuthenticated, user_routes.challenge);
+    app.get('/communities',     auth.ensureAuthenticated, user_routes.communities);
     app.get('/community/:name', auth.ensureAuthenticated, user_routes.community);
     app.get('/profile/:name',   auth.ensureAuthenticated, user_routes.profile)
     app.get( '/reports',auth.ensureAuthenticated,    user_routes.reports);
@@ -70,9 +72,13 @@ module.exports = function(app) {
     app.put('/api/communities/:id', communities.put);
     app.post('/api/communities/:id/members/:memberId', communities.postMember);
 
-    app.get('/api/challenges',      challenges.get)
-    app.post('/api/challenges',     challenges.post)
-    app.put('/api/challenges/:id',  challenges.put)
+    app.put('/api/communities/:id/challenges/:challengePos', communities.putChallenge);
+
+    app.get('/api/challenges',      challenges.get);
+    app.post('/api/challenges',     challenges.post);
+    app.put('/api/challenges/:id',  challenges.put);
+
+    app.put('/api/challenges/:id/related/:challengeId', challenges.putRelated);
 
     app.post('/api/user_settings', auth.ensureAuthenticated, userSettings.post);
     app.get('/api/user_settings',  auth.ensureAuthenticated, userSettings.get);
@@ -337,5 +343,35 @@ module.exports = function(app) {
             });
         });
     })
+
+    app.get('/sign-s3', function (req, res) {
+        aws.config.update({
+            accessKeyId: "AKIAIO6MYXA7IR7WG6GA",
+            secretAccessKey: "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" 
+        });
+      var s3 = new aws.S3();
+      var fileName = req.query['file-name'];
+      var fileType = req.query['file-type'];
+      var s3Params = {
+        Bucket: 'avatars-images',
+        Key: fileName,
+        Expires: 60,
+        ContentType: fileType,
+        ACL: 'public-read'
+      };
+
+      s3.getSignedUrl('putObject', s3Params, function(err, data) {
+        if(err){
+          console.log(err);
+          return res.end();
+        }
+        var returnData = {
+          signedRequest: data,
+          url: 'https://s3-us-west-2.amazonaws.com/avatars-images/'+fileName
+        };
+        res.write(JSON.stringify(returnData));
+        res.end();
+      });
+    });
 
 }

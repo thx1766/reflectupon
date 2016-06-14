@@ -190,6 +190,7 @@ window.rupon.views = window.rupon.views || {};
             this.trigger('subscribe', email, function(response) {
 
                 if (response == "success") {
+                    input.val("");
                     self.showValidationMsg(msg, 'Thanks for subscribing!');
                 } else if (response == "exists") {
                     self.showValidationMsg(msg, 'E-mail already exists. Try another one.');

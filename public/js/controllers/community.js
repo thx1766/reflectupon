@@ -10,13 +10,9 @@ window.rupon.utils = window.rupon.utils || {};
         rh = window.rupon.helpers;
 
     rc.startCommunityPage = function(params) {
-
-      rupon.account_info         = rupon.account_info || {};
-      rupon.account_info.user_id = params.user_id;
-      rupon.account_info.email   = params.email;
-      rupon.account_info.username = params.username;
-
-      var settings = params.settings;
+      rupon.account_info         = params.user || {};
+      rupon.account_info.user_id = params.user._id;
+      rc.setSettings(params.settings, rupon.account_info.username);
 
       var popularCollection = new rupon.models.thoughtCollection(params.popular),
           tags_collection         = new rm.topicsCollection();
@@ -29,6 +25,8 @@ window.rupon.utils = window.rupon.utils || {};
         description: params.community.description,
         creator:     params.community.creator,
         members:     params.community.members,
+        guidelines:  params.community.guidelines,
+        maxUsers:    params.community.maxUsers,
         communities: params.communities
       });
 
@@ -36,6 +34,18 @@ window.rupon.utils = window.rupon.utils || {};
           .on("subscribed", function() {
             $('.write-view').removeClass('hidden');
           });
+
+      var isCreator = params.community.creator && (rupon.account_info.user_id == params.community.creator._id);
+      var showCommunityChallengesView = !!_.filter(params.community.communityChallenges, function(communityChallenge) {
+        return !!communityChallenge.challenge}).length || isCreator;
+
+      if (showCommunityChallengesView) {
+        var communityChallengesView = new rv.CommunityChallengesView({
+          communityId: params.community._id,
+          collection: new Backbone.Collection(params.community.communityChallenges),
+          isCreator: isCreator
+        });
+      }
 
       // Only pass reference to reply_collection - since each thought handles its own replies
       var writeView = new rv.WriteView({
@@ -49,6 +59,10 @@ window.rupon.utils = window.rupon.utils || {};
               var thought = new rm.thought(attrs);
               thought.save();
               popularCollection.add(thought);
+
+              if (popularCollection.models) {
+                $('.popular-container').find('.placeholder').hide();
+              }
           });
 
       var communityMainView = new rv.ThoughtsView({
@@ -59,16 +73,18 @@ window.rupon.utils = window.rupon.utils || {};
 
       $("#container").append('<div class="main-view-container"></div><div class="side-view-container"></div>');
       $("#container .side-view-container").append(communitySidebarView.$el);
+
+      if (showCommunityChallengesView) {
+        $("#container .main-view-container").append(communityChallengesView.$el);
+      }
       $("#container .main-view-container").append(writeView.$el);
-      $("#container .main-view-container").append('<div class="popular-container"><div class="header">Community Entries</div></div>')
+      $("#container .main-view-container").append('<div class="popular-container"><div class="header">Community Entries</div></div>');
+
+      if (!popularCollection.models.length) {
+        $('.popular-container').append('<div class="placeholder" style="padding: 10px">Subscribe and write an entry!</div>');
+      }
       $("#container .popular-container").append(communityMainView.$el);     
 
       tags_collection.fetch(); 
-
-      settings.username = rupon.account_info.username;
-      var settingsView = new rv.SettingsView({
-          model: new rm.userSettings(settings)
-      });
-      $(".me-container .dropdown").html(settingsView.$el);
     }
 })();

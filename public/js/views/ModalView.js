@@ -251,6 +251,7 @@ window.rupon.views = window.rupon.views || {};
 
     rv.AddCommunityView = cv.TemplateView.extend({
         template: Handlebars.templates['add-community-view'],
+        className: 'modal-view',
 
         events: {
             'click button': 'submitCommunity'
@@ -258,18 +259,22 @@ window.rupon.views = window.rupon.views || {};
 
         submitCommunity: function() {
             var self = this;
-            var input = this.$el.find('input').val(),
-                textarea = this.$el.find('textarea').val();
+            var nameVal = this.$el.find('.name-val').val(),
+                descriptionTextarea = this.$el.find('.description-val').val(),
+                guidelinesTextarea = this.$el.find('.guidelines-val').val(),
+                maxMembersVal = this.$el.find('.members-val').val();
 
-            if ($.trim(input) == "" || $.trim(textarea) == "") {
+            if ($.trim(nameVal) == "" || $.trim(descriptionTextarea) == "") {
                 this.$el.find('.error-msg').show();
             } else { 
                 $.ajax({
                     type: 'POST',
                     url:  '/api/communities',
                     data: {
-                        title: input,
-                        description: textarea
+                        title:       nameVal,
+                        description: descriptionTextarea,
+                        guidelines:  guidelinesTextarea,
+                        maxUsers:    parseInt(maxMembersVal)
                     },
                     success: function(response) {
                         self.trigger('added', response.title);
@@ -281,7 +286,7 @@ window.rupon.views = window.rupon.views || {};
     })
 
     rv.AddChallengesView = cv.TemplateView.extend({
-        className: 'add-challenge-view',
+        className: 'add-challenge-view modal-view',
         template: Handlebars.templates['add-challenges-view'],
 
         events: {
@@ -290,11 +295,12 @@ window.rupon.views = window.rupon.views || {};
 
         submitChallenge: function() {
             var self = this;
-            var input = this.$el.find('input').val(),
+            var challengeNameInput = this.$el.find('.challenge-name').val(),
                 descriptionTextarea = this.$el.find('.description-val').val(),
-                instructionsTextarea = this.$el.find('.instructions-val').val();
+                instructionsTextarea = this.$el.find('.instructions-val').val(),
+                backgroundLinkInput = this.$el.find('.background-link-val').val();
 
-            if ($.trim(input) == "" || $.trim(descriptionTextarea) == "" ||
+            if ($.trim(challengeNameInput) == "" || $.trim(descriptionTextarea) == "" ||
                 $.trim(instructionsTextarea) == "") {
                 this.$el.find('.error-msg').show();
             } else { 
@@ -302,9 +308,10 @@ window.rupon.views = window.rupon.views || {};
                     type: 'POST',
                     url:  '/api/challenges',
                     data: {
-                        title: input,
-                        description: descriptionTextarea,
-                        instructions: instructionsTextarea
+                        title:        challengeNameInput,
+                        description:  descriptionTextarea,
+                        instructions: instructionsTextarea,
+                        link:         backgroundLinkInput
                     },
                     success: function(response) {
                         self.trigger('added', response.title);

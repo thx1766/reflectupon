@@ -4,6 +4,8 @@
     <script type="text/javascript">
     $(document).ready(function(){
         rupon.controllers.startChallengesPage({
+          settings: <%- settings %>,
+          user:     <%- user %>,
           challenges: <%- challenges %>,
           prompts: <%- prompts %>
         });

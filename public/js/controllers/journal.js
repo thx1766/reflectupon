@@ -12,10 +12,19 @@ window.rupon.utils = window.rupon.utils || {};
         dayModelIndex,
         popularView;
 
-    rc.setAllThoughts = function(params) {
+    rc.setSettings = function(settings, username) {
+        settings.username = username;
+        var settingsView = new rv.SettingsView({
+            model: new rm.userSettings(settings)
+        });
+        $(".me-container .dropdown").html(settingsView.$el);
 
+    }
+
+    rc.setAllThoughts = function(params) {
         rupon.account_info         = params.user || {};
         rupon.account_info.user_id = params.user._id;
+        rc.setSettings(params.settings, rupon.account_info.username);
 
         mixpanel.identify(rupon.account_info.user_id);
         mixpanel.people.set({
@@ -27,8 +36,7 @@ window.rupon.utils = window.rupon.utils || {};
 
         var frequency =    params.frequency, 
             popular =      params.popular,
-            prompt =       params.prompt,
-            settings =     params.settings;
+            prompt =       params.prompt;
 
         var recommended_collection  = new rupon.models.thoughtCollection(),
             user_message_collection = new rupon.models.userMessageCollection(),
@@ -97,12 +105,6 @@ window.rupon.utils = window.rupon.utils || {};
         $(".side-view-container")
             .append(frequencyView.$el)
             .append(Handlebars.templates['guidelines']());
-
-        settings.username = rupon.account_info.username;
-        var settingsView = new rv.SettingsView({
-            model: new rm.userSettings(settings)
-        });
-        $(".me-container .dropdown").html(settingsView.$el);
 
         $(document).scroll(function() {
             var scrollTop = $(document).scrollTop(),

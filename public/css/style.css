@@ -38,6 +38,10 @@ a img{border:0;}
 .wrapper{margin:0 auto;clear:both;display:block;padding-top:70px;width: 1000px;}
 .sidebar a{display:block}
 
+.modal-body{
+  max-height:550px;
+  overflow:scroll;
+}
 .new-reflections li{list-style:none;margin:0 10px;padding:8px 6px 8px 10px;text-decoration:none;display:block;}
 .new-reflections .checkbox{position:relative;display: block;border: 1px solid #ccc;height: 16px;width: 16px;float: left;margin-right: 8px;border-radius: 4px;margin-top: 2px;}
 .new-reflections .checkbox.active {background-color: rgb(127, 196, 127);border: 1px solid rgb(122, 153, 122);}
@@ -64,6 +68,11 @@ a img{border:0;}
 .module {
   background-color: #ffffff;
 }
+.module .subheader{
+    padding: 10px;
+    padding-bottom: 0;
+    font-size: 16px;
+}
 .module .module-option {
   color: #4EBEE4;
   padding: 10px;
@@ -83,16 +92,17 @@ a img{border:0;}
   margin-left: 2px;
 }
 
-.module .description-container, .module .edit-description-container {
+.module .description-container, .module .edit-description-container,
+.module .guidelines-container, .module .edit-guidelines-container {
   padding: 10px;
 }
 
-.module .description {
+.module .description, .module .guidelines-label {
   font-size: 14px;
   color: #666;
 }
 
-.module .fa-pencil {
+.module .fa-pencil, .module .fa-check {
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: 4px;
@@ -109,6 +119,7 @@ a img{border:0;}
   font-size: 14px;
   border: 1px solid #3EDC67;
   border-radius: 4px;
+  margin-top:8px;
 }
 
 .subscription-status .subscription-button{
@@ -623,6 +634,19 @@ ul.get-started .desc {
 
 .write-view .delayed-entry{padding: 10px 15px;font-size: 18px;font-weight: 200;background-color: #E5FDFF;}
 .write-view .expanded.no-opacity{overflow:hidden;opacity:0;max-height:54px;pointer-events:none;}
+
+.community-challenges-view{
+}
+
+.community-challenges-view .challenge-row {
+  padding: 10px;
+  border-top:1px solid #ccc;
+}
+
+.community-challenges-view .challenge-row:first-child {
+  border-top: 0;
+}
+
 .thought-row .message .description{font-family: 'Merriweather';}
 .replies{
   float:left;
@@ -904,6 +928,14 @@ div.jquery-gdakram-tooltip h1{display:none}
   margin-bottom: 12px;
   border-bottom: 1px solid #00AA27;
 }
+
+.main-header{
+  padding: 12px 12px;
+  font-size: 18px;
+  color: #00AA27;
+  background-color: #ffffff;
+  border-bottom: 1px solid #00AA27;
+}
 .with-author{
   display:none;
 }
@@ -974,29 +1006,29 @@ div.jquery-gdakram-tooltip h1{display:none}
   display:none;
 }
 
-.add-challenge-view .error-msg {
+.modal-view .error-msg {
     font-size: 16px;
     color: #FF4C4C;
     display:none;
 }
 
-.add-challenge-view .modal-container {
+.modal-view .modal-container {
     padding-bottom: 15px;
     padding-top: 4px;
 }
-.add-challenge-view .modal-label{
+.modal-view .modal-label{
     font-size: 16px;
     margin-bottom: 6px;
 }
 
-.add-challenge-view input {
+.modal-view input {
     border: 1px solid #ccc;
     padding: 4px 10px;
     font-size: 16px;
     width: 200px;
 }
 
-.add-challenge-view textarea{
+.modal-view textarea{
     width: 100%;
     height: 65px;
     border: 1px solid #ccc;

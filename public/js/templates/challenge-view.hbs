@@ -1,10 +1,17 @@
+<input type="file" id="file-input">
+<p id="status">Please select a file</p>
+<img id="preview" src="/images/default.png">
 
+<form method="POST" action="/save-details">
+  <input type="hidden" id="avatar-url" name="avatar-url" value="/images/default.png">
+</form>
   <div class="clearfix" style="position:relative;padding:10px;">
     <div style="float:left">
       <div style="font-size:18px;margin-bottom:8px"><span style="color:green">Challenge</span> / <a href="/challenge/{{_id}}">{{title}}</a></div>
       <div style="margin-bottom: 10px">{{description}}</div>
       {{#if extended}}
         <div style="margin-bottom: 10px">{{instructions}}</div>
+        <div>{{link}}</div>
       {{/if}}
     </div>
     <div style="float:right;">
@@ -16,3 +23,8 @@
       {{/if}}
     </div>
   </div>
+  {{#if extended}}
+    <div class="clearfix" style="padding:20px 10px;border-top:1px solid #ccc;font-size: 16px">
+        Created by <a href="/profile/{{creator.username}}">{{creator.username}}</a>, <span style="color:#aaa;font-size:14px">{{creator.intention}}</span>
+    </div>
+  {{/if}}
