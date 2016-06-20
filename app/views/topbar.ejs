@@ -9,7 +9,7 @@
             <span class="icon-bar"></span>
           </button>
         </div>
-        <nav class="collapse navbar-collapse bs-navbar-collapse">
+        <nav class="collapse navbar-collapse bs-navbar-collapse" style="font-size:16px">
           <ul class="nav navbar-nav left-nav">
               <% if (is_admin) { %>
                   <li>
@@ -27,7 +27,9 @@
           <ul class="nav navbar-nav navbar-right">
             <% if (signout) { %>
               <li class="me-container dropdown-container arrow-right">
-                <a href="javascript:;">Options</a>
+                <img src="<%- JSON.parse(user).avatar_url %>" style="width: 40px;height:40px;vertical-align:-14px;border-radius: 5px;border: 1px solid #828282;" />
+                <a href="/profile/<%- JSON.parse(user).username %>"><%- JSON.parse(user).username %></a>
+                <a href="javascript:;"><i style="font-size:16px" class="fa fa-gear"></i></a>
                 <div class="dropdown-arrow clearfix">
                   <div class="arrow"></div>
                   <div class="dropdown"></div>

@@ -1,17 +1,86 @@
-<div style="font-size:24px;color:#00AA27;border-bottom:1px solid #00AA27;padding:10px">{{username}}</div>
+{{#if isCreator}}
+<input type="file" id="file-input">
+<p id="status">Please select a file</p>
+
+<form method="POST" action="/save-details">
+  <input type="hidden" id="avatar-url" name="avatar-url" value="/images/default.png">
+</form>
+{{/if}}
+<div class="clearfix" style="font-size:24px;color:#00AA27;border-bottom:1px solid #00AA27;">
+  <img id="preview" src="{{avatar_url}}" style="float:left;background-color: #ccc;
+    width: 70px;
+    height: 70px;
+    border-radius: 6px;
+    margin: 10px;
+    box-shadow: 0 1px 2px #6d6d6d;">
+  <div style="float:left;padding:25px 10px">{{username}}</div>
+</div>
 <div style="padding:10px">
-<div style="font-size: 18px;color:#999" class="clearfix intention-header">
+<div class="small-header clearfix intention-header">
   <div style="float:left;">INTENTION</div>
   <div style="float:left;margin-left:20px;text-align:right;margin-top:-2px">
+    {{#if isCreator}}
     <a href="javascript:;">
       <i class="fa fa-pencil"></i>
     </a>
+    {{/if}}
   </div>
 </div>
 <div class="intention-container">
   "{{intention}}"
 </div>
+{{#if isCreator}}
 <div class="edit-intention-container" style="display:none">
   <textarea style="border: 1px solid #ccc;width:100%;margin-bottom:10px">{{intention}}</textarea>
   <button class="btn btn-primary">Change</button>
+</div>
+{{/if}}
+<div class="small-header clearfix personal-url">
+  <div style="float:left;">LINK TO PERSONAL SITE</div>
+  <div style="float:left;margin-left:20px;text-align:right;margin-top:-2px">
+    {{#if isCreator}}
+    <a href="javascript:;">
+      <i class="fa fa-pencil"></i>
+    </a>
+    {{/if}}
+  </div>
+</div>
+<div class="personal-url-container" style="margin-bottom: 20px">
+  {{personal_url}}
+</div>
+{{#if isCreator}}
+<div class="edit-personal-container" style="display:none">
+  <textarea style="border: 1px solid #ccc;width:100%;margin-bottom:10px">{{personal_url}}</textarea>
+  <button class="btn btn-primary">Change</button>
+</div>
+{{/if}}
+<div class="clearfix" style="margin-bottom: 20px">
+  <div style="float: left; width:48%">
+    <div class="small-header">
+      COMPLETED CHALLENGES
+    </div>
+    <div class="completed-challenges-container" style="max-height:400px;overflow:scroll;margin-top:10px">
+    </div>
+  </div>
+  <div style="float: right; width:48%">
+    <div class="small-header">
+      CURRENT CHALLENGES
+    </div>
+    <div class="current-challenges-container" style="max-height:400px;overflow:scroll;margin-top:10px">
+    </div>
+  </div>
+</div>
+<div>
+  <div class="small-header">
+    COMMUNITIES MANAGED
+  </div>
+  <div class="communities-managed-container" style="max-height:400px; overflow:scroll">
+  </div>
+</div>
+<div>
+  <div class="small-header">
+    CHALLENGES CREATED
+  </div>
+  <div class="challenges-created-container" style="max-height:400px; overflow:scroll">
+  </div>
 </div>

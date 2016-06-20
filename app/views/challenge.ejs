@@ -2,8 +2,6 @@
     <div id="container">
       <div class="side-view-container"></div>
       <div class="main-view-container">
-        <div class="module">
-        </div>
       </div>
     </div>
 
@@ -12,7 +10,9 @@
         rupon.controllers.startChallengePage({
           settings: <%- settings %>,
           user:     <%- user %>,
-          challenge: <%- challenge %>
+          challenge: <%- challenge %>,
+          myCommunities: <%- myCommunities %>,
+          myChallenges: <%- myChallenges %>
         });
     }) 
     </script>

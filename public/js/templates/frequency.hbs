@@ -1,21 +1,39 @@
-<div class="module">
-  <a href="/challenges" class="module-option">Challenges</a>
-</div>
+{{#if showCommunity}}
 <div class="module">
   <div class="header">Communities</div>
   <a href="javascript:;" class="module-option add-community" style="border-bottom: 1px solid #ccc"><i class="fa fa-plus-circle"></i>Add community</a>
   <a href="/communities" class="module-option" style="border-bottom: 1px solid #ccc"><i class="fa fa-users"></i>Show all communities</a>
   <ul>
-    {{#each communities}}
+    {{#each myCommunities}}
       <li>
         <a href="/community/{{title}}">{{title}}</a>
-        {{#if isSubscribed}}subscribed{{/if}}
       </li>
     {{/each}}
   </ul>
 </div>
+{{/if}}
+{{#if showChallenges}}
+<div class="module">
+  <div class="header">Challenges</div>
+  <a href="/challenges" class="module-option" style="border-bottom: 1px solid #ccc">
+    <i class="fa fa-users"></i>
+    Show all challenges
+  </a>
+  <ul>
+    {{#each myChallenges}}
+    <li class="clearfix">
+      <a href="/challenge/{{_id}}" style="padding-top:3px;float:left">{{title}}</a>
+      <i class="fa fa-check btn btn-primary" data-id="{{_id}}" style="float:right"></i>
+      <span class="success-label" style="float:right;display:none;">Done!</span>
+    </li>
+    {{/each}}
+  </ul>
+</div>
+{{/if}}
+{{#if showEntries}}
 <div class="module entries-container" {{#if no_entries}}style="display:none"{{/if}}>
   <div class="header">My Entries</div>
   <a href="javascript:;" class="module-option write-entry" {{#if no_entries}}style="display:none"{{/if}}>
     <i class="fa fa-plus-circle"></i>Write entry</a>
 </div>
+{{/if}}

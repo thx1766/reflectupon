@@ -1,30 +1,77 @@
-<input type="file" id="file-input">
-<p id="status">Please select a file</p>
-<img id="preview" src="/images/default.png">
+{{#if extended}}
+<div class="module">
+{{/if}}
+{{#if extended}}
+  <input type="file" id="file-input">
+  <p id="status">Please select a file</p>
+  <img id="preview" src="/images/default.png">
 
-<form method="POST" action="/save-details">
-  <input type="hidden" id="avatar-url" name="avatar-url" value="/images/default.png">
-</form>
-  <div class="clearfix" style="position:relative;padding:10px;">
-    <div style="float:left">
-      <div style="font-size:18px;margin-bottom:8px"><span style="color:green">Challenge</span> / <a href="/challenge/{{_id}}">{{title}}</a></div>
-      <div style="margin-bottom: 10px">{{description}}</div>
-      {{#if extended}}
-        <div style="margin-bottom: 10px">{{instructions}}</div>
-        <div>{{link}}</div>
-      {{/if}}
-    </div>
-    <div style="float:right;">
-      {{#if pick}}
-        <button class="btn btn-primary pick-challenge">Pick Challenge</button>
+  <form method="POST" action="/save-details">
+    <input type="hidden" id="avatar-url" name="avatar-url" value="/images/default.png">
+  </form>
+{{/if}}
+<div class="clearfix" style="position:relative;padding:10px;">
+  <div style="float:left">
+    <div style="font-size:18px;margin-bottom:8px"><span style="color:green">Challenge</span> / <a href="/challenge/{{_id}}">{{title}}</a></div>
+    <div style="margin-bottom: 10px">{{description}}</div>
+    {{#if extended}}
+      <div style="margin-bottom: 10px">{{instructions}}</div>
+      <div>{{link}}</div>
+    {{/if}}
+  </div>
+  <div style="float:right;">
+    {{#if pick}}
+      <button class="btn btn-primary pick-challenge">Pick Challenge</button>
+    {{else}}
+      {{#if canRemove}}
+        <i class="fa fa-times" data-id="{{_id}}" style="border: 1px solid #ccc;padding: 10px;border-radius:4px;color:red"></i>
       {{else}}
-        <button class="btn btn-primary start-challenge {{#if started}}hidden{{/if}}">Start Challenge</button>
-        <button class="btn btn-primary complete-challenge {{#unless started}}hidden{{/unless}}">Complete Challenge</button>
+        <button class="btn btn-primary start-challenge {{#equal status "not started"}}{{else}}hidden{{/equal}}">Start Challenge</button>
+        <button class="btn btn-primary complete-challenge {{#equal status "started"}}{{else}}hidden{{/equal}}">Complete Challenge</button>
+        <span class="completed-challenge {{#equal status "completed"}}{{else}}hidden{{/equal}}">Done</span>
       {{/if}}
+    {{/if}}
+  </div>
+</div>
+{{#unless extended}}
+  {{#unless onStream}}
+    {{#unless thought}}
+    <div class="reflection-container clearfix {{#equal status "completed"}}{{else}}hidden{{/equal}}">
+      <div class="prompt">Write your reflection below about how it was like for you to do the challenge! (Optional)</div>
+      <textarea placeholder="It felt..."></textarea>
+      <button class="btn btn-primary submit-reflection">Submit</button>
+    </div>
+    {{/unless}}
+    <div class="thought-success {{#unless thought}}hidden{{/unless}}" style="
+      margin: 10px;
+      padding-top: 0px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 4px;">
+      <strong>Your reflection:</strong> <span class="desc-field">{{thought.description}}</span>
+    </div>
+  {{/unless}}
+{{/unless}}
+{{#if extended}}
+  <div class="clearfix" style="padding:20px 10px;border-top:1px solid #ccc;font-size: 16px">
+      Created by <a href="/profile/{{creator.username}}">{{creator.username}}</a>, <span style="color:#aaa;font-size:14px">{{creator.intention}}</span>
+  </div>
+{{/if}}
+<!--- For "module" class up top -->
+{{#if extended}}
+</div>
+{{#if canSelectOrNotEmpty}}
+  <div class="module related-challenges">
+    <div class="header">
+      Related Challenges
+    </div>
+    {{#if isCreator}}
+      <div style="padding:10px;">
+        <button class="select-challenge btn btn-primary">Select challenges</button>
+      </div>
+    {{/if}}
+    <div class="related-challenges-list">
     </div>
   </div>
-  {{#if extended}}
-    <div class="clearfix" style="padding:20px 10px;border-top:1px solid #ccc;font-size: 16px">
-        Created by <a href="/profile/{{creator.username}}">{{creator.username}}</a>, <span style="color:#aaa;font-size:14px">{{creator.intention}}</span>
-    </div>
-  {{/if}}
+{{/if}}
+{{/if}}

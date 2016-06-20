@@ -42,12 +42,7 @@ window.rupon.views = window.rupon.views || {};
 
         render: function(view_type, model) {
 
-            view_type = (typeof view_type != "string") ? "recommended" : view_type;
-
-            // show write view instead
-            if (view_type == "recommended" && !this.options.frequency_collection.models[0].get('thoughts').length) {
-                view_type = "write";
-            }
+            view_type = view_type || "write";
 
             if (this.subView) {
                 this.subView.remove();
@@ -59,9 +54,6 @@ window.rupon.views = window.rupon.views || {};
                     break;
                 case "day":
                     this.subView = this.renderDayView(model);
-                    break;
-                case "recommended":
-                    this.subView = this.renderRecommendedView();
                     break;
             }
 
@@ -78,7 +70,6 @@ window.rupon.views = window.rupon.views || {};
             var view = new rv.WriteView({
                 tags_collection: tags_collection,
                 entry_date:      moment().format("MMM DD"),
-                prompt:          this.options.prompt
             });
 
             var self = this;
@@ -101,30 +92,6 @@ window.rupon.views = window.rupon.views || {};
             view
                 .on('highlight-mine-done', function() {
                     self.trigger('highlight-mine-done'); });
-
-            return view;
-        },
-
-        renderRecommendedView: function() {
-            var todayModelThoughts = new rupon.models.thoughtCollection(this.options.frequency_collection.models[0].get('thoughts')),
-                todayModelThought  = todayModelThoughts.models[0],
-                replyCollection    = new this.options.reply_collection();
-
-            if (todayModelThought.get('recommended') && todayModelThought.get('recommended').length) {
-                var recommendedThought = todayModelThought.get('recommended')[0];
-
-                var view = new rv.RecommendedView({
-                    model:            new Backbone.Model(recommendedThought),
-                    user:             this.options.user,
-                    reply_collection: replyCollection
-                });
-            }
-
-            var self = this;
-            replyCollection
-                .on('add', function() {
-                    self.trigger('highlight-else-done');
-                })
 
             return view;
         }

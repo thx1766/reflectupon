@@ -70,12 +70,18 @@ window.rupon.views = window.rupon.views || {};
       className: "",
       template: Handlebars.templates['challenges-view'],
 
-      initialize: function() {
+      initialize: function(options) {
+        options = options || {};
         cv.CollectionContainer.prototype.initialize.call(this, function(model) {
           if (!!model.get('title')) {
-            return new rv.ChallengeView({model: model});
+            return new rv.ChallengeView({
+              model: model,
+              canRemove: options.canRemove
+            });
           } else {
-            return new rv.PromptView({model:model})
+            return new rv.PromptView({
+              model: model
+            })
           }
         })
       }
@@ -87,18 +93,62 @@ window.rupon.views = window.rupon.views || {};
       template: Handlebars.templates['challenge-view'],
       events: {
         'click .start-challenge': 'startChallenge',
+        'click .complete-challenge': 'completeChallenge',
         'click .pick-challenge':  'pickChallenge',
-        'change #file-input':     'changeFileInput'
+        'change #file-input':     'changeFileInput',
+        'click .submit-reflection': 'submitReflection',
+        'click .select-challenge': 'selectReleatedChallenge',
+        'click .related-challenges-list .fa-times': 'removeRelatedChallenge'
+      },
+
+      render: function(options) {
+        options.canSelectOrNotEmpty = options.isCreator || (this.model.get('relatedChallenges') && !!this.model.get('relatedChallenges').length);
+        cv.SimpleModelView.prototype.render.call(this, options);
+
+        var relatedChallengesCol = new Backbone.Collection(options.relatedChallenges);
+        var relatedChallengesView = new rv.ChallengesView({
+          collection: relatedChallengesCol,
+          canRemove: options.isCreator
+        });
+
+        this.on('added-related', function(model) {
+          relatedChallengesCol.add([model]);
+        })
+        this.on('remove-related', function(challengeId) {
+          relatedChallengesCol.remove(challengeId);
+        })
+        this.$el.find('.related-challenges-list').html(relatedChallengesView.$el);
       },
 
       startChallenge: function() {
         var self = this;
         $.ajax({
             type: 'PUT',
+            data: {
+              status: "started"
+            },
             url:  '/api/challenges/' + this.model.id,
             success: function(response) {
               self.$el.find('.start-challenge').addClass('hidden');
               self.$el.find('.complete-challenge').removeClass('hidden');
+            },
+            dataType: 'JSON'
+        });
+      },
+
+      completeChallenge: function() {
+        var self = this;
+        $.ajax({
+            type: 'PUT',
+            data: {
+              status: "completed"
+            },
+            url:  '/api/challenges/' + this.model.id,
+            success: function(response) {
+              self.$el.find('.complete-challenge').addClass('hidden');
+              self.$el.find('.completed-challenge').removeClass('hidden');
+              self.$el.find('.reflection-container').removeClass('hidden');
+              self.$el.find('.reflection-container textarea').focus();
             },
             dataType: 'JSON'
         });
@@ -125,7 +175,7 @@ window.rupon.views = window.rupon.views || {};
       getSignedRequest: function(file){
         var self = this;
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', `/sign-s3?file-name=${file.name}&file-type=${file.type}`);
+        xhr.open('GET', `/sign-s3?file-name=${file.name}&file-type=${file.type}&image-type=challenges`);
         xhr.onreadystatechange = function() {
           if(xhr.readyState === 4){
             if(xhr.status === 200){
@@ -156,6 +206,83 @@ window.rupon.views = window.rupon.views || {};
           }
         };
         xhr.send(file);
+      },
+
+      submitReflection: function() {
+        var val = this.$el.find('.reflection-container textarea').val();
+        var self = this;
+        if (val != "") {
+          $.ajax({
+              type: 'POST',
+              data: {
+                description: val,
+                privacy:     "ANONYMOUS"
+              },
+              url:  '/api/challenges/' + this.model.id + '/thought',
+              success: function(response) {
+                self.$el.find('.reflection-container').hide();
+                self.$el.find('.thought-success').removeClass('hidden');
+                self.$el.find('.thought-success .desc-field').text(response.description);
+              },
+              dataType: 'JSON'
+          });
+        }
+      },
+
+      selectRelatedChallenge: function(e) {
+        var self = this;
+
+        $.ajax({
+           type: 'GET',
+            url:  '/api/challenges/',
+            success: function(response) {
+
+              response = _.map(response, function(challenge) {
+                challenge.pick = true;
+                return challenge;
+              })
+
+              var challengesView = new rv.ChallengesView({
+                collection: new Backbone.Collection(response)
+              });
+
+              var modal = new rv.MainModal({
+                  modalType: challengesView,
+                  htmlTitle: 'Add a challenge',
+              });
+
+              challengesView
+                  .on('picked', function(model) {
+                    model.set('pick', false);
+
+                    $.ajax({
+                      type: 'PUT',
+                      url:  '/api/challenges/' + self.model.id + '/related/' + model.get('_id'),
+                      success: function() {
+                        self.trigger('added-related', model);
+                        $(modal.$el).modal('hide');
+                      }
+                    })
+                  });
+
+              $(modal.$el).modal();
+            },
+            dataType: 'JSON'
+        });
+      },
+
+      removeRelatedChallenge: function(e) {
+
+        var challengeId = $(e.currentTarget).attr('data-id');
+        var self = this;
+
+        $.ajax({
+          type: 'DELETE',
+          url:  '/api/challenges/' + self.model.id + '/related/' + challengeId,
+          success: function() {
+            self.trigger('remove-related', challengeId);
+          }
+        })
       }
     });
 

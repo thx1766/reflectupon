@@ -169,7 +169,8 @@ window.rupon.views = window.rupon.views || {};
 
             if (template_options.challenge) {
               var challengePage = new rv.ChallengeView({
-                model: new Backbone.Model(template_options.challenge)
+                model: new Backbone.Model(template_options.challenge),
+                onStream: true
               })
 
               this.$el.find(".challenge-container").append(challengePage.$el);

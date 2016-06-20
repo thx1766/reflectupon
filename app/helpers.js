@@ -91,6 +91,12 @@ exports.getPublicThoughts = function(params, callback, options) {
         delete params.limit;
     }
 
+    var currentUser = false;
+    if (params.currentUser) {
+        currentUser = params.currentUser;
+        delete params.currentUser;
+    }
+
     // var startDate = new Date(new Date().setHours(0,0,0,0));
     // startDate.setDate(startDate.getDate()-14);
 
@@ -129,12 +135,20 @@ exports.getPublicThoughts = function(params, callback, options) {
 
                         thought.replies = exports.removeRejectedReplies(thought.replies);
 
+                        if (thought.challenge && currentUser) {
+                            var challenges = exports.startedChallengeStatus([thought.challenge], currentUser.user_challenges);
+                            thought.challenge = challenges[0];
+                        }
+
                         async.mapSeries(thought.replies, function(reply, callback2) {
+
+                            if (reply.challenge && currentUser) {
+                                var challenges = exports.startedChallengeStatus([reply.challenge], currentUser.user_challenges);
+                                reply.challenge = challenges[0];
+                            }
 
                             exports.getUserIfPublic(reply, function(user, callback3) {
                                 reply.username = user.username;
-
-                                console.log(reply);
 
                                 Thought.count({user_id: user._id}, function(err, count) {
                                     Reply.count({user_id: user._id}, function(err, replyCount) {
@@ -159,6 +173,7 @@ exports.getPublicThoughts = function(params, callback, options) {
                                 exports.getUserIfPublic(thought, function(user, callback2) {
                                     thought.username = user.username;
                                     thought.intention = user.intention;
+
                                     callback2();
 
                                 },function() {
@@ -228,4 +243,25 @@ exports.convertLineBreaks = function(description, type) {
         description = description.replace(before_type, after_type);
     }
     return description;
+}
+
+exports.startedChallengeStatus = function(challenges, user_challenges) {    
+    return _.map(challenges, function(challenge) {
+
+        if (challenge.toObject) {
+            challenge = challenge.toObject();
+        }
+        challenge.status = "not started";
+
+        var userChallenge = _.filter(user_challenges, function(uc) {
+            return uc.challenge ? uc.challenge.toString() == challenge._id.toString() : false
+        });
+
+        if (userChallenge.length) {
+            challenge.status = userChallenge[0].status;
+            challenge.thought = userChallenge[0].thought;
+        }
+        return challenge;
+    });
+
 }

@@ -67,7 +67,8 @@ window.rupon.views = window.rupon.views || {};
 
         events: {
             "click .write-entry": "writeReflection",
-            "click .add-community": "addCommunity"
+            "click .add-community": "addCommunity",
+            "click .fa-check":    "completeChallenge"
         },
 
         initialize: function(options) {
@@ -80,11 +81,6 @@ window.rupon.views = window.rupon.views || {};
         },
 
         render: function(options) {
-            var myCommunityIds = _.pluck(options.myCommunities,"_id");
-            options.communities = _.map(options.communities, function(community) {
-                community.isSubscribed = _.contains(_.pluck(options.myCommunities,"_id"), community._id)
-                return community;
-            })
             cv.CollectionContainer.prototype.render.call(this, options);
         },
 
@@ -114,6 +110,25 @@ window.rupon.views = window.rupon.views || {};
                 });
 
             $(modal.$el).modal();
+        },
+
+        completeChallenge: function(e) {
+            var ele = $(e.currentTarget);
+            var id = ele.attr("data-id");
+
+            var self = this;
+            $.ajax({
+                type: 'PUT',
+                data: {
+                  status: "completed"
+                },
+                url:  '/api/challenges/' + id,
+                success: function(response) {
+                    ele.closest('li').find('.success-label').show();
+                    ele.hide();              
+                },
+                dataType: 'JSON'
+            });
         }
 
     });

@@ -147,7 +147,7 @@ exports.sendEmailWhenThanked = function(reply) {
       var params = {
         recipients:    user.email,
         subject:       'Someone thanked your reply!',
-        html_template: 'Someone just thanked your reply to their entries. Great job!<br /><br/>Thanks!<br />Get Your Shit Together team'
+        html_template: 'Someone just thanked your reply to their entries. Great job!<br /><br/>Thanks!<br />Heros team'
       }
 
       exports.sendEmail(params);

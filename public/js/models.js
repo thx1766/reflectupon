@@ -217,7 +217,7 @@ window.rupon.models = window.rupon.models || {};
             
             var pattern = new RegExp(letters,"gi");
             return new Backbone.Collection(this.filter(function(data) {
-                return pattern.test(data.get("title"));
+                return pattern.test(data.get("title")) || pattern.test(data.get("description"));
             }));
         },
 
@@ -242,7 +242,7 @@ window.rupon.models = window.rupon.models || {};
             
             var pattern = new RegExp(letters,"gi");
             return new Backbone.Collection(this.filter(function(data) {
-                return pattern.test(data.get("title"));
+                return pattern.test(data.get("title")) || pattern.test(data.get("description"));
             }));
         }
     })

@@ -16,9 +16,19 @@ window.rupon.utils = window.rupon.utils || {};
       
       var challengePage = new rv.ChallengeView({
         model: new Backbone.Model(params.challenge),
-        extended: true
+        extended: true,
+        isCreator: params.challenge.creator && (params.challenge.creator._id == params.user._id)
       })
 
-      $("#container .main-view-container .module").append(challengePage.$el);
+      var frequencyView = new rv.FrequencyView({
+        collection: new Backbone.Collection([]),
+        myCommunities: params.myCommunities,
+        showCommunity: true,
+        myChallenges: params.myChallenges,
+        showChallenges: true
+      });
+
+      $("#container .main-view-container").append(challengePage.$el);
+      $("#container .side-view-container").append(frequencyView.$el);
     }
 })();

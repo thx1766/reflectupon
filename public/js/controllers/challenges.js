@@ -20,7 +20,14 @@ window.rupon.utils = window.rupon.utils || {};
         collection: new rm.challengesCollection(params.challenges.concat(params.prompts))
       });
 
+      var frequencyView = new rv.FrequencyView({
+        collection: new Backbone.Collection([]),
+        myCommunities: params.myCommunities,
+        showCommunity: true
+      });
+
       $("#container").append('<div class="main-view-container module"></div><div class="side-view-container"></div>');
       $("#container .main-view-container").append(challengesPage.$el);
+      $("#container .side-view-container").append(frequencyView.$el);
     }
 })();

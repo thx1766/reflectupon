@@ -20,7 +20,7 @@ window.rupon.utils = window.rupon.utils || {};
       var userSubscribed = _.contains(_.pluck(params.communities, "_id"),params.community._id) || false;
 
       var communitySidebarView = new rv.CommunitySidebarView({
-        communityId: params.community._id,         
+        communityId: params.community._id,
         title:       params.community.title,
         description: params.community.description,
         creator:     params.community.creator,
@@ -34,6 +34,15 @@ window.rupon.utils = window.rupon.utils || {};
           .on("subscribed", function() {
             $('.write-view').removeClass('hidden');
           });
+
+      var communityHeaderView = new rv.CommunityHeaderView({
+        communityId: params.community._id,
+        title:       params.community.title,
+        description: params.community.description,
+        creator:     params.community.creator,
+        members:     params.community.members,
+        communities: params.communities
+      });
 
       var isCreator = params.community.creator && (rupon.account_info.user_id == params.community.creator._id);
       var showCommunityChallengesView = !!_.filter(params.community.communityChallenges, function(communityChallenge) {
@@ -71,8 +80,19 @@ window.rupon.utils = window.rupon.utils || {};
         user:             rupon.account_info
       });
 
+      var frequencyView = new rv.FrequencyView({
+        collection: new Backbone.Collection([]),
+        myCommunities: params.myCommunities,
+        showCommunity: true,
+        myChallenges: params.myChallenges,
+        showChallenges: true
+      });
+
       $("#container").append('<div class="main-view-container"></div><div class="side-view-container"></div>');
       $("#container .side-view-container").append(communitySidebarView.$el);
+      $("#container .side-view-container").append(frequencyView.$el);
+
+      $("#container .main-view-container").append(communityHeaderView.$el);
 
       if (showCommunityChallengesView) {
         $("#container .main-view-container").append(communityChallengesView.$el);

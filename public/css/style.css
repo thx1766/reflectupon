@@ -1,5 +1,5 @@
 * {padding:0; margin:0}
-body{color:#444;background-color:rgba(0, 178, 238, 0.31)}
+body{color:#444;}
 body.landing-page{background-color: #fff}
 body.new-ux{background-color:rgb(190,111,111)}
 body.new-ux .wrapper{width:600px;padding:20px;background-color:#fff;margin-top:30px;border-radius:2px;box-shadow:0 2px 6px #5e5e5e}
@@ -103,10 +103,12 @@ a img{border:0;}
 }
 
 .module .fa-pencil, .module .fa-check {
+  font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: 4px;
   margin-right:0px;
+  line-height: 16px;
 }
 .module .module-page-action{
   border-top: 1px solid #ccc;
@@ -114,8 +116,11 @@ a img{border:0;}
   font-weight: 300;
 }
 
+.desc-section.is-creator{
+  min-height:56px;
+}
+
 .subscription-status{
-  float: left;
   font-size: 14px;
   border: 1px solid #3EDC67;
   border-radius: 4px;
@@ -146,26 +151,63 @@ a img{border:0;}
 }
 .side-view-container{margin-bottom:15px;}
 .module{
-  box-shadow: 0 2px 3px rgba(0, 130, 174, 0.31);
   margin-bottom: 15px;
-  border-radius: 4px;
+  border-radius: 7px;
+  border: 3px solid purple;
 }
 
-.challenge-view{
-  border-top:1px solid #ccc;
-}
-.challenge-view:first-child{
-  border-top:0;
+.new-user-page .challenge-view {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    box-shadow: 0 1px 1px #d0d0d0;
 }
 
+.new-user-page .challenge-view.picked {
+  background-color: #f7ffdf;
+}
+
+.challenges-page .challenge-view{
+  box-shadow: 0 1px 1px #dadada;
+  border-radius: 5px;
+  border: 1px solid #eaeaea;
+  margin-bottom: 10px;
+  background-color: #f9eeea;
+}
+
+.challenge-view .reflection-container {
+  padding: 10px;
+  padding-top: 0px;
+}
+
+.challenge-view .reflection-container .prompt{
+  margin-bottom: 8px;
+  border-radius: 2px;
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+}
+
+.challenge-view .reflection-container textarea{
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  padding: 10px;
+  background-color: #f9f9f9;
+}
+
+.challenge-view .reflection-container button{
+  float:right;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
 .edit-intention-container {
   margin-top: 6px;
 }
-.side-view-container .header{
+.module .header{
     padding: 12px 10px 12px 12px;
     font-size: 18px;
-    color: #00AA27;
-    border-bottom: 1px solid #00AA27;
+    color: purple;
+    border-bottom: 2px solid purple;
 }
 .side-view li{
   padding:8px 10px 8px 12px;
@@ -410,13 +452,6 @@ ul.get-started .desc {
     margin-top:10px;
 }
 
-.recommended-view .notice {
-    background-color: #fff;
-    padding: 12px;
-    font-size: 16px;
-    margin-bottom: 15px;
-    box-shadow: 0 2px 3px rgba(0, 130, 174, 0.31);
-}
 .recommended-view .body-container{
     background-color:#fff;
     box-shadow: 0 2px 3px rgba(0, 130, 174, 0.31);
@@ -764,7 +799,6 @@ ul.get-started .desc {
 .archived-container{padding: 18px 10px;text-align:center;font-weight:200;font-size:18px;background-color:#EBFAFF;}
 
 .section{border-radius: 3px;position: relative;
-    box-shadow: 0 2px 3px rgba(0, 130, 174, 0.31);
     background-color: #fff;}
 .section-title{font-size:24px;margin-bottom:20px;font-family:arial;}
 .my-dashboard .section{background-color: #fff;box-shadow: 0 2px 8px rgb(214,214,214);}
@@ -930,11 +964,9 @@ div.jquery-gdakram-tooltip h1{display:none}
 }
 
 .main-header{
-  padding: 12px 12px;
   font-size: 18px;
   color: #00AA27;
   background-color: #ffffff;
-  border-bottom: 1px solid #00AA27;
 }
 .with-author{
   display:none;
@@ -1032,6 +1064,15 @@ div.jquery-gdakram-tooltip h1{display:none}
     width: 100%;
     height: 65px;
     border: 1px solid #ccc;
+}
+
+.profile-view .small-header{
+  font-size: 18px;
+  color:#999
+}
+
+.profile-view .intention-container{
+  margin-bottom: 20px;
 }
 
 @media all and (max-width:991px) {

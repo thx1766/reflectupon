@@ -1,5 +1,5 @@
 <% include header %>
-    <div id="container"></div>
+    <div id="container" class="challenges-page"></div>
 
     <script type="text/javascript">
     $(document).ready(function(){
@@ -7,7 +7,8 @@
           settings: <%- settings %>,
           user:     <%- user %>,
           challenges: <%- challenges %>,
-          prompts: <%- prompts %>
+          prompts: <%- prompts %>,
+          myCommunities: <%- myCommunities %>
         });
     }) 
     </script>

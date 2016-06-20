@@ -10,11 +10,7 @@ window.rupon.views = window.rupon.views || {};
         template: Handlebars.templates['community-sidebar'],
 
         events: {
-          'click .title-container .fa-pencil':       'editTitle',
-          'click .description-container .fa-pencil': 'editDescription',
           'click .guidelines-container .fa-pencil':  'editGuidelines',
-          'click .edit-title-container button':       'submitTitle',
-          'click .edit-description-container button': 'submitDescription',
           'click .edit-guidelines-container button':  'submitGuidelines',
           'click .subscription-button':               'clickSubscribe',
           'click .members-tab .fa-pencil':           'editMaxUsers',
@@ -132,6 +128,87 @@ window.rupon.views = window.rupon.views || {};
               },
               dataType: 'JSON'
           });
+        }
+
+    });
+
+    rv.CommunityHeaderView = cv.TemplateView.extend({
+        template: Handlebars.templates['community-header'],
+
+        events: {
+          'click .title-container .fa-pencil':       'editTitle',
+          'click .edit-title-container button':       'submitTitle',
+          'click .description-container .fa-pencil': 'editDescription',
+          'click .edit-description-container button': 'submitDescription',
+          'click .subscription-button':               'clickSubscribe'
+        },
+
+        initialize: function(options) {
+          this._id = options.communityId;
+          cv.TemplateView.prototype.initialize.call(this, options);
+        },
+
+        render: function(options) {
+          options.isCreator = false;
+          if (options.creator) {
+            options.isCreator = rupon.account_info.user_id == options.creator._id;
+          }
+
+          options.isSubscribed = _.contains(_.pluck(options.communities, "_id"),this._id) || false;
+          options.cantSubscribe = (options.members.length >= options.maxUsers) && !options.isSubscribed;
+          cv.TemplateView.prototype.render.call(this, options);
+        },
+
+        editTitle: function() {
+          this.$el.find('.title-container').hide();
+          this.$el.find('.edit-title-container').show();
+        },
+
+        submitTitle: function() {
+          var title = this.$el.find('.edit-title-container textarea').val();
+          var self = this;
+          $.ajax({
+              type: 'PUT',
+              url:  '/api/communities/' + this._id,
+              data: {
+                  title: title
+              },
+              success: function(response) {
+                self.$el.find('.title').text(response.title);
+                self.$el.find('.title-container').show();
+                self.$el.find('.edit-title-container').hide();
+                window.location.replace("/community/"+response.title);
+              },
+              dataType: 'JSON'
+          });
+        },
+
+        editDescription: function() {
+          this.$el.find('.description-container').hide();
+          this.$el.find('.edit-description-container').show();
+        },
+
+        submitDescription: function() {
+          var description = this.$el.find('.edit-description-container textarea').val();
+          var self = this;
+
+          if (description == "") {
+            alert('cannot be empty!');
+          } else {
+            $.ajax({
+                type: 'PUT',
+                url:  '/api/communities/' + this._id,
+                data: {
+                    description: description
+                },
+                success: function(response) {
+                  self.$el.find('.description .main-desc').text(response.description);
+                  self.$el.find('.description-container').show();
+                  self.$el.find('.edit-description-container').hide();
+                },
+                dataType: 'JSON'
+            });
+          }
         },
 
         clickSubscribe: function() {
@@ -146,7 +223,6 @@ window.rupon.views = window.rupon.views || {};
               dataType: 'JSON'
           });
         }
-
     });
 
 })();

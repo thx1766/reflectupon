@@ -102,7 +102,6 @@ window.rupon.views = window.rupon.views || {};
             var textarea_ele = this.$el.find("textarea");
             var addlink_shown = this.$el.find('input.add-link').hasClass('revealed');
             var privacy_ele = this.$el.find('.anon-input input');
-            var prompt_ele = this.$el.find('.prompt-input input');
 
             if (!this.clickedOnce && $.trim(textarea_ele.val()) != "") {
                 mixpanel.track('create-entry');
@@ -111,8 +110,6 @@ window.rupon.views = window.rupon.views || {};
                 var date = new Date();
                 // date.setDate(date.getDate()-(5));
 
-                var prompt_id = $('.journal-prompt').find('.description').attr('id');
-
                 var params = {
                     description:    textarea_ele.val(),
                     //title:          '',
@@ -120,7 +117,6 @@ window.rupon.views = window.rupon.views || {};
                     privacy:        privacy_ele.prop("checked") ? 'ANONYMOUS' : 'PUBLIC',
                     date:           date,
                     tag_ids:        self.tags,
-                    prompt_id:      prompt_ele.prop("checked") ? prompt_id: '',
                     challenge_id:   this.$el.find('.reflect-on').attr('data-id')
                 }
 

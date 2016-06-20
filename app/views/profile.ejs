@@ -11,7 +11,14 @@
     $(document).ready(function(){
         rupon.controllers.startProfilePage({
           settings: <%- settings %>,
-          user:     <%- user %>
+          user:     <%- user %>,
+          profile:  <%- profile %>,
+          completed:<%- completed %>,
+          current:  <%- current %>,
+          communities: <%- communities %>,
+          created: <%- created %>,
+          myCommunities: <%- myCommunities %>,
+          myChallenges: <%- myChallenges %>
         });
     })
     </script>

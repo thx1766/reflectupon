@@ -64,9 +64,13 @@ window.rupon.views = window.rupon.views || {};
       className: "",
       template: Handlebars.templates['challenges-view'],
 
-      initialize: function() {
+      initialize: function(options) {
+        options = options || {};
         cv.CollectionContainer.prototype.initialize.call(this, function(model) {
-          return new rv.CommunityView({model: model});
+          return new rv.CommunityView({
+            model: model,
+            pick: options.pick
+          });
         })
       }
 
@@ -74,7 +78,26 @@ window.rupon.views = window.rupon.views || {};
 
     rv.CommunityView = cv.SimpleModelView.extend({
       className: "challenge-view",
-      template: Handlebars.templates['community-view']
+      template: Handlebars.templates['community-view'],
+
+      events: {
+        'click': 'clickElement'
+      },
+
+      initialize: function(options) {
+        options = options || {};
+        if (options.pick) {
+          this.pick = true;
+        }
+        cv.SimpleModelView.prototype.initialize.call(this, options);
+      },
+
+      clickElement: function() {
+        if (this.pick) {
+          this.trigger('picked', this.model.id);
+          this.$el.addClass('picked');
+        }
+      }
     });
 
 })();

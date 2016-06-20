@@ -14,11 +14,17 @@ window.rupon.utils = window.rupon.utils || {};
       rupon.account_info.user_id = params.user._id;
       rc.setSettings(params.settings, rupon.account_info.username);
 
+      var frequencyView = new rv.FrequencyView({
+        collection: new Backbone.Collection([]),
+        myChallenges: params.myChallenges,
+        showChallenges: true
+      })
       var communitiesPage = new rv.MainCommunitiesView({
         collection: new rm.communitiesCollection(params.communities)
       });
 
       $("#container").append('<div class="main-view-container module"></div><div class="side-view-container"></div>');
       $("#container .main-view-container").append(communitiesPage.$el);
+      $("#container .side-view-container").append(frequencyView.$el);
     }
 })();

@@ -49,8 +49,7 @@ window.rupon.utils = window.rupon.utils || {};
             tags_collection:      tags_collection,
             frequency_collection: frequency_collection,
             reply_collection:     rm.replyCollection,
-            user:                 rupon.account_info,
-            prompt:               prompt
+            user:                 rupon.account_info
         });
 
         writeToThoughtsView
@@ -78,7 +77,11 @@ window.rupon.utils = window.rupon.utils || {};
             collection:  frequency_collection,
             no_entries:  !_.flatten(_.pluck(frequency, 'thoughts')).length,
             communities: params.communities,
-            myCommunities: params.myCommunities
+            myCommunities: params.myCommunities,
+            myChallenges: params.myChallenges,
+            showCommunity: true,
+            showChallenges: true,
+            showEntries: true
         });
         frequencyView
             .on('write-reflection', function() {
@@ -106,14 +109,16 @@ window.rupon.utils = window.rupon.utils || {};
             .append(frequencyView.$el)
             .append(Handlebars.templates['guidelines']());
 
+        var sideViewHeight = $('.side-view-container').height();
+
         $(document).scroll(function() {
             var scrollTop = $(document).scrollTop(),
                 guidelinesEl = $('.guidelines');
 
-            if (scrollTop > 578 && !guidelinesEl.hasClass('fixed')) {
+            if (scrollTop > sideViewHeight && !guidelinesEl.hasClass('fixed')) {
                 guidelinesEl.addClass('fixed');
                 guidelinesEl.fadeIn(300);
-            } else if(scrollTop <= 578 && guidelinesEl.hasClass('fixed')) {
+            } else if(scrollTop <= sideViewHeight && guidelinesEl.hasClass('fixed')) {
                 guidelinesEl.fadeOut(50, function() {
                     guidelinesEl.removeClass('fixed');
                 });

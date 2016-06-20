@@ -157,8 +157,6 @@ var findThought = function(params, callback) {
 
 exports.post = function(req, res) {
 
-    getRecommended(req.user._id, function(recommended) {
-
         var prompt_id = "";
         if (typeof req.body.prompt_id != "undefined") {
             prompt_id = req.body.prompt_id;
@@ -177,7 +175,6 @@ exports.post = function(req, res) {
                     link:           req.body.link,
                     tag_ids:        req.body.tag_ids,
                     date:           req.body.date,
-                    recommended:    recommended,
                     community:      req.body.communityId
                 }
 
@@ -195,7 +192,7 @@ exports.post = function(req, res) {
 
                     if (err) console.log(err);
 
-                    Thought.populate(thought, [{path:"recommended"},{path:"prompt"}], function(err,thought) {
+                    Thought.populate(thought, [{path:"prompt"}], function(err,thought) {
 
                         thought = thought.toObject();
 
@@ -204,27 +201,13 @@ exports.post = function(req, res) {
                             callback2();
 
                         },function() {
-
-                            populateRepliesForThought(thought.recommended, req.user._id, function(recommended) {
-
-                                thought.recommended = recommended;
-
-                                if (thought.recommended && thought.recommended[0]) {
-                                    helpers.getAnnotationsForThought(thought.recommended[0], req.user._id, function(annotations)  {
-                                        thought.recommended[0].annotations = annotations;
-                                        res.send(thought);
-                                    });
-                                }
-
-                            })
+                            res.send(thought);
                         });
                     })
 
                 });
             });
         });
-
-    });
 
 }
 

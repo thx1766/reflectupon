@@ -41,6 +41,7 @@ module.exports = function(app) {
     app.get( '/reports',auth.ensureAuthenticated,    user_routes.reports);
     app.get( '/entry/:id',                           user_routes.entry);
     app.get( '/new-ux', auth.ensureAuthenticated,    user_routes.newUser);
+    app.post('/new-user-communities', auth.ensureAuthenticated, user_routes.newUserPost);
     app.post('/login',                               user_routes.postlogin);
     app.get( '/logout',                              user_routes.logout);
     app.post('/register',                            user_routes.postregister);
@@ -78,7 +79,9 @@ module.exports = function(app) {
     app.post('/api/challenges',     challenges.post);
     app.put('/api/challenges/:id',  challenges.put);
 
+    app.post('/api/challenges/:id/thought', challenges.postThought);
     app.put('/api/challenges/:id/related/:challengeId', challenges.putRelated);
+    app.delete('/api/challenges/:id/related/:challengeId', challenges.deletedRelated);
 
     app.post('/api/user_settings', auth.ensureAuthenticated, userSettings.post);
     app.get('/api/user_settings',  auth.ensureAuthenticated, userSettings.get);
@@ -352,6 +355,7 @@ module.exports = function(app) {
       var s3 = new aws.S3();
       var fileName = req.query['file-name'];
       var fileType = req.query['file-type'];
+      var imageType = req.query['image-type'];
       var s3Params = {
         Bucket: 'avatars-images',
         Key: fileName,
