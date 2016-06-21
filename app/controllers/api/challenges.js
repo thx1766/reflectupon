@@ -77,19 +77,23 @@ var putUserChallenges = function(userId, challengeId, options, callback) {
 }
 
 exports.put = function(req, res) {
-  var options = {}
+  var options = _.pick(req.body, [
+    'status',
+    'thought',
+    'avatar_url'
+  ]);
 
-  if (req.body.status) {
-    options.status = req.body.status
+  // Only specific user challenges
+  if (options.status || options.thought) {
+    putUserChallenges(req.user._id, req.params.id, options, function(user_challenge) {
+      res.send(user_challenge);
+    });
+  } else {
+    console.log(options);
+    Challenge.findByIdAndUpdate(req.params.id, options, function(err, challenge) {
+      res.send(challenge);
+    });
   }
-
-  if (req.body.thought) {
-    options.thought = req.body.thought
-  }
-
-  putUserChallenges(req.user._id, req.params.id, options, function(user_challenge) {
-    res.send(user_challenge);
-  });
 }
 
 exports.putRelated = function(req, res) {

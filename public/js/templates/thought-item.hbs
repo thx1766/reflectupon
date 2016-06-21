@@ -1,5 +1,7 @@
 <div class="message-top">
-    Written <span class="with-author">by <strong><a href="/profile/{{username}}">{{username}}</a></strong>{{#if intention}}, {{intention}}{{/if}} • </span>{{date}}
+    Written <span class="with-author">by <strong>
+    {{#equal privacy "Public"}}
+        <a href="/profile/{{username}}">{{username}}</a>{{else}}{{username}}{{/equal}}</strong>{{#if intention}}, {{intention}}{{/if}} • </span>{{date}}
     {{#if tag_ids}}
     <div class="tags-container">
         Topics: <ul>{{#each tag_ids}}<li>{{this}}</li> {{/each}}</ul>

@@ -72,6 +72,12 @@ window.rupon.utils = window.rupon.utils || {};
               if (popularCollection.models) {
                 $('.popular-container').find('.placeholder').hide();
               }
+              this.clickedOnce = false;
+              this.render({
+                tags_collection: tags_collection,
+                showView:        userSubscribed
+              });
+
           });
 
       var communityMainView = new rv.ThoughtsView({

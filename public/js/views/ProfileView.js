@@ -63,7 +63,7 @@ window.rupon.views = window.rupon.views || {};
                   intention: intention
               },
               success: function(response) {
-                container.html('"' +intention+ '"');
+                container.html(intention);
                 container.show()
                 editContainer.hide();
               },
@@ -140,7 +140,6 @@ window.rupon.views = window.rupon.views || {};
         var self = this;
         xhr.open('PUT', signedRequest);
         xhr.onreadystatechange = function() {
-          console.log(xhr);
           if(xhr.readyState === 4){
             if(xhr.status === 200){
 
@@ -151,7 +150,10 @@ window.rupon.views = window.rupon.views || {};
                       avatar_url: url
                   },
                   success: function(response) {
-                    self.$el.find('#preview').attr('src', url);
+                    self.$el.find('#preview').attr('src', '');
+                    setTimeout(function() {
+                      self.$el.find('#preview').attr('src', url);
+                    },500)
                     self.$el.find('#avatar-url').val(url);
                   },
                   dataType: 'JSON'

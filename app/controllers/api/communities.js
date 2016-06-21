@@ -6,13 +6,18 @@ var mongoose   = require('mongoose')
 
 exports.post = function(req, res) {
 
-    var community = new Community({
+    var commAttr = {
         title:       req.body.title,
         description: req.body.description,
         creator:     req.user,
-        guidelines:  req.body.guidelines,
-        maxUsers:    req.body.maxUsers
-    });
+        guidelines:  req.body.guidelines
+    }
+
+    if (req.body.maxUsers) {
+      commAttr.maxUsers = req.body.maxUsers;
+    }
+
+    var community = new Community(commAttr);
 
     community.members.push(req.user);
     User.findById(req.user._id, function(err, user) {

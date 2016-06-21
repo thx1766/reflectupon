@@ -59,10 +59,7 @@ window.rupon.utils = window.rupon.utils || {};
 
                 var thought = new rm.thought(attrs);
                 thought.save({},{success: function() {
-                    renderRightColumnView("recommended", {
-                        collection:          frequency_collection,
-                        writeToThoughtsView: writeToThoughtsView
-                    })
+                    writeToThoughtsView.trigger('write-reflection')
                 }});
 
                 popular_collection.add(thought);
@@ -127,7 +124,12 @@ window.rupon.utils = window.rupon.utils || {};
         $(".main-view-container")
             .append(mainView.$el)
 
+        var newUserContainer = new rv.NewUserContainer({
+            challenge: params.firstChallenge
+        });
+
         mainView.$el
+            .find(".new-user-container").append(newUserContainer.$el).end()
             .find(".dashboard-container").append(writeToThoughtsView.$el).end()
             .find(".popular-container").append(popularView.$el);
 

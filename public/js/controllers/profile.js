@@ -31,7 +31,7 @@ window.rupon.utils = window.rupon.utils || {};
         showChallenges: true
       });
 
-      $("#container .main-view-container .module").append(profilePage.$el);
+      $("#container .main-view-container .main-module").append(profilePage.$el);
       $("#container .side-view-container").append(frequencyView.$el);
     }
 })();

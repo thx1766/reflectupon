@@ -219,6 +219,9 @@ window.rupon.views = window.rupon.views || {};
               success: function(response) {
                 self.$el.find('.subscription-status').addClass('subscribed');
                 self.trigger('subscribed');
+
+                //so all usernames switch from anon to public
+                location.reload();
               },
               dataType: 'JSON'
           });

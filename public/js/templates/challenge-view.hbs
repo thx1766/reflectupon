@@ -1,23 +1,49 @@
 {{#if extended}}
-<div class="module">
+<div class="main-module">
 {{/if}}
-{{#if extended}}
-  <input type="file" id="file-input">
-  <p id="status">Please select a file</p>
-  <img id="preview" src="/images/default.png">
-
-  <form method="POST" action="/save-details">
-    <input type="hidden" id="avatar-url" name="avatar-url" value="/images/default.png">
-  </form>
-{{/if}}
-<div class="clearfix" style="position:relative;padding:10px;">
+<div class="clearfix" style="position:relative;">
+  {{#if extended}}
+    <div class="header clearfix">
+      <div style="position:relative;width:70px;height:70px;float:left;border-radius: 6px;box-shadow: 0 1px 2px #6d6d6d;overflow:hidden;">
+        <img id="preview" src="{{avatar_url}}" style="background-color: #ccc;
+          width: 100%;
+          height: 100%;">
+        {{#if isCreator}}
+          <label for="file-input" style="position:absolute;top:0px;right:0px;cursor:pointer;background-color:#fff;border:1px solid #ccc;height:20px;width:20px;text-align:center;">
+            <input type="file" id="file-input" style="display:none">
+            <i class="fa fa-pencil"></i>
+          </label>
+        {{/if}}
+      </div>
+      <div style="float:left;padding:10px">
+        <div style="color: #666;font-weight: 500;font-size: 16px;">CHALLENGE</div>
+        <div class="main-header">{{title}}</div>
+      </div>
+    </div>
+  {{/if}}
   <div style="float:left">
-    <div style="font-size:18px;margin-bottom:8px"><span style="color:green">Challenge</span> / <a href="/challenge/{{_id}}">{{title}}</a></div>
-    <div style="margin-bottom: 10px">{{description}}</div>
-    {{#if extended}}
-      <div style="margin-bottom: 10px">{{instructions}}</div>
-      <div>{{link}}</div>
-    {{/if}}
+
+    {{#unless extended}}
+      <div style="float:left">
+        <img id="preview" src="{{avatar_url}}" style="
+            background-color: #ccc;
+            height: 50px;
+            width: 50px;
+            float:left;
+            {{#unless avatar_url}}display:none{{/unless}}
+        ">
+      </div>
+    {{/unless}}
+    <div style="{{#if avatar_url}}margin-left: 60px{{/if}}">
+      {{#unless extended}}
+        <div style="font-size:18px;margin-bottom:8px"><span style="color:green">Challenge</span> / <a href="/challenge/{{_id}}">{{title}}</a></div>
+      {{/unless}}
+      <div style="margin-bottom: 10px">{{description}}</div>
+      {{#if extended}}
+        <div style="margin-bottom: 10px">{{instructions}}</div>
+        <div>{{link}}</div>
+      {{/if}}
+    </div>
   </div>
   <div style="float:right;">
     {{#if pick}}
@@ -33,28 +59,41 @@
     {{/if}}
   </div>
 </div>
-{{#unless extended}}
-  {{#unless onStream}}
-    {{#unless thought}}
-    <div class="reflection-container clearfix {{#equal status "completed"}}{{else}}hidden{{/equal}}">
-      <div class="prompt">Write your reflection below about how it was like for you to do the challenge! (Optional)</div>
-      <textarea placeholder="It felt..."></textarea>
-      <button class="btn btn-primary submit-reflection">Submit</button>
-    </div>
-    {{/unless}}
-    <div class="thought-success {{#unless thought}}hidden{{/unless}}" style="
-      margin: 10px;
-      padding-top: 0px;
-      border: 1px solid #ccc;
-      padding: 10px;
-      border-radius: 4px;">
-      <strong>Your reflection:</strong> <span class="desc-field">{{thought.description}}</span>
-    </div>
-  {{/unless}}
-{{/unless}}
 {{#if extended}}
-  <div class="clearfix" style="padding:20px 10px;border-top:1px solid #ccc;font-size: 16px">
-      Created by <a href="/profile/{{creator.username}}">{{creator.username}}</a>, <span style="color:#aaa;font-size:14px">{{creator.intention}}</span>
+  {{#unless thought}}
+  <div class="reflection-container clearfix {{#equal status "completed"}}{{else}}hidden{{/equal}}">
+    <div class="prompt">Write your reflection below about how it was like for you to do the challenge! (Optional)</div>
+    <textarea placeholder="It felt..."></textarea>
+    <button class="btn btn-primary submit-reflection">Submit</button>
+  </div>
+  {{/unless}}
+  <div class="thought-success {{#unless thought}}hidden{{/unless}}" style="
+    margin: 10px;
+    padding-top: 0px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 4px;">
+    <strong>Your reflection:</strong> <span class="desc-field">{{thought.description}}</span>
+  </div>
+{{/if}}
+{{#if extended}}
+  <div class="clearfix challenge-creator" style="margin-top:10px;padding: 15px 10px 20px;border-top:1px solid #ccc;font-size: 16px;">
+  <div>Challenge created by:</div>
+  <div style="
+    padding-top: 6px;
+"><img src="{{creator.avatar_url}}" style="
+    background-color: #ccc;
+    height: 50px;
+    width: 50px;
+    float: left;
+"><div style="
+    margin-left: 60px;
+    padding-top: 2px;
+">
+  <a href="/profile/{{creator.username}}" style="
+    display: block;
+">{{creator.username}}</a>
+<span style="color:#aaa;font-size:14px">{{creator.intention}}</span></div></div>
   </div>
 {{/if}}
 <!--- For "module" class up top -->

@@ -71,7 +71,7 @@ a img{border:0;}
 .module .subheader{
     padding: 10px;
     padding-bottom: 0;
-    font-size: 16px;
+    font-weight:300;
 }
 .module .module-option {
   color: #4EBEE4;
@@ -122,9 +122,9 @@ a img{border:0;}
 
 .subscription-status{
   font-size: 14px;
-  border: 1px solid #3EDC67;
+  border: 2px solid #3EDC67;
   border-radius: 4px;
-  margin-top:8px;
+  margin-top:4px;
 }
 
 .subscription-status .subscription-button{
@@ -141,19 +141,46 @@ a img{border:0;}
 }
 
 .subscription-status.subscribed{
-  border-color:#9189FF;
+  border-color:#ffe462;
 }
 .subscription-status.subscribed .subscription-button{
-  background-color:#9189FF;
+  background-color:#ffe462;
 }
 .subscription-status.subscribed .members{
-  color:#9189FF;
+  color:#ffa91e;
 }
 .side-view-container{margin-bottom:15px;}
 .module{
   margin-bottom: 15px;
   border-radius: 7px;
   border: 3px solid purple;
+}
+.module .header{
+    padding: 12px 10px 12px 12px;
+    font-size: 18px;
+    color: purple;
+    border-bottom: 2px solid purple;
+}
+
+.main-module {
+  margin-bottom: 15px;
+  border-radius: 7px;
+}
+.main-module .header{
+    padding: 12px 10px 12px 12px;
+    font-size: 18px;
+    color: purple;
+    border-bottom: 2px solid purple;
+    margin-bottom: 20px;
+}
+.main-module .main-header{
+  font-size: 32px;
+  background-color: #ffffff;
+  font-weight:300;
+  margin-top: -8px;
+}
+.main-module .description-container{
+  padding: 10px;
 }
 
 .new-user-page .challenge-view {
@@ -168,11 +195,8 @@ a img{border:0;}
 }
 
 .challenges-page .challenge-view{
-  box-shadow: 0 1px 1px #dadada;
-  border-radius: 5px;
-  border: 1px solid #eaeaea;
-  margin-bottom: 10px;
-  background-color: #f9eeea;
+  border-bottom: 1px solid #eaeaea;
+  padding: 10px;
 }
 
 .challenge-view .reflection-container {
@@ -202,12 +226,6 @@ a img{border:0;}
 }
 .edit-intention-container {
   margin-top: 6px;
-}
-.module .header{
-    padding: 12px 10px 12px 12px;
-    font-size: 18px;
-    color: purple;
-    border-bottom: 2px solid purple;
 }
 .side-view li{
   padding:8px 10px 8px 12px;
@@ -616,7 +634,7 @@ ul.get-started .desc {
   font-family:'Merriweather';
   font-size:18px;
   border:0;
-  min-height:150px;
+  min-height:60px;
   width:100%;}
 
 .write-view .journal-prompt {
@@ -961,12 +979,6 @@ div.jquery-gdakram-tooltip h1{display:none}
   background-color: #ffffff;
   margin-bottom: 12px;
   border-bottom: 1px solid #00AA27;
-}
-
-.main-header{
-  font-size: 18px;
-  color: #00AA27;
-  background-color: #ffffff;
 }
 .with-author{
   display:none;

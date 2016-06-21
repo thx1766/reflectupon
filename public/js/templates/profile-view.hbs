@@ -1,19 +1,24 @@
 {{#if isCreator}}
-<input type="file" id="file-input">
-<p id="status">Please select a file</p>
-
 <form method="POST" action="/save-details">
   <input type="hidden" id="avatar-url" name="avatar-url" value="/images/default.png">
 </form>
 {{/if}}
-<div class="clearfix" style="font-size:24px;color:#00AA27;border-bottom:1px solid #00AA27;">
-  <img id="preview" src="{{avatar_url}}" style="float:left;background-color: #ccc;
-    width: 70px;
-    height: 70px;
-    border-radius: 6px;
-    margin: 10px;
-    box-shadow: 0 1px 2px #6d6d6d;">
-  <div style="float:left;padding:25px 10px">{{username}}</div>
+<div class="header clearfix">
+  <div style="position:relative;width:70px;height:70px;float:left;border-radius: 6px;box-shadow: 0 1px 2px #6d6d6d;overflow:hidden;">
+    <img id="preview" src="{{avatar_url}}" style="background-color: #ccc;
+      width: 100%;
+      height: 100%;">
+    {{#if isCreator}}
+      <label for="file-input" style="position:absolute;top:0px;right:0px;cursor:pointer;background-color:#fff;border:1px solid #ccc;height:20px;width:20px;text-align:center;">
+        <input type="file" id="file-input" style="display:none">
+        <i class="fa fa-pencil"></i>
+      </label>
+    {{/if}}
+  </div>
+  <div style="float:left;padding:10px">
+    <div style="color: #666;font-weight: 500;font-size: 16px;">PROFILE</div>
+    <div class="main-header">{{username}}</div>
+  </div>
 </div>
 <div style="padding:10px">
 <div class="small-header clearfix intention-header">
@@ -27,7 +32,7 @@
   </div>
 </div>
 <div class="intention-container">
-  "{{intention}}"
+  {{intention}}
 </div>
 {{#if isCreator}}
 <div class="edit-intention-container" style="display:none">

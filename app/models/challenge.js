@@ -10,7 +10,8 @@ var challengeSchema = Schema({
     link:           String,
     relatedChallenges: [{
       type: Schema.Types.ObjectId, ref: 'Challenge'
-    }]
+    }],
+    avatar_url: String
 }, {
   timestamps: true
 });

@@ -46,31 +46,31 @@ exports.home = function(req, res, dates) {
 
                 dates.get(is_mobile, user_id, function(frequency) {
 
-                    helpers.getPublicThoughts({currentUser: req.user}, function(popular_thoughts) {
+                    User.findById(req.user._id)
+                        .populate('communities')
+                        .populate({
+                          path: 'user_challenges.challenge',
+                          model: 'Challenge'
+                        }).exec(function(err, user) {
 
-                        userSettings.getSettings(user_id, function(userSettings) {
+                        helpers.getPublicThoughts({currentUser: user}, function(popular_thoughts) {
 
-                            var daydiff = function(first, second) {
-                                return Math.round((second-first)/(1000*60*60*24));
-                            }
-                            var date1 = new Date();
-                            date1.setHours(0,0,0,0);
+                            userSettings.getSettings(user_id, function(userSettings) {
 
-                            var promptsParams = {
-                                eligible: daydiff(moment("2016-03-12"), date1) % 30
-                            }
+                                var daydiff = function(first, second) {
+                                    return Math.round((second-first)/(1000*60*60*24));
+                                }
+                                var date1 = new Date();
+                                date1.setHours(0,0,0,0);
 
-                            prompts.getPrompts(promptsParams, function(prompts) {
+                                var promptsParams = {
+                                    eligible: daydiff(moment("2016-03-12"), date1) % 30
+                                }
+
+                                prompts.getPrompts(promptsParams, function(prompts) {
 
 
-                                communities.getCommunities({}, function(communities) {
-
-                                    User.findById(req.user._id)
-                                        .populate('communities')
-                                        .populate({
-                                          path: 'user_challenges.challenge',
-                                          model: 'Challenge'
-                                        }).exec(function(err, user) {
+                                    communities.getCommunities({}, function(communities) {
 
                                         var current = _.filter(user.user_challenges, function(uc) {
                                             return uc.status == 'started';
@@ -100,7 +100,7 @@ exports.home = function(req, res, dates) {
                                             settings:     JSON.stringify(userSettings),
                                             communities:  JSON.stringify(communities),
                                             myCommunities: JSON.stringify(user.communities),
-                                            myChallenges: JSON.stringify(current)
+                                            myChallenges: JSON.stringify(current),
                                         };
 
                                         if (prompts.length) {
@@ -109,7 +109,13 @@ exports.home = function(req, res, dates) {
                                                 description: prompts[0].description
                                             })
                                         }
-                                        res.render('home', attr);
+
+                                        challenges.getChallenges({title: "Join Your First Community!"}, function(challenges) {
+
+                                            var challenges = helpers.startedChallengeStatus(challenges, user.user_challenges);
+                                            attr.firstChallenge = JSON.stringify(challenges[0]);
+                                            res.render('home', attr);
+                                        })
                                     })
 
                                 })
@@ -177,16 +183,19 @@ exports.community = function(req, res) {
 
             var community = communities[0];
 
-            helpers.getPublicThoughts({community: community}, function(popular_thoughts) {
+            User.findById(req.user._id)
+                .populate('communities')
+                .populate({
+                  path: 'user_challenges.challenge',
+                  model: 'Challenge'
+                }).exec(function(err, user) {
 
-                userSettings.getSettings(user_id, function(userSettings) {
+                    helpers.getPublicThoughts({
+                        community: community,
+                        currentUser: user
+                    }, function(popular_thoughts) {
 
-                    User.findById(req.user._id)
-                        .populate('communities')
-                        .populate({
-                          path: 'user_challenges.challenge',
-                          model: 'Challenge'
-                        }).exec(function(err, user) {
+                        userSettings.getSettings(user_id, function(userSettings) {
 
                             var current = _.filter(user.user_challenges, function(uc) {
                                 return uc.status == 'started';
@@ -241,6 +250,10 @@ exports.challenges = function(req, res) {
                       path: 'user_challenges.thought',
                       model: 'Thought'
                     })
+                    .populate({
+                      path: 'user_challenges.challenge',
+                      model: 'Challenge'
+                    })
                     .populate('communities')
                     .exec(function(err, user) {
 
@@ -254,6 +267,14 @@ exports.challenges = function(req, res) {
 
                     challenges = helpers.startedChallengeStatus(challenges, user.user_challenges);
 
+                    var current = _.filter(user.user_challenges, function(uc) {
+                        return uc.status == 'started';
+                    });
+
+                    current = _.map(current, function(com) {
+                        return com.challenge;
+                    });
+
                     res.render('challenges', {
                         user: JSON.stringify(userAttrs),
                         settings: JSON.stringify(userSettings),
@@ -263,7 +284,8 @@ exports.challenges = function(req, res) {
                         signout: true,
                         challenges: JSON.stringify(challenges),
                         prompts: JSON.stringify(prompts),
-                        myCommunities: JSON.stringify(user.communities)
+                        myCommunities: JSON.stringify(user.communities),
+                        myChallenges: JSON.stringify(current)
                     });
                 });
             })
@@ -285,14 +307,18 @@ exports.challenge = function(req, res) {
 
         challenges.getChallenges({_id: req.params.id}, function(challenges) {
 
-            challenges = helpers.startedChallengeStatus(challenges, req.user.user_challenges);
-
             User.findById(req.user._id)
                 .populate('communities')
                 .populate({
                   path: 'user_challenges.challenge',
                   model: 'Challenge'
+                })
+                .populate({
+                  path: 'user_challenges.thought',
+                  model: 'Thought'
                 }).exec(function(err, user) {
+
+                challenges = helpers.startedChallengeStatus(challenges, user.user_challenges);
 
                 var current = _.filter(user.user_challenges, function(uc) {
                     return uc.status == 'started';

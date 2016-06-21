@@ -267,16 +267,22 @@ window.rupon.views = window.rupon.views || {};
             if ($.trim(nameVal) == "" || $.trim(descriptionTextarea) == "") {
                 this.$el.find('.error-msg').show();
             } else { 
+
+                var data = {
+                    title:       nameVal,
+                    description: descriptionTextarea,
+                    guidelines:  guidelinesTextarea
+                }
+
+                if (maxMembersVal) {
+                    data.maxUsers = parseInt(maxMembersVal);
+                }
                 $.ajax({
                     type: 'POST',
                     url:  '/api/communities',
-                    data: {
-                        title:       nameVal,
-                        description: descriptionTextarea,
-                        guidelines:  guidelinesTextarea,
-                        maxUsers:    parseInt(maxMembersVal)
-                    },
+                    data: data,
                     success: function(response) {
+                        window.location.replace("/community/"+response.title);
                         self.trigger('added', response.title);
                     },
                     dataType: 'JSON'
@@ -290,7 +296,8 @@ window.rupon.views = window.rupon.views || {};
         template: Handlebars.templates['add-challenges-view'],
 
         events: {
-            'click button': 'submitChallenge'
+            'click button': 'submitChallenge',
+            'change #file-input': 'changeFileInput'
         },
 
         submitChallenge: function() {
@@ -314,11 +321,87 @@ window.rupon.views = window.rupon.views || {};
                         link:         backgroundLinkInput
                     },
                     success: function(response) {
-                        self.trigger('added', response.title);
+                        self.modelId = response._id;
+                        self.checkFileInput(function() {
+                            self.trigger('added', response.title);
+                        });
                     },
                     dataType: 'JSON'
                 });
             }
+        },
+
+        changeFileInput: function(e) {
+            var reader = new FileReader();
+            var self= this;
+
+            reader.onload = function (e) {
+                self.$el.find('#preview').attr('src', e.target.result);
+            }
+            reader.readAsDataURL($(e.currentTarget)[0].files[0]);
+        },
+
+      checkFileInput: function(callback) {
+        var file = this.$el.find('#file-input')[0].files[0];
+        fr = new FileReader();
+        fr.onload = function() {
+          console.log(fr.result);
         }
+
+        if(file == null){
+            callback(); 
+        } else {
+            this.getSignedRequest(file, callback);   
+        }
+      },
+
+      getSignedRequest: function(file, callback){
+        var self = this;
+        var xhr = new XMLHttpRequest();
+        var fileName = 'challenge-' + this.modelId +'.png';
+        xhr.open('GET', `/sign-s3?file-name=${file.name}&file-type=${file.type}&image-type=challenges`);
+        xhr.onreadystatechange = function() {
+          if(xhr.readyState === 4){
+            if(xhr.status === 200){
+              var response = JSON.parse(xhr.responseText);
+              self.uploadFile(file, response.signedRequest, response.url, callback);
+            }
+            else{
+              callback();
+              alert('Could not get signed URL.');
+            }
+          }
+        };
+        xhr.send();
+      },
+
+      uploadFile: function(file, signedRequest, url, callback){
+        var xhr = new XMLHttpRequest();
+        var self = this;
+        xhr.open('PUT', signedRequest);
+        xhr.onreadystatechange = function() {
+          if(xhr.readyState === 4){
+            if(xhr.status === 200){
+
+              $.ajax({
+                  type: 'PUT',
+                  url:  '/api/challenges/' +self.modelId,
+                  data: {
+                      avatar_url: url
+                  },
+                  success: function(response) {
+                    callback();
+                  },
+                  dataType: 'JSON'
+              });
+            }
+            else{
+                callback();
+              alert('Could not upload file.');
+            }
+          }
+        };
+        xhr.send(file);
+      }
     })
 })();

@@ -97,7 +97,7 @@ window.rupon.views = window.rupon.views || {};
         'click .pick-challenge':  'pickChallenge',
         'change #file-input':     'changeFileInput',
         'click .submit-reflection': 'submitReflection',
-        'click .select-challenge': 'selectReleatedChallenge',
+        'click .select-challenge': 'selectRelatedChallenge',
         'click .related-challenges-list .fa-times': 'removeRelatedChallenge'
       },
 
@@ -175,6 +175,7 @@ window.rupon.views = window.rupon.views || {};
       getSignedRequest: function(file){
         var self = this;
         var xhr = new XMLHttpRequest();
+        var fileName = 'challenge-' + this.model.id +'.png';
         xhr.open('GET', `/sign-s3?file-name=${file.name}&file-type=${file.type}&image-type=challenges`);
         xhr.onreadystatechange = function() {
           if(xhr.readyState === 4){
@@ -197,8 +198,20 @@ window.rupon.views = window.rupon.views || {};
         xhr.onreadystatechange = function() {
           if(xhr.readyState === 4){
             if(xhr.status === 200){
-              self.$el.find('#preview').attr('src', url);
-              self.$el.find('#avatar-url').val(url);
+
+              $.ajax({
+                  type: 'PUT',
+                  url:  '/api/challenges/' +self.model.id,
+                  data: {
+                      avatar_url: url
+                  },
+                  success: function(response) {
+                    self.$el.find('#preview').show();
+                    self.$el.find('#preview').attr('src', url);
+                    self.$el.find('#avatar-url').val(url);
+                  },
+                  dataType: 'JSON'
+              });
             }
             else{
               alert('Could not upload file.');

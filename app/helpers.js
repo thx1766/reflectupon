@@ -97,13 +97,12 @@ exports.getPublicThoughts = function(params, callback, options) {
         delete params.currentUser;
     }
 
-    // var startDate = new Date(new Date().setHours(0,0,0,0));
-    // startDate.setDate(startDate.getDate()-14);
-
-    // params.date = {
-    //     $gte: startDate,
-    //     $lte: new Date()
-    // };
+    var userSubscribedToCommunity;
+    if (currentUser && params.community) {
+        userSubscribedToCommunity = !!_.filter(currentUser.communities, function(com) {
+            return com.toString() == params.community._id.toString();
+        }).length;
+    }
 
     if (typeof options.feature != "undefined") {
         params.feature = options.feature;
@@ -148,7 +147,12 @@ exports.getPublicThoughts = function(params, callback, options) {
                             }
 
                             exports.getUserIfPublic(reply, function(user, callback3) {
-                                reply.username = user.username;
+
+                                if (!params.community || (params.community && userSubscribedToCommunity)) {
+                                    reply.username = user.username;
+                                } else {
+                                    reply.privacy = "ANONYMOUS";
+                                }
 
                                 Thought.count({user_id: user._id}, function(err, count) {
                                     Reply.count({user_id: user._id}, function(err, replyCount) {
@@ -171,8 +175,13 @@ exports.getPublicThoughts = function(params, callback, options) {
                                 thought.annotations = annotations;
 
                                 exports.getUserIfPublic(thought, function(user, callback2) {
-                                    thought.username = user.username;
-                                    thought.intention = user.intention;
+
+                                    if (!params.community || (params.community && userSubscribedToCommunity)) {
+                                        thought.username = user.username;
+                                        thought.intention = user.intention;
+                                    } else {
+                                        thought.privacy = "ANONYMOUS";
+                                    }
 
                                     callback2();
 
@@ -252,9 +261,8 @@ exports.startedChallengeStatus = function(challenges, user_challenges) {
             challenge = challenge.toObject();
         }
         challenge.status = "not started";
-
         var userChallenge = _.filter(user_challenges, function(uc) {
-            return uc.challenge ? uc.challenge.toString() == challenge._id.toString() : false
+            return uc.challenge ? uc.challenge._id.toString() == challenge._id.toString() : false
         });
 
         if (userChallenge.length) {
