@@ -113,7 +113,12 @@ exports.home = function(req, res, dates) {
                                         challenges.getChallenges({title: "Join Your First Community!"}, function(challenges) {
 
                                             var challenges = helpers.startedChallengeStatus(challenges, user.user_challenges);
-                                            attr.firstChallenge = JSON.stringify(challenges[0]);
+
+                                            if (challenges.length) {
+                                                attr.firstChallenge = JSON.stringify(challenges[0]);
+                                            } else {
+                                                attr.firstChallenge = {};
+                                            }
                                             res.render('home', attr);
                                         })
                                     })
