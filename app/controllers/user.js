@@ -117,7 +117,7 @@ exports.home = function(req, res, dates) {
                                             if (challenges.length) {
                                                 attr.firstChallenge = JSON.stringify(challenges[0]);
                                             } else {
-                                                attr.firstChallenge = {};
+                                                attr.firstChallenge = JSON.stringify({});
                                             }
                                             res.render('home', attr);
                                         })
