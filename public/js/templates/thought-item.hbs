@@ -1,7 +1,6 @@
 <div class="message-top">
-    Written <span class="with-author">by <strong>
-    {{#equal privacy "Public"}}
-        <a href="/profile/{{username}}">{{username}}</a>{{else}}{{username}}{{/equal}}</strong>{{#if intention}}, {{intention}}{{/if}} • </span>{{date}}
+    <span class="with-author"><strong>
+    {{#equal privacy "PUBLIC"}}<a href="/profile/{{username}}">{{username}}</a>{{else}}{{username}}{{/equal}}</strong>{{#if intention}}, {{intention}}{{/if}} • </span>{{date}}
     {{#if tag_ids}}
     <div class="tags-container">
         Topics: <ul>{{#each tag_ids}}<li>{{this}}</li> {{/each}}</ul>
@@ -37,7 +36,20 @@
     {{/if}}
 
     {{#if challenge}}
-        <div class="challenge-container"></div>
+    <div style="
+    position: relative;
+    border: 2px solid #d99cff;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px #ccc;
+    margin-bottom:6px">
+        <div style="
+            padding: 2px 8px;
+            background: #e6beff;
+            font-size: 12px;
+            color: #585858;
+        ">CHALLENGE</div>
+        <div class="challenge-container" style="padding:8px"></div>
+    </div>
     {{/if}}
     <div class="description selectable">{{{ description }}}</div>
     {{#if read_more}} 

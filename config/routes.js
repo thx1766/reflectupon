@@ -46,6 +46,7 @@ module.exports = function(app) {
     app.get( '/logout',                              user_routes.logout);
     app.post('/register',                            user_routes.postregister);
     app.post('/register-beta',                       user_routes.postRegBetaUser);
+    app.post('/check-password',                      user_routes.checkPassword);
     app.post('/forgot',                              user_routes.postForgot);
     app.post('/reset',                               user_routes.postReset);
     app.post('/check-email',                         user_routes.checkEmail);

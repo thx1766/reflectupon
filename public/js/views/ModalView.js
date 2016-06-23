@@ -29,8 +29,14 @@ window.rupon.views = window.rupon.views || {};
         },
 
         renderSignup: function() {
-            var signupModal = new rv.SignupModal();
-            $(signupModal.$el).modal();
+            var signupView = new rv.SignupView();
+
+            var modal = new rv.MainModal({
+                modalType: signupView,
+                htmlTitle: '<span style="color:#00AA27">Beta</span> Sign up'
+            })
+
+            $(modal.$el).modal();
         }
 
     });
@@ -196,7 +202,25 @@ window.rupon.views = window.rupon.views || {};
             this.trigger('show-forgot', username);
         },
 
-        clickSubmit: function() {
+        clickSubmit: function(e) {
+            var username = this.$el.find('#username').val();
+            var password = this.$el.find('#password').val();
+            var form = this.$el.find('#login-form');
+            var errorMsg = this.$el.find('.error-msg');
+
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "/check-password",
+                data: form.serialize(),
+                success: function(response){
+                    if (response.status == "valid") {
+                        form.submit();
+                    } else {
+                        errorMsg.show();
+                    }
+                }
+            });
         },
 
         validateEmail: function(email) {
@@ -359,7 +383,7 @@ window.rupon.views = window.rupon.views || {};
         var self = this;
         var xhr = new XMLHttpRequest();
         var fileName = 'challenge-' + this.modelId +'.png';
-        xhr.open('GET', `/sign-s3?file-name=${file.name}&file-type=${file.type}&image-type=challenges`);
+        xhr.open('GET', '/sign-s3?file-name='+file.name+'&file-type='+file.type+'&image-type=challenges');
         xhr.onreadystatechange = function() {
           if(xhr.readyState === 4){
             if(xhr.status === 200){

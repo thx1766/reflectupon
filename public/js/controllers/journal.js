@@ -44,32 +44,6 @@ window.rupon.utils = window.rupon.utils || {};
             popular_collection      = new rupon.models.thoughtCollection(popular),
             tags_collection         = new rm.topicsCollection();
 
-        // Only pass reference to reply_collection - since each thought handles its own replies
-        var writeToThoughtsView = new rv.WriteToThoughtsView({
-            tags_collection:      tags_collection,
-            frequency_collection: frequency_collection,
-            reply_collection:     rm.replyCollection,
-            user:                 rupon.account_info
-        });
-
-        writeToThoughtsView
-            .on("create-reflection", function(attrs) {
-                var format_date = rh.dateForFrequencyItem(attrs.date);
-                var freq_item   = frequency_collection.where({day: format_date})[0];
-
-                var thought = new rm.thought(attrs);
-                thought.save({},{success: function() {
-                    writeToThoughtsView.trigger('write-reflection')
-                }});
-
-                popular_collection.add(thought);
-
-                var thoughts = freq_item.get('thoughts')
-                thoughts.unshift(thought);
-                freq_item.set('thoughts', thoughts);
-                freq_item.trigger('thought-change');
-            });
-
         frequencyView = new rv.FrequencyView({
             collection:  frequency_collection,
             no_entries:  !_.flatten(_.pluck(frequency, 'thoughts')).length,
@@ -130,7 +104,6 @@ window.rupon.utils = window.rupon.utils || {};
 
         mainView.$el
             .find(".new-user-container").append(newUserContainer.$el).end()
-            .find(".dashboard-container").append(writeToThoughtsView.$el).end()
             .find(".popular-container").append(popularView.$el);
 
         popularView.trigger('content-loaded');

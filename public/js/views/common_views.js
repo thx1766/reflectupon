@@ -140,18 +140,13 @@ window.rupon.common_views = window.rupon.common_views || {};
             var container_ele = this.container_ele || null;
             var num_elements  = this.num_elements  || null;
 
-            var collection = num_elements ? this.collection.first(num_elements) : this.collection.models;
-
-            _.each(collection, function(model, index) {
+            _.each(this.collection.models, function(model, index) {
                 this.addView(model, this.container_ele);
 
-                if (this.collapsible) {
-                    if (index == 0 && this.collection.length > 1) {
-                        this.$el.append("<div class='collapsible-container'><a href='javascript:;' class='trigger'>Read "+ (collection.length - 1) +" more "+ this.collapsible.label +"</a><div class='collapsible-contents hidden'></div></div>");
-                        this.container_ele = ".collapsible-contents";
-                    }
+                if (num_elements && index == (num_elements - 1)) {
+                    this.$el.append("<div class='collapsible-container'><a href='javascript:;' class='trigger'>View "+ (this.collection.length - num_elements) +" more</a><div class='collapsible-contents hidden'></div></div>");
+                    this.container_ele = ".collapsible-contents";
                 }
-
             }, this);
         },
 

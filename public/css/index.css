@@ -7,20 +7,24 @@ ul{margin:0;}
 }
 
 .landing-page #topbar-wrapper .navbar-right .sign-up-btn{
-  opacity: 0;
+  font-size: 16px;
+  color: #fff;
+  margin-left: 4px;
+  border-radius: 3px;
+  margin-top: 7px;
+  background-color: #00B2EE;
+  box-shadow: inset 0 1px 3px #addbfb,0 1px 3px #545454;
+  padding: 13px 24px;
+  text-shadow: 0 1px 1px #737373;
 }
 
 .landing-page #topbar-wrapper .navbar-right .log-in-btn{
-  opacity: 0;
-  font-size: 16px;
-  color: #fff;
-  height: 47px;
-  vertical-align: 3px;
-  margin-left: 4px;
-  border-radius: 3px;
-  border: 1px solid #fff;
-  line-height: 16px;
-  margin-top: 6px;
+  background-color: #d2aa3c;
+  border-radius: 4px;
+  margin-top: 7px;
+  padding: 13px 29px;
+  box-shadow: inset 0 1px 3px #ffda89, 0 1px 3px #545454;
+  text-shadow: 0 1px 1px #737373;
 }
 
 .landing-page #topbar-wrapper .navbar-brand{
@@ -41,9 +45,15 @@ ul{margin:0;}
 
 .landing-page #topbar-wrapper .navbar.scrolled .navbar-right .log-in-btn{
   color: #fff;
-  border: 1px solid #fff;
+}
+.landing-page #topbar-wrapper .navbar.scrolled .navbar-right{
+  margin-top: -10px;
 }
 
+.landing-page #topbar-wrapper .navbar.scrolled .navbar-right .sign-up-btn,
+.landing-page #topbar-wrapper .navbar.scrolled .navbar-right .log-in-btn{
+  box-shadow:0 0 0;
+}
 .landing-page .wrapper{width:100%;padding:0;}
 .landing-page #topbar-wrapper{background-color:transparent;box-shadow:0 0 0;}
 .landing-page #topbar a{color:#f2f2f2;}
@@ -227,15 +237,19 @@ ul{margin:0;}
 .landing-page #level1 .logo-container .logo{
   position:absolute;top:-240px;left:0px;
 }
-.landing-page #level1 .logo-container .mobile-log-in{
-  border: 2px solid #fff;
-  color: #fff;
-  padding: 10px;
-  border-radius: 3px;
+.landing-page #level1 .logo-container .mobile-buttons{
   position: absolute;
   top: -231px;
   right: 21px;
   display:none;
+}
+
+.landing-page #level1 .logo-container .mobile-buttons a{
+  border: 2px solid #fff;
+  color: #fff;
+  padding: 10px;
+  border-radius: 3px;
+  display:inline-block;
 }
 .landing-page #level1 .logo-container img{
   height:52px;
@@ -385,9 +399,8 @@ ul{margin:0;}
   .landing-page #level1 .logo-container .logo{
     left: 0px;
   }
-  .landing-page #level1 .logo-container .mobile-log-in{
+  .landing-page #level1 .logo-container .mobile-buttons{
     display: block;
-    opacity: 0;
   }
 
   .landing-page #level5 #section2 img, .landing-page #level5 #section3 img{

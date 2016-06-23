@@ -100,7 +100,7 @@ exports.getPublicThoughts = function(params, callback, options) {
     var userSubscribedToCommunity;
     if (currentUser && params.community) {
         userSubscribedToCommunity = !!_.filter(currentUser.communities, function(com) {
-            return com.toString() == params.community._id.toString();
+            return com._id.toString() == params.community._id.toString();
         }).length;
     }
 
@@ -148,7 +148,7 @@ exports.getPublicThoughts = function(params, callback, options) {
 
                             exports.getUserIfPublic(reply, function(user, callback3) {
 
-                                if (!params.community || (params.community && userSubscribedToCommunity)) {
+                                if (params.community && userSubscribedToCommunity) {
                                     reply.username = user.username;
                                 } else {
                                     reply.privacy = "ANONYMOUS";
@@ -176,7 +176,7 @@ exports.getPublicThoughts = function(params, callback, options) {
 
                                 exports.getUserIfPublic(thought, function(user, callback2) {
 
-                                    if (!params.community || (params.community && userSubscribedToCommunity)) {
+                                    if (params.community && userSubscribedToCommunity) {
                                         thought.username = user.username;
                                         thought.intention = user.intention;
                                     } else {

@@ -9,11 +9,13 @@ window.rupon.views = window.rupon.views || {};
     var a, b, c;
 
     rv.IndexView = cv.BaseView.extend({
-        el: "#level7",
+        el: ".index-container",
 
         events: {
             'click button': 'clickButton',
-            'click .sign-up-btn': 'clickSignUp'
+            'click .sign-up-btn': 'clickSignUp',
+            'click .mobile-sign-up': 'clickSignUp',
+            'click .mobile-log-in': 'clickLogin'
         },
 
         initialize: function(options){
@@ -218,6 +220,10 @@ window.rupon.views = window.rupon.views || {};
 
         clickSignUp: function() {
             new rv.ModalView({view: 'signup'});
+        },
+
+        clickLogin: function() {
+            new rv.ModalView({view: 'login'});
         },
 
         rotate: function(n) {

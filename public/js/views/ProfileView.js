@@ -19,25 +19,34 @@ window.rupon.views = window.rupon.views || {};
       },
 
       render: function(options) {
+        options.hasCompleted = !!options.completed.models.length;
+        options.hasCurrent = !!options.current.models.length;
+        options.hasCommunities = !!options.communities.models.length;
+        options.hasCreated = !!options.created.models.length;
+
         cv.SimpleModelView.prototype.render.call(this, options);
 
         var completed = new rv.ChallengesView({
-          collection: options.completed
+          collection: options.completed,
+          collapsible: true
         });
         this.$el.find('.completed-challenges-container').html(completed.$el);
 
         var current = new rv.ChallengesView({
-          collection: options.current
+          collection: options.current,
+          collapsible: true
         });
         this.$el.find('.current-challenges-container').html(current.$el);
 
         var communities = new rv.CommunitiesView({
-          collection: options.communities
+          collection: options.communities,
+          collapsible: true
         });
         this.$el.find('.communities-managed-container').html(communities.$el);
 
         var challengesCreated = new rv.ChallengesView({
-          collection: options.created
+          collection: options.created,
+          collapsible: true
         })
         this.$el.find('.challenges-created-container').html(challengesCreated.$el)
       },
@@ -119,7 +128,7 @@ window.rupon.views = window.rupon.views || {};
       getSignedRequest: function(file){
         var self = this;
         var xhr = new XMLHttpRequest();
-        var fileName = 'profile-' + this.model.id +'.png';
+        var fileName = 'profile-' + this.model.id + '-'+file.name;
         xhr.open('GET', `/sign-s3?file-name=${fileName}&file-type=${file.type}&image-type=profile`);
         xhr.onreadystatechange = function() {
           if(xhr.readyState === 4){

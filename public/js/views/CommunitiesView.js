@@ -66,6 +66,12 @@ window.rupon.views = window.rupon.views || {};
 
       initialize: function(options) {
         options = options || {};
+
+        if (options.collapsible) {
+          this.collapsible = true;
+          this.num_elements = 3;
+        }
+
         cv.CollectionContainer.prototype.initialize.call(this, function(model) {
           return new rv.CommunityView({
             model: model,

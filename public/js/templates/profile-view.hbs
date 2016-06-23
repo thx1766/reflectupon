@@ -60,32 +60,38 @@
 </div>
 {{/if}}
 <div class="clearfix" style="margin-bottom: 20px">
+  {{#if hasCompleted}}
   <div style="float: left; width:48%">
     <div class="small-header">
       COMPLETED CHALLENGES
     </div>
-    <div class="completed-challenges-container" style="max-height:400px;overflow:scroll;margin-top:10px">
-    </div>
+    <div class="completed-challenges-container"></div>
   </div>
+  {{/if}}
+  {{#if hasCurrent}}
   <div style="float: right; width:48%">
     <div class="small-header">
       CURRENT CHALLENGES
     </div>
-    <div class="current-challenges-container" style="max-height:400px;overflow:scroll;margin-top:10px">
-    </div>
+    <div class="current-challenges-container"></div>
   </div>
+  {{/if}}
 </div>
-<div>
+{{#if hasCommunities}}
+<div style="margin-bottom:20px">
   <div class="small-header">
     COMMUNITIES MANAGED
   </div>
-  <div class="communities-managed-container" style="max-height:400px; overflow:scroll">
+  <div class="communities-managed-container">
   </div>
 </div>
+{{/if}}
+{{#if hasCreated}}
 <div>
   <div class="small-header">
     CHALLENGES CREATED
   </div>
-  <div class="challenges-created-container" style="max-height:400px; overflow:scroll">
+  <div class="challenges-created-container" style="overflow:scroll">
   </div>
 </div>
+{{/if}}

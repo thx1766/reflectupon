@@ -36,7 +36,7 @@
     {{/unless}}
     <div style="{{#if avatar_url}}margin-left: 60px{{/if}}">
       {{#unless extended}}
-        <div style="font-size:18px;margin-bottom:8px"><span style="color:green">Challenge</span> / <a href="/challenge/{{_id}}">{{title}}</a></div>
+        <div style="font-size:18px;margin-bottom:8px"><a href="/challenge/{{_id}}">{{title}}</a></div>
       {{/unless}}
       <div style="margin-bottom: 10px">{{description}}</div>
       {{#if extended}}
@@ -77,7 +77,12 @@
   </div>
 {{/if}}
 {{#if extended}}
-  <div class="clearfix challenge-creator" style="margin-top:10px;padding: 15px 10px 20px;border-top:1px solid #ccc;font-size: 16px;">
+  <div class="clearfix challenge-creator" style="
+    margin-top: 10px;
+    padding: 10px 10px 20px;
+    font-size: 16px;
+    background-color: #cfd7ff;
+    border-radius: 4px;">
   <div>Challenge created by:</div>
   <div style="
     padding-top: 6px;

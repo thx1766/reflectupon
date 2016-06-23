@@ -110,7 +110,7 @@ exports.home = function(req, res, dates) {
                                             })
                                         }
 
-                                        challenges.getChallenges({title: "Join Your First Community!"}, function(challenges) {
+                                        challenges.getChallenges({title: "Go to your first community!"}, function(challenges) {
 
                                             var challenges = helpers.startedChallengeStatus(challenges, user.user_challenges);
 
@@ -520,7 +520,6 @@ exports.postlogin = function(req, res, next) {
 
     passport.authenticate('local', function(err, user, info) {
         if (err) { return next(err) }
-
         if (!user) {
             req.session.messages =  {message: 'Incorrect username or password'};
             return res.redirect('/')
@@ -645,6 +644,19 @@ exports.registerEmail = function(email) {
         console.log(json);
     });
 }
+exports.checkPassword = function(req, res, next) {
+    req.body.username = req.body.username.trim().toLowerCase();
+
+    passport.authenticate('local', function(err, user, info) {
+        if (err) { return next(err) }
+
+        if (!user) {
+            res.send({status: 'invalid'});
+        } else {
+            res.send({status: 'valid'});
+        }
+    })(req, res, next);
+};
 exports.postRegBetaUser = function(req, res, next) {
 
     var emailAddress = req.body.email;

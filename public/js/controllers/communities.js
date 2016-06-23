@@ -23,7 +23,7 @@ window.rupon.utils = window.rupon.utils || {};
         collection: new rm.communitiesCollection(params.communities)
       });
 
-      $("#container").append('<div class="main-view-container module"></div><div class="side-view-container"></div>');
+      $("#container").append('<div class="main-view-container main-module"></div><div class="side-view-container"></div>');
       $("#container .main-view-container").append(communitiesPage.$el);
       $("#container .side-view-container").append(frequencyView.$el);
     }
