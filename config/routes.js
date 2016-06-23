@@ -72,6 +72,7 @@ module.exports = function(app) {
 
     app.post('/api/communities',    communities.post);
     app.put('/api/communities/:id', communities.put);
+    app.delete('/api/communities/:id', communities.delete);
     app.post('/api/communities/:id/members/:memberId', communities.postMember);
 
     app.put('/api/communities/:id/challenges/:challengePos', communities.putChallenge);
@@ -79,6 +80,7 @@ module.exports = function(app) {
     app.get('/api/challenges',      challenges.get);
     app.post('/api/challenges',     challenges.post);
     app.put('/api/challenges/:id',  challenges.put);
+    app.delete('/api/challenges/:id', challenges.delete);
 
     app.post('/api/challenges/:id/thought', challenges.postThought);
     app.put('/api/challenges/:id/related/:challengeId', challenges.putRelated);

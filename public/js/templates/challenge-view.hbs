@@ -36,7 +36,13 @@
     {{/unless}}
     <div style="{{#if avatar_url}}margin-left: 60px{{/if}}">
       {{#unless extended}}
-        <div style="font-size:18px;margin-bottom:8px"><a href="/challenge/{{_id}}">{{title}}</a></div>
+        <div style="font-size:18px;margin-bottom:8px">
+          {{#unless cantRedirect}}
+            <a href="/challenge/{{_id}}">{{title}}</a>
+          {{else}}
+            {{title}}
+          {{/unless}}
+        </div>
       {{/unless}}
       <div style="margin-bottom: 10px">{{description}}</div>
       {{#if extended}}
@@ -46,15 +52,19 @@
     </div>
   </div>
   <div style="float:right;">
+
+    {{#equal viewType "superuser"}}
+      <a href="javascript:;" class="delete">Delete</a>
+    {{/equal}}
     {{#if pick}}
-      <button class="btn btn-primary pick-challenge">Pick Challenge</button>
+      <button class="btn btn-primary pick-challenge">Choose Challenge</button>
     {{else}}
       {{#if canRemove}}
         <i class="fa fa-times" data-id="{{_id}}" style="border: 1px solid #ccc;padding: 10px;border-radius:4px;color:red"></i>
       {{else}}
         <button class="btn btn-primary start-challenge {{#equal status "not started"}}{{else}}hidden{{/equal}}">Start Challenge</button>
         <button class="btn btn-primary complete-challenge {{#equal status "started"}}{{else}}hidden{{/equal}}">Complete Challenge</button>
-        <span class="completed-challenge {{#equal status "completed"}}{{else}}hidden{{/equal}}">Done</span>
+        <span class="completed-challenge {{#equal status "completed"}}{{else}}hidden{{/equal}}">Completed!</span>
       {{/if}}
     {{/if}}
   </div>

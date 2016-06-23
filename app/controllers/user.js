@@ -6,10 +6,10 @@ var config          = process.env.PORT ? require('../../config') : require('../.
     forgot          = require('../../forgot'),
     fs              = require('fs'),
     helpers         = require('../helpers'),
-    prompts         = require('./api/prompts')
-    communities     = require('./api/communities')
-    challenges      = require('./api/challenges')
-    userSettings    = require('./api/user_settings')
+    prompts         = require('./api/prompts'),
+    communities     = require('./api/communities'),
+    challenges      = require('./api/challenges'),
+    userSettings    = require('./api/user_settings'),
     sendgrid        = require('sendgrid')(
         config.sg_username,
         config.sg_password
@@ -476,7 +476,9 @@ exports.reports = function(req, res) {
 };
 
 exports.newUser = function(req, res) {
-    communities.getCommunities({}, function(communities) {
+    communities.getCommunities({
+        title: {$in: ['Just Poking Around', 'New Users', 'Beta Users', 'Launch Party Attendees']}
+    }, function(communities) {
 
         res.render('new-user', {
             topBar: false,
@@ -620,7 +622,11 @@ exports.postregister = function(req, res, next) {
                         }
                         req.logIn(user, function(err) {
                             if (err) { return next(err); }
-                            return res.redirect('/home');
+                            if (user.welcome_at) {
+                                return res.redirect('/home');
+                            } else {
+                                return res.redirect('/new-ux');
+                            }
                         });
                     })(req, res, next);
                 }

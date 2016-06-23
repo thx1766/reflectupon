@@ -19,7 +19,7 @@ a img{border:0;}
   transition: .2s background-color;
 }
 #topbar a{display:inline-block;color:#494949;text-decoration:none;transition: .2s color;}
-#topbar .navbar-nav a:hover{background-color: transparent;}
+#topbar .navbar-nav >li:hover{background-color: #eee;}
 #topbar .navbar-brand{
   font-family: 'Merriweather';
   font-size: 22px;
@@ -103,7 +103,7 @@ a img{border:0;}
   color: #666;
 }
 
-.module .fa-pencil, .module .fa-check {
+.box.fa-pencil, .box.fa-check {
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -194,20 +194,50 @@ a img{border:0;}
 .new-user-page .challenge-view.picked {
   background-color: #f7ffdf;
 }
-.communities-page .challenge-view {
+
+.new-user-page .community-view,
+.communities-page .community-view,
+.super-user .community-view {
   border: 1px solid #7ec3ff;
   border-radius: 4px;
   padding: 10px;
   margin-top: 9px;
   box-shadow: 0px 1px 2px #d2d1d2;
 }
+
+.new-user-page .community-view{
+  cursor:pointer;
+}
+.new-user-page .community-view.picked {
+  background-color:#f0ff78;
+}
+
 .challenges-page .challenge-view,
-.profile-view .challenge-view{
+.profile-view .challenge-view,
+.community-challenges-view .challenge-view,
+.modal-body .challenge-view,
+.super-user .challenge-view{
   border: 1px solid #d99cff;
   border-radius: 4px;
   padding: 10px;
   margin-top: 9px;
   box-shadow: 0px 1px 2px #d2d1d2;
+}
+
+.completed-challenge{
+  background: #ffc728;
+  padding: 6px 10px;
+  border-radius: 4px;
+  display: block;
+  color: #fff;
+  font-size: 16px;}
+
+.community-challenges-view .challenge-view.placeholder{
+  border-style: dashed;
+  background-color: #ffffff;
+  border-width: 2px;
+  text-align:center;
+  padding: 15px;
 }
 
 .challenge-view .reflection-container {

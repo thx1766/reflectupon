@@ -17,7 +17,9 @@ window.rupon.utils = window.rupon.utils || {};
             other_replies_collection  = new rm.replyCollection(),
             featured_collection       = new rm.thoughtCollection(),
             email                     = new rm.email(),
-            prompts_collection        = new rm.promptsCollection();
+            prompts_collection        = new rm.promptsCollection(),
+            challengesCollection      = new rm.challengesCollection(options.challenges),
+            communitiesCollection     = new rm.communitiesCollection(options.communities);
 
         var superUserView = new rupon.views.SuperUserView({
             topics_collection:         topics_collection,
@@ -27,7 +29,9 @@ window.rupon.utils = window.rupon.utils || {};
             featured_collection:       featured_collection,
             user_ranges_collection:    user_ranges_collection,
             prompts_collection:        prompts_collection,
-            email:                     email
+            email:                     email,
+            challengesCollection:      challengesCollection,
+            communitiesCollection:     communitiesCollection
         });
 
         $("#container").html(superUserView.$el);

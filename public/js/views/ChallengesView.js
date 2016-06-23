@@ -5,6 +5,7 @@ window.rupon.views = window.rupon.views || {};
 
     var rv = window.rupon.views;
     var cv = window.rupon.common_views;
+    var rm = window.rupon.models;
 
     rv.MainChallengesView = cv.TemplateView.extend({
       template: Handlebars.templates['challenges-main'],
@@ -16,11 +17,24 @@ window.rupon.views = window.rupon.views || {};
       },
 
       render: function(options) {
+
+        //Main challenges within community challenges modal
+        this.dontReload = options.dontReload;
+        this.cantRedirect = options.cantRedirect;
+        //end main challenges within community challenges modal
+
         this.$el.html(this.template(options));
 
         var challengesPage = new rv.ChallengesView({
-          collection: this.collection
+          collection: this.collection,
+          cantRedirect: this.cantRedirect
         });
+
+        var self = this;
+        challengesPage
+          .on('picked', function(model) {
+            self.trigger('picked', model)
+          })
 
         this.$el.find('.challenges-list').html(challengesPage.$el);
       },
@@ -29,7 +43,8 @@ window.rupon.views = window.rupon.views || {};
         this.$el.find('.challenges-list').html('');
 
         var challengesPage = new rv.ChallengesView({
-          collection: challenges
+          collection: challenges,
+          cantRedirect: this.cantRedirect
         });
 
         this.$el.find('.challenges-list').html(challengesPage.$el);
@@ -56,8 +71,18 @@ window.rupon.views = window.rupon.views || {};
         });
 
         addChallengesView
-            .on('added', function(title) {
-                self.$el.append('<li><a href="/challenges/'+title+'">'+title+'</a></li>');
+            .on('added', function(response) {
+
+                if (!self.dontReload) {
+                  window.location.replace("/challenge/"+response._id);
+                }
+
+                var chView = new rv.ChallengeView({
+                  model: new rm.challenge(response),
+                  pick: true,
+                  cantRedirect: true
+                });
+                self.$el.find('.challenges-list >div').prepend(chView.$el);
                 $(modal.$el).modal('hide');
             });
 
@@ -82,7 +107,9 @@ window.rupon.views = window.rupon.views || {};
           if (!!model.get('title')) {
             return new rv.ChallengeView({
               model: model,
-              canRemove: options.canRemove
+              canRemove: options.canRemove,
+              cantRedirect: options.cantRedirect,
+              viewType: options.viewType
             });
           } else {
             return new rv.PromptView({
@@ -94,6 +121,11 @@ window.rupon.views = window.rupon.views || {};
 
     });
 
+    rv.PlaceholderChallengeView = cv.TemplateView.extend({
+      className: "challenge-view placeholder",
+      template: Handlebars.templates['placeholder-view']
+    })
+
     rv.ChallengeView = cv.SimpleModelView.extend({
       className: "challenge-view",
       template: Handlebars.templates['challenge-view'],
@@ -104,7 +136,8 @@ window.rupon.views = window.rupon.views || {};
         'change #file-input':     'changeFileInput',
         'click .submit-reflection': 'submitReflection',
         'click .select-challenge': 'selectRelatedChallenge',
-        'click .related-challenges-list .fa-times': 'removeRelatedChallenge'
+        'click .related-challenges-list .fa-times': 'removeRelatedChallenge',
+        'click .delete': 'delete'
       },
 
       render: function(options) {
@@ -114,7 +147,8 @@ window.rupon.views = window.rupon.views || {};
         var relatedChallengesCol = new Backbone.Collection(options.relatedChallenges);
         var relatedChallengesView = new rv.ChallengesView({
           collection: relatedChallengesCol,
-          canRemove: options.isCreator
+          canRemove: options.isCreator,
+          cantRedirect: options.cantRedirect
         });
 
         this.on('added-related', function(model) {
@@ -302,6 +336,18 @@ window.rupon.views = window.rupon.views || {};
             self.trigger('remove-related', challengeId);
           }
         })
+      },
+
+      delete: function() {
+        var self = this;
+        $.ajax({
+            type: 'DELETE',
+            url:  '/api/challenges/' + self.model.id,
+            success: function(response) {
+              self.$el.remove();
+            },
+            dataType: 'JSON'
+        });
       }
     });
 
@@ -325,7 +371,11 @@ window.rupon.views = window.rupon.views || {};
             challenge.pick = true;
           }
 
-          return new rv.ChallengeView({model: new Backbone.Model(challenge)});
+          if (!challenge.title) {
+            return new rv.PlaceholderChallengeView();
+          } else {
+            return new rv.ChallengeView({model: new Backbone.Model(challenge)});
+          }
         })
       },
 
@@ -342,13 +392,16 @@ window.rupon.views = window.rupon.views || {};
                 return challenge;
               })
 
-              var challengesView = new rv.ChallengesView({
-                collection: new Backbone.Collection(response)
+              var challengesView = new rv.MainChallengesView({
+                collection: new Backbone.Collection(response),
+                cantRedirect: true,
+                noHeader: true,
+                dontReload: true
               });
 
               var modal = new rv.MainModal({
                   modalType: challengesView,
-                  htmlTitle: 'Add a challenge',
+                  htmlTitle: 'Choose a Challenge',
               });
 
               challengesView
@@ -365,7 +418,8 @@ window.rupon.views = window.rupon.views || {};
                         challengeId: model.get('_id')
                       },
                       success: function() {
-                        $(e.currentTarget).closest('.challenge-view').html(chalRow.$el);
+                        $(e.currentTarget).closest('.challenge-view').remove();
+                        self.$el.find('.challenge-list').prepend(chalRow.$el);
                         $(modal.$el).modal('hide');
                       }
                     })

@@ -189,6 +189,10 @@ window.rupon.views = window.rupon.views || {};
         template: Handlebars.templates['bottom-reply-view'],
 
         render: function(options) {
+
+            if (this.model.get('privacy') == "ANONYMOUS") {
+                this.model.set('username', "Anonymous");
+            }
             cv.SimpleModelView.prototype.render.call(this,options)
             if (this.model.get('challenge')) {
 

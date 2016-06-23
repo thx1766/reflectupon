@@ -13,5 +13,8 @@
           color: #ccc;
       ">{{members.length}} {{#equal members.length 1}}member{{else}}members{{/equal}}</span></div>
       <div style="margin-bottom: 10px">{{description}}</div>
+      {{#equal viewType "superuser"}}
+      <a href="javascript:;" class="delete">Delete</a>
+      {{/equal}}
     </div>
   </div>

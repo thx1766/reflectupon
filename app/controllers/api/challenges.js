@@ -1,7 +1,9 @@
 var mongoose   = require('mongoose')
   , Challenge  = mongoose.model('Challenge')
   , _          = require('underscore')
-  , Thought    = mongoose.model('Thought');
+  , Thought    = mongoose.model('Thought')
+  , User       = mongoose.model('User')
+  , helpers      = require('../../helpers');
 
 exports.post = function(req, res) {
     var challenge = new Challenge({
@@ -141,9 +143,23 @@ exports.postThought = function(req, res) {
 }
 
 exports.get = function(req, res) {
-  exports.getChallenges({}, function(challenges) {
-    res.send(challenges);
-  })
+    exports.getChallenges({}, function(challenges) {
+
+      if (req.query.completed) {
+        User.findById(req.user._id)
+            .populate({
+              path: 'user_challenges.challenge',
+              model: 'Challenge'
+            }).exec(function(err, user) {
+              var uc = helpers.startedChallengeStatus(challenges, user.user_challenges);
+
+              res.send(_.where(uc, {status: 'completed'}));
+
+            });
+      } else {
+        res.send(challenges);
+      }
+    });
 }
 
 exports.getChallenges = function(params, callback) {
@@ -154,4 +170,13 @@ exports.getChallenges = function(params, callback) {
     .exec(function(err, challenges) {
       callback(challenges);
     })
+}
+
+exports.delete = function(req,res) {
+    Challenge.findById(req.params.id, function(err,challenge) {
+        challenge.remove(function(err) {
+            if (err) console.log(err);
+            res.send(challenge);
+        })
+    });
 }

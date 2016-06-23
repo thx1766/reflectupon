@@ -1,9 +1,13 @@
+{{#unless noHeader}}
 <div class="header">
   <div class="main-header">Challenges</div>
 </div>
-<div style="padding:10px;">
-  <a href="javascript:;" class="add-challenge" style="font-size:18px;display:block">Add Challenge</a>
-</div>
+{{/unless}}
+<div class="clearfix">
+<a href="javascript:;" class="add-challenge btn btn-primary" style="font-size: 18px;
+    display: block;
+    margin-bottom: 12px;padding:10px 15px;float:left"><i class="fa fa-plus" style="margin-right:8px;vertical-align:-1px"></i>Add a New Challenge</a>
+  </div>
 <div class="filter-view">
   Search: <input class="search-challenges" style="width: 200px; border: 1px solid #ccc;padding:4px;border-radius:4px" />
   <!--

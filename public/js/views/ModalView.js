@@ -347,7 +347,7 @@ window.rupon.views = window.rupon.views || {};
                     success: function(response) {
                         self.modelId = response._id;
                         self.checkFileInput(function() {
-                            self.trigger('added', response.title);
+                            self.trigger('added', response);
                         });
                     },
                     dataType: 'JSON'

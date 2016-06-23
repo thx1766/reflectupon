@@ -132,6 +132,9 @@ window.rupon.views = window.rupon.views || {};
             $.ajax({
                type: 'GET',
                 url:  '/api/challenges/',
+                data: {
+                    completed: true
+                },
                 success: function(response) {
 
                     response = _.map(response, function(challenge) {
@@ -141,12 +144,13 @@ window.rupon.views = window.rupon.views || {};
                     var pastChallengesView = new rv.ChallengesView({
                         challenges: response,
                         prompts:    {},
-                        collection: new Backbone.Collection(response)
+                        collection: new Backbone.Collection(response),
+                        cantRedirect: true
                     });
 
                     var modal = new rv.MainModal({
                         modalType: pastChallengesView,
-                        htmlTitle: 'Reflect on a past challenge',
+                        htmlTitle: 'Reflect on a past challenge'
                     });
             
                     $(modal.$el).modal();
@@ -155,7 +159,11 @@ window.rupon.views = window.rupon.views || {};
                         .on('picked', function(model) {
                             $(modal.$el).modal('hide');
                             self.$el.find('.reflect-challenge-box .reflect-on').html(model.get('title'));
-                            self.$el.find('.reflect-challenge-box .reflect-on').attr('data-id', model.id)
+                            self.$el.find('.reflect-challenge-box .reflect-on').attr('data-id', model.id);
+
+                            if (self.$el.find('textarea').val() == "") {
+                                self.$el.find('textarea').focus();
+                            }
                         })
                 },
                 dataType: 'JSON'

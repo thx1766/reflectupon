@@ -3,7 +3,10 @@
 
     <script type="text/javascript">
     $(document).ready(function(){
-        rupon.controllers.startSuperuserPage({ user_id: "<%= user._id %>", email: "<%= user.email %>" });
+        rupon.controllers.startSuperuserPage({
+          communities: <%- communities %>,
+          challenges: <%- challenges %>,
+        });
     })
     </script>
 

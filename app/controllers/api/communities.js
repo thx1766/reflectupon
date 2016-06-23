@@ -91,3 +91,12 @@ exports.getCommunities = function(params, callback) {
       })
     })
 }
+
+exports.delete = function(req,res) {
+    Community.findById(req.params.id, function(err,community) {
+        community.remove(function(err) {
+            if (err) console.log(err);
+            res.send(community);
+        })
+    });
+}

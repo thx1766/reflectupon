@@ -42,17 +42,15 @@ window.rupon.views = window.rupon.views || {};
       addChallenge: function() {
 
         var self = this;
-        var addChallengesView = new rv.AddChallengesView();
+        var addCommunityView = new rv.AddCommunityView();
 
         var modal = new rv.MainModal({
-            modalType: addChallengesView,
-            htmlTitle: 'Add a challenge',
+            modalType: addCommunityView,
+            htmlTitle: 'Add a Community',
         });
 
-        addChallengesView
+        addCommunityView
             .on('added', function(title) {
-                self.$el.append('<li><a href="/challenges/'+title+'">'+title+'</a></li>');
-                $(modal.$el).modal('hide');
             });
 
         $(modal.$el).modal();
@@ -75,7 +73,8 @@ window.rupon.views = window.rupon.views || {};
         cv.CollectionContainer.prototype.initialize.call(this, function(model) {
           return new rv.CommunityView({
             model: model,
-            pick: options.pick
+            pick: options.pick,
+            viewType: options.viewType
           });
         })
       }
@@ -83,11 +82,12 @@ window.rupon.views = window.rupon.views || {};
     });
 
     rv.CommunityView = cv.SimpleModelView.extend({
-      className: "challenge-view",
+      className: "community-view",
       template: Handlebars.templates['community-view'],
 
       events: {
-        'click': 'clickElement'
+        'click': 'clickElement',
+        'click .delete': 'delete'
       },
 
       initialize: function(options) {
@@ -101,8 +101,20 @@ window.rupon.views = window.rupon.views || {};
       clickElement: function() {
         if (this.pick) {
           this.trigger('picked', this.model.id);
-          this.$el.addClass('picked');
+          this.$el.toggleClass('picked');
         }
+      },
+
+      delete: function() {
+        var self = this;
+        $.ajax({
+            type: 'DELETE',
+            url:  '/api/communities/' + self.model.id,
+            success: function(response) {
+              self.$el.remove();
+            },
+            dataType: 'JSON'
+        });
       }
     });
 

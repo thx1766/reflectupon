@@ -5,6 +5,7 @@ window.rupon.views = window.rupon.views || {};
 
     var rv = window.rupon.views;
     var cv = window.rupon.common_views;
+    var rh = window.rupon.helpers;
 
     rv.CommunitySidebarView = cv.TemplateView.extend({
         template: Handlebars.templates['community-sidebar'],
@@ -23,11 +24,13 @@ window.rupon.views = window.rupon.views || {};
         },
 
         render: function(options) {
+          options = options || {};
           options.isCreator = false;
           if (options.creator) {
             options.isCreator = rupon.account_info.user_id == options.creator._id;
           }
 
+          options.guidelines = rh.convertLineBreaks(options.guidelines || "", 'n');
           options.isSubscribed = _.contains(_.pluck(options.communities, "_id"),this._id) || false;
           options.cantSubscribe = (options.members.length >= options.maxUsers) && !options.isSubscribed;
           cv.TemplateView.prototype.render.call(this, options);

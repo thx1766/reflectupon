@@ -8,20 +8,20 @@
   <div class="subheader">Guidelines</div>
   <div class="clearfix guidelines-container">
     <div class="guidelines-label" {{#if isCreator}}style="float:left; width:80%"{{/if}}>
-      <div>{{guidelines}}</div>
+      <div>{{{guidelines}}}</div>
     </div>
 
     {{#if isCreator}}
       <div style="float:right; width:20%;text-align:right;">
         <a href="javascript:;">
-          <i class="fa fa-pencil"></i>
+          <i class="box fa fa-pencil"></i>
         </a>
       </div>
     {{/if}}
   </div>
   <div class="edit-guidelines-container" style="display:none; text-align:right">
     <textarea style="border: 1px solid #ccc;font-size:14px;width:100%;margin-bottom:10px;min-height:80px">{{guidelines}}</textarea>
-    <button class="btn btn-primary">Change</button>
+    <button class="btn btn-primary">Update</button>
   </div>
 </div>
 <div class="module-page-action members-tab">
@@ -29,7 +29,7 @@
   {{#if isCreator}}
     <div class="users-pencil" style="float:right; width:20%;text-align:right;">
       <a href="javascript:;">
-        <i class="fa fa-pencil"></i>
+        <i class="box fa fa-pencil"></i>
       </a>
     </div>
   {{/if}}
