@@ -16,6 +16,8 @@ window.rupon.utils = window.rupon.utils || {};
 
       var frequencyView = new rv.FrequencyView({
         collection: new Backbone.Collection([]),
+        myCommunities: params.myCommunities,
+        showCommunity: true,
         myChallenges: params.myChallenges,
         showChallenges: true
       })

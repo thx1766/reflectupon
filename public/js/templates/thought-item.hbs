@@ -1,6 +1,6 @@
 <div class="message-top">
     <span class="with-author"><strong>
-    {{#equal privacy "PUBLIC"}}<a href="/profile/{{username}}">{{username}}</a>{{else}}{{username}}{{/equal}}</strong>{{#if intention}}, {{intention}}{{/if}} • </span>{{date}}
+    {{#equal privacy "PUBLIC"}}<a href="/profile/{{username}}">{{username}}</a>{{else}}{{username}}{{/equal}}</strong>{{#if intention}}, {{intention}}{{/if}} <!--•--> </span><!--{{date}}-->
     {{#if tag_ids}}
     <div class="tags-container">
         Topics: <ul>{{#each tag_ids}}<li>{{this}}</li> {{/each}}</ul>

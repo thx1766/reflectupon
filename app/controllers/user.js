@@ -141,6 +141,7 @@ exports.communities = function(req, res) {
         communities.getCommunities({}, function(communities) {
 
             User.findById(req.user._id)
+                .populate('communities')
                 .populate({
                   path: 'user_challenges.challenge',
                   model: 'Challenge'
@@ -167,6 +168,7 @@ exports.communities = function(req, res) {
                     settings: JSON.stringify(userSettings),
                     communities: JSON.stringify(communities),
                     signout: true,
+                    myCommunities: JSON.stringify(user.communities),
                     myChallenges: JSON.stringify(current)
                 }, pageDefaults))
             });

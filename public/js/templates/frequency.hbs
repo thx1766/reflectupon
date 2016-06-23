@@ -1,6 +1,6 @@
 {{#if showCommunity}}
 <div class="module">
-  <div class="header">Communities</div>
+  <div class="header">My Communities</div>
   <ul>
     {{#each myCommunities}}
       <li>
@@ -8,16 +8,15 @@
       </li>
     {{/each}}
   </ul>
-  <a href="/communities" class="module-option" style="border-top: 1px solid #ccc"><i class="fa fa-users"></i>Show all communities</a>
-  <a href="javascript:;" class="module-option add-community" style="border-top: 1px solid #ccc"><i class="fa fa-plus-circle"></i>Add community</a>
+  <a href="/communities" class="module-option" style="border-top: 1px solid #ccc"><i class="fa fa-users"></i>Find New Community</a>
+  <a href="javascript:;" class="module-option add-community" style="border-top: 1px solid #ccc"><i class="fa fa-plus-circle"></i>Create New Community</a>
 </div>
 {{/if}}
 {{#if showChallenges}}
 <div class="module">
-  <div class="header">Challenges</div>
+  <div class="header">My Challenges</div>
   <a href="/challenges" class="module-option" style="border-bottom: 1px solid #ccc">
-    <i class="fa fa-users"></i>
-    Show all challenges
+    <i class="fa fa-users"></i>Find Challenges
   </a>
   <ul>
     {{#each myChallenges}}
