@@ -12,6 +12,8 @@ window.rupon.utils = window.rupon.utils || {};
     rc.startProfilePage = function(params) {
       rupon.account_info         = params.user || {};
       rupon.account_info.user_id = params.user._id;
+
+      mixpanel.track('view-profile');
       rc.setSettings(params.settings, rupon.account_info.username);
 
       params.profile.isCreator = params.profile._id == params.user._id;

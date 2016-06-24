@@ -3,7 +3,7 @@
     <div style="float:left">
       <div style="font-size:18px;margin-bottom:8px">
         {{#unless pick}}
-          <a href="/community/{{title}}">{{title}}</a>
+          <a data-track="go-to-community" data-id="{{_id}}" href="/community/{{title}}">{{title}}</a>
         {{else}}
           {{title}}
         {{/unless}}

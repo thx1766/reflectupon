@@ -94,6 +94,7 @@ window.rupon.views = window.rupon.views || {};
         },
 
         addCommunity: function() {
+            mixpanel.track('add-community');
 
             var self = this;
             var addCommunityView = new rv.AddCommunityView();

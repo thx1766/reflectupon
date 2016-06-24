@@ -4,25 +4,25 @@
   <ul>
     {{#each myCommunities}}
       <li>
-        <a href="/community/{{title}}">{{title}}</a>
+        <a data-track="go-to-community" data-id="{{_id}}" href="/community/{{title}}">{{title}}</a>
       </li>
     {{/each}}
   </ul>
-  <a href="/communities" class="module-option" style="border-top: 1px solid #ccc"><i class="fa fa-users"></i>Find New Community</a>
+  <a href="/communities" class="module-option" style="border-top: 1px solid #ccc" data-track="find-community"><i class="fa fa-users"></i>Find New Community</a>
   <a href="javascript:;" class="module-option add-community" style="border-top: 1px solid #ccc"><i class="fa fa-plus-circle"></i>Create New Community</a>
 </div>
 {{/if}}
 {{#if showChallenges}}
 <div class="module">
   <div class="header">My Challenges</div>
-  <a href="/challenges" class="module-option" style="border-bottom: 1px solid #ccc">
+  <a data-track="find-challenges" href="/challenges" class="module-option" style="border-bottom: 1px solid #ccc">
     <i class="fa fa-users"></i>Find Challenges
   </a>
   <ul>
     {{#each myChallenges}}
     <li class="clearfix">
-      <a href="/challenge/{{_id}}" style="padding-top:3px;float:left">{{title}}</a>
-      <i class="fa fa-check btn btn-primary" data-id="{{_id}}" style="float:right"></i>
+      <a data-track="go-to-challenge" data-id="{{_id}}" href="/challenge/{{_id}}" style="padding-top:3px;float:left">{{title}}</a>
+      <i class="fa fa-check btn btn-primary" data-track="fast-complete-challenge" data-id="{{_id}}" style="float:right"></i>
       <span class="success-label" style="float:right;display:none;">Done!</span>
     </li>
     {{/each}}

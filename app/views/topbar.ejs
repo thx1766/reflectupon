@@ -2,7 +2,7 @@
   <div class="navbar">
     <div id="topbar">
         <div class="navbar-header">
-          <a class="navbar-brand" id="lifeline" href="/home"></a>
+          <a data-track="heros-label" class="navbar-brand" id="lifeline" href="/home"></a>
           <button class="navbar-toggle" data-toggle="collapse" data-target=".bs-navbar-collapse">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -27,15 +27,15 @@
           <ul class="nav navbar-nav navbar-right">
             <% if (signout) { %>
               <li class="profile-container">
-                <a style="padding:0" href="/profile/<%- JSON.parse(user).username %>">
+                <a data-track="profile-by-image" style="padding:0" href="/profile/<%- JSON.parse(user).username %>">
                   <img src="<%- JSON.parse(user).avatar_url %>" style="width: 40px;height:40px;vertical-align:-14px;border-radius: 5px;border: 1px solid #828282;margin:0 5px" />
                 </a>
-                <a class="username-label" style="
+                <a data-track="profile-by-username" class="username-label" style="
     padding-left: 5px;
     padding-right: 8px;" href="/profile/<%- JSON.parse(user).username %>"><%- JSON.parse(user).username %></a>
               </li>
               <li>
-                <a href="/home" style="
+                <a data-track="home-label" href="/home" style="
     padding-left: 8px;
     padding-right: 8px;">Home</a>
               </li>

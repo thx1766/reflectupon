@@ -35,11 +35,13 @@ window.rupon.views = window.rupon.views || {};
       },
 
       searchChallenges: function() {
+        mixpanel.track('click-com-search');
         var input = this.$el.find('.search-challenges').val();
         this.renderList(this.collection.search(input));
       },
 
       addChallenge: function() {
+        mixpanel.track('add-community');
 
         var self = this;
         var addCommunityView = new rv.AddCommunityView();

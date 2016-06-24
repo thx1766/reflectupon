@@ -12,6 +12,8 @@ window.rupon.utils = window.rupon.utils || {};
     rc.startCommunitiesPage = function(params) {
       rupon.account_info         = params.user || {};
       rupon.account_info.user_id = params.user._id;
+
+      mixpanel.track('view-communities');
       rc.setSettings(params.settings, rupon.account_info.username);
 
       var frequencyView = new rv.FrequencyView({

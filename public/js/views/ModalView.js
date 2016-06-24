@@ -281,7 +281,13 @@ window.rupon.views = window.rupon.views || {};
             'click button': 'submitCommunity'
         },
 
+        initialize: function(options) {
+            mixpanel.track('view-add-community');
+            cv.TemplateView.prototype.initialize.call(this, options);
+        },
+
         submitCommunity: function() {
+            mixpanel.track('submit-add-community');
             var self = this;
             var nameVal = this.$el.find('.name-val').val(),
                 descriptionTextarea = this.$el.find('.description-val').val(),
@@ -324,7 +330,13 @@ window.rupon.views = window.rupon.views || {};
             'change #file-input': 'changeFileInput'
         },
 
+        initialize: function(options) {
+            mixpanel.track('view-add-challenge');
+            cv.TemplateView.prototype.initialize.call(this, options);
+        },
+
         submitChallenge: function() {
+            mixpanel.track('submit-add-challenge');
             var self = this;
             var challengeNameInput = this.$el.find('.challenge-name').val(),
                 descriptionTextarea = this.$el.find('.description-val').val(),
@@ -356,6 +368,7 @@ window.rupon.views = window.rupon.views || {};
         },
 
         changeFileInput: function(e) {
+            mixpanel.track('add-image-challenge');
             var reader = new FileReader();
             var self= this;
 

@@ -10,6 +10,9 @@ window.rupon.utils = window.rupon.utils || {};
         rh = window.rupon.helpers;
 
     rc.startCommunityPage = function(params) {
+      mixpanel.track('view-community', {
+        id: params.community._id
+      })
       rupon.account_info         = params.user || {};
       rupon.account_info.user_id = params.user._id;
       rc.setSettings(params.settings, rupon.account_info.username);
@@ -48,10 +51,19 @@ window.rupon.utils = window.rupon.utils || {};
       var showCommunityChallengesView = !!_.filter(params.community.communityChallenges, function(communityChallenge) {
         return !!communityChallenge.challenge}).length || isCreator;
 
+      filteredCollection = params.community.communityChallenges;
+
+      // Don't show placeholder challenges for non-creator
+      if (!isCreator) {
+        filteredCollection = _.filter(params.community.communityChallenges, function(com){
+          return !!com.challenge;
+        });
+      }
+
       if (showCommunityChallengesView) {
         var communityChallengesView = new rv.CommunityChallengesView({
           communityId: params.community._id,
-          collection: new Backbone.Collection(params.community.communityChallenges),
+          collection: new Backbone.Collection(filteredCollection),
           isCreator: isCreator
         });
       }

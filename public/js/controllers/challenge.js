@@ -12,6 +12,10 @@ window.rupon.utils = window.rupon.utils || {};
     rc.startChallengePage = function(params) {
       rupon.account_info         = params.user || {};
       rupon.account_info.user_id = params.user._id;
+
+      mixpanel.track('view-challenge', {
+        id: params.challenge._id
+      });
       rc.setSettings(params.settings, rupon.account_info.username);
       
       var challengePage = new rv.ChallengeView({

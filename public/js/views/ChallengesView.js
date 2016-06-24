@@ -56,11 +56,13 @@ window.rupon.views = window.rupon.views || {};
       },
 
       searchChallenges: function() {
+        mixpanel.track('click-chal-search');
         var input = this.$el.find('.search-challenges').val();
         this.renderList(this.collection.search(input));
       },
 
       addChallenge: function() {
+        mixpanel.track('add-challenge');
 
         var self = this;
         var addChallengesView = new rv.AddChallengesView();
@@ -376,7 +378,7 @@ window.rupon.views = window.rupon.views || {};
           } else {
             return new rv.ChallengeView({model: new Backbone.Model(challenge)});
           }
-        })
+        }, options)
       },
 
       chooseChallenge: function(e) {
@@ -392,6 +394,7 @@ window.rupon.views = window.rupon.views || {};
                 return challenge;
               })
 
+            mixpanel.track('view-choose-challenge');
               var challengesView = new rv.MainChallengesView({
                 collection: new Backbone.Collection(response),
                 cantRedirect: true,
@@ -406,6 +409,7 @@ window.rupon.views = window.rupon.views || {};
 
               challengesView
                   .on('picked', function(model) {
+                    mixpanel.track('pick-challenge');
                     model.set('pick', true);
                     var chalRow = new rv.ChallengeView({
                       model: model

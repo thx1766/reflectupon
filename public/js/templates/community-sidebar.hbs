@@ -14,14 +14,14 @@
     {{#if isCreator}}
       <div style="float:right; width:20%;text-align:right;">
         <a href="javascript:;">
-          <i class="box fa fa-pencil"></i>
+          <i data-track="edit-guidelines" data-id="{{communityId}}" class="box fa fa-pencil"></i>
         </a>
       </div>
     {{/if}}
   </div>
   <div class="edit-guidelines-container" style="display:none; text-align:right">
     <textarea style="border: 1px solid #ccc;font-size:14px;width:100%;margin-bottom:10px;min-height:80px">{{guidelines}}</textarea>
-    <button class="btn btn-primary">Update</button>
+    <button data-track="submit-guidelines" data-id="{{communityId}}" class="btn btn-primary">Update</button>
   </div>
 </div>
 <div class="module-page-action members-tab">
@@ -29,13 +29,13 @@
   {{#if isCreator}}
     <div class="users-pencil" style="float:right; width:20%;text-align:right;">
       <a href="javascript:;">
-        <i class="box fa fa-pencil"></i>
+        <i data-track="edit-members" data-id="{{communityId}}" class="box fa fa-pencil"></i>
       </a>
     </div>
   {{/if}}
     <div class="users-check" style="display:none;float:right; width:20%;text-align:right;">
       <a href="javascript:;">
-        <i class="fa fa-check"></i>
+        <i data-track="submit-members" data-id="{{communityId}}" class="fa fa-check"></i>
       </a>
     </div>
   <div style="float:right;">{{members.length}}/<span class="max-users">{{maxUsers}}</span><input style="width:40px;display:none" class="max-users-edit" /></div>
