@@ -1,6 +1,6 @@
 <div class="message-top">
     <span class="with-author"><strong>
-    {{#equal privacy "PUBLIC"}}<a href="/profile/{{username}}">{{username}}</a>{{else}}{{username}}{{/equal}}</strong>{{#if intention}}, {{intention}}{{/if}} <!--•--> </span><!--{{date}}-->
+    {{#equal privacy "PUBLIC"}}<a href="/profile/{{username}}">{{username}}</a>{{else}}{{username}}{{/equal}}</strong>{{#if intention}}, {{intention}}{{/if}} <!--•--> </span><!--{{date}}--> {{#if community}}to the {{#each community}}<a data-track="thought-community" data-id="{{_id}}" href="/community/{{title}}" style="color:#ab69ca;font-weight:bold">{{title}}</a>{{/each}} community{{/if}}
     {{#if tag_ids}}
     <div class="tags-container">
         Topics: <ul>{{#each tag_ids}}<li>{{this}}</li> {{/each}}</ul>

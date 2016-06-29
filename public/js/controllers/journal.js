@@ -98,12 +98,15 @@ window.rupon.utils = window.rupon.utils || {};
         $(".main-view-container")
             .append(mainView.$el)
 
-        var newUserContainer = new rv.NewUserContainer({
-            challenge: params.firstChallenge
-        });
+        if (!params.myCommunities.length) {
+            var newUserContainer = new rv.NewUserContainer({
+                challenge: params.firstChallenge
+            });
+
+            mainView.$el.find(".new-user-container").append(newUserContainer.$el);
+        }
 
         mainView.$el
-            .find(".new-user-container").append(newUserContainer.$el).end()
             .find(".popular-container").append(popularView.$el);
 
         popularView.trigger('content-loaded');

@@ -156,6 +156,8 @@ a img{border:0;}
   border-radius: 7px;
   border: 3px solid #ffd53b;
 }
+
+.new-user-container .module{border: 0;}
 .module .header{
     padding: 12px 10px 12px 12px;
     font-size: 18px;
@@ -269,10 +271,11 @@ a img{border:0;}
   margin-top: 6px;
 }
 .side-view li{
-  padding:8px 10px 8px 12px;
+  padding:6px 10px 6px 12px;
   list-style:none;
   color:#DBDBDB;
   position:relative;
+  font-size:16px;
 }
 
 .side-view .entries-container li {

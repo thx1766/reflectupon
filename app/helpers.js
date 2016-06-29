@@ -116,6 +116,7 @@ exports.getPublicThoughts = function(params, callback, options) {
         .populate('replies')
         .populate('prompt')
         .populate('challenge')
+        .populate('community')
         .exec(function(err, thoughtsTemp) {
 
             var chalPopOptions = {

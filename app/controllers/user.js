@@ -110,17 +110,7 @@ exports.home = function(req, res, dates) {
                                             })
                                         }
 
-                                        challenges.getChallenges({title: "Go to your first community!"}, function(challenges) {
-
-                                            var challenges = helpers.startedChallengeStatus(challenges, user.user_challenges);
-
-                                            if (challenges.length) {
-                                                attr.firstChallenge = JSON.stringify(challenges[0]);
-                                            } else {
-                                                attr.firstChallenge = JSON.stringify({});
-                                            }
-                                            res.render('home', attr);
-                                        })
+                                        res.render('home', attr);
                                     })
 
                                 })
@@ -531,11 +521,7 @@ exports.postlogin = function(req, res, next) {
         req.logIn(user, function(err) {
 
             if (err) { return next(err); }
-            if (user.welcome_at) {
-                return res.redirect('/home');
-            } else {
-                return res.redirect('/new-ux');
-            }
+            return res.redirect('/home');
         });
     })(req, res, next);
 };
@@ -559,7 +545,7 @@ exports.postregister = function(req, res, next) {
                 user.save(function(err, user_saved) {
                     req.logIn(user, function(err) {
                         if (err) { return next(err); }
-                        return res.redirect('/new-ux');
+                        return res.redirect('/home');
                     });
                 })
             })
@@ -577,7 +563,7 @@ exports.postregister = function(req, res, next) {
             user.save(function(err, user_saved) {
                 req.logIn(user, function(err) {
                     if (err) { return next(err); }
-                    return res.redirect('/new-ux');
+                    return res.redirect('/home');
                 });
             })
         })
@@ -624,11 +610,7 @@ exports.postregister = function(req, res, next) {
                         }
                         req.logIn(user, function(err) {
                             if (err) { return next(err); }
-                            if (user.welcome_at) {
-                                return res.redirect('/home');
-                            } else {
-                                return res.redirect('/new-ux');
-                            }
+                            return res.redirect('/home');
                         });
                     })(req, res, next);
                 }

@@ -7,6 +7,23 @@
         <a data-track="go-to-community" data-id="{{_id}}" href="/community/{{title}}">{{title}}</a>
       </li>
     {{/each}}
+    {{#unless myCommunities}}
+      <div style="padding: 10px; border-bottom:1px solid #ccc">
+        These are some communities we suggest for our first-time users!
+      </div>
+      <li>
+        <div style="font-size:13px">SUGGESTED</div>
+        <a data-track="suggested-community" href="/community/Self Love">Self Love</a>
+      </li>
+      <li>
+        <div style="font-size:13px">SUGGESTED</div>
+        <a data-track="suggested-community" href="/community/Say Hello">Say Hello</a>
+      </li>
+      <li>
+        <div style="font-size:13px">SUGGESTED</div>
+        <a data-track="suggested-community" href="/community/Meditation Consistency">Meditation Consistency</a>
+      </li>
+    {{/unless}}
   </ul>
   <a href="/communities" class="module-option" style="border-top: 1px solid #ccc" data-track="find-community"><i class="fa fa-users"></i>Find New Community</a>
   <a href="javascript:;" class="module-option add-community" style="border-top: 1px solid #ccc"><i class="fa fa-plus-circle"></i>Create New Community</a>
