@@ -60,9 +60,9 @@
 
     <div class="message-summary clearfix">
         <a href="javascript:;" class="click-reply">Reply</a>
-        {{#if nonAnnotationReplies}}
-            <a href="javascript:;" class="view-replies">Review Non-Inline Replies ({{nonAnnotationReplies.length}})</a>
-        {{/if}}
+{{!--         {{#if nonAnnotationReplies}}
+            <a href="javascript:;" class="view-replies">Read Replies ({{nonAnnotationReplies.length}})</a>
+        {{/if}} --}}
 
     {{#if is_author}}
         {{#equal privacy "Private"}}
@@ -103,12 +103,7 @@
     </div>
     <div class="tooltip_description" style="display:none;" title="No worries"></div>
     <div class="write-reply-container write-reply-box"></div>
-    <div class="response-list" style="display:none">
-    {{#if nonAnnotationReplies}}
-        <div class="response">
-            Annotated responses to the right. Other responses below.
-        </div>
-    {{/if}}
+    <div class="response-list">
     </div>
 </div>
 <div class="replies"></div>

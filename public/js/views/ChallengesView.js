@@ -74,16 +74,20 @@ window.rupon.views = window.rupon.views || {};
 
         addChallengesView
             .on('added', function(response) {
-
+                var newChalModel = new rm.challenge(response);
                 if (!self.dontReload) {
                   window.location.replace("/challenge/"+response._id);
                 }
 
                 var chView = new rv.ChallengeView({
-                  model: new rm.challenge(response),
+                  model: newChalModel,
                   pick: true,
                   cantRedirect: true
                 });
+
+                chView.on('picked', function(model) {
+                  self.trigger('picked', model)
+                })
                 self.$el.find('.challenges-list >div').prepend(chView.$el);
                 $(modal.$el).modal('hide');
             });
@@ -144,6 +148,13 @@ window.rupon.views = window.rupon.views || {};
 
       render: function(options) {
         options.canSelectOrNotEmpty = options.isCreator || (this.model.get('relatedChallenges') && !!this.model.get('relatedChallenges').length);
+
+        var trimmedDesc = this.model.get('description');
+        if (trimmedDesc && trimmedDesc.length > 150 && !options.extended) {
+          trimmedDesc = trimmedDesc.substring(0, 180) + '...';
+          this.model.set('description', trimmedDesc);
+        }
+
         cv.SimpleModelView.prototype.render.call(this, options);
 
         var relatedChallengesCol = new Backbone.Collection(options.relatedChallenges);
@@ -173,6 +184,10 @@ window.rupon.views = window.rupon.views || {};
             success: function(response) {
               self.$el.find('.start-challenge').addClass('hidden');
               self.$el.find('.complete-challenge').removeClass('hidden');
+              self.$el.addClass('started');
+              setTimeout(function() {
+                self.$el.removeClass('started');
+              }, 1000)
             },
             dataType: 'JSON'
         });
@@ -191,6 +206,10 @@ window.rupon.views = window.rupon.views || {};
               self.$el.find('.completed-challenge').removeClass('hidden');
               self.$el.find('.reflection-container').removeClass('hidden');
               self.$el.find('.reflection-container textarea').focus();
+              self.$el.addClass('completed');
+              setTimeout(function() {
+                self.$el.removeClass('completed');
+              }, 1000)
             },
             dataType: 'JSON'
         });

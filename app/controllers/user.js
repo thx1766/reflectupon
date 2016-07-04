@@ -125,10 +125,18 @@ exports.home = function(req, res, dates) {
 
 };
 
+exports.sortCommunities = function(communities) {
+    return _.sortBy(communities, function(com) {
+        return -com.members.length;
+    })
+};
+
 exports.communities = function(req, res) {
     userSettings.getSettings(req.user._id, function(userSettings) {
 
         communities.getCommunities({}, function(communities) {
+
+            communities = sortCommunities(communities);
 
             User.findById(req.user._id)
                 .populate('communities')
@@ -186,6 +194,15 @@ exports.community = function(req, res) {
                   path: 'user_challenges.challenge',
                   model: 'Challenge'
                 }).exec(function(err, user) {
+
+                    community = community.toObject();
+                    community.communityChallenges = _.map(community.communityChallenges, function(derp) {
+                        if (derp.challenge) {
+                            var challenge = helpers.startedChallengeStatus([derp.challenge], user.user_challenges);
+                            derp.challenge = challenge[0];
+                        }
+                        return derp;
+                    })
 
                     helpers.getPublicThoughts({
                         community: community,

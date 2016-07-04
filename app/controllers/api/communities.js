@@ -2,7 +2,8 @@ var mongoose   = require('mongoose')
   , Community  = mongoose.model('Community')
   , Challenge  = mongoose.model('Challenge')
   , User       = mongoose.model('User')
-  , _          = require('underscore');
+  , _          = require('underscore')
+  , helpers    = require('../../helpers');
 
 exports.post = function(req, res) {
 
@@ -79,15 +80,15 @@ exports.getCommunities = function(params, callback) {
     .find(params)
     .populate('creator')
     .populate('members')
-    .exec(function(err, communities) {
+    .exec(function(err, communitiesTemp) {
 
       var options = {
         path: 'communityChallenges.challenge',
         model: 'Challenge'
       };
 
-      Community.populate(communities, options, function(err, communities2) {
-        callback(communities2);
+      Community.populate(communitiesTemp, options, function(err, communities) {
+        callback(communities);
       })
     })
 }

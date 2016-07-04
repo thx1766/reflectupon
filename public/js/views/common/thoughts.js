@@ -95,6 +95,10 @@ window.rupon.views = window.rupon.views || {};
             this.$el.find(".privacy-status").trigger("tooltip-end");
             var template_options = _.clone(this.model.attributes);
 
+            if (options.isCommunity || template_options.isCommunity) {
+                delete template_options.community;
+            }
+
             var created_at = new Date(template_options.date).getTime();
             var today = new Date().getTime();
 
@@ -298,7 +302,7 @@ window.rupon.views = window.rupon.views || {};
         },
 
         viewReplies: function() {
-            this.$el.find('.response-list').show();
+            //this.$el.find('.response-list').show();
             this.$el.find('.view-replies').addClass('clicked');
         }
 

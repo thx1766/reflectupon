@@ -198,6 +198,7 @@ exports.post = function(req, res) {
 
                         helpers.getUserIfPublic(thought, function(user, callback2) {
                             thought.username = user.username;
+                            thought.intention = user.intention;
                             callback2();
 
                         },function() {
@@ -315,32 +316,42 @@ exports.postReply = function(req, res) {
                             if (err) console.log(err);
 
                             reply.annotations.push(annotation);
-                            reply.save(function(err, reply){
 
-                                var populateOptions = {
-                                    path: 'annotations'
-                                };
+                            helpers.getUserIfPublic(reply, function(user, callback3) {
+                                reply.username = user.username;
+                            }, function() {
+                                reply.save(function(err, reply){
 
-                                Reply
-                                    .findById(reply._id)
-                                    .populate('annotations')
-                                    .populate('challenge')
-                                    .exec(function(err,reply) {
-                                        if (err) console.log(err);
+                                    var populateOptions = {
+                                        path: 'annotations'
+                                    };
 
-                                        res.send(reply);
-                                    })
+                                    Reply
+                                        .findById(reply._id)
+                                        .populate('annotations')
+                                        .populate('challenge')
+                                        .exec(function(err,reply) {
+                                            if (err) console.log(err);
+
+                                            res.send(reply);
+                                        })
 
 
+                                });
                             });
-
                         });
 
                     })
 
                 }
             } else {
-                res.send(reply);
+                reply = reply.toObject();
+                helpers.getUserIfPublic(reply, function(user, callback3) {
+                    reply.username = user.username;
+                    callback3();
+                }, function() {
+                    res.send(reply);
+                });
             }
 
             exports.saveReplyToThought(req.body.thought_id, reply);

@@ -216,6 +216,7 @@ window.rupon.views = window.rupon.views || {};
                 success: function(response){
                     if (response.status == "valid") {
                         form.submit();
+                        $('input[type=submit]').val('Loading...')
                     } else {
                         errorMsg.show();
                     }

@@ -214,6 +214,19 @@ a img{border:0;}
   background-color:#f0ff78;
 }
 
+.challenge-view{
+  transition: background-color .5s;
+  background-color:#fff;
+}
+
+.challenge-view.started{
+  background-color:#d7ffd7;
+}
+
+.challenge-view.completed{
+  background-color:#fffb80;
+}
+
 .challenges-page .challenge-view,
 .profile-view .challenge-view,
 .community-challenges-view .challenge-view,
@@ -226,12 +239,14 @@ a img{border:0;}
   box-shadow: 0px 1px 2px #d2d1d2;
 }
 
+.challenges-page .challenge-view .left-side{
+  width:75%;
+}
 .completed-challenge{
-  background: #ffc728;
+  color: #ffc728;
   padding: 6px 10px;
   border-radius: 4px;
   display: block;
-  color: #fff;
   font-size: 16px;}
 
 .community-challenges-view .challenge-view.placeholder{

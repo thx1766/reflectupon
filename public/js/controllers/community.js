@@ -77,9 +77,14 @@ window.rupon.utils = window.rupon.utils || {};
       writeView
           .on("create-reflection", function(attrs) {
               attrs.communityId = params.community._id;
+              attrs.isCommunity = true;
               var thought = new rm.thought(attrs);
               thought.save();
               popularCollection.add(thought);
+
+              $('html, body').animate({
+                  scrollTop: $('.popular-container .header').position().top
+              }, 500);
 
               if (popularCollection.models) {
                 $('.popular-container').find('.placeholder').hide();
@@ -95,7 +100,8 @@ window.rupon.utils = window.rupon.utils || {};
       var communityMainView = new rv.ThoughtsView({
         collection:       popularCollection,
         reply_collection: rm.replyCollection,
-        user:             rupon.account_info
+        user:             rupon.account_info,
+        isCommunity:      true
       });
 
       var frequencyView = new rv.FrequencyView({

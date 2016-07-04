@@ -148,7 +148,8 @@ window.rupon.views = window.rupon.views || {};
                     'reply_collection',
                     'tags_collection',
                     'showMore',
-                    'experiment'
+                    'experiment',
+                    'isCommunity'
                 ]));
 
                 var view = new rv.ThoughtWrapperView(thoughtParams);
