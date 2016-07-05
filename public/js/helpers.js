@@ -42,4 +42,22 @@ window.rupon.helpers = window.rupon.helpers || {};
         _.defaults(destination.events, source.events);
     }
 
+    Handlebars.registerHelper('equal', function(lvalue, rvalue, options) {
+        if (arguments.length < 3)
+            throw new Error("Handlebars Helper equal needs 2 parameters");
+        if( lvalue!=rvalue ) {
+            return options.inverse(this);
+        } else {
+            return options.fn(this);
+        }
+    });
+
+    Handlebars.registerHelper('unlessFirst', function(lvalue, options) {
+        if( lvalue == 0 ) {
+            return options.inverse(this);
+        } else {
+            return options.fn(this);
+        }
+    });
+
 })();

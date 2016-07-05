@@ -39,11 +39,9 @@
       </a>
     </div>
   <div style="float:right;">{{members.length}}/<span class="max-users">{{maxUsers}}</span><input style="width:40px;display:none" class="max-users-edit" /></div>
-  <ul>
-    {{#each members}}
-      <li>{{username}}</li>
-    {{/each}}
-  </ul>
+  <div style="font-size: 16px;margin-top: 8px;">
+    {{#each members}}{{#unlessFirst @index}}, {{/unlessFirst}}<a href="/profile/{{username}}">{{username}}</a>{{/each}}
+  </div>
 </div>
 
 </div>
