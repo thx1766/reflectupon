@@ -136,7 +136,7 @@ exports.communities = function(req, res) {
 
         communities.getCommunities({}, function(communities) {
 
-            communities = sortCommunities(communities);
+            communities = exports.sortCommunities(communities);
 
             User.findById(req.user._id)
                 .populate('communities')
