@@ -34,8 +34,8 @@ window.rupon.views = window.rupon.views || {};
         var self = this;
         challengesPage
           .on('picked', function(model) {
-            self.trigger('picked', model)
-          })
+            self.trigger('picked', model);
+          });
 
         this.$el.find('.challenges-list').html(challengesPage.$el);
       },
@@ -87,8 +87,8 @@ window.rupon.views = window.rupon.views || {};
                 });
 
                 chView.on('picked', function(model) {
-                  self.trigger('picked', model)
-                })
+                  self.trigger('picked', model);
+                });
                 self.$el.find('.challenges-list >div').prepend(chView.$el);
                 $(modal.$el).modal('hide');
             });
@@ -121,9 +121,9 @@ window.rupon.views = window.rupon.views || {};
           } else {
             return new rv.PromptView({
               model: model
-            });
+            })
           }
-        })
+        });
       }
 
     });
@@ -480,4 +480,4 @@ window.rupon.views = window.rupon.views || {};
       template: Handlebars.templates['prompt-view']
     })
 
-})();
+}());

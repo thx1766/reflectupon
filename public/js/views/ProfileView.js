@@ -1,7 +1,7 @@
 window.rupon = window.rupon || {};
 window.rupon.views = window.rupon.views || {};
 
-(function() {
+(function () {
 
     var rv = window.rupon.views;
     var cv = window.rupon.common_views;
@@ -47,8 +47,8 @@ window.rupon.views = window.rupon.views || {};
         var challengesCreated = new rv.ChallengesView({
           collection: options.created,
           collapsible: true
-        })
-        this.$el.find('.challenges-created-container').html(challengesCreated.$el)
+        });
+        this.$el.find('.challenges-created-container').html(challengesCreated.$el);
       },
 
       editIntention: function() {
@@ -62,18 +62,17 @@ window.rupon.views = window.rupon.views || {};
         var editContainer = this.$el.find('.edit-intention-container');
         var container = this.$el.find('.intention-container');
         var intention = editContainer.find('textarea').val();
-        var self = this;
 
-        if ($.trim(intention) != "") {
+        if ($.trim(intention) !== "") {
           $.ajax({
               type: 'PUT',
               url:  '/api/profile/',
               data: {
                   intention: intention
               },
-              success: function(response) {
+              success: function() {
                 container.html(intention);
-                container.show()
+                container.show();
                 editContainer.hide();
               },
               dataType: 'JSON'
@@ -92,18 +91,17 @@ window.rupon.views = window.rupon.views || {};
         var editContainer = this.$el.find('.edit-personal-container');
         var container = this.$el.find('.personal-url-container');
         var personalUrl = editContainer.find('textarea').val();
-        var self = this;
 
-        if ($.trim(personalUrl) != "") {
+        if ($.trim(personalUrl) !== "") {
           $.ajax({
               type: 'PUT',
               url:  '/api/profile/',
               data: {
                   personal_url: personalUrl
               },
-              success: function(response) {
+              success: function() {
                 container.html(personalUrl);
-                container.show()
+                container.show();
                 editContainer.hide();
               },
               dataType: 'JSON'
@@ -113,12 +111,12 @@ window.rupon.views = window.rupon.views || {};
 
       changeFileInput: function(e) {
         var file = $(e.currentTarget)[0].files[0];
-        fr = new FileReader();
+        var fr = new FileReader();
         fr.onload = function() {
           console.log(fr.result);
-        }
+        };
 
-        if(file == null){
+        if(file === null){
           return alert('No file selected.');
         }
 
@@ -158,11 +156,11 @@ window.rupon.views = window.rupon.views || {};
                   data: {
                       avatar_url: url
                   },
-                  success: function(response) {
+                  success: function() {
                     self.$el.find('#preview').attr('src', '');
                     setTimeout(function() {
                       self.$el.find('#preview').attr('src', url);
-                    },500)
+                    },500);
                     self.$el.find('#avatar-url').val(url);
                   },
                   dataType: 'JSON'
@@ -177,4 +175,4 @@ window.rupon.views = window.rupon.views || {};
       }
     });
 
-})();
+}());
