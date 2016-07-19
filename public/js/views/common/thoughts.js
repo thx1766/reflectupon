@@ -177,7 +177,7 @@ window.rupon.views = window.rupon.views || {};
             this.$el.html(outputHtml);
             cv.Container.prototype.reattachChildren.call(this);
 
-            if (template_options.challenge && !template_options.challenge.flaggedBy.length) {
+            if (rv.ChallengeView && template_options.challenge && !template_options.challenge.flaggedBy.length) {
               var challengePage = new rv.ChallengeView({
                 model: new Backbone.Model(template_options.challenge),
                 onStream: true
