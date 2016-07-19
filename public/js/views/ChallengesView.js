@@ -70,7 +70,7 @@ window.rupon.views = window.rupon.views || {};
 
         var modal = new rv.MainModal({
             modalType: addChallengesView,
-            htmlTitle: 'Add a challenge',
+            htmlTitle: 'Add a challenge'
         });
 
         addChallengesView
@@ -121,7 +121,7 @@ window.rupon.views = window.rupon.views || {};
           } else {
             return new rv.PromptView({
               model: model
-            })
+            });
           }
         })
       }
