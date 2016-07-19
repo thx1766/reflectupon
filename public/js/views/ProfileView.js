@@ -127,7 +127,7 @@ window.rupon.views = window.rupon.views || {};
         var self = this;
         var xhr = new XMLHttpRequest();
         var fileName = 'profile-' + this.model.id + '-'+file.name;
-        xhr.open('GET', `/sign-s3?file-name=${fileName}&file-type=${file.type}&image-type=profile`);
+        xhr.open('GET', '/sign-s3?file-name='+fileName+'&file-type='+file.type+'&image-type=profile');
         xhr.onreadystatechange = function() {
           if(xhr.readyState === 4){
             if(xhr.status === 200){

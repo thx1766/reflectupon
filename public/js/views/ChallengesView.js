@@ -121,7 +121,7 @@ window.rupon.views = window.rupon.views || {};
           } else {
             return new rv.PromptView({
               model: model
-            })
+            });
           }
         });
       }
@@ -131,7 +131,7 @@ window.rupon.views = window.rupon.views || {};
     rv.PlaceholderChallengeView = cv.TemplateView.extend({
       className: "challenge-view placeholder",
       template: Handlebars.templates['placeholder-view']
-    })
+    });
 
     rv.ChallengeView = cv.SimpleModelView.extend({
       className: "challenge-view",
@@ -171,10 +171,12 @@ window.rupon.views = window.rupon.views || {};
 
         this.on('added-related', function(model) {
           relatedChallengesCol.add([model]);
-        })
+        });
+
         this.on('remove-related', function(challengeId) {
           relatedChallengesCol.remove(challengeId);
-        })
+        });
+
         this.$el.find('.related-challenges-list').html(relatedChallengesView.$el);
       },
 
@@ -192,7 +194,7 @@ window.rupon.views = window.rupon.views || {};
               self.$el.addClass('started');
               setTimeout(function() {
                 self.$el.removeClass('started');
-              }, 1000)
+              }, 1000);
             },
             dataType: 'JSON'
         });
@@ -229,7 +231,7 @@ window.rupon.views = window.rupon.views || {};
         fr = new FileReader();
         fr.onload = function() {
           console.log(fr.result);
-        }
+        };
 
         if(file == null){
           return alert('No file selected.');
@@ -242,7 +244,7 @@ window.rupon.views = window.rupon.views || {};
         var self = this;
         var xhr = new XMLHttpRequest();
         var fileName = 'challenge-' + this.model.id +'.png';
-        xhr.open('GET', `/sign-s3?file-name=${file.name}&file-type=${file.type}&image-type=challenges`);
+        xhr.open('GET', '/sign-s3?file-name='+file.name+'&file-type='+file.type+'&image-type=challenges');
         xhr.onreadystatechange = function() {
           if(xhr.readyState === 4){
             if(xhr.status === 200){
@@ -478,6 +480,6 @@ window.rupon.views = window.rupon.views || {};
 
     rv.PromptView = cv.SimpleModelView.extend({
       template: Handlebars.templates['prompt-view']
-    })
+    });
 
 }());

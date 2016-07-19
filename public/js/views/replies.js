@@ -198,7 +198,7 @@ window.rupon.views = window.rupon.views || {};
                 this.model.set('username', "Anonymous");
             }
             cv.SimpleModelView.prototype.render.call(this,options)
-            if (this.model.get('challenge') && rv.ChallengeView) {
+            if (rv.ChallengeView && this.model.get('challenge')) {
 
               var challengePage = new rv.ChallengeView({
                 model: new Backbone.Model(this.model.get('challenge'))
