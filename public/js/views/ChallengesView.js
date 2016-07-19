@@ -6,6 +6,7 @@ window.rupon.views = window.rupon.views || {};
     var rv = window.rupon.views;
     var cv = window.rupon.common_views;
     var rm = window.rupon.models;
+    var rh = window.rupon.helpers;
 
     rv.MainChallengesView = cv.TemplateView.extend({
       template: Handlebars.templates['challenges-main'],
@@ -143,7 +144,8 @@ window.rupon.views = window.rupon.views || {};
         'click .submit-reflection': 'submitReflection',
         'click .select-challenge': 'selectRelatedChallenge',
         'click .related-challenges-list .fa-times': 'removeRelatedChallenge',
-        'click .delete': 'delete'
+        'click .delete': 'delete',
+        'click .report-challenge': 'reportChallenge'
       },
 
       render: function(options) {
@@ -154,6 +156,9 @@ window.rupon.views = window.rupon.views || {};
           trimmedDesc = trimmedDesc.substring(0, 180) + '...';
           this.model.set('description', trimmedDesc);
         }
+
+        this.model.set('description', rh.convertLineBreaks(this.model.get('description'), 'n'));
+        this.model.set('instructions', rh.convertLineBreaks(this.model.get('instructions'), 'n'));
 
         cv.SimpleModelView.prototype.render.call(this, options);
 
@@ -366,6 +371,22 @@ window.rupon.views = window.rupon.views || {};
             url:  '/api/challenges/' + self.model.id,
             success: function(response) {
               self.$el.remove();
+            },
+            dataType: 'JSON'
+        });
+      },
+
+      reportChallenge: function() {
+        var self = this;
+        $.ajax({
+            type: 'PUT',
+            url:  '/api/challenges/' +self.model.id,
+            data: {
+                flaggedBy: true
+            },
+            success: function(response) {
+              self.$el.find('.challenge-reported').fadeIn();
+              self.$el.find('.challenge-content').css('opacity', '0');
             },
             dataType: 'JSON'
         });

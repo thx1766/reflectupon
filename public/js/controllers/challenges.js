@@ -17,10 +17,14 @@ window.rupon.utils = window.rupon.utils || {};
 
       rc.setSettings(params.settings, rupon.account_info.username);
 
+      var challenges = _.filter(params.challenges, function(challenge) {
+        return !challenge.flaggedBy.length;
+      });
+
       var challengesPage = new rv.MainChallengesView({
-        challenges: params.challenges,
+        challenges: challenges,
         prompts:    params.prompts,
-        collection: new rm.challengesCollection(params.challenges.concat(params.prompts))
+        collection: new rm.challengesCollection(challenges)
       });
 
       var frequencyView = new rv.FrequencyView({

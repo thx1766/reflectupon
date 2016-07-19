@@ -19,7 +19,11 @@ a img{border:0;}
   transition: .2s background-color;
 }
 #topbar a{display:inline-block;color:#494949;text-decoration:none;transition: .2s color;}
+#topbar .logout a {
+    color: #909090;
+}
 #topbar .navbar-nav >li:hover{background-color: #eee;}
+.landing-page #topbar .navbar-nav >li:hover{background-color: transparent;}
 #topbar .navbar-brand{
   font-family: 'Merriweather';
   font-size: 22px;
@@ -214,9 +218,25 @@ a img{border:0;}
   background-color:#f0ff78;
 }
 
+.challenge-container {
+  position: relative;
+}
+
 .challenge-view{
   transition: background-color .5s;
   background-color:#fff;
+  position:relative;
+}
+
+.challenge-reported{
+  display:none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-align: center;
+  width: 100%;
+  bottom: 0;
+  padding-top: 10px;
 }
 
 .challenge-view.started{
@@ -246,7 +266,7 @@ a img{border:0;}
   color: #ffc728;
   padding: 6px 10px;
   border-radius: 4px;
-  display: block;
+  display: inline-block;
   font-size: 16px;}
 
 .community-challenges-view .challenge-view.placeholder{
@@ -619,7 +639,7 @@ ul.get-started .desc {
 }
 .me-container.dropdown-container.arrow-right .dropdown .logout{
   border-top: 1px solid #ccc;
-  padding-top: 8px;
+  padding-top: 5px;
   text-align: right;
   font-size: 14px;
 }
@@ -828,6 +848,11 @@ ul.get-started .desc {
 .thought-row .col-md-3{position:absolute;top:0;right:-210px;width:200px;}
 /*.thought-row.show-replies{margin-left:-130px;margin-right:130px;}*/
 
+.reported-entry{
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
 .collapsible-container .trigger{
   padding: 4px 8px;
   display:block;

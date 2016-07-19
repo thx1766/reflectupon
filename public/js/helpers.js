@@ -21,6 +21,11 @@ window.rupon.helpers = window.rupon.helpers || {};
     }
 
     rh.convertLineBreaks = function(description, type) {
+
+        if (!description) {
+            return description;
+        }
+
         var before_type, after_type;
 
         if (type == 'n') {

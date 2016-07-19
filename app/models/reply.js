@@ -12,7 +12,10 @@ var replySchema = Schema({
     thanked:        Boolean,
     status:         String,
     main_reply_id:  String,
-    challenge:      { type: Schema.Types.ObjectId, ref: 'Challenge'}
+    challenge:      { type: Schema.Types.ObjectId, ref: 'Challenge'},
+    flaggedBy: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User' }]
 });
 
 mongoose.model('Reply', replySchema)

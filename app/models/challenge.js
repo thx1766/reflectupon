@@ -11,7 +11,10 @@ var challengeSchema = Schema({
     relatedChallenges: [{
       type: Schema.Types.ObjectId, ref: 'Challenge'
     }],
-    avatar_url: String
+    avatar_url: String,
+    flaggedBy: [{
+      type: Schema.Types.ObjectId, ref: 'User'
+    }]
 }, {
   timestamps: true
 });

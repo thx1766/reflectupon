@@ -38,6 +38,10 @@ window.rupon.utils = window.rupon.utils || {};
             popular =      params.popular,
             prompt =       params.prompt;
 
+        var popular = _.filter(popular, function(thought) {
+            return !thought.flaggedBy.length;
+        });
+
         var recommended_collection  = new rupon.models.thoughtCollection(),
             user_message_collection = new rupon.models.userMessageCollection(),
             frequency_collection    = new rupon.models.frequencyCollection(frequency),

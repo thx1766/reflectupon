@@ -228,17 +228,29 @@ var populateRepliesForThought = function(thought, user_id, callback) {
 }
 
 exports.put = function(req,res) {
-    Thought.findById(req.params.id, function(err,thought) {
-        if (req.body.privacy)     thought.privacy     = req.body.privacy;
-        if (req.body.description) thought.description = req.body.description;
-        if (req.body.archived)    thought.archived    = req.body.archived;
-        if (typeof req.body.feature == "boolean")     thought.feature     = req.body.feature;
+    var options = _.pick(req.body, [
+        'privacy',
+        'description',
+        'archived',
+        'feature',
+        'flaggedBy'
+    ]);
 
-        thought.save(function(err) {
+    if (options.flaggedBy) {
+        User.findById(req.user._id).exec(function(err, user) {
+                Thought.findByIdAndUpdate(req.params.id, {
+                        $push: {flaggedBy: req.user._id}
+                    }, {'new': true}, function(err,thought) {
+                        if (err) console.log(err);
+                        res.send(thought);
+                    });
+            });
+    } else {
+        Thought.findByIdAndUpdate(req.params.id, options, function(err,thought) {
             if (err) console.log(err);
             res.send(thought);
-        })
-    });
+        });
+    }
 }
 
 exports.delete = function(req,res) {

@@ -82,7 +82,8 @@ exports.put = function(req, res) {
   var options = _.pick(req.body, [
     'status',
     'thought',
-    'avatar_url'
+    'avatar_url',
+    'flaggedBy'
   ]);
 
   // Only specific user challenges
@@ -91,10 +92,21 @@ exports.put = function(req, res) {
       res.send(user_challenge);
     });
   } else {
-    console.log(options);
-    Challenge.findByIdAndUpdate(req.params.id, options, function(err, challenge) {
-      res.send(challenge);
-    });
+
+    if (options.flaggedBy) {
+      Challenge.findByIdAndUpdate(req.params.id, {
+        $push: {flaggedBy: req.user}
+      }, {'new': true}, function(err, challenge) {
+        if (err) {
+          console.log(err);
+        }
+        res.send(challenge);
+      });
+    } else {
+      Challenge.findByIdAndUpdate(req.params.id, options, function(err, challenge) {
+        res.send(challenge);
+      });
+    }
   }
 }
 

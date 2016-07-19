@@ -1,7 +1,8 @@
 {{#if extended}}
 <div class="main-module">
 {{/if}}
-<div class="clearfix" style="position:relative;">
+<div class="challenge-content clearfix" style="position:relative;
+    {{#equal viewType "superuser"}}{{#if flaggedBy.length}}background-color: #ccc{{/if}}{{/equal}}">
   {{#if extended}}
     <div class="header clearfix">
       <div style="position:relative;width:70px;height:70px;float:left;border-radius: 6px;box-shadow: 0 1px 2px #6d6d6d;overflow:hidden;">
@@ -44,9 +45,25 @@
           {{/unless}}
         </div>
       {{/unless}}
-      <div style="margin-bottom: 10px">{{description}}</div>
+      <div>
+        {{#if extended}}
+        <div style="
+          font-weight: bold;
+          color: purple;
+          font-size: 13px;
+          margin-bottom: 2px;">DESCRIPTION
+        </div>
+        {{/if}}
+        {{description}}
+      </div>
       {{#if extended}}
-        <div style="margin-bottom: 10px">{{instructions}}</div>
+        <div style="margin-top:20px;margin-bottom: 10px">
+        <div style="
+          font-weight: bold;
+          color: purple;
+          font-size: 13px;
+          margin-bottom: 2px;">INSTRUCTIONS
+        </div>{{{instructions}}}</div>
         <div>{{link}}</div>
       {{/if}}
     </div>
@@ -65,6 +82,21 @@
         <button data-track="start-challenge" data-id="{{_id}}" class="btn btn-primary start-challenge {{#equal status "not started"}}{{else}}hidden{{/equal}}">Start Challenge</button>
         <button data-track="end-challenge" data-id="{{_id}}" class="btn btn-primary complete-challenge {{#equal status "started"}}{{else}}hidden{{/equal}}">Complete Challenge</button>
         <span class="completed-challenge {{#equal status "completed"}}{{else}}hidden{{/equal}}">Completed!</span>
+        <div class="dropdown-container arrow-right" style="display:inline-block;">
+          <a style="
+              font-size: 24px;
+              vertical-align: -6px;
+              padding: 0 4px 0 8px;
+              color: #949494;">
+            <i class="fa fa-ellipsis-v"></i>
+          </a>
+          <div class="dropdown-arrow clearfix">
+            <div class="arrow"></div>
+            <div class="dropdown">
+              <a href="javascript:;" class="report-challenge" style="display:block">Report</a>
+            </div>
+          </div>
+        </div>
       {{/if}}
     {{/if}}
   </div>
@@ -111,6 +143,7 @@
 <span style="color:#aaa;font-size:14px">{{creator.intention}}</span></div></div>
   </div>
 {{/if}}
+<div class="challenge-reported">Challenge Reported</div>
 <!--- For "module" class up top -->
 {{#if extended}}
 </div>

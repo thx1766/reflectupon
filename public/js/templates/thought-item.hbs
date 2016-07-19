@@ -27,7 +27,7 @@
         <div class="annotation-desc"><span>Based on your snippet:</span> <span>{{ annotation }}</span></div>
     </div>
 {{/if}}
-<div class="message clearfix{{#equal privacy "Private"}} private{{/equal}}" data-id={{_id}}>
+<div class="message clearfix{{#equal privacy "Private"}} private{{/equal}}" data-id={{_id}} {{#equal viewType "superuser"}}{{#if flaggedBy.length}}background-color: #ccc{{/if}}{{/equal}}>
     {{#if link}}
         <div class="link-box">
             <span class="title">With a reflection to this link:</span>
@@ -76,6 +76,7 @@
                 http://www.reflectupon.net/entry/{{_id}}
             </div>
         {{/equal}}
+    {{/if}}
         <div class="right-actions dropdown-container arrow-right">
             <a href="javascript:;" class="options">
                 <i class="fa fa-ellipsis-h fa-lg"></i>
@@ -85,15 +86,18 @@
                 </div>
                 <div class="dropdown">
                     <ul>
+                        {{#if is_author}}
                         <li><a href="javascript:;" class="private-only">Set as Private</a></li>
                         {{#if can_edit }}<li><a href="javascript:;" class="edit">Edit</a></li>{{/if}}
                         <li><a href="javascript:;" class="delete">Delete</a></li>
                         <li><a href="javascript:;" class="archive">Archive</a></li>
+                        {{else}}
+                        <li><a href="javascript:;" class="report-entry">Report</a></li>
+                        {{/if}}
                     </ul>
                 </div>
             </div>
         </div>
-    {{/if}}
     </div>
     <div class="left-actions dropdown-container arrow-left">
         <div class="dropdown-arrow">

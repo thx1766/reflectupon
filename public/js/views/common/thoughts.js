@@ -35,7 +35,8 @@ window.rupon.views = window.rupon.views || {};
             'keypress .editable':             'submitEdit',
             'click .reply-summary':           'getReplySummary',
             'click .click-reply':             'clickReply',
-            'click .view-replies':            'viewReplies'
+            'click .view-replies':            'viewReplies',
+            'click .report-entry':            'reportEntry'
         },
 
         initialize: function(options) {
@@ -165,13 +166,18 @@ window.rupon.views = window.rupon.views || {};
             });
             template_options.nonAnnotationReplies = nonAnnotationReplies;
             template_options.tag_ids = this.model.get('tag_ids');
+
+            if (template_options.challenge && template_options.challenge.flaggedBy.length) {
+                delete template_options.challenge;
+            }
+
             var outputHtml = this.template(template_options);
 
             cv.Container.prototype.detachChildren.call(this);
             this.$el.html(outputHtml);
             cv.Container.prototype.reattachChildren.call(this);
 
-            if (template_options.challenge) {
+            if (template_options.challenge && !template_options.challenge.flaggedBy.length) {
               var challengePage = new rv.ChallengeView({
                 model: new Backbone.Model(template_options.challenge),
                 onStream: true
@@ -180,6 +186,9 @@ window.rupon.views = window.rupon.views || {};
               this.$el.find(".challenge-container").append(challengePage.$el);
             }
 
+            nonAnnotationReplies = _.filter(nonAnnotationReplies, function(reply) {
+                return !reply.get('flaggedBy').length;
+            });
             nonAnnotationRepliesCollection = new Backbone.Collection(nonAnnotationReplies);
             _.each(nonAnnotationRepliesCollection.models, function(nar) {
                 var brv = new rv.BottomReplyView({
@@ -304,6 +313,22 @@ window.rupon.views = window.rupon.views || {};
         viewReplies: function() {
             //this.$el.find('.response-list').show();
             this.$el.find('.view-replies').addClass('clicked');
+        },
+
+        reportEntry: function() {
+
+            var self = this;
+            $.ajax({
+                type: 'PUT',
+                url:  '/api/thought/' +self.model.id,
+                data: {
+                    flaggedBy: true
+                },
+                success: function(response) {
+                    self.$el.hide();
+                    self.$el.after("<div class='reported-entry'>Entry reported.</div>")
+                }
+            });
         }
 
     });

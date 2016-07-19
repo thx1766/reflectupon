@@ -136,11 +136,14 @@ window.rupon.views = window.rupon.views || {};
 
     rv.ThoughtsView = cv.CollectionContainer.extend({
         initialize: function(options) {
+            options = options || {};
+
             var self = this;
             cv.CollectionContainer.prototype.initialize.call(this, function(model) {
 
                 var thoughtParams = {
-                    model: model
+                    model: model,
+                    viewType: options.viewType
                 }
 
                 _.extend(thoughtParams, _.pick(options, [

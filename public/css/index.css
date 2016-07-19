@@ -418,7 +418,7 @@ ul{margin:0;}
 
 @media (max-width: 661px) {
   #topbar .navbar-brand {
-    width: 85%;
+    margin-left:0;
   }
 }
 
