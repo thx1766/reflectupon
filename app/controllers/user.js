@@ -1,16 +1,17 @@
-var config          = process.env.PORT ? require('../../config') : require('../../config_settings'),
-    passport        = require('passport'),
-    util            = require('util'),
-    mongoose        = require('mongoose'),
-    LocalStrategy   = require('passport-local').Strategy,
-    forgot          = require('../../forgot'),
-    fs              = require('fs'),
-    helpers         = require('../helpers'),
-    prompts         = require('./api/prompts')
-    communities     = require('./api/communities')
-    challenges      = require('./api/challenges')
-    userSettings    = require('./api/user_settings')
-    sendgrid        = require('sendgrid')(
+var config           = process.env.PORT ? require('../../config') : require('../../config_settings'),
+    passport         = require('passport'),
+    util             = require('util'),
+    mongoose         = require('mongoose'),
+    LocalStrategy    = require('passport-local').Strategy,
+    FacebookStrategy = require('passport-facebook').Strategy,
+    forgot           = require('../../forgot'),
+    fs               = require('fs'),
+    helpers          = require('../helpers'),
+    prompts          = require('./api/prompts')
+    communities      = require('./api/communities')
+    challenges       = require('./api/challenges')
+    userSettings     = require('./api/user_settings')
+    sendgrid         = require('sendgrid')(
         config.sg_username,
         config.sg_password
     ),
@@ -71,7 +72,7 @@ exports.home = function(req, res, dates) {
                                             'email',
                                             'intention'
                                         ]);
-                
+
                                         var attr = {
                                             user:         JSON.stringify(userAttrs),
                                             topBar:       true,
@@ -148,7 +149,7 @@ exports.community = function(req, res) {
     })
 };
 
-var startedChallengeStatus = function(challenges, user_challenges) {    
+var startedChallengeStatus = function(challenges, user_challenges) {
     return _.map(challenges, function(challenge) {
         challenge = challenge.toObject();
         challenge.started = !!_.filter(user_challenges, function(uc) {
@@ -352,7 +353,7 @@ exports.postregister = function(req, res, next) {
 
         } else {
 
-            var user = new User({ 
+            var user = new User({
                 username: req.body.username,
                 email: req.body.email,
                 password: req.body.password,
@@ -573,6 +574,15 @@ exports.getMakeUser = function(email, callback) {
     })
 }
 
+exports.loginFacebook = function() {
+        passport.authenticate('facebook');
+}
+
+exports.loginFacebookReturn = function() {
+    passport.authenticate('facebook', { failureRedirect: '/login'})
+}
+
+
 passport.serializeUser(function(user, done) {
     done(null, user.id);
 });
@@ -602,3 +612,14 @@ passport.use(new LocalStrategy(function(email, password, done) {
         });
     });
 }));
+
+passport.use(new FacebookStrategy({
+    clientID: process.env.FACEBOOK_APP_ID,
+    clientSecret: process.env.FACEBOOK_APP_SECRET,
+    callbackURL: 'http://localhost:2000/login/facebook/return'
+},
+function(accessToken, refreshToken, profile, cb) {
+    User.findOrCreate({ facebookId: profile.id }, function (err, user) {
+      return cb(err, user);
+  });
+}))

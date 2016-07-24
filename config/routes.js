@@ -41,6 +41,11 @@ module.exports = function(app) {
     app.get( '/new-ux', auth.ensureAuthenticated,    user_routes.newUser);
     app.post('/login',                               user_routes.postlogin);
     app.get( '/logout',                              user_routes.logout);
+    app.get( '/login/facebook',                      user_routes.loginFacebook);
+    app.get( '/login/facebook/return',               user_routes.loginFacebookReturn,
+        function(req, res) {
+        res.redirect('/');
+    });
     app.post('/register',                            user_routes.postregister);
     app.post('/register-beta',                       user_routes.postRegBetaUser);
     app.post('/forgot',                              user_routes.postForgot);

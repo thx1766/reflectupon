@@ -4,7 +4,7 @@
     <title>Heros</title>
 
     <!--<link rel="shortcut icon" type="image/png" href="/images/favicon.png"/>-->
-    <!--<link rel="shortcut icon" type="image/png" href="/images/favicon.png"/>-->     
+    <!--<link rel="shortcut icon" type="image/png" href="/images/favicon.png"/>-->
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Merriweather' rel='stylesheet' type='text/css'>
     <% if (landing_page) { %>
@@ -83,4 +83,21 @@ mixpanel.init("6349f3a7eed8a47dff0ec480212ce1b4");</script><!-- end Mixpanel -->
 <% if (topBar) { %>
 <% include topbar %>
 <% } %>
+<script>
+window.fbAsyncInit = function() {
+FB.init({
+  appId      : '1032445456821353',
+  xfbml      : true,
+  version    : 'v2.7'
+});
+};
+
+(function(d, s, id){
+ var js, fjs = d.getElementsByTagName(s)[0];
+ if (d.getElementById(id)) {return;}
+ js = d.createElement(s); js.id = id;
+ js.src = "//connect.facebook.net/en_US/sdk.js";
+ fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
     <div class="wrapper clearfix">

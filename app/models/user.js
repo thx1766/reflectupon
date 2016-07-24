@@ -7,6 +7,7 @@ var userSchema = mongoose.Schema({
     username:   { type: String, unique: true }
   , email:      { type: String, required: true, unique: true }
   , password:   { type: String, required: true, select: false }
+   // /\, facebookId: { type: Number}
   , created_at: { type: Date }
   , updated_at: { type: Date }
   , communities: [{
