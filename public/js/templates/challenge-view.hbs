@@ -68,7 +68,7 @@
       {{/if}}
     </div>
   </div>
-  <div style="float:right;">
+  <div style="float:right;margin-right: 20px">
 
     {{#equal viewType "superuser"}}
       <a href="javascript:;" class="delete">Delete</a>
@@ -79,26 +79,28 @@
       {{#if canRemove}}
         <i class="fa fa-times" data-id="{{_id}}" style="border: 1px solid #ccc;padding: 10px;border-radius:4px;color:red"></i>
       {{else}}
-        <button data-track="start-challenge" data-id="{{_id}}" class="btn btn-primary start-challenge {{#equal status "not started"}}{{else}}hidden{{/equal}}">Start Challenge</button>
-        <button data-track="end-challenge" data-id="{{_id}}" class="btn btn-primary complete-challenge {{#equal status "started"}}{{else}}hidden{{/equal}}">Complete Challenge</button>
-        <span class="completed-challenge {{#equal status "completed"}}{{else}}hidden{{/equal}}">Completed!</span>
-        <div class="dropdown-container arrow-right" style="display:inline-block;">
-          <a style="
-              font-size: 24px;
-              vertical-align: -6px;
-              padding: 0 4px 0 8px;
-              color: #949494;">
-            <i class="fa fa-ellipsis-v"></i>
-          </a>
-          <div class="dropdown-arrow clearfix">
-            <div class="arrow"></div>
-            <div class="dropdown">
-              <a href="javascript:;" class="report-challenge" style="display:block">Report</a>
-            </div>
-          </div>
+        <div>
+          <button data-track="start-challenge" data-id="{{_id}}" class="btn btn-primary start-challenge {{#equal status "not started"}}{{else}}hidden{{/equal}}">Start Challenge</button>
+          <button data-track="end-challenge" data-id="{{_id}}" class="btn btn-primary complete-challenge {{#equal status "started"}}{{else}}hidden{{/equal}}">Complete Challenge</button>
+          <span class="completed-challenge {{#equal status "completed"}}{{else}}hidden{{/equal}}">Completed!</span>
         </div>
       {{/if}}
     {{/if}}
+  </div>
+</div>
+<div class="dropdown-container arrow-right">
+  <a style="
+      font-size: 24px;
+      vertical-align: -6px;
+      padding: 0 4px 0 8px;
+      color: #949494;">
+    <i class="fa fa-ellipsis-v"></i>
+  </a>
+  <div class="dropdown-arrow clearfix">
+    <div class="arrow"></div>
+    <div class="dropdown">
+      <a href="javascript:;" class="report-challenge" style="display:block">Report</a>
+    </div>
   </div>
 </div>
 {{#if extended}}

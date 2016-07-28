@@ -122,7 +122,7 @@ window.rupon.utils = window.rupon.utils || {};
         $("#container .main-view-container").append(communityChallengesView.$el);
       }
       $("#container .main-view-container").append(writeView.$el);
-      $("#container .main-view-container").append('<div class="popular-container"><div class="header">Community Entries</div></div>');
+      $("#container .main-view-container").append('<div class="popular-container"><div class="small-header">Community Entries</div></div>');
 
       if (!popularCollection.models.length) {
         $('.popular-container').append('<div class="placeholder" style="padding: 10px">Subscribe and write an entry!</div>');

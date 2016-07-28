@@ -180,6 +180,9 @@ a img{border:0;}
     border-bottom: 2px solid purple;
     margin-bottom: 20px;
 }
+.community-page .main-module .header{
+  margin-bottom:0;
+}
 .main-module .main-header{
   font-size: 32px;
   background-color: #ffffff;
@@ -188,6 +191,9 @@ a img{border:0;}
 }
 .main-module .description-container{
   padding: 10px;
+}
+.community-page .main-module .description-container{
+  padding-left: 12px;
 }
 
 .new-user-page .challenge-view {
@@ -218,16 +224,30 @@ a img{border:0;}
   background-color:#f0ff78;
 }
 
-.challenge-container {
+.response .challenge-container {
   position: relative;
+  background-color: #fffefe;
+  padding:10px;
+  margin:0 10px;
+  border:1px solid #d99cff;
+  border-radius:4px;
 }
 
 .challenge-view{
   transition: background-color .5s;
-  background-color:#fff;
+  background-color:transparent;
   position:relative;
 }
 
+.challenge-view .arrow-right{
+  display:none;
+  position: absolute;
+  top:0;
+  right:0;
+}
+.challenge-view:hover .arrow-right{
+  display:block;
+}
 .challenge-reported{
   display:none;
   position: absolute;
@@ -264,7 +284,6 @@ a img{border:0;}
 }
 .completed-challenge{
   color: #ffc728;
-  padding: 6px 10px;
   border-radius: 4px;
   display: inline-block;
   font-size: 16px;}
@@ -429,7 +448,24 @@ ul.get-started .desc {
 .thoughts-list{position:relative;}
 .thoughts-list.select-text .thought-row{opacity:0.1}
 .thoughts-list.select-text .thought-row.selected{opacity:1}
-.thought-row .message{width:500px;float: left;max-width:100%;}
+.thought-row .message{
+  width:500px;
+  float: left;
+  max-width:100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 1px #f1f1f1;
+  position: relative;
+}
+.thought-row .message > .right-actions{
+  position:absolute;
+  top:10px;
+  right:10px;
+  display:none;
+}
+.thought-row .message:hover > .right-actions{
+  display: block;
+}
 .thought-row .message.reply-summary-activated{min-height:400px;}
 .show-replies.thought-row .message{float:left;}
 
@@ -446,11 +482,10 @@ ul.get-started .desc {
 .below-message span{display:inline-block;cursor:pointer;color:#A7A7A7;}
 
 .message-top {
-  padding-top: 4px;
-  padding-bottom:2px;
+  padding-top: 10px;
+  padding-bottom:6px;
   padding-left: 10px;
   color: #919191;
-  margin-top: 8px;
   width: 500px;
 }
 .tags-container{
@@ -477,7 +512,6 @@ ul.get-started .desc {
     margin-left: 20px;
 }
 .write-reply-box{
-    margin-left: 20px;
     background-color: #fff;
     box-shadow: 0 0 2px #428bca;
 }
@@ -646,11 +680,14 @@ ul.get-started .desc {
 .me-container.dropdown-container.arrow-right .dropdown .notif-options{
   padding-bottom: 6px;
 }
-.message .response-list{
-  margin-left: 20px;
-}
 .message .response {
-  padding: 10px 0;
+  padding: 2px 0;
+}
+.message .response .right-actions{
+  display: none;
+}
+.message .response:hover .right-actions{
+  display:block;
 }
 .timestamp{float:left;color:#525252;font-size:22px;font-weight:200;}
 
@@ -772,7 +809,7 @@ ul.get-started .desc {
   border-top: 0;
 }
 
-.thought-row .message .description{font-family: 'Merriweather';}
+/*.thought-row .message .description{font-family: 'Merriweather';}*/
 .replies{
   float:left;
   margin-left: 15px;
@@ -811,7 +848,12 @@ ul.get-started .desc {
 .thought-row .replies .reply-desc {
   position: absolute;
 }
-.thought-row .message .description{font-size: 16px;font-weight: 400;line-height: 30px;color: #686868;padding: 10px;}
+.thought-row .message .description{
+  font-size: 14px;
+  font-weight: 400;
+  color: #686868;
+  padding: 0px 10px;
+}
 .thought-row.editing .description{display:none;}
 .thought-row textarea.editable{display:none;resize: none;border: 1px solid #ccc;background-color:#ffffff;font-size: 20px;font-family: "Times New Roman";color: rgb(107, 107, 107);outline: none;width: 100%;border-radius:3px;padding:0 4px;margin-bottom:8px;}
 .thought-row.editing textarea{display:block}
@@ -866,7 +908,7 @@ ul.get-started .desc {
 .message-summary{
   padding: 8px;
   padding-left:10px;
-  border-top:1px solid #eed3ff;
+  border-bottom:1px solid #eed3ff;
 }
 .link-box{margin-bottom: 6px;}
 .link-box .title{font-size: 14px;}
@@ -1079,6 +1121,13 @@ div.jquery-gdakram-tooltip h1{display:none}
   color: #fff;
   border-radius: 4px;
   font-weight: 300;
+}
+.small-header{
+  font-weight:500;
+  font-size:18px;
+  color:#800080;
+  padding-left: 12px;
+  margin-bottom:15px;
 }
 .with-author{
   display:none;
