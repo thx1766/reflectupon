@@ -83,7 +83,7 @@ window.rupon.utils = window.rupon.utils || {};
               popularCollection.add(thought);
 
               $('html, body').animate({
-                  scrollTop: $('.popular-container .header').position().top
+                  scrollTop: $('.popular-container .small-header').position().top
               }, 500);
 
               if (popularCollection.models) {
