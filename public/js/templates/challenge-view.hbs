@@ -22,7 +22,7 @@
       </div>
     </div>
   {{/if}}
-  <div style="float:left" class="left-side">
+  <div class="left-side">
 
     {{#unless extended}}
       <div style="float:left">
@@ -45,7 +45,7 @@
           {{/unless}}
         </div>
       {{/unless}}
-      <div>
+      <div class="description">
         {{#if extended}}
         <div style="
           font-weight: bold;
@@ -68,7 +68,7 @@
       {{/if}}
     </div>
   </div>
-  <div style="float:right;margin-right: 20px">
+  <div class="completion-status">
 
     {{#equal viewType "superuser"}}
       <a href="javascript:;" class="delete">Delete</a>
