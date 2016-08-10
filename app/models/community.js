@@ -19,7 +19,8 @@ var communitySchema = Schema({
     , challenge: {
         type: Schema.Types.ObjectId, ref: 'Challenge'
       }
-    }]
+    }],
+    coverUrl: String
 });
 
 communitySchema.pre("save", function(next) {

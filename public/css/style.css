@@ -114,6 +114,7 @@ a img{border:0;}
   padding: 4px;
   margin-right:0px;
   line-height: 16px;
+  background-color:#fff;
 }
 .module .module-page-action{
   border-top: 1px solid #ccc;
@@ -130,6 +131,7 @@ a img{border:0;}
   border: 2px solid #53b16b;
   border-radius: 4px;
   margin-top:4px;
+  background-color:#fff;
 }
 
 .subscription-status .subscription-button{
@@ -185,9 +187,11 @@ a img{border:0;}
 }
 .main-module .main-header{
   font-size: 32px;
-  background-color: #ffffff;
   font-weight:300;
-  margin-top: -8px;
+  position:relative;
+}
+.community-page .main-module .main-header{
+  margin-top: 40px;
 }
 .main-module .description-container{
   padding: 10px;
