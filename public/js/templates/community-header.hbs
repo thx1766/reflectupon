@@ -1,8 +1,22 @@
 <div class="main-module">
-  <div class="header">
+  <div class="header" style="position:relative;background:#8e8e8e {{coverUrl}};height:140px;border-radius:4px">
+  {{#if isCreator}}
+    <label for="file-input" style="cursor:pointer;position:absolute;top:15px;right:15px;">
+      <input type="file" id="file-input" style="display:none">
+      <span style="color:#f3f3f3;font-size:14px">Change cover photo</span>
+      <i data-track="edit-title" data-id="{{communityId}}" class="box fa fa-pencil"></i>
+    </label>
+  {{/if}}
   <div class="clearfix title-container">
     <div class="clearfix">
-      <div class="title main-header">{{title}}
+      <div class="title main-header" style="color:#f3f3f3">{{title}}
+        {{#if isCreator}}
+          <div style="display: inline-block;vertical-align: 5px;">
+            <a href="javascript:;">
+              <i data-track="edit-title" data-id="{{communityId}}" class="box fa fa-pencil"></i>
+            </a>
+          </div>
+        {{/if}}
         {{#unless cantSubscribe}}
         <div class="clearfix">
           <div style="float:left" class="subscription-status {{#if isSubscribed}}subscribed{{/if}}">
@@ -11,13 +25,6 @@
           </div>
         </div>
         {{/unless}}
-        {{#if isCreator}}
-          <div style="position:absolute;top:15px;right:15px;text-align:right">
-            <a href="javascript:;">
-              <i data-track="edit-title" data-id="{{communityId}}" class="box fa fa-pencil"></i>
-            </a>
-          </div>
-        {{/if}}
       </div>
     </div>
   </div>
