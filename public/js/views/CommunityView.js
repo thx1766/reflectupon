@@ -143,7 +143,8 @@ window.rupon.views = window.rupon.views || {};
           'click .edit-title-container button':       'submitTitle',
           'click .description-container .fa-pencil': 'editDescription',
           'click .edit-description-container button': 'submitDescription',
-          'click .subscription-button':               'clickSubscribe'
+          'click .subscription-button':               'clickSubscribe',
+          'change #file-input':                       'changeFileInput'
         },
 
         initialize: function(options) {
@@ -153,6 +154,10 @@ window.rupon.views = window.rupon.views || {};
 
         render: function(options) {
           options.isCreator = false;
+
+          if (options.coverUrl) {
+            options.coverUrl = "url('"+options.coverUrl+"')";
+          }
           if (options.creator) {
             options.isCreator = rupon.account_info.user_id == options.creator._id;
           }
@@ -228,6 +233,68 @@ window.rupon.views = window.rupon.views || {};
               },
               dataType: 'JSON'
           });
+        },
+
+        changeFileInput: function(e) {
+          var file = $(e.currentTarget)[0].files[0];
+          fr = new FileReader();
+          fr.onload = function() {
+            console.log(fr.result);
+          };
+
+          if(file == null){
+            return alert('No file selected.');
+          }
+
+          this.getSignedRequest(file);
+        },
+
+        getSignedRequest: function(file){
+          var self = this;
+          var xhr = new XMLHttpRequest();
+          var fileName = 'community-' + this._id +'.png';
+          xhr.open('GET', '/sign-s3?file-name='+file.name+'&file-type='+file.type+'&image-type=challenges');
+          xhr.onreadystatechange = function() {
+            if(xhr.readyState === 4){
+              if(xhr.status === 200){
+                var response = JSON.parse(xhr.responseText);
+                self.uploadFile(file, response.signedRequest, response.url);
+              }
+              else{
+                alert('Could not get signed URL.');
+              }
+            }
+          };
+          xhr.send();
+        },
+
+        uploadFile: function(file, signedRequest, url){
+          var xhr = new XMLHttpRequest();
+          var self = this;
+          xhr.open('PUT', signedRequest);
+          xhr.onreadystatechange = function() {
+            if(xhr.readyState === 4){
+              if(xhr.status === 200){
+
+                $.ajax({
+                    type: 'PUT',
+                    url:  '/api/communities/' +self._id,
+                    data: {
+                        coverUrl: url
+                    },
+                    success: function(response) {
+                      var url = 'url("'+response.coverUrl+'")';
+                      self.$el.find('.header').css('background', url);
+                    },
+                    dataType: 'JSON'
+                });
+              }
+              else{
+                alert('Could not upload file.');
+              }
+            }
+          };
+          xhr.send(file);
         }
     });
 

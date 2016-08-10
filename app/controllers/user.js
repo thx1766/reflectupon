@@ -486,7 +486,7 @@ exports.reports = function(req, res) {
 
 exports.newUser = function(req, res) {
     communities.getCommunities({
-        title: {$in: ['Just Poking Around', 'New Users', 'Beta Users', 'Launch Party Attendees']}
+        title: {$in: ['Entrepreneurs', 'Body Image', 'Social Anxiety']}
     }, function(communities) {
 
         res.render('new-user', {

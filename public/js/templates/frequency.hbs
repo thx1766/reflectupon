@@ -26,15 +26,12 @@
     {{/unless}}
   </ul>
   <a href="/communities" class="module-option" style="border-top: 1px solid #ccc" data-track="find-community"><i class="fa fa-users"></i>Find New Community</a>
-  <a href="javascript:;" class="module-option add-community" style="border-top: 1px solid #ccc"><i class="fa fa-plus-circle"></i>Create New Community</a>
+  <!--<a href="javascript:;" class="module-option add-community" style="border-top: 1px solid #ccc"><i class="fa fa-plus-circle"></i>Create New Community</a>-->
 </div>
 {{/if}}
 {{#if showChallenges}}
 <div class="module">
-  <div class="header">My Challenges</div>
-  <a data-track="find-challenges" href="/challenges" class="module-option" style="border-bottom: 1px solid #ccc">
-    <i class="fa fa-users"></i>Find Challenges
-  </a>
+  <div class="header">My Actions</div>
   <ul>
     {{#each myChallenges}}
     <li class="clearfix">
@@ -44,6 +41,9 @@
     </li>
     {{/each}}
   </ul>
+  <a data-track="find-challenges" href="/challenges" class="module-option" style="border-top: 1px solid #ccc">
+    <i class="fa fa-users"></i>Find Actions
+  </a>
 </div>
 {{/if}}
 {{#if showEntries}}

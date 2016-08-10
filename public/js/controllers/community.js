@@ -40,6 +40,7 @@ window.rupon.utils = window.rupon.utils || {};
 
       var communityHeaderView = new rv.CommunityHeaderView({
         communityId: params.community._id,
+        coverUrl:    params.community.coverUrl,
         title:       params.community.title,
         description: params.community.description,
         creator:     params.community.creator,
