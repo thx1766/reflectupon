@@ -36,6 +36,7 @@ module.exports = function(grunt) {
             'public/css/third-party/bootstrap.min.css',
             'public/css/style.css',
             'public/css/third-party/font-awesome/css/font-awesome.min.css',
+            'public/css/third-party/bootstrap-social.css',
             'public/css/index.css'
           ]
         }
