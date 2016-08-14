@@ -574,15 +574,6 @@ exports.getMakeUser = function(email, callback) {
     })
 }
 
-exports.loginFacebook = function() {
-        passport.authenticate('facebook');
-}
-
-exports.loginFacebookReturn = function() {
-    passport.authenticate('facebook', { failureRedirect: '/login'})
-}
-
-
 passport.serializeUser(function(user, done) {
     done(null, user.id);
 });
@@ -616,10 +607,28 @@ passport.use(new LocalStrategy(function(email, password, done) {
 passport.use(new FacebookStrategy({
     clientID: process.env.FACEBOOK_APP_ID,
     clientSecret: process.env.FACEBOOK_APP_SECRET,
-    callbackURL: 'http://localhost:2000/login/facebook/return'
+    callbackURL: '/login/facebook/return/'
 },
 function(accessToken, refreshToken, profile, cb) {
-    User.findOrCreate({ facebookId: profile.id }, function (err, user) {
-      return cb(err, user);
+    User.findOne({ facebookId: profile.id }, function (err, user) {
+        if (err) {
+            return cb(err);
+        }
+
+        if (!user) {
+            var user = new User({
+                username:   profile.displayName,
+                facebookId: profile.id
+            });
+
+            user.save(function(err, user_saved) {
+                console.log('user_id');
+                console.log(user_saved._id);
+                cb(null, user);
+            });
+        } else {
+            return cb(null, user);
+        }
+
   });
 }))

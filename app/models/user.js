@@ -5,9 +5,9 @@ var mongoose = require('mongoose')
 // User Schema
 var userSchema = mongoose.Schema({
     username:   { type: String, unique: true }
-  , email:      { type: String, required: true, unique: true }
-  , password:   { type: String, required: true, select: false }
-   // /\, facebookId: { type: Number}
+  , email:      { type: String, unique: true }
+  , password:   { type: String, select: false }
+  , facebookId: { type: Number}
   , created_at: { type: Date }
   , updated_at: { type: Date }
   , communities: [{

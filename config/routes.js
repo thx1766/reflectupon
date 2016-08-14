@@ -17,6 +17,7 @@ var mongoose        = require('mongoose')
   , challenges       = require('../app/controllers/api/challenges')
   , profile          = require('../app/controllers/api/profile')
   , userSettings     = require('../app/controllers/api/user_settings')
+  , passport         = require('passport')
 
 var Thought     = mongoose.model('Thought'),
     Reply       = mongoose.model('Reply'),
@@ -41,10 +42,12 @@ module.exports = function(app) {
     app.get( '/new-ux', auth.ensureAuthenticated,    user_routes.newUser);
     app.post('/login',                               user_routes.postlogin);
     app.get( '/logout',                              user_routes.logout);
-    app.get( '/login/facebook',                      user_routes.loginFacebook);
-    app.get( '/login/facebook/return',               user_routes.loginFacebookReturn,
+    app.get( '/login/facebook',                      passport.authenticate('facebook'));
+    app.get( '/login/facebook/return',               passport.authenticate('facebook', { failureRedirect: '/'}),
         function(req, res) {
-        res.redirect('/');
+            console.log(`req is ${req}`);
+            console.log(`res is ${res}`);
+        res.redirect('/home');
     });
     app.post('/register',                            user_routes.postregister);
     app.post('/register-beta',                       user_routes.postRegBetaUser);
