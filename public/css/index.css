@@ -106,6 +106,20 @@ ul{margin:0;}
     color: #00AA27;
 }
 
+.modal.login .divider {
+    border-top: 1px solid #ccc;
+    margin: 20px 0px;
+    height: 0px;
+    text-align: center;
+}
+
+.modal.login .divider strong {
+    background: white;
+    padding: 0px 25px;
+    position: relative;
+    bottom: 10px;
+}
+
 @media (min-width: 1200px) {
   .landing-page .container {
     width: 970px;
@@ -326,7 +340,7 @@ ul{margin:0;}
 
 .landing-page #level7 .right-container{
   float:right;
-  width:600px; 
+  width:600px;
   text-align:left
 }
 .landing-page #level7 input, .landing-page #level7 button{
