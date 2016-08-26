@@ -35,9 +35,9 @@ module.exports = function(grunt) {
           'public/css/build/<%= pkg.name %>.min.css': [
             'public/css/third-party/bootstrap.min.css',
             'public/css/style.css',
-            'public/css/third-party/font-awesome/css/font-awesome.min.css',
             'public/css/third-party/bootstrap-social.css',
-            'public/css/index.css'
+            'public/css/index.css',
+            'public/css/third-party/font-awesome/css/font-awesome.min.css'
           ]
         }
       }
@@ -48,6 +48,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
 
-  grunt.registerTask('default', ['uglify']);
+  grunt.registerTask('default', ['uglify', 'cssmin']);
 
 };
