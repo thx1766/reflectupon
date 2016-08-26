@@ -29,8 +29,14 @@ window.rupon.views = window.rupon.views || {};
         },
 
         renderSignup: function() {
-            var signupModal = new rv.SignupModal();
-            $(signupModal.$el).modal();
+            var signupView = new rv.SignupView();
+
+            var modal = new rv.MainModal({
+                modalType: signupView,
+                htmlTitle: '<span style="color:#00AA27">Beta</span> Sign up'
+            })
+
+            $(modal.$el).modal();
         }
 
     });
@@ -196,7 +202,26 @@ window.rupon.views = window.rupon.views || {};
             this.trigger('show-forgot', username);
         },
 
-        clickSubmit: function() {
+        clickSubmit: function(e) {
+            var username = this.$el.find('#username').val();
+            var password = this.$el.find('#password').val();
+            var form = this.$el.find('#login-form');
+            var errorMsg = this.$el.find('.error-msg');
+
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "/check-password",
+                data: form.serialize(),
+                success: function(response){
+                    if (response.status == "valid") {
+                        form.submit();
+                        $('input[type=submit]').val('Loading...')
+                    } else {
+                        errorMsg.show();
+                    }
+                }
+            });
         },
 
         validateEmail: function(email) {
@@ -251,27 +276,44 @@ window.rupon.views = window.rupon.views || {};
 
     rv.AddCommunityView = cv.TemplateView.extend({
         template: Handlebars.templates['add-community-view'],
+        className: 'modal-view',
 
         events: {
             'click button': 'submitCommunity'
         },
 
-        submitCommunity: function() {
-            var self = this;
-            var input = this.$el.find('input').val(),
-                textarea = this.$el.find('textarea').val();
+        initialize: function(options) {
+            mixpanel.track('view-add-community');
+            cv.TemplateView.prototype.initialize.call(this, options);
+        },
 
-            if ($.trim(input) == "" || $.trim(textarea) == "") {
+        submitCommunity: function() {
+            mixpanel.track('submit-add-community');
+            var self = this;
+            var nameVal = this.$el.find('.name-val').val(),
+                descriptionTextarea = this.$el.find('.description-val').val(),
+                guidelinesTextarea = this.$el.find('.guidelines-val').val(),
+                maxMembersVal = this.$el.find('.members-val').val();
+
+            if ($.trim(nameVal) == "" || $.trim(descriptionTextarea) == "") {
                 this.$el.find('.error-msg').show();
             } else { 
+
+                var data = {
+                    title:       nameVal,
+                    description: descriptionTextarea,
+                    guidelines:  guidelinesTextarea
+                }
+
+                if (maxMembersVal) {
+                    data.maxUsers = parseInt(maxMembersVal);
+                }
                 $.ajax({
                     type: 'POST',
                     url:  '/api/communities',
-                    data: {
-                        title: input,
-                        description: textarea
-                    },
+                    data: data,
                     success: function(response) {
+                        window.location.replace("/community/"+response.title);
                         self.trigger('added', response.title);
                     },
                     dataType: 'JSON'
@@ -281,20 +323,28 @@ window.rupon.views = window.rupon.views || {};
     })
 
     rv.AddChallengesView = cv.TemplateView.extend({
-        className: 'add-challenge-view',
+        className: 'add-challenge-view modal-view',
         template: Handlebars.templates['add-challenges-view'],
 
         events: {
-            'click button': 'submitChallenge'
+            'click button': 'submitChallenge',
+            'change #file-input': 'changeFileInput'
+        },
+
+        initialize: function(options) {
+            mixpanel.track('view-add-challenge');
+            cv.TemplateView.prototype.initialize.call(this, options);
         },
 
         submitChallenge: function() {
+            mixpanel.track('submit-add-challenge');
             var self = this;
-            var input = this.$el.find('input').val(),
+            var challengeNameInput = this.$el.find('.challenge-name').val(),
                 descriptionTextarea = this.$el.find('.description-val').val(),
-                instructionsTextarea = this.$el.find('.instructions-val').val();
+                instructionsTextarea = this.$el.find('.instructions-val').val(),
+                backgroundLinkInput = this.$el.find('.background-link-val').val();
 
-            if ($.trim(input) == "" || $.trim(descriptionTextarea) == "" ||
+            if ($.trim(challengeNameInput) == "" || $.trim(descriptionTextarea) == "" ||
                 $.trim(instructionsTextarea) == "") {
                 this.$el.find('.error-msg').show();
             } else { 
@@ -302,16 +352,94 @@ window.rupon.views = window.rupon.views || {};
                     type: 'POST',
                     url:  '/api/challenges',
                     data: {
-                        title: input,
-                        description: descriptionTextarea,
-                        instructions: instructionsTextarea
+                        title:        challengeNameInput,
+                        description:  descriptionTextarea,
+                        instructions: instructionsTextarea,
+                        link:         backgroundLinkInput
                     },
                     success: function(response) {
-                        self.trigger('added', response.title);
+                        self.modelId = response._id;
+                        self.checkFileInput(function() {
+                            self.trigger('added', response);
+                        });
                     },
                     dataType: 'JSON'
                 });
             }
+        },
+
+        changeFileInput: function(e) {
+            mixpanel.track('add-image-challenge');
+            var reader = new FileReader();
+            var self= this;
+
+            reader.onload = function (e) {
+                self.$el.find('#preview').attr('src', e.target.result);
+            }
+            reader.readAsDataURL($(e.currentTarget)[0].files[0]);
+        },
+
+      checkFileInput: function(callback) {
+        var file = this.$el.find('#file-input')[0].files[0];
+        fr = new FileReader();
+        fr.onload = function() {
+          console.log(fr.result);
         }
+
+        if(file == null){
+            callback(); 
+        } else {
+            this.getSignedRequest(file, callback);   
+        }
+      },
+
+      getSignedRequest: function(file, callback){
+        var self = this;
+        var xhr = new XMLHttpRequest();
+        var fileName = 'challenge-' + this.modelId +'.png';
+        xhr.open('GET', '/sign-s3?file-name='+file.name+'&file-type='+file.type+'&image-type=challenges');
+        xhr.onreadystatechange = function() {
+          if(xhr.readyState === 4){
+            if(xhr.status === 200){
+              var response = JSON.parse(xhr.responseText);
+              self.uploadFile(file, response.signedRequest, response.url, callback);
+            }
+            else{
+              callback();
+              alert('Could not get signed URL.');
+            }
+          }
+        };
+        xhr.send();
+      },
+
+      uploadFile: function(file, signedRequest, url, callback){
+        var xhr = new XMLHttpRequest();
+        var self = this;
+        xhr.open('PUT', signedRequest);
+        xhr.onreadystatechange = function() {
+          if(xhr.readyState === 4){
+            if(xhr.status === 200){
+
+              $.ajax({
+                  type: 'PUT',
+                  url:  '/api/challenges/' +self.modelId,
+                  data: {
+                      avatar_url: url
+                  },
+                  success: function(response) {
+                    callback();
+                  },
+                  dataType: 'JSON'
+              });
+            }
+            else{
+                callback();
+              alert('Could not upload file.');
+            }
+          }
+        };
+        xhr.send(file);
+      }
     })
 })();

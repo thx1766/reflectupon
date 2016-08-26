@@ -1,16 +1,3 @@
-<div class="message-top">
-    Written <span class="with-author">by <strong><a href="/profile/{{username}}">{{username}}</a></strong>{{#if intention}}, {{intention}}{{/if}} • </span>{{date}}
-    {{#if tag_ids}}
-    <div class="tags-container">
-        Topics: <ul>{{#each tag_ids}}<li>{{this}}</li> {{/each}}</ul>
-    </div>
-    {{/if}}
-    {{#if prompt}}
-    <div style="color:#00AA27">
-        Answering the prompt {{#each prompt}}<strong>{{description}}</strong>{{/each}}
-    </div>
-    {{/if}}
-</div>
 <div class="side-action-container">
     {{#if show_replies}}
         {{#if num_replies}}
@@ -26,7 +13,42 @@
         <div class="annotation-desc"><span>Based on your snippet:</span> <span>{{ annotation }}</span></div>
     </div>
 {{/if}}
-<div class="message clearfix{{#equal privacy "Private"}} private{{/equal}}" data-id={{_id}}>
+<div class="message clearfix{{#equal privacy "Private"}} private{{/equal}}" data-id={{_id}} {{#equal viewType "superuser"}}{{#if flaggedBy.length}}background-color: #ccc{{/if}}{{/equal}}>
+    <div class="right-actions dropdown-container arrow-right">
+        <a href="javascript:;" class="options">
+            <i class="fa fa-ellipsis-h fa-lg"></i>
+        </a>
+        <div class="dropdown-arrow clearfix">
+            <div class="arrow">
+            </div>
+            <div class="dropdown">
+                <ul>
+                    {{#if is_author}}
+                    <li><a href="javascript:;" class="private-only">Set as Private</a></li>
+                    {{#if can_edit }}<li><a href="javascript:;" class="edit">Edit</a></li>{{/if}}
+                    <li><a href="javascript:;" class="delete">Delete</a></li>
+                    <li><a href="javascript:;" class="archive">Archive</a></li>
+                    {{else}}
+                    <li><a href="javascript:;" class="report-entry">Report</a></li>
+                    {{/if}}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="message-top">
+        <span class="with-author"><strong>
+        {{#equal privacy "PUBLIC"}}<a href="/profile/{{username}}">{{username}}</a>{{else}}{{username}}{{/equal}}</strong>{{#if intention}}, {{intention}}{{/if}} <!--•--> </span><!--{{date}}--> {{#if community}}to the {{#each community}}<a data-track="thought-community" data-id="{{_id}}" href="/community/{{title}}" style="color:#ab69ca;font-weight:bold">{{title}}</a>{{/each}} community{{/if}}
+        {{#if tag_ids}}
+        <div class="tags-container">
+            Topics: <ul>{{#each tag_ids}}<li>{{this}}</li> {{/each}}</ul>
+        </div>
+        {{/if}}
+        {{#if prompt}}
+        <div style="color:#00AA27">
+            Answering the prompt {{#each prompt}}<strong>{{description}}</strong>{{/each}}
+        </div>
+        {{/if}}
+    </div>
     {{#if link}}
         <div class="link-box">
             <span class="title">With a reflection to this link:</span>
@@ -35,7 +57,21 @@
     {{/if}}
 
     {{#if challenge}}
-        <div class="challenge-container"></div>
+    <div style="
+    position: relative;
+    border: 2px solid #d99cff;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px #ccc;
+    margin: 0 10px;
+    margin-bottom:6px">
+        <div style="
+            padding: 2px 8px;
+            background: #e6beff;
+            font-size: 12px;
+            color: #585858;
+        ">RESPONDING TO ACTION</div>
+        <div class="challenge-container" style="padding:8px"></div>
+    </div>
     {{/if}}
     <div class="description selectable">{{{ description }}}</div>
     {{#if read_more}} 
@@ -46,9 +82,9 @@
 
     <div class="message-summary clearfix">
         <a href="javascript:;" class="click-reply">Reply</a>
-        {{#if nonAnnotationReplies}}
-            <a href="javascript:;" class="view-replies">Review Non-Inline Replies ({{nonAnnotationReplies.length}})</a>
-        {{/if}}
+{{!--         {{#if nonAnnotationReplies}}
+            <a href="javascript:;" class="view-replies">Read Replies ({{nonAnnotationReplies.length}})</a>
+        {{/if}} --}}
 
     {{#if is_author}}
         {{#equal privacy "Private"}}
@@ -62,23 +98,6 @@
                 http://www.reflectupon.net/entry/{{_id}}
             </div>
         {{/equal}}
-        <div class="right-actions dropdown-container arrow-right">
-            <a href="javascript:;" class="options">
-                <i class="fa fa-ellipsis-h fa-lg"></i>
-            </a>
-            <div class="dropdown-arrow clearfix">
-                <div class="arrow">
-                </div>
-                <div class="dropdown">
-                    <ul>
-                        <li><a href="javascript:;" class="private-only">Set as Private</a></li>
-                        {{#if can_edit }}<li><a href="javascript:;" class="edit">Edit</a></li>{{/if}}
-                        <li><a href="javascript:;" class="delete">Delete</a></li>
-                        <li><a href="javascript:;" class="archive">Archive</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
     {{/if}}
     </div>
     <div class="left-actions dropdown-container arrow-left">
@@ -89,13 +108,10 @@
     </div>
     <div class="tooltip_description" style="display:none;" title="No worries"></div>
     <div class="write-reply-container write-reply-box"></div>
-    <div class="response-list" style="display:none">
-    {{#if nonAnnotationReplies}}
-        <div class="response">
-            Annotated responses to the right. Other responses below.
-        </div>
-    {{/if}}
+    {{#if replies.length}}
+    <div class="response-list" style="padding: 10px 0;background-color:#f9f9f9">
     </div>
+    {{/if}}
 </div>
 <div class="replies"></div>
 

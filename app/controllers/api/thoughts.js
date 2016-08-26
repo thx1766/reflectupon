@@ -157,8 +157,6 @@ var findThought = function(params, callback) {
 
 exports.post = function(req, res) {
 
-    getRecommended(req.user._id, function(recommended) {
-
         var prompt_id = "";
         if (typeof req.body.prompt_id != "undefined") {
             prompt_id = req.body.prompt_id;
@@ -177,7 +175,6 @@ exports.post = function(req, res) {
                     link:           req.body.link,
                     tag_ids:        req.body.tag_ids,
                     date:           req.body.date,
-                    recommended:    recommended,
                     community:      req.body.communityId
                 }
 
@@ -195,36 +192,23 @@ exports.post = function(req, res) {
 
                     if (err) console.log(err);
 
-                    Thought.populate(thought, [{path:"recommended"},{path:"prompt"}], function(err,thought) {
+                    Thought.populate(thought, [{path:"prompt"}], function(err,thought) {
 
                         thought = thought.toObject();
 
                         helpers.getUserIfPublic(thought, function(user, callback2) {
                             thought.username = user.username;
+                            thought.intention = user.intention;
                             callback2();
 
                         },function() {
-
-                            populateRepliesForThought(thought.recommended, req.user._id, function(recommended) {
-
-                                thought.recommended = recommended;
-
-                                if (thought.recommended && thought.recommended[0]) {
-                                    helpers.getAnnotationsForThought(thought.recommended[0], req.user._id, function(annotations)  {
-                                        thought.recommended[0].annotations = annotations;
-                                        res.send(thought);
-                                    });
-                                }
-
-                            })
+                            res.send(thought);
                         });
                     })
 
                 });
             });
         });
-
-    });
 
 }
 
@@ -244,17 +228,29 @@ var populateRepliesForThought = function(thought, user_id, callback) {
 }
 
 exports.put = function(req,res) {
-    Thought.findById(req.params.id, function(err,thought) {
-        if (req.body.privacy)     thought.privacy     = req.body.privacy;
-        if (req.body.description) thought.description = req.body.description;
-        if (req.body.archived)    thought.archived    = req.body.archived;
-        if (typeof req.body.feature == "boolean")     thought.feature     = req.body.feature;
+    var options = _.pick(req.body, [
+        'privacy',
+        'description',
+        'archived',
+        'feature',
+        'flaggedBy'
+    ]);
 
-        thought.save(function(err) {
+    if (options.flaggedBy) {
+        User.findById(req.user._id).exec(function(err, user) {
+                Thought.findByIdAndUpdate(req.params.id, {
+                        $push: {flaggedBy: req.user._id}
+                    }, {'new': true}, function(err,thought) {
+                        if (err) console.log(err);
+                        res.send(thought);
+                    });
+            });
+    } else {
+        Thought.findByIdAndUpdate(req.params.id, options, function(err,thought) {
             if (err) console.log(err);
             res.send(thought);
-        })
-    });
+        });
+    }
 }
 
 exports.delete = function(req,res) {
@@ -332,32 +328,42 @@ exports.postReply = function(req, res) {
                             if (err) console.log(err);
 
                             reply.annotations.push(annotation);
-                            reply.save(function(err, reply){
 
-                                var populateOptions = {
-                                    path: 'annotations'
-                                };
+                            helpers.getUserIfPublic(reply, function(user, callback3) {
+                                reply.username = user.username;
+                            }, function() {
+                                reply.save(function(err, reply){
 
-                                Reply
-                                    .findById(reply._id)
-                                    .populate('annotations')
-                                    .populate('challenge')
-                                    .exec(function(err,reply) {
-                                        if (err) console.log(err);
+                                    var populateOptions = {
+                                        path: 'annotations'
+                                    };
 
-                                        res.send(reply);
-                                    })
+                                    Reply
+                                        .findById(reply._id)
+                                        .populate('annotations')
+                                        .populate('challenge')
+                                        .exec(function(err,reply) {
+                                            if (err) console.log(err);
+
+                                            res.send(reply);
+                                        })
 
 
+                                });
                             });
-
                         });
 
                     })
 
                 }
             } else {
-                res.send(reply);
+                reply = reply.toObject();
+                helpers.getUserIfPublic(reply, function(user, callback3) {
+                    reply.username = user.username;
+                    callback3();
+                }, function() {
+                    res.send(reply);
+                });
             }
 
             exports.saveReplyToThought(req.body.thought_id, reply);

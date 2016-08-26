@@ -14,7 +14,6 @@ window.rupon.views = window.rupon.views || {};
             'click .reply-popover .fa-times': 'removePopover',
             'selectstart .selectable':        'takeAnnotation',
             'click #submit-reply':            'submitReply',
-            'keypress .write-reply-textarea': 'attemptSubmitReply',
             'change #write-anon':             'toggleName',
             'click .recommend-challenge':     'recommendChallenge'
         },
@@ -62,19 +61,6 @@ window.rupon.views = window.rupon.views || {};
             this.showTempText(false);
 
             this.renderAnnotationsAndReplies();
-        },
-
-        attemptSubmitReply: function(e) {
-            var enterWillSubmit;
-
-            if (e.which == 13){
-
-                enterWillSubmit = !!$(e.currentTarget).parent().find('input#enter-submit:checked').length;
-
-                if (enterWillSubmit) {
-                    this.submitReply(e);
-                }
-            }
         },
 
         submitReply: function(e) {

@@ -1,20 +1,53 @@
+{{#if showCommunity}}
 <div class="module">
-  <a href="/challenges" class="module-option">Challenges</a>
-</div>
-<div class="module">
-  <div class="header">Communities</div>
-  <a href="javascript:;" class="module-option add-community" style="border-bottom: 1px solid #ccc"><i class="fa fa-plus-circle"></i>Add community</a>
+  <div class="header">My Communities</div>
   <ul>
-    {{#each communities}}
+    {{#each myCommunities}}
       <li>
-        <a href="/community/{{title}}">{{title}}</a>
-        {{#if isSubscribed}}subscribed{{/if}}
+        <a data-track="go-to-community" data-id="{{_id}}" href="/community/{{title}}">{{title}}</a>
       </li>
     {{/each}}
+    {{#unless myCommunities}}
+      <div style="padding: 10px; border-bottom:1px solid #ccc">
+        These are some communities we suggest for our first-time users!
+      </div>
+      <li>
+        <div style="font-size:13px">SUGGESTED</div>
+        <a data-track="suggested-community" href="/community/Self Love">Self Love</a>
+      </li>
+      <li>
+        <div style="font-size:13px">SUGGESTED</div>
+        <a data-track="suggested-community" href="/community/Beta Users">Beta Users</a>
+      </li>
+      <li>
+        <div style="font-size:13px">SUGGESTED</div>
+        <a data-track="suggested-community" href="/community/Meditation Consistency">Meditation Consistency</a>
+      </li>
+    {{/unless}}
   </ul>
+  <a href="/communities" class="module-option" style="border-top: 1px solid #ccc" data-track="find-community"><i class="fa fa-users"></i>Find New Community</a>
+  <!--<a href="javascript:;" class="module-option add-community" style="border-top: 1px solid #ccc"><i class="fa fa-plus-circle"></i>Create New Community</a>-->
 </div>
+{{/if}}
+{{#if showChallenges}}
+<div class="module">
+  <div class="header">My Actions</div>
+  <ul>
+    {{#each myChallenges}}
+    <li class="clearfix">
+      <a data-track="go-to-challenge" data-id="{{_id}}" href="/challenge/{{_id}}" style="padding-top:3px;float:left">{{title}}</a>
+      <i class="fa fa-check btn btn-primary" data-track="fast-complete-challenge" data-id="{{_id}}" style="float:right"></i>
+      <span class="success-label" style="float:right;display:none;">Done!</span>
+    </li>
+    {{/each}}
+  </ul>
+  <a data-track="find-challenges" href="/challenges" class="module-option" style="border-top: 1px solid #ccc">
+    <i class="fa fa-users"></i>Find Actions
+  </a>
+</div>
+{{/if}}
+{{#if showEntries}}
 <div class="module entries-container" {{#if no_entries}}style="display:none"{{/if}}>
   <div class="header">My Entries</div>
-  <a href="javascript:;" class="module-option write-entry" {{#if no_entries}}style="display:none"{{/if}}>
-    <i class="fa fa-plus-circle"></i>Write entry</a>
 </div>
+{{/if}}

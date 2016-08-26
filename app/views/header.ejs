@@ -3,16 +3,12 @@
     <meta name="viewport" content="width=device-width, user-scalable=no">
     <title>Heros</title>
 
-    <!--<link rel="shortcut icon" type="image/png" href="/images/favicon.png"/>-->
-    <!--<link rel="shortcut icon" type="image/png" href="/images/favicon.png"/>-->
+    <link rel="shortcut icon" type="image/png" href="/images/heros_favicon.ico"/>
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Merriweather' rel='stylesheet' type='text/css'>
     <% if (landing_page) { %>
         <link type="text/css" href="/css/build/reflectupon.min.css" rel="stylesheet" />
-        <link type="text/css" href="/css/third-party/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
-        <link type="text/css" href="/css/third-party/bootstrap.min.css" rel="stylesheet" />
-        <link type="text/css" href="/css/third-party/bootstrap-social.css" rel="stylesheet" />
-        <link type="text/css" href="/css/index.css" rel="stylesheet" />
+        <script type="text/javascript" src="/js/build/reflectupon.min.js"/>
     <% } else { %>
         <link type="text/css" href="/css/third-party/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
         <link type="text/css" href="/css/third-party/bootstrap.min.css" rel="stylesheet" />
@@ -38,6 +34,7 @@
         <script type="text/javascript" src="/js/templates.js"></script>
         <script type="text/javascript" src="/js/mixins/AnnotationMixin.js"></script>
         <script type="text/javascript" src="/js/views/common_views.js"></script>
+        <script type="text/javascript" src="/js/views/ChallengesView.js"></script>
         <script type="text/javascript" src="/js/views/views.js"></script>
         <script type="text/javascript" src="/js/views/home.js"></script>
         <script type="text/javascript" src="/js/views/sidebar.js"></script>
@@ -52,17 +49,20 @@
         <script type="text/javascript" src="/js/views/journal/DayView.js"></script>
         <script type="text/javascript" src="/js/views/reports/reports.js"></script>
         <script type="text/javascript" src="/js/views/superuser/superuser.js"></script>
+        <script type="text/javascript" src="/js/views/CommunitiesView.js"></script>
         <script type="text/javascript" src="/js/views/CommunityView.js"></script>
-        <script type="text/javascript" src="/js/views/ChallengesView.js"></script>
         <script type="text/javascript" src="/js/views/ProfileView.js"></script>
+        <script type="text/javascript" src="/js/views/NewUserView.js"></script>
         <script type="text/javascript" src="/js/controllers/journal.js"></script>
         <script type="text/javascript" src="/js/controllers/reports.js"></script>
         <script type="text/javascript" src="/js/controllers/settings.js"></script>
         <script type="text/javascript" src="/js/controllers/superuser.js"></script>
         <script type="text/javascript" src="/js/controllers/controller.js"></script>
         <script type="text/javascript" src="/js/controllers/entry.js"></script>
+        <script type="text/javascript" src="/js/controllers/communities.js"></script>
         <script type="text/javascript" src="/js/controllers/community.js"></script>
         <script type="text/javascript" src="/js/controllers/challenges.js"></script>
+        <script type="text/javascript" src="/js/controllers/newuser.js"></script>
         <script type="text/javascript" src="/js/controllers/challenge.js"></script>
         <script type="text/javascript" src="/js/controllers/profile.js"></script>
     <% } %>
@@ -83,6 +83,20 @@
     <!-- start Mixpanel --><script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
 for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
 mixpanel.init("6349f3a7eed8a47dff0ec480212ce1b4");</script><!-- end Mixpanel -->
+    <script>
+        $(document).ready(function() {
+            $('body').on('click', '[data-track]', function(e) {
+                var attr = $(e.currentTarget).attr('data-track');
+                var id = $(e.currentTarget).attr('data-id');
+                var options = {};
+
+                if (id) {
+                    options.id = id;
+                }
+                mixpanel.track(attr, options);
+            });
+        })
+    </script>
 </head>
 <body <% if (landing_page) { %> class="landing-page"<% } %> >
 <% if (topBar) { %>

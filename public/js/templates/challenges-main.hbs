@@ -1,9 +1,20 @@
-<div style="padding: 12px 12px;
-    font-size: 18px;
-    color: #00AA27;
-    background-color: #ffffff;
-    border-bottom: 1px solid #00AA27;">Challenges</div>
-<div style="padding:10px;border-bottom:1px solid #ccc">
-  <a href="javascript:;" class="add-challenge" style="font-size:18px;display:block">Add Challenge</a>
+{{#unless noHeader}}
+<div class="header">
+  <div class="main-header">Actions</div>
 </div>
-<div class="challenges"></div>
+{{/unless}}
+<div class="clearfix">
+<a href="javascript:;" class="add-challenge btn btn-primary" style="font-size: 18px;
+    display: block;
+    margin-bottom: 12px;padding:10px 15px;float:left"><i class="fa fa-plus" style="margin-right:8px;vertical-align:-1px"></i>Add a New Action</a>
+  </div>
+<div class="filter-view">
+  Search: <input class="search-challenges" style="width: 200px; border: 1px solid #ccc;padding:4px;border-radius:4px" />
+  <!--
+  <div class="filter" style="margin-left: 20px;display: inline-block">Filter: 
+    <a class="all" href="javascript:;">All</a>
+    <a class="challenges" href="javascript:;">Challenges</a>
+    <a class="prompts" href="javascript:;">Prompts</a>
+  </div>-->
+</div>
+<div class="challenges-list"></div>

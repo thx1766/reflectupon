@@ -188,9 +188,17 @@ window.rupon.views = window.rupon.views || {};
     rv.BottomReplyView = cv.SimpleModelView.extend({
         template: Handlebars.templates['bottom-reply-view'],
 
+        events: {
+            'click .report-reply': 'reportReply'
+        },
+
         render: function(options) {
+
+            if (this.model.get('privacy') == "ANONYMOUS") {
+                this.model.set('username', "Anonymous");
+            }
             cv.SimpleModelView.prototype.render.call(this,options)
-            if (this.model.get('challenge')) {
+            if (rv.ChallengeView && this.model.get('challenge')) {
 
               var challengePage = new rv.ChallengeView({
                 model: new Backbone.Model(this.model.get('challenge'))
@@ -198,6 +206,21 @@ window.rupon.views = window.rupon.views || {};
 
               this.$el.find(".challenge-container").append(challengePage.$el);
             }
+        },
+
+        reportReply: function() {
+            var self = this;
+            $.ajax({
+                type: 'PATCH',
+                url:  '/api/reply/' +self.model.id,
+                data: {
+                    flaggedBy: true
+                },
+                success: function(response) {
+                    self.$el.hide();
+                    self.$el.after("<div class='reported-entry'>Reply reported.</div>")
+                }
+            });
         }
     });
 

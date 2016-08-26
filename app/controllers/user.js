@@ -20,6 +20,7 @@ var config           = process.env.PORT ? require('../../config') : require('../
     User        = mongoose.model('User'),
     Thought     = mongoose.model('Thought'),
     UserMessage = mongoose.model('UserMessage'),
+    Community   = mongoose.model('Community'),
     UserSettings = mongoose.model('UserSettings'),
     _ = require('underscore'),
     Q = require('q');
@@ -46,31 +47,46 @@ exports.home = function(req, res, dates) {
 
                 dates.get(is_mobile, user_id, function(frequency) {
 
-                    helpers.getPublicThoughts({}, function(popular_thoughts) {
+                    User.findById(req.user._id)
+                        .populate('communities')
+                        .populate({
+                          path: 'user_challenges.challenge',
+                          model: 'Challenge'
+                        }).exec(function(err, user) {
 
-                        userSettings.getSettings(user_id, function(userSettings) {
+                        helpers.getPublicThoughts({currentUser: user}, function(popular_thoughts) {
 
-                            var daydiff = function(first, second) {
-                                return Math.round((second-first)/(1000*60*60*24));
-                            }
-                            var date1 = new Date();
-                            date1.setHours(0,0,0,0);
+                            userSettings.getSettings(user_id, function(userSettings) {
 
-                            var promptsParams = {
-                                eligible: daydiff(moment("2016-03-12"), date1) % 30
-                            }
+                                var daydiff = function(first, second) {
+                                    return Math.round((second-first)/(1000*60*60*24));
+                                }
+                                var date1 = new Date();
+                                date1.setHours(0,0,0,0);
 
-                            prompts.getPrompts(promptsParams, function(prompts) {
+                                var promptsParams = {
+                                    eligible: daydiff(moment("2016-03-12"), date1) % 30
+                                }
 
-                                communities.getCommunities({}, function(communities) {
+                                prompts.getPrompts(promptsParams, function(prompts) {
 
-                                    User.findById(req.user._id).populate('communities').exec(function(err, user) {
+
+                                    communities.getCommunities({}, function(communities) {
+
+                                        var current = _.filter(user.user_challenges, function(uc) {
+                                            return uc.status == 'started';
+                                        });
+
+                                        current = _.map(current, function(com) {
+                                            return com.challenge;
+                                        });
 
                                         var userAttrs = _.pick(user, [
                                             'username',
                                             '_id',
                                             'email',
-                                            'intention'
+                                            'intention',
+                                            'avatar_url'
                                         ]);
 
                                         var attr = {
@@ -84,7 +100,8 @@ exports.home = function(req, res, dates) {
                                             popular:      JSON.stringify(popular_thoughts),
                                             settings:     JSON.stringify(userSettings),
                                             communities:  JSON.stringify(communities),
-                                            myCommunities: JSON.stringify(user.communities)
+                                            myCommunities: JSON.stringify(user.communities),
+                                            myChallenges: JSON.stringify(current),
                                         };
 
                                         if (prompts.length) {
@@ -93,8 +110,9 @@ exports.home = function(req, res, dates) {
                                                 description: prompts[0].description
                                             })
                                         }
+
                                         res.render('home', attr);
-                                    });
+                                    })
 
                                 })
                             })
@@ -107,6 +125,56 @@ exports.home = function(req, res, dates) {
     })
 
 };
+
+exports.sortCommunities = function(communities) {
+    return _.sortBy(communities, function(com) {
+        return -com.members.length;
+    })
+};
+
+exports.communities = function(req, res) {
+    userSettings.getSettings(req.user._id, function(userSettings) {
+
+        communities.getCommunities({}, function(communities) {
+
+            communities = exports.sortCommunities(communities);
+
+            User.findById(req.user._id)
+                .populate('communities')
+                .populate({
+                  path: 'user_challenges.challenge',
+                  model: 'Challenge'
+                }).exec(function(err, user) {
+
+                var current = _.filter(user.user_challenges, function(uc) {
+                    return uc.status == 'started';
+                });
+
+                current = _.map(current, function(com) {
+                    return com.challenge;
+                });
+
+                var userAttrs = _.pick(req.user, [
+                    'username',
+                    '_id',
+                    'email',
+                    'intention',
+                    'avatar_url'
+                ]);
+
+                res.render('communities', _.defaults({
+                    user: JSON.stringify(userAttrs),
+                    settings: JSON.stringify(userSettings),
+                    communities: JSON.stringify(communities),
+                    signout: true,
+                    myCommunities: JSON.stringify(user.communities),
+                    myChallenges: JSON.stringify(current)
+                }, pageDefaults))
+            });
+
+        });
+    });
+}
 
 exports.community = function(req, res) {
 
@@ -121,25 +189,61 @@ exports.community = function(req, res) {
 
             var community = communities[0];
 
-            helpers.getPublicThoughts({community: community}, function(popular_thoughts) {
+            User.findById(req.user._id)
+                .populate('communities')
+                .populate({
+                  path: 'user_challenges.challenge',
+                  model: 'Challenge'
+                }).exec(function(err, user) {
 
-                userSettings.getSettings(user_id, function(userSettings) {
-
-                    User.findById(req.user._id).populate('communities').exec(function(err, user) {
-                        res.render('community', {
-                            settings: JSON.stringify(userSettings),
-                            landing_page: false,
-                            topBar: true,
-                            is_admin: false,
-                            signout: true,
-                            user: req.user,
-                            communities: JSON.stringify(user.communities),
-                            challenges: JSON.stringify(challenges),
-                            community: JSON.stringify(community),
-                            popular: JSON.stringify(popular_thoughts),
-                            settings: JSON.stringify(userSettings)
-                        });
+                    community = community.toObject();
+                    community.communityChallenges = _.map(community.communityChallenges, function(derp) {
+                        if (derp.challenge) {
+                            var challenge = helpers.startedChallengeStatus([derp.challenge], user.user_challenges);
+                            derp.challenge = challenge[0];
+                        }
+                        return derp;
                     })
+
+                    helpers.getPublicThoughts({
+                        community: community,
+                        currentUser: user
+                    }, function(popular_thoughts) {
+
+                        userSettings.getSettings(user_id, function(userSettings) {
+
+                            var current = _.filter(user.user_challenges, function(uc) {
+                                return uc.status == 'started';
+                            });
+
+                            current = _.map(current, function(com) {
+                                return com.challenge;
+                            });
+
+                            var userAttrs = _.pick(user, [
+                                'username',
+                                '_id',
+                                'email',
+                                'intention',
+                                'avatar_url'
+                            ]);
+
+                            res.render('community', {
+                                settings: JSON.stringify(userSettings),
+                                landing_page: false,
+                                topBar: true,
+                                is_admin: false,
+                                signout: true,
+                                user: JSON.stringify(userAttrs),
+                                communities: JSON.stringify(user.communities),
+                                challenges: JSON.stringify(challenges),
+                                community: JSON.stringify(community),
+                                popular: JSON.stringify(popular_thoughts),
+                                settings: JSON.stringify(userSettings),
+                                myCommunities: JSON.stringify(user.communities),
+                                myChallenges: JSON.stringify(current)
+                            });
+                        })
                 });
 
             });
@@ -149,36 +253,61 @@ exports.community = function(req, res) {
     })
 };
 
-var startedChallengeStatus = function(challenges, user_challenges) {
-    return _.map(challenges, function(challenge) {
-        challenge = challenge.toObject();
-        challenge.started = !!_.filter(user_challenges, function(uc) {
-            return uc.challenge ? uc.challenge.toString() == challenge._id.toString() : false
-        }).length;
-        return challenge;
-    });
 
-}
 exports.challenges = function(req, res) {
-    challenges.getChallenges({}, function(challenges) {
 
-        challenges = startedChallengeStatus(challenges, req.user.user_challenges);
+    userSettings.getSettings(req.user._id, function(userSettings) {
+        challenges.getChallenges({}, function(challenges) {
 
-        prompts.getPrompts({}, function(prompts) {
+            prompts.getPrompts({}, function(prompts) {
 
-            res.render('challenges', {
-                settings: JSON.stringify(userSettings),
-                landing_page: false,
-                topBar: true,
-                is_admin: false,
-                signout: false,
-                user: req.user,
-                challenges: JSON.stringify(challenges),
-                prompts: JSON.stringify(prompts)
-            });
+                User.findById(req.user._id)
+                    .populate({
+                      path: 'user_challenges.thought',
+                      model: 'Thought'
+                    })
+                    .populate({
+                      path: 'user_challenges.challenge',
+                      model: 'Challenge'
+                    })
+                    .populate('communities')
+                    .exec(function(err, user) {
+
+                    var userAttrs = _.pick(req.user, [
+                        'username',
+                        '_id',
+                        'email',
+                        'intention',
+                        'avatar_url'
+                    ]);
+
+                    challenges = helpers.startedChallengeStatus(challenges, user.user_challenges);
+
+                    var current = _.filter(user.user_challenges, function(uc) {
+                        return uc.status == 'started';
+                    });
+
+                    current = _.map(current, function(com) {
+                        return com.challenge;
+                    });
+
+                    res.render('challenges', {
+                        user: JSON.stringify(userAttrs),
+                        settings: JSON.stringify(userSettings),
+                        landing_page: false,
+                        topBar: true,
+                        is_admin: false,
+                        signout: true,
+                        challenges: JSON.stringify(challenges),
+                        prompts: JSON.stringify(prompts),
+                        myCommunities: JSON.stringify(user.communities),
+                        myChallenges: JSON.stringify(current)
+                    });
+                });
+            })
+
         })
-
-    })
+    });
 }
 
 var pageDefaults = {
@@ -190,20 +319,118 @@ var pageDefaults = {
 
 exports.challenge = function(req, res) {
 
-    challenges.getChallenges({_id: req.params.id}, function(challenges) {
+    userSettings.getSettings(req.user._id, function(userSettings) {
 
-        challenges = startedChallengeStatus(challenges, req.user.user_challenges);
+        challenges.getChallenges({_id: req.params.id}, function(challenges) {
 
-        res.render('challenge', _.defaults({
-            challenge: JSON.stringify(challenges[0])
-        }, pageDefaults));
-    })
+            User.findById(req.user._id)
+                .populate('communities')
+                .populate({
+                  path: 'user_challenges.challenge',
+                  model: 'Challenge'
+                })
+                .populate({
+                  path: 'user_challenges.thought',
+                  model: 'Thought'
+                }).exec(function(err, user) {
+
+                challenges = helpers.startedChallengeStatus(challenges, user.user_challenges);
+
+                var current = _.filter(user.user_challenges, function(uc) {
+                    return uc.status == 'started';
+                });
+
+                current = _.map(current, function(com) {
+                    return com.challenge;
+                });
+
+                var userAttrs = _.pick(req.user, [
+                    'username',
+                    '_id',
+                    'email',
+                    'intention',
+                    'avatar_url'
+                ]);
+                res.render('challenge', _.defaults({
+                    user: JSON.stringify(userAttrs),
+                    settings: JSON.stringify(userSettings),
+                    challenge: JSON.stringify(challenges[0]),
+                    signout: true,
+                    myCommunities: JSON.stringify(user.communities),
+                    myChallenges: JSON.stringify(current)
+                }, pageDefaults));
+            });
+        })
+    });
 }
 
 exports.profile = function(req, res) {
-    res.render('profile', _.defaults({
-        user: JSON.stringify(req.user)
-    }, pageDefaults));
+
+    User.findById(req.user._id)
+        .populate('communities')
+        .populate({
+          path: 'user_challenges.challenge',
+          model: 'Challenge'
+        }).exec(function(err, user) {
+
+            communities.getCommunities({creator: user}, function(communities) {
+
+                challenges.getChallenges({creator: user}, function(created) {
+
+                    var completed = _.filter(user.user_challenges, function(uc) {
+                        return uc.status == 'completed';
+                    });
+
+                    completed = _.map(completed, function(com) {
+                        return com.challenge;
+                    });
+
+                    var current = _.filter(user.user_challenges, function(uc) {
+                        return uc.status == 'started';
+                    });
+
+                    current = _.map(current, function(com) {
+                        return com.challenge;
+                    });
+
+                    userSettings.getSettings(req.user._id, function(userSettings) {
+
+                        User.find({username: req.params.name}, function(err, profile) {
+                            var userAttrs = _.pick(req.user, [
+                                'username',
+                                '_id',
+                                'email',
+                                'intention',
+                                'avatar_url'
+                            ]);
+
+                            var profileAttrs = _.pick(profile[0], [
+                                'username',
+                                '_id',
+                                'email',
+                                'intention',
+                                'personal_url',
+                                'avatar_url'
+                            ]);
+
+                            res.render('profile', _.defaults({
+                                user: JSON.stringify(userAttrs),
+                                settings: JSON.stringify(userSettings),
+                                profile: JSON.stringify(profileAttrs),
+                                completed: JSON.stringify(completed),
+                                current: JSON.stringify(current),
+                                signout: true,
+                                communities: JSON.stringify(communities),
+                                created: JSON.stringify(created),
+                                myCommunities: JSON.stringify(user.communities),
+                                myChallenges: JSON.stringify(current)
+                            }, pageDefaults));
+                        })
+                    });
+                })
+
+            });
+    })
 }
 
 exports.journal = function(req, res) {
@@ -260,13 +487,33 @@ exports.reports = function(req, res) {
 };
 
 exports.newUser = function(req, res) {
-    res.render('new-user', {
-        topBar: false,
-        body: true,
-        landing_page: false,
-        is_admin: req.user.username == 'andrew'
-    });
+    communities.getCommunities({
+        title: {$in: ['Entrepreneurs', 'Body Image', 'Social Anxiety']}
+    }, function(communities) {
+
+        res.render('new-user', {
+            topBar: false,
+            body: true,
+            landing_page: false,
+            is_admin: req.user.username == 'andrew',
+            communities: JSON.stringify(communities)
+        });
+    })
 };
+
+exports.newUserPost = function(req, res) {
+    User.findById(req.user._id, function(err, user) {
+        Community.find({
+            '_id': { $in: req.body.communities}
+        }, function(err, comms){
+            user.communities = comms;
+            user.welcome_at = new Date();
+            user.save(function(err, user) {
+                res.send({success: 1})
+            });
+        });
+    })
+}
 
 exports.getIndex = function(req, res) {
 
@@ -286,7 +533,6 @@ exports.postlogin = function(req, res, next) {
 
     passport.authenticate('local', function(err, user, info) {
         if (err) { return next(err) }
-
         if (!user) {
             req.session.messages =  {message: 'Incorrect username or password'};
             return res.redirect('/')
@@ -400,13 +646,26 @@ exports.registerEmail = function(email) {
     sendgrid.send({
         to: email,
         from: 'andrewjcasal@gmail.com',
-        subject: 'Welcome to Get Your Shit Together!',
-        html: 'Thanks for your interest! Stay tuned for further updates.<br /><br/>Thanks!<br />Get Your Shit Together team'
+        subject: 'Welcome to Heros!',
+        html: 'Thanks for your interest! Stay tuned for further updates.<br /><br/>Thanks!<br />Heros team'
     }, function(err, json) {
         if (err) { return console.error(err); }
         console.log(json);
     });
 }
+exports.checkPassword = function(req, res, next) {
+    req.body.username = req.body.username.trim().toLowerCase();
+
+    passport.authenticate('local', function(err, user, info) {
+        if (err) { return next(err) }
+
+        if (!user) {
+            res.send({status: 'invalid'});
+        } else {
+            res.send({status: 'valid'});
+        }
+    })(req, res, next);
+};
 exports.postRegBetaUser = function(req, res, next) {
 
     var emailAddress = req.body.email;
@@ -474,8 +733,8 @@ exports.postForgot = function(req, res, next) {
                 subject:  "Forgot your password?",
                 text:     'Hey,<br /><br />It seems like you might have forgotten your password. Click <a href="{{ verification_link }}">here</a> to retrieve it.<br /><br/>'+
 
-                    "The Team at Get Your Shit Together<br />" +
-                    "<a href='www.getyourshittogether.co'>www.getyourshittogether.co</a>"
+                    "The Team at Heros<br />" +
+                    "<a href='www.heroslive.com'>www.heroslive.com</a>"
             };
 
             var reset = forgot.forgot( email_options, function(err) {

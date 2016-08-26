@@ -12,10 +12,19 @@ window.rupon.utils = window.rupon.utils || {};
         dayModelIndex,
         popularView;
 
-    rc.setAllThoughts = function(params) {
+    rc.setSettings = function(settings, username) {
+        settings.username = username;
+        var settingsView = new rv.SettingsView({
+            model: new rm.userSettings(settings)
+        });
+        $(".me-container .dropdown").html(settingsView.$el);
 
+    }
+
+    rc.setAllThoughts = function(params) {
         rupon.account_info         = params.user || {};
         rupon.account_info.user_id = params.user._id;
+        rc.setSettings(params.settings, rupon.account_info.username);
 
         mixpanel.identify(rupon.account_info.user_id);
         mixpanel.people.set({
@@ -27,8 +36,11 @@ window.rupon.utils = window.rupon.utils || {};
 
         var frequency =    params.frequency, 
             popular =      params.popular,
-            prompt =       params.prompt,
-            settings =     params.settings;
+            prompt =       params.prompt;
+
+        var popular = _.filter(popular, function(thought) {
+            return !thought.flaggedBy.length;
+        });
 
         var recommended_collection  = new rupon.models.thoughtCollection(),
             user_message_collection = new rupon.models.userMessageCollection(),
@@ -36,41 +48,15 @@ window.rupon.utils = window.rupon.utils || {};
             popular_collection      = new rupon.models.thoughtCollection(popular),
             tags_collection         = new rm.topicsCollection();
 
-        // Only pass reference to reply_collection - since each thought handles its own replies
-        var writeToThoughtsView = new rv.WriteToThoughtsView({
-            tags_collection:      tags_collection,
-            frequency_collection: frequency_collection,
-            reply_collection:     rm.replyCollection,
-            user:                 rupon.account_info,
-            prompt:               prompt
-        });
-
-        writeToThoughtsView
-            .on("create-reflection", function(attrs) {
-                var format_date = rh.dateForFrequencyItem(attrs.date);
-                var freq_item   = frequency_collection.where({day: format_date})[0];
-
-                var thought = new rm.thought(attrs);
-                thought.save({},{success: function() {
-                    renderRightColumnView("recommended", {
-                        collection:          frequency_collection,
-                        writeToThoughtsView: writeToThoughtsView
-                    })
-                }});
-
-                popular_collection.add(thought);
-
-                var thoughts = freq_item.get('thoughts')
-                thoughts.unshift(thought);
-                freq_item.set('thoughts', thoughts);
-                freq_item.trigger('thought-change');
-            });
-
         frequencyView = new rv.FrequencyView({
             collection:  frequency_collection,
             no_entries:  !_.flatten(_.pluck(frequency, 'thoughts')).length,
             communities: params.communities,
-            myCommunities: params.myCommunities
+            myCommunities: params.myCommunities,
+            myChallenges: params.myChallenges,
+            showCommunity: true,
+            showChallenges: true,
+            showEntries: true
         });
         frequencyView
             .on('write-reflection', function() {
@@ -95,33 +81,22 @@ window.rupon.utils = window.rupon.utils || {};
 
         $("#container").html("<div class='main-view-container'></div><div class='side-view-container'></div>");
         $(".side-view-container")
-            .append(frequencyView.$el)
-            .append(Handlebars.templates['guidelines']());
+            .append(frequencyView.$el);
 
-        settings.username = rupon.account_info.username;
-        var settingsView = new rv.SettingsView({
-            model: new rm.userSettings(settings)
-        });
-        $(".me-container .dropdown").html(settingsView.$el);
+        var sideViewHeight = $('.side-view-container').height();
 
-        $(document).scroll(function() {
-            var scrollTop = $(document).scrollTop(),
-                guidelinesEl = $('.guidelines');
-
-            if (scrollTop > 578 && !guidelinesEl.hasClass('fixed')) {
-                guidelinesEl.addClass('fixed');
-                guidelinesEl.fadeIn(300);
-            } else if(scrollTop <= 578 && guidelinesEl.hasClass('fixed')) {
-                guidelinesEl.fadeOut(50, function() {
-                    guidelinesEl.removeClass('fixed');
-                });
-            }
-        })
         $(".main-view-container")
             .append(mainView.$el)
 
+        if (!params.myCommunities.length) {
+            var newUserContainer = new rv.NewUserContainer({
+                challenge: params.firstChallenge
+            });
+
+            mainView.$el.find(".new-user-container").append(newUserContainer.$el);
+        }
+
         mainView.$el
-            .find(".dashboard-container").append(writeToThoughtsView.$el).end()
             .find(".popular-container").append(popularView.$el);
 
         popularView.trigger('content-loaded');

@@ -13,6 +13,17 @@ window.rupon.views = window.rupon.views || {};
     var rm = window.rupon.models;
     var cv = window.rupon.common_views;
 
+    rv.NewUserContainer = cv.TemplateView.extend({
+        template: Handlebars.templates['new-user-module'],
+
+        render: function(options) {
+            cv.TemplateView.prototype.render.call(this, options);
+
+            var challengeView = new rv.ChallengeView({model: new rm.challenge(options.challenge) });
+            this.$el.find('.challenge-container').html(challengeView.$el);
+        }
+    });
+
     rv.MainView = Backbone.View.extend({
         tagName: "div",
         className: "main-view",

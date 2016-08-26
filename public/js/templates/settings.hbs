@@ -1,7 +1,15 @@
 <ul>
   <li class="notif-options">
     <div>Username</div>
-    <div style="margin-bottom: 10px">{{username}}</div>
+    <div style="margin-bottom: 10px">
+      <div class="display-name">
+        <span>{{username}} </span><a href="javascript:;" class="change-username"><i data-track="edit-username" class="fa fa-pencil box"></i></a>
+      </div>
+      <div class="edit-name" style="display:none">
+        <input placeholder="{{username}}" /><a data-track="submit-username" href="javascript:;" class="submit-username"><i class="fa fa-check box"></i></a>
+      </div>
+      <div class="error-msg" style="display:none;background-color:#ccc;margin-top:8px;border-radius:4px;padding:10px;">Username already exists.</div>
+    </div>
     <div>Notifications</div>
     <div style="font-size: 14px">Receive e-mails:</div>
     <div style="margin-left: 20px">
@@ -18,6 +26,9 @@
     </div>
   </li>
   <li class="logout">
+    <a target="_blank" href="http://ourdisclaimer.com/?i=heroslive.com" style="float:left">
+      Disclaimer
+    </a>
     <a class="icon" href="/logout">
         Log out
     </a>

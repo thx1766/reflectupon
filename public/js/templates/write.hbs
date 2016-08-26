@@ -1,20 +1,9 @@
-{{#if prompt}}
-<div class="journal-prompt">
-    <div class="header">
-        {{day}}'s Prompt of the Day
-    </div>
-    <div class="description" id="{{prompt.id}}">
-            {{prompt.description}}
-    </div>
-</div>
-{{/if}}
-<div class="section">
-<div class="header clearfix">
-    Today's Entry
-</div>
+<div class="section" style="
+    border: 1px solid #ccc;
+    padding: 6px 0;">
 <div class="message clearfix">
     <div class="description">
-        <textarea placeholder="In the present moment, write freely about your thoughts and feelings, or use the prompt above."></textarea>
+        <textarea placeholder="Talk about experiences, encouragement, and ideas."></textarea>
     </div>
 </div>
 <div class="reflect-challenge-box" style="
@@ -38,10 +27,6 @@
     </div>
     <div class="tags-container"></div>
     <div class="submit-options">
-        <div class="prompt-input">
-            <input type="checkbox" id="using-prompt"/>
-            <label for="using-prompt">Using Today's Prompt</label>
-        </div>
         <button type="button" class="btn btn-primary create">Create entry</button>
     </div>
 </div>

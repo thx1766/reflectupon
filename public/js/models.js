@@ -208,4 +208,43 @@ window.rupon.models = window.rupon.models || {};
         }
     });
 
+    rm.challenge = Backbone.Model.extend({});
+
+    rm.challengesCollection = Backbone.Collection.extend({
+        
+        search : function(letters){
+            if(letters == "") return this;
+            
+            var pattern = new RegExp(letters,"gi");
+            return new Backbone.Collection(this.filter(function(data) {
+                return pattern.test(data.get("title")) || pattern.test(data.get("description"));
+            }));
+        },
+
+        filterType: function(type) {
+            return new Backbone.Collection(this.filter(function(data) {
+                switch(type) {
+                    case "all":
+                        return true;
+                    case "challenges":
+                        return !!data.get("title") == true;
+                    case "prompts":
+                        return !!data.get("title") == false;
+                }
+            }));
+        }
+    })
+
+    rm.communitiesCollection = Backbone.Collection.extend({
+        
+        search : function(letters){
+            if(letters == "") return this;
+            
+            var pattern = new RegExp(letters,"gi");
+            return new Backbone.Collection(this.filter(function(data) {
+                return pattern.test(data.get("title")) || pattern.test(data.get("description"));
+            }));
+        }
+    })
+
 })();

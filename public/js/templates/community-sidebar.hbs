@@ -1,79 +1,47 @@
-<div class="side-view-container"><div id="entries" class="side-view clearfix" style="
+<div id="entries" class="side-view clearfix" style="
     font-size: 18px;
-    margin-bottom: 15px;
 ">
 
 
 <div class="module">
-  <div class="header">
-  <div class="clearfix title-container">
-    <div class="clearfix">
-      <div class="title" style="float:left; width:80%; margin-bottom: 8px">{{title}}</div>
-      {{#if isCreator}}
-        <div style="float:right;width:20%;text-align:right;">
-          <a href="javascript:;">
-            <i class="fa fa-pencil"></i>
-          </a>
-        </div>
-      {{/if}}
-    </div>
-    <div class="clearfix subscription-status {{#if isSubscribed}}subscribed{{/if}}">
-      <a href="javascript:;" class="subscription-button">Subscribe</a>
-      <div class="members">{{members.length}} members</div>
-    </div>
-  </div>
-    <div class="edit-title-container" style="display:none; text-align: right">
-      <textarea style="border: 1px solid #ccc;width:100%;margin-bottom:10px">{{title}}</textarea>
-      <button class="btn btn-primary">Change</button>
-    </div>
-</div>
 <div class="clearfix">
-  <div class="clearfix description-container">
-    <div class="description" style="float:left; width:80%">{{description}}</div>
+  <div class="subheader">Guidelines</div>
+  <div class="clearfix guidelines-container">
+    <div class="guidelines-label" {{#if isCreator}}style="float:left; width:80%"{{/if}}>
+      <div>{{{guidelines}}}</div>
+    </div>
 
     {{#if isCreator}}
       <div style="float:right; width:20%;text-align:right;">
         <a href="javascript:;">
-          <i class="fa fa-pencil"></i>
+          <i data-track="edit-guidelines" data-id="{{communityId}}" class="box fa fa-pencil"></i>
         </a>
       </div>
     {{/if}}
   </div>
-    <div class="edit-description-container" style="display:none; text-align:right">
-      <textarea style="border: 1px solid #ccc;font-size:14px;width:100%;margin-bottom:10px;min-height:80px">{{description}}</textarea>
-      <button class="btn btn-primary">Change</button>
-    </div>
+  <div class="edit-guidelines-container" style="display:none; text-align:right">
+    <textarea style="border: 1px solid #ccc;font-size:14px;width:100%;margin-bottom:10px;min-height:80px">{{guidelines}}</textarea>
+    <button data-track="submit-guidelines" data-id="{{communityId}}" class="btn btn-primary">Update</button>
+  </div>
 </div>
-<div class="module-page-action">
-  Members
-  <ul>
-    {{#if creator}}<li>{{creator.username}}</li>{{/if}}
-    {{#each members}}
-      <li>{{username}}</li>
-    {{/each}}
-  </ul>
+<div class="module-page-action members-tab">
+  Members 
+  {{#if isCreator}}
+    <div class="users-pencil" style="float:right; width:20%;text-align:right;">
+      <a href="javascript:;">
+        <i data-track="edit-members" data-id="{{communityId}}" class="box fa fa-pencil"></i>
+      </a>
+    </div>
+  {{/if}}
+    <div class="users-check" style="display:none;float:right; width:20%;text-align:right;">
+      <a href="javascript:;">
+        <i data-track="submit-members" data-id="{{communityId}}" class="fa fa-check"></i>
+      </a>
+    </div>
+  <div style="float:right;">{{members.length}}/<span class="max-users">{{maxUsers}}</span><input style="width:40px;display:none" class="max-users-edit" /></div>
+  <div style="font-size: 16px;margin-top: 8px;">
+    {{#each members}}{{#unlessFirst @index}}, {{/unlessFirst}}<a href="/profile/{{username}}">{{username}}</a>{{/each}}
+  </div>
 </div>
 
-</div><div style="
-    font-size: 18px;
-    margin-bottom: 16px;
-    margin-left: 12px;
-">Your Communities</div>
-{{#each communities}}
-  <div style="
-    background-color: #fff;
-    box-shadow: 0 2px 3px rgba(0, 130, 174, 0.31);
-    margin-bottom: 15px;
-    padding: 12px;
-    border-radius: 4px;
-">
-  <div style="
-    font-size: 14px;
-">{{title}}</div>
-  <div style="
-    font-size: 12px;
-    margin-left: 15px;
-">{{members.length}} members</div>
-</div>
-{{/each}}
 </div>

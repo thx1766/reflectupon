@@ -27,7 +27,10 @@ var thoughtSchema = Schema({
         ref: 'Community' }],
     challenge: {
         type: Schema.Types.ObjectId,
-        ref: 'Challenge' }
+        ref: 'Challenge' },
+    flaggedBy: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User' }]
 });
 
 thoughtSchema.statics.random = function(user,cb) {

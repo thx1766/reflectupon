@@ -1,17 +1,17 @@
 <% include header %>
-    <div id="container"></div>
+    <div id="container" class="community-page"></div>
 
     <script type="text/javascript">
     $(document).ready(function(){
         rupon.controllers.startCommunityPage({
-          username: "<%= user.username %>",
-          user_id: "<%= user._id %>",
-          email: "<%= user.email %>",
+          settings: <%- settings %>,
+          user:     <%- user %>,
           communities: <%- communities %>,
           challenges: <%- challenges %>,
           community: <%- community %>,
           popular: <%- popular %>,
-          settings: <%- settings %>
+          myCommunities: <%- myCommunities %>,
+          myChallenges: <%- myChallenges %>
         });
     }) 
     </script>

@@ -91,13 +91,18 @@ exports.getPublicThoughts = function(params, callback, options) {
         delete params.limit;
     }
 
-    // var startDate = new Date(new Date().setHours(0,0,0,0));
-    // startDate.setDate(startDate.getDate()-14);
+    var currentUser = false;
+    if (params.currentUser) {
+        currentUser = params.currentUser;
+        delete params.currentUser;
+    }
 
-    // params.date = {
-    //     $gte: startDate,
-    //     $lte: new Date()
-    // };
+    var userSubscribedToCommunity;
+    if (currentUser && params.community) {
+        userSubscribedToCommunity = !!_.filter(currentUser.communities, function(com) {
+            return com._id.toString() == params.community._id.toString();
+        }).length;
+    }
 
     if (typeof options.feature != "undefined") {
         params.feature = options.feature;
@@ -111,6 +116,7 @@ exports.getPublicThoughts = function(params, callback, options) {
         .populate('replies')
         .populate('prompt')
         .populate('challenge')
+        .populate('community')
         .exec(function(err, thoughtsTemp) {
 
             var chalPopOptions = {
@@ -129,12 +135,25 @@ exports.getPublicThoughts = function(params, callback, options) {
 
                         thought.replies = exports.removeRejectedReplies(thought.replies);
 
+                        if (thought.challenge && currentUser) {
+                            var challenges = exports.startedChallengeStatus([thought.challenge], currentUser.user_challenges);
+                            thought.challenge = challenges[0];
+                        }
+
                         async.mapSeries(thought.replies, function(reply, callback2) {
 
-                            exports.getUserIfPublic(reply, function(user, callback3) {
-                                reply.username = user.username;
+                            if (reply.challenge && currentUser) {
+                                var challenges = exports.startedChallengeStatus([reply.challenge], currentUser.user_challenges);
+                                reply.challenge = challenges[0];
+                            }
 
-                                console.log(reply);
+                            exports.getUserIfPublic(reply, function(user, callback3) {
+
+                                if (params.community && userSubscribedToCommunity) {
+                                    reply.username = user.username;
+                                } else {
+                                    reply.privacy = "ANONYMOUS";
+                                }
 
                                 Thought.count({user_id: user._id}, function(err, count) {
                                     Reply.count({user_id: user._id}, function(err, replyCount) {
@@ -157,8 +176,14 @@ exports.getPublicThoughts = function(params, callback, options) {
                                 thought.annotations = annotations;
 
                                 exports.getUserIfPublic(thought, function(user, callback2) {
-                                    thought.username = user.username;
-                                    thought.intention = user.intention;
+
+                                    if (params.community && userSubscribedToCommunity) {
+                                        thought.username = user.username;
+                                        thought.intention = user.intention;
+                                    } else {
+                                        thought.privacy = "ANONYMOUS";
+                                    }
+
                                     callback2();
 
                                 },function() {
@@ -228,4 +253,24 @@ exports.convertLineBreaks = function(description, type) {
         description = description.replace(before_type, after_type);
     }
     return description;
+}
+
+exports.startedChallengeStatus = function(challenges, user_challenges) {    
+    return _.map(challenges, function(challenge) {
+
+        if (challenge.toObject) {
+            challenge = challenge.toObject();
+        }
+        challenge.status = "not started";
+        var userChallenge = _.filter(user_challenges, function(uc) {
+            return uc.challenge ? uc.challenge._id.toString() == challenge._id.toString() : false
+        });
+
+        if (userChallenge.length) {
+            challenge.status = userChallenge[0].status;
+            challenge.thought = userChallenge[0].thought;
+        }
+        return challenge;
+    });
+
 }

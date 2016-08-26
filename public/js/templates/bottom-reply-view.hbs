@@ -1,16 +1,27 @@
 <div class="response">
-    <div><strong style="color: #919191">Someone replied:</strong></div>
+    <div style="padding:0 10px">
+        <div class="right-actions dropdown-container arrow-right" style="float: right;margin-top: 1px;">
+            <a href="javascript:;" class="options">
+                <i class="fa fa-ellipsis-h fa-lg"></i>
+            </a>
+            <div class="dropdown-arrow clearfix">
+                <div class="arrow">
+                </div>
+                <div class="dropdown">
+                    <ul>
+                        <li><a href="javascript:;" class="report-reply">Report</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <span style="color: #946db5">{{username}}</span> {{description}}
+    </div>
     <div style="
-    background-color: #ffffff;
-    border-radius: 3px;
-    box-shadow: 0 0 2px #428bca;
     position: relative;
-    margin-top: 4px
+    margin-top: 4px;margin-bottom:4px;
 ">
-  <div style="padding:10px;
-">{{description}}</div>
     {{#if challenge}}
-        <div class="challenge-container" style="border-top:1px solid #ccc"></div>
+        <div class="challenge-container"></div>
     {{/if}}
     </div>
 </div>

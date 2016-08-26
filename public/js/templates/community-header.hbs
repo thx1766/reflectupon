@@ -1,0 +1,55 @@
+<div class="main-module">
+  <div class="header" style="position:relative;background:#8e8e8e {{coverUrl}};height:140px;border-radius:4px">
+  {{#if isCreator}}
+    <label for="file-input" style="cursor:pointer;position:absolute;top:15px;right:15px;">
+      <input type="file" id="file-input" style="display:none">
+      <span style="color:#f3f3f3;font-size:14px">Change cover photo</span>
+      <i data-track="edit-title" data-id="{{communityId}}" class="box fa fa-pencil" style="color:#428bca"></i>
+    </label>
+  {{/if}}
+  <div class="clearfix title-container">
+    <div class="clearfix">
+      <div class="title main-header" style="color:#f3f3f3">{{title}}
+        {{#if isCreator}}
+          <div style="display: inline-block;vertical-align: 5px;">
+            <a href="javascript:;">
+              <i data-track="edit-title" data-id="{{communityId}}" class="box fa fa-pencil"></i>
+            </a>
+          </div>
+        {{/if}}
+        {{#unless cantSubscribe}}
+        <div class="clearfix">
+          <div style="float:left" class="subscription-status {{#if isSubscribed}}subscribed{{/if}}">
+            <a href="javascript:;" class="subscription-button">{{#if isSubscribed}}Subscribed{{else}}Subscribe{{/if}}</a>
+            <div class="members">{{members.length}} {{#equal members.length 1}}member{{else}}members{{/equal}}</div>
+          </div>
+        </div>
+        {{/unless}}
+      </div>
+    </div>
+  </div>
+    <div class="edit-title-container" style="display:none; text-align: right;padding:10px">
+      <textarea style="border: 1px solid #ccc;width:100%;margin-bottom:10px;">{{title}}</textarea>
+      <button data-track="submit-title" data-id="{{communityId}}" class="btn btn-primary">Update</button>
+    </div>
+</div>
+<div class="clearfix desc-section {{#if isCreator}}is-creator{{/if}}">
+  <div class="clearfix description-container" style="position:relative">
+    <div class="description">
+      <div class="main-desc" {{#if isCreator}}style="width:90%"{{/if}}>
+          {{description}}
+      </div>
+      {{#if isCreator}}
+        <div style="position:absolute;top:15px;right:15px;">
+          <a href="javascript:;">
+            <i data-track="edit-description" data-id="{{communityId}}" class="box fa fa-pencil"></i>
+          </a>
+        </div>
+      {{/if}}
+    </div>
+  </div>
+  <div class="edit-description-container" style="display:none; text-align:right;padding:10px">
+    <textarea style="border: 1px solid #ccc;font-size:14px;width:100%;margin-bottom:10px;min-height:80px">{{description}}</textarea>
+    <button data-track="submit-description" data-id="{{communityId}}" class="btn btn-primary">Update</button>
+  </div>
+</div>

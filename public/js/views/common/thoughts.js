@@ -35,7 +35,8 @@ window.rupon.views = window.rupon.views || {};
             'keypress .editable':             'submitEdit',
             'click .reply-summary':           'getReplySummary',
             'click .click-reply':             'clickReply',
-            'click .view-replies':            'viewReplies'
+            'click .view-replies':            'viewReplies',
+            'click .report-entry':            'reportEntry'
         },
 
         initialize: function(options) {
@@ -94,6 +95,10 @@ window.rupon.views = window.rupon.views || {};
 
             this.$el.find(".privacy-status").trigger("tooltip-end");
             var template_options = _.clone(this.model.attributes);
+
+            if (options.isCommunity || template_options.isCommunity) {
+                delete template_options.community;
+            }
 
             var created_at = new Date(template_options.date).getTime();
             var today = new Date().getTime();
@@ -161,20 +166,29 @@ window.rupon.views = window.rupon.views || {};
             });
             template_options.nonAnnotationReplies = nonAnnotationReplies;
             template_options.tag_ids = this.model.get('tag_ids');
+
+            if (template_options.challenge && template_options.challenge.flaggedBy.length) {
+                delete template_options.challenge;
+            }
+
             var outputHtml = this.template(template_options);
 
             cv.Container.prototype.detachChildren.call(this);
             this.$el.html(outputHtml);
             cv.Container.prototype.reattachChildren.call(this);
 
-            if (template_options.challenge) {
+            if (rv.ChallengeView && template_options.challenge && !template_options.challenge.flaggedBy.length) {
               var challengePage = new rv.ChallengeView({
-                model: new Backbone.Model(template_options.challenge)
+                model: new Backbone.Model(template_options.challenge),
+                onStream: true
               })
 
               this.$el.find(".challenge-container").append(challengePage.$el);
             }
 
+            nonAnnotationReplies = _.filter(nonAnnotationReplies, function(reply) {
+                return !reply.get('flaggedBy').length;
+            });
             nonAnnotationRepliesCollection = new Backbone.Collection(nonAnnotationReplies);
             _.each(nonAnnotationRepliesCollection.models, function(nar) {
                 var brv = new rv.BottomReplyView({
@@ -291,14 +305,30 @@ window.rupon.views = window.rupon.views || {};
 
         clickReply: function() {
             mixpanel.track('bottom-write-reply');
-            this.$el.find('.write-reply-container').html(Handlebars.templates['write-reply']);
+            this.$el.find('.write-reply-container').html(Handlebars.templates['write-reply']({username: this.user.username}));
             this.$el.find('.write-reply textarea').focus();
             this.$el.find('.click-reply').addClass('clicked');
         },
 
         viewReplies: function() {
-            this.$el.find('.response-list').show();
+            //this.$el.find('.response-list').show();
             this.$el.find('.view-replies').addClass('clicked');
+        },
+
+        reportEntry: function() {
+
+            var self = this;
+            $.ajax({
+                type: 'PUT',
+                url:  '/api/thought/' +self.model.id,
+                data: {
+                    flaggedBy: true
+                },
+                success: function(response) {
+                    self.$el.hide();
+                    self.$el.after("<div class='reported-entry'>Entry reported.</div>")
+                }
+            });
         }
 
     });

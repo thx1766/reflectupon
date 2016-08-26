@@ -1,18 +1,166 @@
-
-  <div class="clearfix" style="position:relative;padding:10px;">
-    <div style="float:left">
-      <div style="font-size:18px;margin-bottom:8px"><span style="color:green">Challenge</span> / <a href="/challenge/{{_id}}">{{title}}</a></div>
-      <div style="margin-bottom: 10px">{{description}}</div>
-      {{#if extended}}
-        <div style="margin-bottom: 10px">{{instructions}}</div>
-      {{/if}}
+{{#if extended}}
+<div class="main-module">
+{{/if}}
+<div class="challenge-content clearfix" style="position:relative;
+    {{#equal viewType "superuser"}}{{#if flaggedBy.length}}background-color: #ccc{{/if}}{{/equal}}">
+  {{#if extended}}
+    <div class="header clearfix">
+      <div style="position:relative;width:70px;height:70px;float:left;border-radius: 6px;box-shadow: 0 1px 2px #6d6d6d;overflow:hidden;">
+        <img id="preview" src="{{avatar_url}}" style="background-color: #ccc;
+          width: 100%;
+          height: 100%;">
+        {{#if isCreator}}
+          <label for="file-input" style="position:absolute;top:0px;right:0px;cursor:pointer;background-color:#fff;border:1px solid #ccc;height:20px;width:20px;text-align:center;">
+            <input type="file" id="file-input" style="display:none">
+            <i class="fa fa-pencil"></i>
+          </label>
+        {{/if}}
+      </div>
+      <div style="float:left;padding:10px">
+        <div style="color: #666;font-weight: 500;font-size: 16px;">ACTION</div>
+        <div class="main-header">{{title}}</div>
+      </div>
     </div>
-    <div style="float:right;">
-      {{#if pick}}
-        <button class="btn btn-primary pick-challenge">Pick Challenge</button>
-      {{else}}
-        <button class="btn btn-primary start-challenge {{#if started}}hidden{{/if}}">Start Challenge</button>
-        <button class="btn btn-primary complete-challenge {{#unless started}}hidden{{/unless}}">Complete Challenge</button>
+  {{/if}}
+  <div class="left-side">
+
+    {{#unless extended}}
+      <div style="float:left">
+        <img id="preview" src="{{avatar_url}}" style="
+            background-color: #ccc;
+            height: 50px;
+            width: 50px;
+            float:left;
+            {{#unless avatar_url}}display:none{{/unless}}
+        ">
+      </div>
+    {{/unless}}
+    <div>
+      {{#unless extended}}
+        <div style="font-size:18px;margin-bottom:8px">
+          {{#unless cantRedirect}}
+            <a data-track="go-to-challenge" data-id="{{_id}}" href="/challenge/{{_id}}">{{title}}</a>
+          {{else}}
+            {{title}}
+          {{/unless}}
+        </div>
+      {{/unless}}
+      <div class="description">
+        {{#if extended}}
+        <div style="
+          font-weight: bold;
+          color: purple;
+          font-size: 13px;
+          margin-bottom: 2px;">DESCRIPTION
+        </div>
+        {{/if}}
+        {{{description}}}
+      </div>
+      {{#if extended}}
+        <div style="margin-top:20px;margin-bottom: 10px">
+        <div style="
+          font-weight: bold;
+          color: purple;
+          font-size: 13px;
+          margin-bottom: 2px;">INSTRUCTIONS
+        </div>{{{instructions}}}</div>
+        <div>{{link}}</div>
       {{/if}}
     </div>
   </div>
+  <div class="completion-status">
+
+    {{#equal viewType "superuser"}}
+      <a href="javascript:;" class="delete">Delete</a>
+    {{/equal}}
+    {{#if pick}}
+      <button data-track="pick-challenge" class="btn btn-primary pick-challenge">Choose Challenge</button>
+    {{else}}
+      {{#if canRemove}}
+        <i class="fa fa-times" data-id="{{_id}}" style="border: 1px solid #ccc;padding: 10px;border-radius:4px;color:red"></i>
+      {{else}}
+        <div>
+          <button data-track="start-challenge" data-id="{{_id}}" class="btn btn-primary start-challenge {{#equal status "not started"}}{{else}}hidden{{/equal}}">Start Challenge</button>
+          <button data-track="end-challenge" data-id="{{_id}}" class="btn btn-primary complete-challenge {{#equal status "started"}}{{else}}hidden{{/equal}}">Complete Challenge</button>
+          <span class="completed-challenge {{#equal status "completed"}}{{else}}hidden{{/equal}}">Completed!</span>
+        </div>
+      {{/if}}
+    {{/if}}
+  </div>
+</div>
+<div class="dropdown-container arrow-right">
+  <a style="
+      font-size: 24px;
+      vertical-align: -6px;
+      padding: 0 4px 0 8px;
+      color: #949494;">
+    <i class="fa fa-ellipsis-v"></i>
+  </a>
+  <div class="dropdown-arrow clearfix">
+    <div class="arrow"></div>
+    <div class="dropdown">
+      <a href="javascript:;" class="report-challenge" style="display:block">Report</a>
+    </div>
+  </div>
+</div>
+{{#if extended}}
+  {{#unless thought}}
+  <div class="reflection-container clearfix {{#equal status "completed"}}{{else}}hidden{{/equal}}">
+    <div class="prompt">Write your reflection below about how it was like for you to do the challenge! (Optional)</div>
+    <textarea placeholder="It felt..."></textarea>
+    <button class="btn btn-primary submit-reflection">Submit</button>
+  </div>
+  {{/unless}}
+  <div class="thought-success {{#unless thought}}hidden{{/unless}}" style="
+    margin: 10px;
+    padding-top: 0px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 4px;">
+    <strong>Your reflection:</strong> <span class="desc-field">{{thought.description}}</span>
+  </div>
+{{/if}}
+{{#if extended}}
+  <div class="clearfix challenge-creator" style="
+    margin-top: 10px;
+    padding: 10px 10px 20px;
+    font-size: 16px;
+    background-color: #cfd7ff;
+    border-radius: 4px;">
+  <div>Challenge created by:</div>
+  <div style="
+    padding-top: 6px;
+"><img src="{{creator.avatar_url}}" style="
+    background-color: #ccc;
+    height: 50px;
+    width: 50px;
+    float: left;
+"><div style="
+    margin-left: 60px;
+    padding-top: 2px;
+">
+  <a href="/profile/{{creator.username}}" style="
+    display: block;
+">{{creator.username}}</a>
+<span style="color:#aaa;font-size:14px">{{creator.intention}}</span></div></div>
+  </div>
+{{/if}}
+<div class="challenge-reported">Challenge Reported</div>
+<!--- For "module" class up top -->
+{{#if extended}}
+</div>
+{{#if canSelectOrNotEmpty}}
+  <div class="module related-challenges">
+    <div class="header">
+      Related Challenges
+    </div>
+    {{#if isCreator}}
+      <div style="padding:10px;">
+        <button class="select-challenge btn btn-primary">Select challenges</button>
+      </div>
+    {{/if}}
+    <div class="related-challenges-list">
+    </div>
+  </div>
+{{/if}}
+{{/if}}

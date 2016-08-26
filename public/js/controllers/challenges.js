@@ -10,14 +10,33 @@ window.rupon.utils = window.rupon.utils || {};
         rh = window.rupon.helpers;
 
     rc.startChallengesPage = function(params) {
+      rupon.account_info         = params.user || {};
+      rupon.account_info.user_id = params.user._id;
 
-      var challengesPage = new rv.MainChallengesView({
-        challenges: params.challenges,
-        prompts:    params.prompts,
-        collection: new Backbone.Collection(params.challenges.concat(params.prompts))
+      mixpanel.track('view-challenges');
+
+      rc.setSettings(params.settings, rupon.account_info.username);
+
+      var challenges = _.filter(params.challenges, function(challenge) {
+        return !challenge.flaggedBy.length;
       });
 
-      $("#container").append('<div class="main-view-container"></div><div class="side-view-container"></div>');
+      var challengesPage = new rv.MainChallengesView({
+        challenges: challenges,
+        prompts:    params.prompts,
+        collection: new rm.challengesCollection(challenges)
+      });
+
+      var frequencyView = new rv.FrequencyView({
+        collection: new Backbone.Collection([]),
+        myCommunities: params.myCommunities,
+        showCommunity: true,
+        myChallenges: params.myChallenges,
+        showChallenges: true
+      });
+
+      $("#container").append('<div class="main-view-container main-module"></div><div class="side-view-container"></div>');
       $("#container .main-view-container").append(challengesPage.$el);
+      $("#container .side-view-container").append(frequencyView.$el);
     }
 })();

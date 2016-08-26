@@ -1,0 +1,20 @@
+
+  <div class="clearfix" style="position:relative;">
+    <div style="float:left">
+      <div style="font-size:18px;margin-bottom:8px">
+        {{#unless pick}}
+          <a data-track="go-to-community" data-id="{{_id}}" href="/community/{{title}}">{{title}}</a>
+        {{else}}
+          {{title}}
+        {{/unless}}
+      <span style="
+          margin-left: 4px;
+          font-size: 14px;
+          color: #ccc;
+      ">{{members.length}} {{#equal members.length 1}}member{{else}}members{{/equal}}</span></div>
+      <div style="margin-bottom: 10px">{{description}}</div>
+      {{#equal viewType "superuser"}}
+      <a href="javascript:;" class="delete">Delete</a>
+      {{/equal}}
+    </div>
+  </div>

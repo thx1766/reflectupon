@@ -3,30 +3,22 @@
     color: #FF4C4C;
     display:none;
 ">Fields must not be empty</div>
-<div class="clearfix" style="
-    padding-bottom: 15px;
-    padding-top: 4px;
-"><div style="
-    font-size: 16px;
-    margin-bottom: 6px;
-">Name of Community</div><input style="
-    /* float: left; */
-    border: 1px solid #ccc;
-    /* margin-left: 10px; */
-    padding: 4px 10px;
-    font-size: 16px;
-    width: 200px;
-    /* margin-top: -5px; */
-"></div><div style="
-    font-size: 16px;
-    margin-bottom: 6px;
-">Description</div>
-<textarea style="
-    width: 100%;
-    height: 65px;
-    margin-bottom: 40px;
-    border: 1px solid #ccc;
-"></textarea>
+<div class="modal-container">
+    <div class="modal-label">Name of Community <span style="color:red">*</span></div>
+    <input class="name-val" />
+</div>
+<div class="modal-container">
+    <div class="modal-label">Description <span style="color:red">*</span></div>
+    <textarea class="description-val"></textarea>
+</div>
+<div class="modal-container">
+    <div class="modal-label">Guidelines</div>
+    <textarea class="guidelines-val"></textarea>
+</div>
+<div class="modal-container">
+    <div class="modal-label">Max Members (Defaults to 20)</div>
+    <input class="members-val" style="width: 80px" />
+</div>
 <div style="
     border-top: 1px solid #ccc;
     padding-top: 10px;

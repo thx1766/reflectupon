@@ -15,6 +15,18 @@ window.rupon.views = window.rupon.views || {};
         initialize: function(options) {
             cv.Container.prototype.initialize.call(this);
 
+            this.types = {
+                'actives': ['ActiveUserRangesView', 'user_ranges_collection'],
+                'tags':    ['TopicsView', 'topics_collection'],
+                'users':   ['UsersView', 'user_collection'],
+                'vet':     ['SuperUserThoughtsView', 'other_thoughts_collection'],
+                'vet-replies': ['SuperUserRepliesView', 'other_replies_collection'],
+                'vet-challenges': ['ChallengesView', 'challengesCollection'],
+                'vet-communities': ['CommunitiesView', 'communitiesCollection'],
+                'featured':['SuperUserThoughtsView', 'featured_collection'],
+                'prompts': ['SuperUserPromptsView', 'prompts_collection']
+            };
+
             this.render(options);
         },
 
@@ -22,13 +34,13 @@ window.rupon.views = window.rupon.views || {};
 
             this.$el.html(this.template());
 
-            var nav_types = ['actives', 'featured', 'tags', 'users', 'vet', 'vet-replies', 'prompts'];
+            var nav_types = _.keys(this.types);
 
             var leftView = new rv.SuperUserLeftView({nav_types: nav_types});
             this.addChild(leftView, '.left-container');
 
             this.renderOnTrigger(leftView, nav_types, options);
-            this.renderRightView(options,'users');
+            this.renderRightView(options, 'users');
 
         },
 
@@ -45,18 +57,9 @@ window.rupon.views = window.rupon.views || {};
 
             this.removeChild(this.superUserRight);
 
-            var types = {
-                'actives': ['ActiveUserRangesView', 'user_ranges_collection'],
-                'tags':    ['TopicsView', 'topics_collection'],
-                'users':   ['UsersView', 'user_collection'],
-                'vet':     ['SuperUserThoughtsView', 'other_thoughts_collection'],
-                'vet-replies': ['SuperUserRepliesView', 'other_replies_collection'],
-                'featured':['SuperUserThoughtsView', 'featured_collection'],
-                'prompts': ['SuperUserPromptsView', 'prompts_collection']
-            };
-
-            this.superUserRight = new rv[types[type][0]]({
-                collection: options[types[type][1]]
+            this.superUserRight = new rv[this.types[type][0]]({
+                collection: options[this.types[type][1]],
+                viewType: "superuser"
             });
 
             this.addChild(this.superUserRight, '.right-container');

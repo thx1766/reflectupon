@@ -21,6 +21,11 @@ window.rupon.helpers = window.rupon.helpers || {};
     }
 
     rh.convertLineBreaks = function(description, type) {
+
+        if (!description) {
+            return description;
+        }
+
         var before_type, after_type;
 
         if (type == 'n') {
@@ -41,5 +46,23 @@ window.rupon.helpers = window.rupon.helpers || {};
         _.defaults(destination, source);
         _.defaults(destination.events, source.events);
     }
+
+    Handlebars.registerHelper('equal', function(lvalue, rvalue, options) {
+        if (arguments.length < 3)
+            throw new Error("Handlebars Helper equal needs 2 parameters");
+        if( lvalue!=rvalue ) {
+            return options.inverse(this);
+        } else {
+            return options.fn(this);
+        }
+    });
+
+    Handlebars.registerHelper('unlessFirst', function(lvalue, options) {
+        if( lvalue == 0 ) {
+            return options.inverse(this);
+        } else {
+            return options.fn(this);
+        }
+    });
 
 })();

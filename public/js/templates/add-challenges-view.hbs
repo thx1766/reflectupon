@@ -1,15 +1,33 @@
+
 <div><div class="error-msg">Fields must not be empty</div>
-<div class="modal-container">
-    <div class="modal-label">Name of Challenge</div>
-    <input />
+<div class="clearfix">
+    <div class="modal-container" style="float:left;width:50%;">
+        <div class="modal-label">Name of Challenge <span style="color:red">*</span></div>
+        <input class="challenge-name" />
+    </div>
+    <div class="modal-container" style="float:left;width:50%;">
+        <div class="modal-label">Avatar URL</div>
+        <img id="preview" src="" style="background-color:#ccc;height:50px;width:50px;float:left;margin-right:10px" />
+        <input type="file" id="file-input">
+    </div>
 </div>
 <div class="modal-container">
-    <div class="modal-label">Description</div>
+    <div class="modal-label">Description <span style="color:red">*</span><br /><span style="
+    font-size: 13px;
+    color: #7d7d7d;
+">Write the importance of this challenge, and what you'd expect people to get out of having done the challenge.</span></div>
     <textarea class="description-val"></textarea>
 </div>
 <div class="modal-container">
-    <div class="modal-label">Instructions</div>
+    <div class="modal-label">Instructions <span style="color:red">*</span><br /><span style="
+    font-size: 13px;
+    color: #7d7d7d;
+">Write how people will go about performing this challenge from start to completion.</span></div>
     <textarea class="instructions-val"></textarea>
+</div>
+<div class="modal-container">
+    <div class="modal-label">URL Link to Challenge Background</div>
+    <input style="width:400px" class="background-link-val" placeholder="e.g. http:// or https://"/>
 </div>
 <div style="
     border-top: 1px solid #ccc;

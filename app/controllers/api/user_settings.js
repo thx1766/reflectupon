@@ -85,7 +85,7 @@ exports.eligibleUsers = function(users, property, callback) {
     });
 }
 
-exports.put = function(req,res) {
+exports.put = function(req,res, next) {
     var user_id = req.query.user_id;
 
     User.findById(user_id, function(err, user) {
@@ -100,8 +100,17 @@ exports.put = function(req,res) {
                     userSettings.email_thanks = req.body.email_thanks;
                     userSettings.email_prompts = req.body.email_prompts;
                     userSettings.save(function(err) {
-                        if (err) console.log(err);
-                        res.send(userSettings);
+
+                        if (req.body.username) {
+                            user.username = req.body.username;
+                            user.save(function(usernameErr) {
+                                if (usernameErr) {
+                                    return next(usernameErr);
+                                } else {
+                                    res.send(userSettings);
+                                }
+                            });
+                        }
                     });
                 }
 

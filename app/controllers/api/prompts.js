@@ -57,7 +57,7 @@ exports.getPrompts = function(params, callback) {
                 });
             } else {
                 console.log('no prompts');
-                callback(false);
+                callback([]);
             }
         });
 }

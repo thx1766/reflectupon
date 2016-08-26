@@ -41,6 +41,18 @@
     "twilio": "1.4.0",
     "underscore": "1.6.0",
     "util": "0.4.9"
+    "redis": "0.10.3",
+    "cron": "1.0.4",
+    "q": "1.0.1",
+    "connect-redis": "1.4.7",
+    "moment": "2.10.3",
+    "moment-timezone": "0.2.5",
+    "handlebars-precompiler": "2.1.0",
+    "are-we-there-yet": "1.0.4",
+    "jquery": "2.1.0",
+    "jsdom": "3.1.2",
+    "aws-sdk": "2.x",
+    "gm": "1.9.0"
   },
   "engines": {
     "node": "0.10.17",
